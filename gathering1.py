@@ -512,4 +512,6 @@ def getgeneralinfo(report, precheck):
         pac2 = _getdpkg()
     elif precheck.checkcommand("apt"):
         pac1 = _getapt()
+    elif precheck.checkcommand("pacman"):
+        pac1 = _getpacman()
 
