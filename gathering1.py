@@ -313,6 +313,28 @@ def _checkpermissions(precheck):
     return stickydirs, alluserwrite, readerrors, suidperm, guidperm
 
 
+def _getzypper():
+    packages = []
+    output = subprocess.check_output(["zypper", "packages", "--installed-only"]).decode("utf-8").splitlines()
+    for item in output:
+        if item[0] == "i":
+            name = item.split("|")[2].strip()
+            version = item.split("|")[3].strip()
+            if [name, version] not in packages:
+                packages.append([name, version])
+    return packages
+
+
+def _getyum():
+    packages = []
+    output = subprocess.check_output(["yum", "list", "installed"]).decode("utf-8").splitlines()
+    for item in output:
+        if "@" in item or "installed" in item:
+            package = " ".join(item.split())
+            packages.append(package.split(" ")[0:2])
+    return packages
+
+
 def _getpacman():
     packages = []
     output = subprocess.check_output(["pacman", "-Q"]).decode("utf-8").splitlines()
@@ -508,10 +530,36 @@ def getgeneralinfo(report, precheck):
         report.log("DEBUG", traceback.format_exc())
     """
     # Get software reports
-    if precheck.checkcommand("dpkg-query"):
-        pac2 = _getdpkg()
-    elif precheck.checkcommand("apt"):
-        pac1 = _getapt()
-    elif precheck.checkcommand("pacman"):
-        pac1 = _getpacman()
+    try:
+        report.log("DEBUG", "Software packages gathering started")
+
+        sum = "Packages manager not found"
+        if precheck.checkcommand("dpkg-query"):
+            precheck.packages = _getdpkg()
+            sum = "Total DEB packages (dpkg): {}".format(len(precheck.packages))
+        elif precheck.checkcommand("apt"):
+            precheck.packages = _getapt()
+            sum = "Total DEB packages (apt): {}".format(len(precheck.packages))
+        elif precheck.checkcommand("yum"):
+            precheck.packages = _getyum()
+            sum = "Total RPM packages (yum): {}".format(len(precheck.packages))
+        elif precheck.checkcommand("pacman"):
+            precheck.packages = _getpacman()
+            sum = "Total pkg.tar.xz packages (pacman): {}".format(len(precheck.packages))
+        elif precheck.checkcommand("zypper"):
+            precheck.packages = _getzypper()
+            sum = "Total RPM packages (zypper): {}".format(len(precheck.packages))
+
+        report.summarized(1, sum)
+        report.detailed(1, "\n====================\nPackages information\n====================\n")
+        for item in precheck.packages:
+            report.detailed(1, "{:32s} - {}\n".format(item[0], item[1]))
+
+        report.log("DEBUG", "Software packages information completed")
+
+    except Exception as e:
+        report.log("ERROR", "Can't obtain software packages information")
+        report.log("DEBUG", str(e))
+        report.log("DEBUG", traceback.format_exc())
+
 

@@ -36,6 +36,9 @@ class Reporting:
         self.suidperm = []
         self.guidperm = []
 
+        # packages info
+        self.packages = []
+
     def summarized(self, kind, text):
         if kind==0:
             self.summarized_data[0].append(text)    # Execution environment
