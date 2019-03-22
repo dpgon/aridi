@@ -1,8 +1,7 @@
 from os import uname, walk, stat
 from platform import libc_ver
-import traceback
-import subprocess
-import json
+from traceback import format_exc
+from subprocess import check_output, DEVNULL, CalledProcessError
 
 
 def _getusb():
@@ -12,7 +11,7 @@ def _getusb():
     usb = []
     total = []
 
-    output = subprocess.check_output("lsusb").decode("utf-8").splitlines()
+    output = check_output("lsusb").decode("utf-8").splitlines()
 
     for item in output:
         bus = item.split(':')[0].lower().replace("bus ", "").replace(" device ", ":")
@@ -229,30 +228,39 @@ def _getdisks():
     repeated = []
 
     # check disks and parts with lsblk
-    outputlsblk = json.loads(subprocess.check_output(["lsblk", "-J", "-l"]).decode("utf-8"))
-    outputlsblk = outputlsblk["blockdevices"]
+    outputlsblk = check_output(["lsblk", "-l"]).decode("utf-8").splitlines()[1:]
     for item in outputlsblk:
-        if item["name"] not in repeated:
-            repeated.append(item["name"])
-            if item["type"] == "disk" or item["type"] == "dmraid":
-                disks.append([item["name"], item["size"]])
-            elif item["type"] == "part":
-                if item["mountpoint"]:
-                    mounted.append([item["name"], item["size"], item["mountpoint"], [], [], []])
+        spacefree = " ".join(item.split()).split(" ")
+        name = spacefree[0]
+        type = spacefree[5]
+        size = spacefree[3]
+        mountpoint = "".join(spacefree[6:])
+
+        if name not in repeated:
+            repeated.append(name)
+            if type == "disk" or type == "dmraid":
+                disks.append([name, size])
+            elif type == "part":
+                if mountpoint:
+                    mounted.append([name, size, mountpoint, [], [], []])
                 else:
-                    unmounted.append([item["name"], item["size"]])
+                    unmounted.append([name, size])
 
     # check findmnt output
-    outputfindmnt = json.loads(subprocess.check_output(["findmnt", "-J", "-l"]).decode("utf-8"))
-    outputfindmnt = outputfindmnt["filesystems"]
+    outputfindmnt = check_output(["findmnt", "-l"]).decode("utf-8").splitlines()[1:]
     for item in outputfindmnt:
+        spacefree = " ".join(item.split()).split(" ")
+        target = spacefree[0]
+        fstype = spacefree[2]
+        options = spacefree[3]
         for part in range(len(mounted)):
-            if mounted[part][2] == item["target"]:
-                mounted[part][3] = item["fstype"]
-                mounted[part][4] = item["options"]
+            if mounted[part][2] == target:
+                mounted[part][3] = fstype
+                mounted[part][4] = options
                 try:
-                    output = subprocess.check_output(["du", mounted[part][2], "-shx"], stderr=subprocess.DEVNULL).decode("utf-8")
-                except subprocess.CalledProcessError as e:
+                    output = check_output(["du", mounted[part][2], "-shx"],
+                                                     stderr=DEVNULL).decode("utf-8")
+                except CalledProcessError as e:
                     output = e.output.decode("utf-8")
                 mounted[part][5] = output.split("\t")[0]
 
@@ -315,7 +323,7 @@ def _checkpermissions(precheck):
 
 def _getzypper():
     packages = []
-    output = subprocess.check_output(["zypper", "packages", "--installed-only"]).decode("utf-8").splitlines()
+    output = check_output(["zypper", "packages", "--installed-only"]).decode("utf-8").splitlines()
     for item in output:
         if item[0] == "i":
             name = item.split("|")[2].strip()
@@ -327,17 +335,20 @@ def _getzypper():
 
 def _getyum():
     packages = []
-    output = subprocess.check_output(["yum", "list", "installed"]).decode("utf-8").splitlines()
-    for item in output:
-        if "@" in item or "installed" in item:
-            package = " ".join(item.split())
-            packages.append(package.split(" ")[0:2])
+    output = check_output(["yum", "list",
+                           "installed", "--noplugins"]).decode("utf-8").splitlines()[1:]
+    output = " ".join(output)
+    output = " ".join(output.split()).split(" ")
+
+    for item in range(0, len(output), 3):
+        packages.append([output[item], output[item+1]])
+
     return packages
 
 
 def _getpacman():
     packages = []
-    output = subprocess.check_output(["pacman", "-Q"]).decode("utf-8").splitlines()
+    output = check_output(["pacman", "-Q"]).decode("utf-8").splitlines()
     for item in output:
         packages.append(item.split(" "))
     return packages
@@ -345,7 +356,7 @@ def _getpacman():
 
 def _getapt():
     packages = []
-    output = subprocess.check_output(["apt", "list", "--installed"]).decode("utf-8").splitlines()
+    output = check_output(["apt", "list", "--installed"]).decode("utf-8").splitlines()
     for item in output:
         if "[" in item:
             name = item.split(" ")[0].split("/")[0]
@@ -356,7 +367,7 @@ def _getapt():
 
 def _getdpkg():
     packages = []
-    output = subprocess.check_output(["dpkg-query", "-f",
+    output = check_output(["dpkg-query", "-f",
                                       "${binary:Package}\t${source:Version}\n",
                                       "-W"]).decode("utf-8").splitlines()
     for item in output:
@@ -370,7 +381,7 @@ def _getdpkg():
 
 
 def getgeneralinfo(report, precheck):
-    """
+
     # Get hardware reports
     try:
         report.log("DEBUG", "CPU and RAM information gathering started")
@@ -383,7 +394,7 @@ def getgeneralinfo(report, precheck):
     except Exception as e:
         report.log("ERROR", "Can't obtain CPU and RAM information")
         report.log("DEBUG", str(e))
-        report.log("DEBUG", traceback.format_exc())
+        report.log("DEBUG", format_exc())
 
     try:
         report.log("DEBUG", "USB information gathering started")
@@ -395,7 +406,7 @@ def getgeneralinfo(report, precheck):
     except Exception as e:
         report.log("ERROR", "Can't obtain usb information")
         report.log("DEBUG", str(e))
-        report.log("DEBUG", traceback.format_exc())
+        report.log("DEBUG", format_exc())
 
     # Get OS reports
     try:
@@ -408,7 +419,7 @@ def getgeneralinfo(report, precheck):
     except Exception as e:
         report.log("ERROR", "Can't obtain OS uname information")
         report.log("DEBUG", str(e))
-        report.log("DEBUG", traceback.format_exc())
+        report.log("DEBUG", format_exc())
 
     try:
         report.log("DEBUG", "Distribution release information gathering started")
@@ -420,7 +431,7 @@ def getgeneralinfo(report, precheck):
     except Exception as e:
         report.log("ERROR", "Can't obtain distribution release information")
         report.log("DEBUG", str(e))
-        report.log("DEBUG", traceback.format_exc())
+        report.log("DEBUG", format_exc())
 
     try:
         report.log("DEBUG", "libc information gathering started")
@@ -431,7 +442,7 @@ def getgeneralinfo(report, precheck):
     except Exception as e:
         report.log("ERROR", "Can't obtain libc information")
         report.log("DEBUG", str(e))
-        report.log("DEBUG", traceback.format_exc())
+        report.log("DEBUG", format_exc())
 
     # Get filesystem reports
     try:
@@ -473,7 +484,7 @@ def getgeneralinfo(report, precheck):
     except Exception as e:
         report.log("ERROR", "Can't obtain disk information")
         report.log("DEBUG", str(e))
-        report.log("DEBUG", traceback.format_exc())
+        report.log("DEBUG", format_exc())
 
     try:
         report.log("DEBUG", "File and directory permission information gathering started")
@@ -527,28 +538,28 @@ def getgeneralinfo(report, precheck):
     except Exception as e:
         report.log("ERROR", "Can't obtain file and directory permission information")
         report.log("DEBUG", str(e))
-        report.log("DEBUG", traceback.format_exc())
-    """
+        report.log("DEBUG", format_exc())
+    
     # Get software reports
     try:
         report.log("DEBUG", "Software packages gathering started")
 
         sum = "Packages manager not found"
-        if precheck.checkcommand("dpkg-query"):
-            precheck.packages = _getdpkg()
-            sum = "Total DEB packages (dpkg): {}".format(len(precheck.packages))
-        elif precheck.checkcommand("apt"):
-            precheck.packages = _getapt()
-            sum = "Total DEB packages (apt): {}".format(len(precheck.packages))
-        elif precheck.checkcommand("yum"):
+        if precheck.checkcommand("yum"):
             precheck.packages = _getyum()
             sum = "Total RPM packages (yum): {}".format(len(precheck.packages))
-        elif precheck.checkcommand("pacman"):
-            precheck.packages = _getpacman()
-            sum = "Total pkg.tar.xz packages (pacman): {}".format(len(precheck.packages))
+        elif precheck.checkcommand("dpkg-query"):
+            precheck.packages = _getdpkg()
+            sum = "Total DEB packages (dpkg): {}".format(len(precheck.packages))
         elif precheck.checkcommand("zypper"):
             precheck.packages = _getzypper()
             sum = "Total RPM packages (zypper): {}".format(len(precheck.packages))
+        elif precheck.checkcommand("apt"):
+            precheck.packages = _getapt()
+            sum = "Total DEB packages (apt): {}".format(len(precheck.packages))
+        elif precheck.checkcommand("pacman"):
+            precheck.packages = _getpacman()
+            sum = "Total pkg.tar.xz packages (pacman): {}".format(len(precheck.packages))
 
         report.summarized(1, sum)
         report.detailed(1, "\n====================\nPackages information\n====================\n")
@@ -560,6 +571,6 @@ def getgeneralinfo(report, precheck):
     except Exception as e:
         report.log("ERROR", "Can't obtain software packages information")
         report.log("DEBUG", str(e))
-        report.log("DEBUG", traceback.format_exc())
+        report.log("DEBUG", format_exc())
 
 
