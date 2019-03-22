@@ -251,8 +251,13 @@ def _getdisks():
     for item in outputfindmnt:
         spacefree = " ".join(item.split()).split(" ")
         target = spacefree[0]
-        fstype = spacefree[2]
-        options = spacefree[3]
+        try:
+            options = spacefree[3]
+            fstype = spacefree[2]
+        except:
+            options = spacefree[2]
+            fstype = spacefree[1]
+
         for part in range(len(mounted)):
             if mounted[part][2] == target:
                 mounted[part][3] = fstype
