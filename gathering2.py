@@ -314,26 +314,41 @@ def _getrunningservices(precheck, report):
         detail += "\nFailed services:\n"
         sum += " |__Failed services:\n"
         for item in report.failedservices:
-            detail += " |__{} ({})\n".format(item[0], item[1])
-            sum += " |    |__{} ({})\n".format(item[0], item[1])
-            report.vulns("LOW", "Service {} ({}) has failed.".format(item[0], item[1]))
+            if len(item[1]) > 0:
+                detail += " |__{} ({})\n".format(item[0], item[1])
+                sum += " |    |__{} ({})\n".format(item[0], item[1])
+                report.vulns("LOW", "Service {} ({}) has failed.".format(item[0], item[1]))
+            else:
+                detail += " |__{}\n".format(item[0])
+                sum += " |    |__{}\n".format(item[0])
+                report.vulns("LOW", "Service {} has failed.".format(item[0]))
 
     if report.runningservices:
         detail += "\nRunning services:\n"
         sum += " |__Running services: {}\n".format(len(report.runningservices))
         for item in report.runningservices:
-            detail += " |__{} ({})\n".format(item[0], item[1])
+            if len(item[1]) > 0:
+                detail += " |__{} ({})\n".format(item[0], item[1])
+            else:
+                detail += " |__{}\n".format(item[0])
 
     if report.otherservices:
         detail += "\nOther state:\n"
         sum += " |__Other state services: {}\n".format(len(report.otherservices))
         state = ""
         for item in report.otherservices:
-            if item[0] == state:
-                detail += " |     |__{} ({})\n".format(item[1], item[2])
+            if len(item[2]) > 0:
+                if item[0] == state:
+                    detail += " |     |__{} ({})\n".format(item[1], item[2])
+                else:
+                    state = item[0]
+                    detail += " |__{}\n |     |__{} ({})\n".format(item[0], item[1], item[2])
             else:
-                state = item[0]
-                detail += " |__{}\n |     |__{} ({})\n".format(item[0], item[1], item[2])
+                if item[0] == state:
+                    detail += " |     |__{}\n".format(item[1])
+                else:
+                    state = item[0]
+                    detail += " |__{}\n |     |__{}\n".format(item[0], item[1])
 
     return sum, detail
 
