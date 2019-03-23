@@ -215,11 +215,11 @@ def _getnetinfo(report, precheck):
     sum = '\nNetwork Information:\n'
     for item in interfaces:
         if len(interfaces[item]) > 1:
-            detail += "{:>9s}  {:17s}  {}\n".format(item, interfaces[item][0], interfaces[item][1])
+            detail += "{:>15s}  {:17s}  {}\n".format(item, interfaces[item][0], interfaces[item][1])
             sum += " |__Iface {} ({}) with ip address {}.\n".format(item, interfaces[item][0], interfaces[item][1])
             report.infrastructure(ip_address(interfaces[item][1].split("/")[0]), "Local machine")
         else:
-            detail += "{:>9s}  {:17s}\n".format(item, interfaces[item][0])
+            detail += "{:>15s}  {:17s}\n".format(item, interfaces[item][0])
             sum += " |__Iface {} ({}) without ip address.\n".format(item, interfaces[item][0])
 
     # Get routes
