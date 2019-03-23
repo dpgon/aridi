@@ -40,20 +40,23 @@ def _getram(precheck):
         meminfo["buff/cache"] = meminfo.get("buffers", 0) + meminfo.get("cached", 0) + \
                                 meminfo.get("slab", 0)
         meminfo["reallyused"] = meminfo["totalused"] - meminfo["buff/cache"]
-        meminfo["swapused"] = meminfo.get("swaptotal", 0) - meminfo.get("swapfree", 0)
         meminfo["%used"] = round(meminfo["reallyused"] * 100 / meminfo.get("memtotal"))
         meminfo["%buff/cache"] = round(meminfo["buff/cache"] * 100 / meminfo.get("memtotal"))
         meminfo["%free"] = round(meminfo.get("memfree", 0) * 100 / meminfo.get("memtotal"))
-        meminfo["%swapused"] = round(meminfo["swapused"] * 100 / meminfo.get("swaptotal"))
-        meminfo["%swapfree"] = round(meminfo.get("swapfree", 0) * 100 / meminfo.get("swaptotal"))
+
+        if meminfo.get("swaptotal"):
+            meminfo["swapused"] = meminfo.get("swaptotal", 0) - meminfo.get("swapfree", 0)
+            meminfo["%swapused"] = round(meminfo["swapused"] * 100 / meminfo.get("swaptotal"))
+            meminfo["%swapfree"] = round(meminfo.get("swapfree", 0) * 100 / meminfo.get("swaptotal"))
 
         sum += " |__Total memory of {} MB\n".format(meminfo.get("memtotal", 0 ))
         sum += " |       |__{}% used\n".format(meminfo["%used"])
         sum += " |       |__{}% buffers/cache\n".format(meminfo["%buff/cache"])
         sum += " |       |__{}% free\n".format(meminfo["%free"])
         sum += " |__Total SWAP of {} MB\n".format(meminfo.get("swaptotal", 0))
-        sum += "         |__{}% used\n".format(meminfo["%swapused"])
-        sum += "         |__{}% free\n".format(meminfo["%swapfree"])
+        if meminfo.get("swaptotal"):
+            sum += "         |__{}% used\n".format(meminfo["%swapused"])
+            sum += "         |__{}% free\n".format(meminfo["%swapfree"])
 
         detail += sum
         detail += "\nDetailed memory status:\n"

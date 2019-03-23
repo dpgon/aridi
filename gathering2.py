@@ -211,7 +211,7 @@ def _getnetinfo(report, precheck):
 
     # Prepare the report for ifaces
     detail += detailfile("Interfaces")
-    detail += "    IFACE     MAC ADDRESS     IP ADDRESS/MASK\n"
+    detail += "          IFACE     MAC ADDRESS     IP ADDRESS/MASK\n"
     sum = '\nNetwork Information:\n'
     for item in interfaces:
         if len(interfaces[item]) > 1:
