@@ -54,6 +54,7 @@ def _getram(precheck):
         sum += " |       |__{}% buffers/cache\n".format(meminfo["%buff/cache"])
         sum += " |       |__{}% free\n".format(meminfo["%free"])
         sum += " |__Total SWAP of {} MB\n".format(meminfo.get("swaptotal", 0))
+
         if meminfo.get("swaptotal"):
             sum += "         |__{}% used\n".format(meminfo["%swapused"])
             sum += "         |__{}% free\n".format(meminfo["%swapfree"])
@@ -70,10 +71,13 @@ def _getram(precheck):
         detail += " |__Slab:               {} MB\n".format(meminfo.get("slab", 0))
         detail += " |__Buff/Cache/Slab:    {} MB\n".format(meminfo["buff/cache"])
         detail += " |__Hardware corrupted: {} MB\n".format(meminfo.get("hardwarecorrupted", 0))
-        detail += " |__Total swap:         {} MB\n".format(meminfo.get("swaptotal", 0))
-        detail += " |__Free swap:          {} MB\n".format(meminfo.get("swapfree", 0))
-        detail += " |__Used swap:          {} MB\n".format(meminfo["swapused"])
-        detail += " |__Cached swap:        {} MB\n".format(meminfo["swapcache"])
+
+        if meminfo.get("swaptotal"):
+            detail += " |__Total swap:         {} MB\n".format(meminfo.get("swaptotal", 0))
+            detail += " |__Free swap:          {} MB\n".format(meminfo.get("swapfree", 0))
+            detail += " |__Used swap:          {} MB\n".format(meminfo["swapused"])
+            detail += " |__Cached swap:        {} MB\n".format(meminfo["swapcache"])
+
         return sum, detail
 
 
