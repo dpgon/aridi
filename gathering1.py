@@ -142,7 +142,7 @@ def _gethardware(precheck):
 
 def _getos():
     info = uname()
-    data = info.sysname + " " + info.release + " " +info.version
+    data = "{} {} {}".format(info.sysname, info.release, info.version)
     sum = "\nOS Kernel information:\n |__{}\n".format(data)
     detail = detailheader("OS Kernel information")
     detail += "{}\n".format(data)

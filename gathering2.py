@@ -249,8 +249,8 @@ def _getrunningservices(precheck, report):
     sum = ""
 
     if precheck.checkcommand("runlevel"):
-        output = check_output(["runlevel"]).decode("utf-8").split(" ")
         try:
+            output = check_output(["runlevel"], stderr=DEVNULL).decode("utf-8").split(" ")
             report.runlevel = int(output[1])
             if report.runlevel == 1:
                 message = "Runlevel 1: Single-user mode"
