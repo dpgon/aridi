@@ -300,6 +300,7 @@ def _getrunningservices(precheck, report):
             checkon = "{}:on".format(report.runlevel)
             checkoff = "{}:off".format(report.runlevel)
             for item in output:
+                item = " ".join(item.split())
                 if checkon in item:
                     report.runningservices.append([item.split(" ")[0], ""])
                 elif checkoff in item:
