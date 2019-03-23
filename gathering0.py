@@ -65,15 +65,17 @@ class Precheck:
         self.libscapy = self.checkscapy()
         self.nmap = self.checkcommand("nmap")
 
-    def checkscapy(self):
+    @staticmethod
+    def checkscapy():
         # Check if scapy module is available
         try:
             import scapy
             return True
-        except:
+        except ImportError:
             return False
 
-    def checkcommand(self, command):
+    @staticmethod
+    def checkcommand(command):
         # Check if command is available in current dir
         if isfile(command):
             return os.getcwd()+"/"+command
@@ -87,7 +89,8 @@ class Precheck:
         # Return None if command not found
         return None
 
-    def canread(self, filename, uid, gids):
+    @staticmethod
+    def canread(filename, uid, gids):
         if not isfile(filename):
             return -1
         info = os.stat(filename)
@@ -125,16 +128,16 @@ class Precheck:
     def _perm(self, filename, recommended):
         actual = self.files.get(filename)[2]
         if actual != recommended or actual == 0:
-            return "Permission of {} is {}, but it's recommended {}".format(filename, actual, recommended)
+            return "Permission of {} is {}, but it's recommended {}".format(filename,
+                                                                            actual,
+                                                                            recommended)
         else:
             return None
 
     def dangerousperm(self):
-        vulns = []
-        vulns.append(self._perm("/etc/passwd", "644"))
-        vulns.append(self._perm("/etc/group", "644"))
-        vulns.append(self._perm("/etc/shadow", "400"))
-        vulns.append(self._perm("/etc/gshadow", "400"))
-        return list(filter(lambda value: value != None, vulns))
+        vulns = [self._perm("/etc/passwd", "644"),
+                 self._perm("/etc/group", "644"),
+                 self._perm("/etc/shadow", "400"),
+                 self._perm("/etc/gshadow", "400")]
 
-
+        return list(filter(lambda value: value, vulns))

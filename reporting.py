@@ -63,31 +63,31 @@ class Reporting:
         self.otherservices = []
 
     def summarized(self, kind, text):
-        if kind==0:
+        if kind == 0:
             self.summarized_data[0].append(text)    # Execution environment
-        if kind==1:
+        if kind == 1:
             self.summarized_data[1].append(text)    # General information
-        if kind==2:
+        if kind == 2:
             self.summarized_data[2].append(text)    # Specific information
-        if kind==3:
+        if kind == 3:
             self.summarized_data[3].append(text)    # Volatile information
-        if kind==4:
+        if kind == 4:
             self.summarized_data[4].append(text)    # Other information
-        if kind==5:
+        if kind == 5:
             self.summarized_data[5].append(text)    # Scan information
 
     def detailed(self, kind, text):
-        if kind==0:
+        if kind == 0:
             self.detailed_data[0].append(text)      # Execution environment
-        if kind==1:
+        if kind == 1:
             self.detailed_data[1].append(text)      # General information
-        if kind==2:
+        if kind == 2:
             self.detailed_data[2].append(text)      # Specific information
-        if kind==3:
+        if kind == 3:
             self.detailed_data[3].append(text)      # Volatile information
-        if kind==4:
+        if kind == 4:
             self.detailed_data[4].append(text)      # Other information
-        if kind==5:
+        if kind == 5:
             self.detailed_data[5].append(text)      # Scan information
 
     def vulns(self, severity, text):
@@ -115,7 +115,7 @@ class Reporting:
             print(date + " - " + severity + " - " + text)
         elif severity == "INFO" and self.verbose > 1:
             print(date + " - " + severity + " - " + text)
-        elif severity == "DEBUG" and self.verbose>2:
+        elif severity == "DEBUG" and self.verbose > 2:
             print(date + " - " + severity + " - " + text)
 
     def view_summarized(self, execution=True, general=True,
@@ -227,8 +227,8 @@ class Reporting:
         text += self.view_vulns()
         text += self.view_infrastructure()
         text += self.view_summarized(execution=execution, general=general,
-                                   specific=specific, volatile=volatile,
-                                   other=other, infrastructure=infrastructure)
+                                     specific=specific, volatile=volatile,
+                                     other=other, infrastructure=infrastructure)
         return text
 
     def view_log(self, level="DEBUG"):

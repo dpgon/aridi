@@ -1,67 +1,67 @@
 from traceback import format_exc
-from subprocess import check_output, DEVNULL, CalledProcessError
+from subprocess import check_output, DEVNULL
 from socket import gethostname
 from ipaddress import ip_address
 from style import detailheader, detailfile
 
 
 def _gethostnames(report, precheck):
-    sum = 'Hostname and banner info:\n'
+    summ = 'Hostname and banner info:\n'
     detail = detailheader("Hostnames information")
 
     if precheck.shouldread('/etc/hostname'):
         report.hostname = open('/etc/hostname').read()
-        sum += ' |__hostname: ' + report.hostname
+        summ += ' |__hostname: ' + report.hostname
         detail += detailfile('/etc/hostname')
         detail += '{}\n'.format(report.hostname)
     elif precheck.checkcommand("hostname"):
         report.hostname = check_output(["hostname"]).decode("utf-8")
-        sum += ' |__hostname: ' + report.hostname
+        summ += ' |__hostname: ' + report.hostname
         detail += detailfile('hostname')
         detail += '{}\n'.format(report.hostname)
     else:
         report.hostname = gethostname()
-        sum += ' |__hostname: ' + report.hostname
+        summ += ' |__hostname: ' + report.hostname
         detail += detailfile('hostname')
         detail += '{}\n'.format(report.hostname)
 
     if precheck.checkcommand("dnsdomainname"):
         report.domainname = check_output(["dnsdomainname"]).decode("utf-8")
         if report.domainname:
-            sum += ' |__dnsdomainname: ' + report.domainname
+            summ += ' |__dnsdomainname: ' + report.domainname
             detail += detailfile('domainname')
             detail += '{}\n'.format(report.hostname)
 
     if precheck.checkcommand("hostid"):
         report.hostid = check_output(["hostid"]).decode("utf-8")
-        sum += ' |__hostid: ' + report.hostid
+        summ += ' |__hostid: ' + report.hostid
         detail += detailfile('hostid')
         detail += '{}\n'.format(report.hostid)
 
     # Check banner files
     if precheck.shouldread('/etc/issue'):
         report.issue = open('/etc/issue').read()
-        sum += ' |__You have an issue banner\n'
+        summ += ' |__You have an issue banner\n'
         detail += detailfile('/etc/issue')
         detail += '{}\n'.format(report.issue)
 
     if precheck.shouldread('/etc/issue.net'):
         report.issuenet = open('/etc/issue.net').read()
-        sum += ' |__You have an issue.net banner\n'
+        summ += ' |__You have an issue.net banner\n'
         detail += detailfile('/etc/issue.net')
         detail += '{}\n'.format(report.issuenet)
 
     if precheck.shouldread('/etc/motd'):
         report.motd = open('/etc/motd').read()
-        sum += ' |__You have an motd banner\n'
+        summ += ' |__You have an motd banner\n'
         detail += detailfile('/etc/motd')
         detail += '{}\n'.format(report.motd)
 
-    return sum, detail
+    return summ, detail
 
 
 def _getusers(report, precheck):
-    sum = '\nUsers and groups info:\n'
+    summ = '\nUsers and groups info:\n'
     detail = detailheader("Users and groups")
 
     # Check users
@@ -106,7 +106,7 @@ def _getusers(report, precheck):
             if user:
                 report.users[user][6].append(item)
 
-    sum += " |__Users:"
+    summ += " |__Users:"
     line = "\n |    |__"
     upass = 0
     umd5 = 0
@@ -114,7 +114,7 @@ def _getusers(report, precheck):
     for item in report.users:
         if report.users[item][0] == "No password" or report.users[item][0] == "?":
             if len(line) > 72:
-                sum += line
+                summ += line
                 line = "\n |    |__"
             else:
                 line += "{} ".format(item)
@@ -129,7 +129,7 @@ def _getusers(report, precheck):
             report.vulns("MEDIUM", "User {} has a weak hash algorithm MD5. It's recommended to"
                                    "use a stronger one, like SHA-512".format(item))
             if len(line) > 72:
-                sum += line
+                summ += line
                 line = "\n |    |__"
             else:
                 line += "[{}] ".format(item)
@@ -140,7 +140,7 @@ def _getusers(report, precheck):
             upass += 1
         else:
             if len(line) > 72:
-                sum += line
+                summ += line
                 line = "\n |    |__"
             else:
                 line += "[{}] ".format(item)
@@ -148,31 +148,32 @@ def _getusers(report, precheck):
                 format(item, report.users[item][0], report.users[item][4], report.users[item][5],
                        report.users[item][6])
             upass += 1
-    sum += line
-    sum += "\n |__Groups:"
+    summ += line
+    summ += "\n |__Groups:"
     line = "\n |    |__"
     detail += detailfile("Summary of users and groups")
     for item in report.groups:
         if len(line) > 72:
-            sum += line
+            summ += line
             line = "\n |    |__"
         else:
             line += "{} ".format(item)
-    sum += line
+    summ += line
     if precheck.root:
-        sum += "\n |__There are {} users, {} with password ({} MD5 hashed), and {} groups.\n".format(
-                                            len(report.users), upass, umd5, len(report.groups))
-        detail += sum
+        summ += "\n |__There are {} users, {} with password ({} MD5 hashed), " \
+                "and {} groups.\n".format(len(report.users), upass, umd5, len(report.groups))
+        detail += summ
     else:
-        sum += "\n |__There are {} users and {} groups.\n".format(len(report.users),
-                                                              len(report.groups))
-        detail += sum
+        summ += "\n |__There are {} users and {} groups.\n".format(len(report.users),
+                                                                   len(report.groups))
+        detail += summ
 
-    return sum, detail
+    return summ, detail
 
 
 def _converthex2ip(hextext):
-    hextext = "{}.{}.{}.{}".format(int(hextext[6:8],16), int(hextext[4:6],16), int(hextext[2:4],16), int(hextext[0:2]))
+    hextext = "{}.{}.{}.{}".format(int(hextext[6:8], 16), int(hextext[4:6], 16),
+                                   int(hextext[2:4], 16), int(hextext[0:2]))
     return hextext
 
 
@@ -185,7 +186,7 @@ def _getnetinfo(report, precheck):
         readhost = open('/etc/hosts').readlines()
         for item in readhost:
             item = " ".join(item.split())
-            if len(item)>0:
+            if len(item) > 0:
                 if not item.startswith('#') and ":" not in item:
                     ip = ip_address(item.split(" ")[0])
                     detail += "{:>15} - {}\n".format(str(ip), item.split(" ")[1])
@@ -212,15 +213,17 @@ def _getnetinfo(report, precheck):
     # Prepare the report for ifaces
     detail += detailfile("Interfaces")
     detail += "          IFACE     MAC ADDRESS     IP ADDRESS/MASK\n"
-    sum = '\nNetwork Information:\n'
+    summ = '\nNetwork Information:\n'
     for item in interfaces:
         if len(interfaces[item]) > 1:
-            detail += "{:>15s}  {:17s}  {}\n".format(item, interfaces[item][0], interfaces[item][1])
-            sum += " |__Iface {} ({}) with ip address {}.\n".format(item, interfaces[item][0], interfaces[item][1])
+            detail += "{:>15s}  {:17s}  {}\n".format(item, interfaces[item][0],
+                                                     interfaces[item][1])
+            summ += " |__Iface {} ({}) with ip address {}.\n".format(item, interfaces[item][0],
+                                                                     interfaces[item][1])
             report.infrastructure(ip_address(interfaces[item][1].split("/")[0]), "Local machine")
         else:
             detail += "{:>15s}  {:17s}\n".format(item, interfaces[item][0])
-            sum += " |__Iface {} ({}) without ip address.\n".format(item, interfaces[item][0])
+            summ += " |__Iface {} ({}) without ip address.\n".format(item, interfaces[item][0])
 
     # Get routes
     if precheck.shouldread("/proc/net/route"):
@@ -235,21 +238,22 @@ def _getnetinfo(report, precheck):
             destination = _converthex2ip(item[1])
             gateway = _converthex2ip(item[2])
             mask = str(bin(int(item[7], 16)))[2:].count("1")
-            detail +=  "Destination: {:>15}/{:0<2} - Gateway: {:15} vía {}\n".format(destination,
-                                                                                     mask,
-                                                                                     gateway,
-                                                                                     iface)
+            detail += "Destination: {:>15}/{:0<2} - Gateway: {:15} vía {}\n".format(destination,
+                                                                                    mask,
+                                                                                    gateway,
+                                                                                    iface)
             report.routes.append([destination, mask, gateway, iface])
 
-    return sum, detail
+    return summ, detail
 
 
 def _getrunningservices(precheck, report):
     detail = detailheader("Services information")
-    sum = ""
+    summ = ""
 
     if precheck.checkcommand("runlevel"):
         try:
+            message = None
             output = check_output(["runlevel"], stderr=DEVNULL).decode("utf-8").split(" ")
             report.runlevel = int(output[1])
             if report.runlevel == 1:
@@ -264,14 +268,15 @@ def _getrunningservices(precheck, report):
                 message = "Runlevel 5: Start the system normally with appropriate display manager"
             if message:
                 detail += "{:^80}\n".format(message)
-                sum += "\n{}\n |__{}\n".format(message.split(":")[0], message.split(":")[1])
-        except:
+                summ += "\n{}\n |__{}\n".format(message.split(":")[0], message.split(":")[1])
+        except Exception as e:
             report.log("INFO", "Unknown runlevel")
+            report.log("DEBUG", str(e))
 
     if precheck.checkcommand("systemctl"):
         output = check_output(["systemctl", "list-units"]).decode("utf-8").splitlines()
         detail += detailfile("systemd services:")
-        sum += "\nSystemd services:\n"
+        summ += "\nSystemd services:\n"
         for item in output:
             if "   loaded" in item:
                 item = " ".join(item.split()).split(" ")
@@ -295,7 +300,7 @@ def _getrunningservices(precheck, report):
     elif precheck.checkcommand("chkconfig"):
         output = check_output(["chkconfig", "--list"]).decode("utf-8").splitlines()
         detail += detailfile("SysVinit services:")
-        sum += "\nsystemd enabled services:\n"
+        summ += "\nsystemd enabled services:\n"
         if 0 < report.runlevel < 6:
             checkon = "{}:on".format(report.runlevel)
             checkoff = "{}:off".format(report.runlevel)
@@ -312,20 +317,20 @@ def _getrunningservices(precheck, report):
 
     if report.failedservices:
         detail += "\nFailed services:\n"
-        sum += " |__Failed services:\n"
+        summ += " |__Failed services:\n"
         for item in report.failedservices:
             if len(item[1]) > 0:
                 detail += " |__{} ({})\n".format(item[0], item[1])
-                sum += " |    |__{} ({})\n".format(item[0], item[1])
+                summ += " |    |__{} ({})\n".format(item[0], item[1])
                 report.vulns("LOW", "Service {} ({}) has failed.".format(item[0], item[1]))
             else:
                 detail += " |__{}\n".format(item[0])
-                sum += " |    |__{}\n".format(item[0])
+                summ += " |    |__{}\n".format(item[0])
                 report.vulns("LOW", "Service {} has failed.".format(item[0]))
 
     if report.runningservices:
         detail += "\nRunning services:\n"
-        sum += " |__Running services: {}\n".format(len(report.runningservices))
+        summ += " |__Running services: {}\n".format(len(report.runningservices))
         for item in report.runningservices:
             if len(item[1]) > 0:
                 detail += " |__{} ({})\n".format(item[0], item[1])
@@ -334,7 +339,7 @@ def _getrunningservices(precheck, report):
 
     if report.otherservices:
         detail += "\nOther state:\n"
-        sum += " |__Other state services: {}\n".format(len(report.otherservices))
+        summ += " |__Other state services: {}\n".format(len(report.otherservices))
         state = ""
         for item in report.otherservices:
             if len(item[2]) > 0:
@@ -350,15 +355,15 @@ def _getrunningservices(precheck, report):
                     state = item[0]
                     detail += " |__{}\n |     |__{}\n".format(item[0], item[1])
 
-    return sum, detail
+    return summ, detail
 
 
 def getspecificinfo(report, precheck):
     # Get host information
     try:
         report.log("DEBUG", "Host names information gathering started")
-        sum, detail = _gethostnames(report, precheck)
-        report.summarized(2, sum)
+        summ, detail = _gethostnames(report, precheck)
+        report.summarized(2, summ)
         report.detailed(2, detail)
         report.log("DEBUG", "Host names information completed")
     except Exception as e:
@@ -369,8 +374,8 @@ def getspecificinfo(report, precheck):
     # Get users, groups and sudoers information
     try:
         report.log("DEBUG", "Users and groups information gathering started")
-        sum, detail = _getusers(report, precheck)
-        report.summarized(2, sum)
+        summ, detail = _getusers(report, precheck)
+        report.summarized(2, summ)
         report.detailed(2, detail)
         report.log("DEBUG", "Users and groups information completed")
     except Exception as e:
@@ -381,8 +386,8 @@ def getspecificinfo(report, precheck):
     # Get network information
     try:
         report.log("DEBUG", "Network information gathering started")
-        sum, detail = _getnetinfo(report, precheck)
-        report.summarized(2, sum)
+        summ, detail = _getnetinfo(report, precheck)
+        report.summarized(2, summ)
         report.detailed(2, detail)
         report.log("DEBUG", "Network information completed")
     except Exception as e:
@@ -393,8 +398,8 @@ def getspecificinfo(report, precheck):
     # Get services information
     try:
         report.log("DEBUG", "Services information gathering started")
-        sum, detail = _getrunningservices(precheck, report)
-        report.summarized(2, sum)
+        summ, detail = _getrunningservices(precheck, report)
+        report.summarized(2, summ)
         report.detailed(2, detail)
         report.log("DEBUG", "Services information completed")
     except Exception as e:

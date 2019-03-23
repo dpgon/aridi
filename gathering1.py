@@ -6,7 +6,7 @@ from style import detailheader, detailfile
 
 
 def _getusb():
-    sum = "\nUSB devices:"
+    summ = "\nUSB devices:"
     detail = detailheader("USB information")
     linuxroot = []
     hub = []
@@ -17,20 +17,20 @@ def _getusb():
 
     for item in output:
         bus = item.split(':')[0].lower().replace("bus ", "").replace(" device ", ":")
-        id = item.split('ID ')[1][:9]
+        usbid = item.split('ID ')[1][:9]
         name = item.split('ID ')[1][10:]
-        if "1d6b:000" in id.lower():
-            linuxroot.append([id, name, bus])
+        if "1d6b:000" in usbid.lower():
+            linuxroot.append([usbid, name, bus])
         elif "hub" in name.lower():
-            hub.append([id, name, bus])
+            hub.append([usbid, name, bus])
         else:
-            usb.append([id, name, bus])
-        total.append([id, name, bus])
+            usb.append([usbid, name, bus])
+        total.append([usbid, name, bus])
 
-    sum += " |__{} devices\n |__{} hubs (Linux root hubs included)\n".format(len(usb),
-                                                                    len(linuxroot) + len(hub))
-    help = "(device ID - name - bus:device)"
-    detail += "{:^80}\n".format(help)
+    summ += " |__{} devices\n |__{} hubs " \
+            "(Linux root hubs included)\n".format(len(usb), len(linuxroot) + len(hub))
+    helptext = "(device ID - name - bus:device)"
+    detail += "{:^80}\n".format(helptext)
 
     detail += "Linux root hubs:\n"
     for item in linuxroot:
@@ -42,25 +42,27 @@ def _getusb():
     for item in usb:
         detail += " |__{} - {} - {}\n".format(item[0], item[1], item[2])
 
-    return sum, detail, total
+    return summ, detail, total
 
 
 def _gethardware(precheck):
     arch = uname().machine
     detail = ""
-    sum = "CPU and memory information:"
+    summ = "CPU and memory information:"
+    cpuinfo = {"processor": 0,
+               "vendor_id": "",
+               "cpu_family": 0,
+               "model": 0,
+               "model_name": "",
+               "stepping": 0,
+               "physical_id": 0,
+               "cpu_cores": 0,
+               "flags": "",
+               "bugs": ""}
+    meminfo = {"memtotal": "", "swaptotal": ""}
+
     if precheck.shouldread("/proc/cpuinfo"):
         detail += detailheader("CPU information")
-        cpuinfo = { "processor" : 0,
-                    "vendor_id" : "",
-                    "cpu_family" : 0,
-                    "model" : 0,
-                    "model_name" : "",
-                    "stepping" : 0,
-                    "physical_id" : 0,
-                    "cpu_cores" : 0,
-                    "flags" : "",
-                    "bugs" : ""}
 
         with open("/proc/cpuinfo") as f:
             info = f.readlines()
@@ -103,9 +105,10 @@ def _gethardware(precheck):
                     cpuinfo["bugs"] = data
         cpuinfo['processor'] += 1
         cpuinfo['physical_id'] += 1
-        sum += " |__Architecture: {}\n |__CPU: {} x {}\n |     |__{} stepping {} with {} cores\n".\
-            format(arch, cpuinfo["physical_id"], cpuinfo["vendor_id"], cpuinfo["model_name"],
-                   cpuinfo["stepping"], cpuinfo["cpu_cores"])
+        summ += " |__Architecture: {}\n |__CPU: {} x {}\n |     |__{} stepping {} with {} " \
+                "cores\n".format(arch, cpuinfo["physical_id"],
+                                 cpuinfo["vendor_id"], cpuinfo["model_name"],
+                                 cpuinfo["stepping"], cpuinfo["cpu_cores"])
         detail += "Architect.: {}\nSockets:    {}\n".format(arch, cpuinfo["physical_id"])
         detail += "Vendor:     {}\nModel name: {}\nModel:      {}\n".format(cpuinfo["vendor_id"],
                                                                             cpuinfo["model_name"],
@@ -119,7 +122,6 @@ def _gethardware(precheck):
 
     if precheck.shouldread("/proc/meminfo"):
         detail += detailheader("RAM information")
-        meminfo = {"memtotal": "", "swaptotal": ""}
 
         with open("/proc/meminfo") as f:
             info = f.readlines()
@@ -133,20 +135,20 @@ def _gethardware(precheck):
                 if "swaptotal" in name.lower():
                     meminfo["swaptotal"] = data
 
-        sum += " |__Memory: {}\n |__SWAP: {}\n".format(meminfo["memtotal"], meminfo["swaptotal"])
+        summ += " |__Memory: {}\n |__SWAP: {}\n".format(meminfo["memtotal"], meminfo["swaptotal"])
         detail += "Memory:     {}\nSWAP:       {}\n".format(meminfo["memtotal"],
                                                             meminfo["swaptotal"])
 
-    return sum, detail, cpuinfo, meminfo
+    return summ, detail, cpuinfo, meminfo
 
 
 def _getos():
     info = uname()
     data = "{} {} {}".format(info.sysname, info.release, info.version)
-    sum = "\nOS Kernel information:\n |__{}\n".format(data)
+    summ = "\nOS Kernel information:\n |__{}\n".format(data)
     detail = detailheader("OS Kernel information")
     detail += "{}\n".format(data)
-    return sum, detail, data
+    return summ, detail, data
 
 
 def _getdistrorelease(precheck):
@@ -154,7 +156,7 @@ def _getdistrorelease(precheck):
     version = ''
     filename = ''
     data = ''
-    sum = '\nOS Release information:\n'
+    summ = '\nOS Release information:\n'
     detail = detailheader("OS Release information")
 
     # this is the current systemd version info
@@ -165,14 +167,14 @@ def _getdistrorelease(precheck):
             detail += line + "\n"
             if line.startswith('NAME='):
                 name = line.split('=')[1]
-                if name[0]=='"' and name[-1]=='"':
+                if name[0] == '"' and name[-1] == '"':
                     name = name[1:-1]
             if line.startswith('VERSION='):
                 version = line.split('=')[1]
-                if version[0]=='"' and version[-1]=='"':
+                if version[0] == '"' and version[-1] == '"':
                     version = version[1:-1]
         data = name + " " + version
-        sum += " |__{}\n".format(data)
+        summ += " |__{}\n".format(data)
     # and now, the other release info files
     elif precheck.shouldread('/etc/centos-release'):
         filename = '/etc/centos-release'
@@ -183,14 +185,14 @@ def _getdistrorelease(precheck):
             detail += line + "\n"
             if line.startswith('DISTRIB_ID='):
                 name = line.split('=')[1]
-                if name[0]=='"' and name[-1]=='"':
+                if name[0] == '"' and name[-1] == '"':
                     name = name[1:-1]
             if line.startswith('DISTRIB_RELEASE='):
                 version = line.split('=')[1]
-                if version[0]=='"' and version[-1]=='"':
+                if version[0] == '"' and version[-1] == '"':
                     version = version[1:-1]
         data = name + " " + version
-        sum += " |__{}\n".format(data)
+        summ += " |__{}\n".format(data)
     elif precheck.shouldread('/suse/etc/SuSE-release'):
         filename = '/suse/etc/SuSE-release'
     elif precheck.shouldread('/etc/redhat-release'):
@@ -201,29 +203,29 @@ def _getdistrorelease(precheck):
     if filename:
         name = open(filename).read()
         data = name.split('\n')[0]
-        sum += " |__{}\n".format(data)
+        summ += " |__{}\n".format(data)
         detail += filename + '-'*len(filename) + name + "\n"
 
     # check old distribution version info
     if precheck.shouldread('/etc/debian-version'):
         other_version = open('/etc/debian-version').read()
-        sum += " |__Debian version: " + other_version.split('\n')[0] + "\n"
+        summ += " |__Debian version: " + other_version.split('\n')[0] + "\n"
         detail += detailfile('/etc/debian-version')
         detail += other_version + "\n"
     elif precheck.shouldread('/etc/slackware-version'):
         other_version = open('/etc/slackware-version').read()
-        sum += " |__Slackware version: " + other_version.split('\n')[0] + "\n"
+        summ += " |__Slackware version: " + other_version.split('\n')[0] + "\n"
         detail += detailfile('/etc/slackware-version')
         detail += other_version + "\n"
 
-    return sum, detail, data
+    return summ, detail, data
 
 
 def _getlibc():
-    sum = "\nLibc version:\n |__{} {}\n".format(libc_ver()[0], libc_ver()[1])
+    summ = "\nLibc version:\n |__{} {}\n".format(libc_ver()[0], libc_ver()[1])
     detail = detailheader("Libc information")
     detail += "{} {}\n".format(libc_ver()[0], libc_ver()[1])
-    return sum, detail
+    return summ, detail
 
 
 def _getdisks(precheck):
@@ -238,15 +240,15 @@ def _getdisks(precheck):
         for item in outputlsblk:
             spacefree = " ".join(item.split()).split(" ")
             name = spacefree[0]
-            type = spacefree[5]
+            blktype = spacefree[5]
             size = spacefree[3]
             mountpoint = "".join(spacefree[6:])
 
             if name not in repeated:
                 repeated.append(name)
-                if type == "disk" or type == "dmraid":
+                if blktype == "disk" or blktype == "dmraid":
                     disks.append([name, size])
-                elif type == "part":
+                elif blktype == "part":
                     if mountpoint:
                         mounted.append([name, size, mountpoint, [], [], []])
                     else:
@@ -261,7 +263,7 @@ def _getdisks(precheck):
             try:
                 options = spacefree[3]
                 fstype = spacefree[2]
-            except:
+            except IndexError:
                 options = spacefree[2]
                 fstype = spacefree[1]
 
@@ -271,7 +273,7 @@ def _getdisks(precheck):
                     mounted[part][4] = options
                     try:
                         output = check_output(["du", mounted[part][2], "-shx"],
-                                                         stderr=DEVNULL).decode("utf-8")
+                                              stderr=DEVNULL).decode("utf-8")
                     except CalledProcessError as e:
                         output = e.output.decode("utf-8")
                     mounted[part][5] = output.split("\t")[0]
@@ -279,7 +281,7 @@ def _getdisks(precheck):
     return disks, unmounted, mounted
 
 
-def _checkpermissions(precheck):
+def _checkpermissions(precheck, report):
     stickydirs = []
     alluserwrite = []
     readerrors = []
@@ -288,6 +290,9 @@ def _checkpermissions(precheck):
 
     # Check incorrect permissions
     incorrect = precheck.dangerousperm()
+
+    for item in incorrect:
+        report.vulns("MEDIUM", item)
 
     # Check directories with write permissions and sticky bit
     for root, dirs, files in walk("/"):
@@ -380,8 +385,8 @@ def _getapt():
 def _getdpkg():
     packages = []
     output = check_output(["dpkg-query", "-f",
-                                      "${binary:Package}\t${source:Version}\n",
-                                      "-W"]).decode("utf-8").splitlines()
+                           "${binary:Package}\t${source:Version}\n",
+                           "-W"]).decode("utf-8").splitlines()
     for item in output:
         name = item.split("\t")[0]
         if ":" in name:
@@ -397,8 +402,8 @@ def getgeneralinfo(report, precheck):
     # Get hardware reports
     try:
         report.log("DEBUG", "CPU and RAM information gathering started")
-        sum, detail, cpuinfo, meminfo = _gethardware(precheck)
-        report.summarized(1, sum)
+        summ, detail, cpuinfo, meminfo = _gethardware(precheck)
+        report.summarized(1, summ)
         report.detailed(1, detail)
         report.cpuinfo = cpuinfo
         report.meminfo = meminfo
@@ -410,8 +415,8 @@ def getgeneralinfo(report, precheck):
 
     try:
         report.log("DEBUG", "USB information gathering started")
-        sum, detail, total = _getusb()
-        report.summarized(1, sum)
+        summ, detail, total = _getusb()
+        report.summarized(1, summ)
         report.detailed(1, detail)
         report.total = total
         report.log("DEBUG", "USB information completed")
@@ -423,8 +428,8 @@ def getgeneralinfo(report, precheck):
     # Get OS reports
     try:
         report.log("DEBUG", "Kernel information gathering started")
-        sum, detail, data = _getos()
-        report.summarized(1, sum)
+        summ, detail, data = _getos()
+        report.summarized(1, summ)
         report.detailed(1, detail)
         report.oskernel = data
         report.log("DEBUG", "Kernel information completed")
@@ -435,8 +440,8 @@ def getgeneralinfo(report, precheck):
 
     try:
         report.log("DEBUG", "Distribution release information gathering started")
-        sum, detail, data =_getdistrorelease(precheck)
-        report.summarized(1, sum)
+        summ, detail, data = _getdistrorelease(precheck)
+        report.summarized(1, summ)
         report.detailed(1, detail)
         report.osdistro = data
         report.log("DEBUG", "Distribution release information completed")
@@ -447,8 +452,8 @@ def getgeneralinfo(report, precheck):
 
     try:
         report.log("DEBUG", "libc information gathering started")
-        sum, detail = _getlibc()
-        report.summarized(1, sum)
+        summ, detail = _getlibc()
+        report.summarized(1, summ)
         report.detailed(1, detail)
         report.log("DEBUG", "libc information completed")
     except Exception as e:
@@ -463,16 +468,16 @@ def getgeneralinfo(report, precheck):
         report.disks = disks
         report.unmounted = unmounted
         report.mounted = mounted
-        sum = "\nPartitions mounted:\n"
+        summ = "\nPartitions mounted:\n"
         for item in mounted:
             if "swap" in item[2].lower():
-                sum += " |__{:_<32}__SWAP filesystem with {}\n".format(item[2], item[1])
+                summ += " |__{:_<32}__SWAP filesystem with {}\n".format(item[2], item[1])
             else:
-                sum += " |__{:_<32}__{} filesystem with {}, used {}\n".format(item[2],
-                                                                              item[3],
-                                                                              item[1],
-                                                                              item[5])
-        report.summarized(1, sum)
+                summ += " |__{:_<32}__{} filesystem with {}, used {}\n".format(item[2],
+                                                                               item[3],
+                                                                               item[1],
+                                                                               item[5])
+        report.summarized(1, summ)
 
         detail = detailheader("Disk/Partitions information")
         detail += detailfile("Disks info:")
@@ -487,7 +492,9 @@ def getgeneralinfo(report, precheck):
             if "swap" in item[2].lower():
                 detail += " |__Size: {}\n".format(item[1])
             else:
-                detail += " |__Filesystem: {}\n |__Size: {}, used {}\n".format(item[3], item[1], item[5])
+                detail += " |__Filesystem: {}\n |__Size: {}, used {}\n".format(item[3],
+                                                                               item[1],
+                                                                               item[5])
                 detail += " |__Options: {}\n".format(item[4])
 
         report.detailed(1, detail)
@@ -499,7 +506,8 @@ def getgeneralinfo(report, precheck):
 
     try:
         report.log("DEBUG", "File and directory permission information gathering started")
-        stickydirs, alluserwrite, readerrors, suidperm, guidperm = _checkpermissions(precheck)
+        stickydirs, alluserwrite, readerrors, suidperm, guidperm = _checkpermissions(precheck,
+                                                                                     report)
         report.stickydirs = stickydirs
         report.alluserwrite = alluserwrite
         report.readerrors = readerrors
@@ -512,7 +520,8 @@ def getgeneralinfo(report, precheck):
                              "permission and no stickybit\n".format(len(stickydirs)))
         report.detailed(1, " |__StickyBit: Found {} dirs with all users write permission and "
                            "no stickybit.\n |   You should put the sticky bit in order to avoid "
-                           "any user can modify files\n |   of other users\n".format(len(stickydirs)))
+                           "any user can modify files\n |   of other "
+                           "users\n".format(len(stickydirs)))
         report.summarized(1, " |__All users can write: Found {} files with all "
                              "users write permission\n".format(len(alluserwrite)))
         report.detailed(1, " |__All users can write: Found {} files with all users write "
@@ -520,21 +529,33 @@ def getgeneralinfo(report, precheck):
         report.summarized(1, " |__Read errors: Found {} files or directories with "
                              "errors\n".format(len(readerrors)))
         report.detailed(1, " |__Read errors: Found {} files or directories with errors. There "
-                             "are\n |   possible bad links, maybe you want to delete "
-                             "them\n".format(len(readerrors)))
-        report.summarized(1, " |__SUID: Found {} files with SUID permission\n".format(len(suidperm)))
+                           "are\n |   possible bad links, maybe you want to delete "
+                           "them\n".format(len(readerrors)))
+        report.summarized(1, " |__SUID: Found {} files with SUID "
+                             "permission\n".format(len(suidperm)))
         report.detailed(1, " |__SUID: Found {} files with SUID permission. Are they "
                            "necessary?\n".format(len(suidperm)))
-        report.summarized(1, " |__GUID: Found {} files with GUID permission\n".format(len(guidperm)))
+        report.summarized(1, " |__GUID: Found {} files with GUID "
+                             "permission\n".format(len(guidperm)))
         report.detailed(1, " |__GUID: Found {} files with GUID permission. Are they "
                            "necessary?\n".format(len(guidperm)))
-        for item in stickydirs:
-            report.vulns("LOW", "'{}' dir has write permission for "
-                                "all user and no sticky bit".format(item))
-        for item in alluserwrite:
-            report.vulns("LOW", "'{}' file has write permission for all user".format(item))
-        for item in readerrors:
-            report.vulns("LOW", item)
+
+        try:
+            f = open("aridi.badfiles", "w")
+            for item in stickydirs:
+                f.write("'{}' dir has write permission for all user and "
+                        "no sticky bit".format(item))
+            for item in alluserwrite:
+                f.write("'{}' file has write permission for all user".format(item))
+            for item in readerrors:
+                f.write(item)
+        except Exception as e:
+            report.log("ERROR", "Can't write aridy.badfiles")
+            report.log("DEBUG", str(e))
+            report.log("DEBUG", format_exc())
+        finally:
+            f.close()
+
         for item in suidperm:
             if item[1]:
                 report.vulns("MEDIUM", "'{}' file has SUID and "
@@ -557,24 +578,24 @@ def getgeneralinfo(report, precheck):
     try:
         report.log("DEBUG", "Software packages gathering started")
 
-        sum = "\nPackages manager not found\n"
+        summ = "\nPackages manager not found\n"
         if precheck.checkcommand("yum"):
             precheck.packages = _getyum()
-            sum = "\nTotal RPM packages (yum):\n |__{}\n".format(len(precheck.packages))
+            summ = "\nTotal RPM packages (yum):\n |__{}\n".format(len(precheck.packages))
         elif precheck.checkcommand("dpkg-query"):
             precheck.packages = _getdpkg()
-            sum = "\nTotal DEB packages (dpkg):\n |__{}\n".format(len(precheck.packages))
+            summ = "\nTotal DEB packages (dpkg):\n |__{}\n".format(len(precheck.packages))
         elif precheck.checkcommand("zypper"):
             precheck.packages = _getzypper()
-            sum = "\nTotal RPM packages (zypper):\n |__{}\n".format(len(precheck.packages))
+            summ = "\nTotal RPM packages (zypper):\n |__{}\n".format(len(precheck.packages))
         elif precheck.checkcommand("apt"):
             precheck.packages = _getapt()
-            sum = "\nTotal DEB packages (apt):\n |__{}\n".format(len(precheck.packages))
+            summ = "\nTotal DEB packages (apt):\n |__{}\n".format(len(precheck.packages))
         elif precheck.checkcommand("pacman"):
             precheck.packages = _getpacman()
-            sum = "\nTotal pkg.tar.xz packages (pacman):\n |__{}\n".format(len(precheck.packages))
+            summ = "\nTotal pkg.tar.xz packages (pacman):\n |__{}\n".format(len(precheck.packages))
 
-        report.summarized(1, sum)
+        report.summarized(1, summ)
         report.detailed(1, detailheader("Packages information"))
         for item in precheck.packages:
             report.detailed(1, "{:32s} - {}\n".format(item[0], item[1]))
@@ -585,5 +606,3 @@ def getgeneralinfo(report, precheck):
         report.log("ERROR", "Can't obtain software packages information")
         report.log("DEBUG", str(e))
         report.log("DEBUG", format_exc())
-
-
