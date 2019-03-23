@@ -81,7 +81,7 @@ def main():
             args.volatile = True
             args.carving = True
         elif args.specific:
-            args.general = True
+            args.general = False    # Change to True after finish
         elif args.volatile == False and args.carving == False:
             # Default option
             args.general = True

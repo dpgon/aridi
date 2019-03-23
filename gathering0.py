@@ -21,14 +21,13 @@ class Precheck:
                          ["/etc/hosts", 5],
                          ["/etc/issue", 5],
                          ["/etc/issue.net", 5],
+                         ["/etc/motd", 5],
                          ["/etc/passwd", 6],            # Users config
                          ["/etc/group", 6],
                          ["/etc/shadow", 6],
                          ["/etc/gshadow", 6],
-                         ["/var/log/auth.log", 6],
-                         ["/var/log/utmp", 6],
-                         ["/var/log/wtmp", 6],
-                         ["/var/log/btmp", 6],
+                         ["/etc/sudoers", 6],
+                         ["/proc/net/route", 7],        # Network config
                          ["/etc/hosts", 7],
                          ["/etc/hosts.allow", 7],
                          ["/etc/hosts.deny", 7],
@@ -42,6 +41,10 @@ class Precheck:
                          ["/proc/loadavg", 14],         #
                          ["/proc/stat", 14],
                          ["/var/log/message", 18],      # Estudio de Logs
+                         ["/var/log/auth.log", 18],
+                         ["/var/log/utmp", 18],
+                         ["/var/log/wtmp", 18],
+                         ["/var/log/btmp", 18],
                          ["/var/log/kern.log", 18],
                          ["/var/log/cron.log", 18],
                          ["/var/log/maillog", 18],

@@ -1,4 +1,5 @@
 from datetime import datetime
+from style import detailfile, detailheader, detailchapter, reporttitle
 
 
 class Reporting:
@@ -11,7 +12,7 @@ class Reporting:
         self.summarized_data = [[], [], [], [], [], []]
         self.detailed_data = [[], [], [], [], [], []]
         self.vulns_data = []
-        self.infrastructure_data = []
+        self.infrastructure_data = {}
 
         # for logging
         self.log_data = []
@@ -23,8 +24,8 @@ class Reporting:
         self.usb = []
 
         # distro info
-        self.oskernel = ""
-        self.osdistro = ""
+        self.oskernel = None
+        self.osdistro = None
 
         # filesystem info
         self.disks = []
@@ -38,6 +39,28 @@ class Reporting:
 
         # packages info
         self.packages = []
+
+        # Hostname info
+        self.hostname = None
+        self.domainname = None
+        self.hostid = None
+        self.issue = None
+        self.issuenet = None
+        self.motd = None
+
+        # Users and groups info
+        self.users = {}
+        self.groups = {}
+
+        # Interfaces and route info
+        self.ifaces = None
+        self.routes = []
+
+        # Services information
+        self.runlevel = 0
+        self.runningservices = []
+        self.failedservices = []
+        self.otherservices = []
 
     def summarized(self, kind, text):
         if kind==0:
@@ -70,8 +93,12 @@ class Reporting:
     def vulns(self, severity, text):
         self.vulns_data.append([severity, text])
 
-    def infrastructure(self, type, text):
-        self.vulns_data.append([type, text])
+    def infrastructure(self, ip, hostname):
+        if self.infrastructure_data.get(ip):
+            if hostname not in self.infrastructure_data[ip]:
+                self.infrastructure_data[ip].append(hostname)
+        else:
+            self.infrastructure_data[ip] = [hostname]
 
     def log(self, severity, text):
         """
@@ -94,43 +121,35 @@ class Reporting:
     def view_summarized(self, execution=True, general=True,
                         specific=True, volatile=True,
                         other=True, infrastructure=True):
-        text = "===============================\n"
-        text += "    Summarized information\n"
-        text += "===============================\n"
+        text = reporttitle("SUMMARIZED INFORMATION")
 
         if execution:
-            text += "\nExecution environment\n"
-            text += "-------------------------------\n"
+            text += detailfile("Execution environment")
             for item in self.summarized_data[0]:
                 text += item
 
         if general:
-            text += "\n     General information\n"
-            text += "-------------------------------\n"
+            text += detailfile("General information")
             for item in self.summarized_data[1]:
                 text += item
 
         if specific:
-            text += "\n     Specific information\n"
-            text += "-------------------------------\n"
+            text += detailfile("Specific information")
             for item in self.summarized_data[2]:
                 text += item
 
         if volatile:
-            text += "\n     Volatile information\n"
-            text += "-------------------------------\n"
+            text += detailfile("Volatile information")
             for item in self.summarized_data[3]:
                 text += item
 
         if other:
-            text += "\n      Other information\n"
-            text += "-------------------------------\n"
+            text += detailfile("Other information")
             for item in self.summarized_data[4]:
                 text += item
 
         if infrastructure:
-            text += "\n   Infrastructure information\n"
-            text += "-------------------------------\n"
+            text += detailfile("Infrastructure information")
             for item in self.summarized_data[5]:
                 text += item
 
@@ -139,58 +158,42 @@ class Reporting:
     def view_detailed(self, execution=True, general=True,
                       specific=True, volatile=True,
                       other=True, infrastructure=True):
-        text = "/-----------------------------\\\n"
-        text += "|     Detailed information    |\n"
-        text += "\-----------------------------/\n\n"
+        text = reporttitle("DETAILED INFORMATION")
 
         if execution:
-            text += "*******************************\n"
-            text += "     Execution environment\n"
-            text += "*******************************\n"
+            text += detailchapter("EXECUTION ENVIRONMENT")
             for item in self.detailed_data[0]:
                 text += item
 
         if general:
-            text += "*******************************\n"
-            text += "      General information\n"
-            text += "*******************************\n"
+            text += detailchapter("GENERAL INFORMATION")
             for item in self.detailed_data[1]:
                 text += item
 
         if specific:
-            text += "*******************************\n"
-            text += "      Specific information\n"
-            text += "*******************************\n"
+            text += detailchapter("SPECIFIC INFORMATION")
             for item in self.detailed_data[2]:
                 text += item
 
         if volatile:
-            text += "*******************************\n"
-            text += "      Volatile information\n"
-            text += "*******************************\n"
+            text += detailchapter("VOLATILE INFORMATION")
             for item in self.detailed_data[3]:
                 text += item
 
         if other:
-            text += "*******************************\n"
-            text += "       Other information\n"
-            text += "*******************************\n"
+            text += detailchapter("OTHER INFORMATION")
             for item in self.detailed_data[4]:
                 text += item
 
         if infrastructure:
-            text += "*******************************\n"
-            text += "   Infrastructure information\n"
-            text += "*******************************\n"
+            text += detailchapter("INFRASTRUCTURE INFORMATION")
             for item in self.detailed_data[5]:
                 text += item
 
         return text
 
     def view_vulns(self):
-        text = "===============================\n"
-        text += "     Vulnerabilities report\n"
-        text += "===============================\n\n"
+        text = reporttitle("VULNERABILITIES REPORT")
 
         self.vulns_data.sort()
         for item in self.vulns_data:
@@ -199,13 +202,16 @@ class Reporting:
         return text
 
     def view_infrastructure(self):
-        text = "===============================\n"
-        text += "     Infrastructure report\n"
-        text += "===============================\n\n"
+        text = reporttitle("INFRASTRUCTURE REPORT")
 
-        self.infrastructure_data.sort()
-        for item in self.infrastructure_data:
-            text += item[0] + " - " + item[1] + "\n"
+        keys = list(self.infrastructure_data.keys())
+        keys.sort()
+
+        text += "\nIP Address:\n"
+        for item in keys:
+            text += " |__{}\n".format(str(item))
+            for name in self.infrastructure_data[item]:
+                text += " |       |__{}\n".format(name)
 
         return text
 
