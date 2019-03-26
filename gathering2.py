@@ -6,7 +6,7 @@ from style import detailheader, detailfile
 
 
 def _gethostnames(report, precheck):
-    summ = 'Hostname and banner info:\n'
+    summ = '\nHostname and banner info:\n'
     detail = detailheader("Hostnames information")
 
     if precheck.shouldread('/etc/hostname'):

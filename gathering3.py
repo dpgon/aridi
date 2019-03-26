@@ -130,6 +130,8 @@ def _getprocess():
     detail += " |__Top 10 CPU process:\n"
     for counter in range(10):
         if len(process[topcpu[counter][1]][7]) > 59:
+            # TODO
+            # Filter aridi process from top5
             if counter < 5:
                 summ += " |       |__{:_>5}% {}...\n".format(topcpu[counter][0],
                                                              process[topcpu[counter][1]][7][:56])
@@ -201,6 +203,8 @@ def _getuserdata(precheck, report):
         # Check where is the utmp file
         if precheck.shouldread("/run/utmp"):
             output = check_output(["utmpdump", "/run/utmp"]).decode("utf-8").splitlines()[1:]
+            # TODO
+            # Saca por pantalla basura, retirarla a /dev/null
         elif precheck.shouldread("/var/run/utmp"):
             output = check_output(["utmpdump", "/var/run/utmp"]).decode("utf-8").splitlines()[1:]
         elif precheck.shouldread("/var/log/utmp"):

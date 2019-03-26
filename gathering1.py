@@ -48,7 +48,7 @@ def _getusb():
 def _gethardware(precheck):
     arch = uname().machine
     detail = ""
-    summ = "CPU and memory information:"
+    summ = "\nCPU and memory information:\n"
     cpuinfo = {"processor": 0,
                "vendor_id": "",
                "cpu_family": 0,
