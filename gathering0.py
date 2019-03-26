@@ -108,7 +108,8 @@ class Precheck:
             return 3
         elif info.st_mode & 0b000100000 and group in gids:
             return 2
-        elif info.st_mode & 0b100000000 and owner == uid:
+        #elif info.st_mode & 0b100000000 and owner == uid:
+        elif owner == uid:
             return 1
         else:
             return 0
