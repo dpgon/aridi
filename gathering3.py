@@ -488,7 +488,7 @@ def _getcpu(precheck):
         peruser = round(100 * usertime / totaltime, 2)
         perkernel = round(100 * kernelmode / totaltime, 2)
         peridle = round(100 * idle / totaltime, 2)
-        periow = round(100 * idle / totaltime, 2)
+        periow = round(100 * iowait / totaltime, 2)
         perirq = round(100 * irqtime / totaltime, 2)
         summ += " |__Since boot: {}% user, {}% kernel, {}% IO wait, {}% IRQ time, " \
                 "{}% idle\n".format(peruser, perkernel, periow, perirq, peridle)
@@ -515,7 +515,7 @@ def _getcpu(precheck):
         peruser = round(100 * usertime / totaltime, 2)
         perkernel = round(100 * kernelmode / totaltime, 2)
         peridle = round(100 * idle / totaltime, 2)
-        periow = round(100 * idle / totaltime, 2)
+        periow = round(100 * iowait / totaltime, 2)
         perirq = round(100 * irqtime / totaltime, 2)
         summ += " |__Now: {}% user, {}% kernel, {}% IO wait, {}% IRQ time, " \
                 "{}% idle\n".format(peruser, perkernel, periow, perirq, peridle)
