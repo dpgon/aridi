@@ -49,7 +49,7 @@ class Reporting:
         self.motd = None
 
         # Users and groups info
-        self.users = {}
+        self.users = {}     # Name: [password type, uid, gid, long name, home, shell]
         self.groups = {}
 
         # Interfaces and route info

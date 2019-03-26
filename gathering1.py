@@ -272,11 +272,11 @@ def _getdisks(precheck):
                     mounted[part][3] = fstype
                     mounted[part][4] = options
                     try:
-                        output = check_output(["du", mounted[part][2], "-shx"],
-                                              stderr=DEVNULL).decode("utf-8")
+                        output = check_output(["df", mounted[part][2], "-h"],
+                                              stderr=DEVNULL).decode("utf-8").splitlines()[1]
                     except CalledProcessError as e:
-                        output = e.output.decode("utf-8")
-                    mounted[part][5] = output.split("\t")[0]
+                        output = e.output.decode("utf-8").splitlines()[1]
+                    mounted[part][5] = " ".join(output.split()).split(" ")[2]
 
     return disks, unmounted, mounted
 
@@ -464,12 +464,9 @@ def getgeneralinfo(report, precheck):
     # Get filesystem reports
     try:
         report.log("DEBUG", "disk information gathering started")
-        disks, unmounted, mounted = _getdisks(precheck)
-        report.disks = disks
-        report.unmounted = unmounted
-        report.mounted = mounted
+        report.disks, report.unmounted, report.mounted = _getdisks(precheck)
         summ = "\nPartitions mounted:\n"
-        for item in mounted:
+        for item in report.mounted:
             if "swap" in item[2].lower():
                 summ += " |__{:_<32}__SWAP filesystem with {}\n".format(item[2], item[1])
             else:
@@ -481,13 +478,13 @@ def getgeneralinfo(report, precheck):
 
         detail = detailheader("Disk/Partitions information")
         detail += detailfile("Disks info:")
-        for item in disks:
+        for item in report.disks:
             detail += "{:32s} - Size: {}\n".format(item[0], item[1])
         detail += detailfile("Unmounted partitions:")
-        for item in unmounted:
+        for item in report.unmounted:
             detail += "{:32s} - Size: {}\n".format(item[0], item[1])
         detail += detailfile("Mounted partitions:")
-        for item in mounted:
+        for item in report.mounted:
             detail += "\n{:32s}\n |__{}\n".format(item[0], item[2])
             if "swap" in item[2].lower():
                 detail += " |__Size: {}\n".format(item[1])
@@ -544,11 +541,11 @@ def getgeneralinfo(report, precheck):
             f = open("aridi.badfiles", "w")
             for item in stickydirs:
                 f.write("'{}' dir has write permission for all user and "
-                        "no sticky bit".format(item))
+                        "no sticky bit\n".format(item))
             for item in alluserwrite:
-                f.write("'{}' file has write permission for all user".format(item))
+                f.write("'{}' file has write permission for all user\n".format(item))
             for item in readerrors:
-                f.write(item)
+                f.write("{}\n".format(item))
         except Exception as e:
             report.log("ERROR", "Can't write aridy.badfiles")
             report.log("DEBUG", str(e))

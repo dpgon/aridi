@@ -37,13 +37,21 @@ class Precheck:
                          ["/etc/pam.d/passwd", 8],
                          ["/etc/systemd/user.conf", 9], # Services information
                          ["/etc/systemd/system.conf", 9],
-                         ["/etc/ssh/sshd_config", 10],  # Configuración de otros servicios
-                         ["/proc/loadavg", 14],         #
+                         ["/etc/ssh/sshd_config", 10],  # Other services information
+                         ["/var/log/wtmp", 12],         # Users login information
+                         ["/var/log/btmp", 12],
+                         ["/var/log/utmp", 12],
+                         ["/var/run/utmp", 12],
+                         ["/run/utmp", 12],
+                         ["/proc/diskstats", 13],       # Disk stats
+                         ["/proc/sys/fs/file-nr", 13],
+                         ["/proc/sys/fs/inode-nr", 13],
+                         ["/proc/loadavg", 14],         # CPU stats
                          ["/proc/stat", 14],
                          ["/var/log/message", 18],      # Estudio de Logs
                          ["/var/log/auth.log", 18],
                          ["/var/log/utmp", 18],
-                         ["/var/log/wtmp", 18],
+                         ["/var/log/wtmp", 12],
                          ["/var/log/btmp", 18],
                          ["/var/log/kern.log", 18],
                          ["/var/log/cron.log", 18],
