@@ -308,31 +308,52 @@ def _getiptables(report, precheck):
             if item[1] == "INPUT":
                 ip = None
                 port = None
+                prot = None
+                rule = None
                 for option in range(len(item)):
                     if item[option] == "-s":
                         ip = item[option+1]
                     elif item[option] == "--dport":
                         port = item[option+1]
-                if ip and port:
-                    report.iptables["INPUT"].append("{}:{}".format(ip, port))
-                elif ip:
-                    report.iptables["INPUT"].append(ip)
-                elif port:
-                    report.iptables["INPUT"].append(":{}".format(port))
+                    elif item[option] == "-p":
+                        prot = item[option+1]
+                    elif item[option] == "-j":
+                        rule = item[option+1]
+                content = ""
+                if rule:
+                    content += "{} ".format(rule)
+                if ip:
+                    content += ip
+                if port:
+                    content += ":{}".format(port)
+                if prot:
+                    content += "({})".format(prot)
+                report.iptables["INPUT"].append(content)
+
             elif item[1] == "OUTPUT":
                 ip = None
                 port = None
+                prot = None
+                rule = None
                 for option in range(len(item)):
                     if item[option] == "-d":
                         ip = item[option+1]
                     elif item[option] == "--dport":
                         port = item[option+1]
-                if ip and port:
-                    report.iptables["OUTPUT"].append("{}:{}".format(ip, port))
-                elif ip:
-                    report.iptables["OUTPUT"].append(ip)
-                elif port:
-                    report.iptables["OUTPUT"].append(":{}".format(port))
+                    elif item[option] == "-p":
+                        prot = item[option+1]
+                    elif item[option] == "-j":
+                        rule = item[option+1]
+                content = ""
+                if rule:
+                    content += "{} ".format(rule)
+                if ip:
+                    content += ip
+                if port:
+                    content += ":{}".format(port)
+                if prot:
+                    content += "({})".format(prot)
+                report.iptables["OUTPUT"].append(content)
 
     if report.iptables["INPUT"]:
         detail += "\nINPUT:\n"
