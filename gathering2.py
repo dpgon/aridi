@@ -320,15 +320,16 @@ def _getiptables(report, precheck):
                     elif item[option] == "-j":
                         rule = item[option+1]
                 content = ""
-                if rule:
-                    content += "{} ".format(rule)
-                if ip:
-                    content += ip
-                if port:
-                    content += ":{}".format(port)
-                if prot:
-                    content += "({})".format(prot)
-                report.iptables["INPUT"].append(content)
+                if port or prot or ip:
+                    if rule:
+                        content += "{} ".format(rule)
+                    if ip:
+                        content += ip
+                    if port:
+                        content += ":{}".format(port)
+                    if prot:
+                        content += "({})".format(prot)
+                    report.iptables["INPUT"].append(content)
 
             elif item[1] == "OUTPUT":
                 ip = None
@@ -345,15 +346,16 @@ def _getiptables(report, precheck):
                     elif item[option] == "-j":
                         rule = item[option+1]
                 content = ""
-                if rule:
-                    content += "{} ".format(rule)
-                if ip:
-                    content += ip
-                if port:
-                    content += ":{}".format(port)
-                if prot:
-                    content += "({})".format(prot)
-                report.iptables["OUTPUT"].append(content)
+                if port or prot or ip:
+                    if rule:
+                        content += "{} ".format(rule)
+                    if ip:
+                        content += ip
+                    if port:
+                        content += ":{}".format(port)
+                    if prot:
+                        content += "({})".format(prot)
+                    report.iptables["OUTPUT"].append(content)
 
     if report.iptables["INPUT"]:
         detail += "\nINPUT:\n"
