@@ -3,6 +3,7 @@ from subprocess import check_output, DEVNULL
 from socket import gethostname
 from ipaddress import ip_address
 from utils import detailheader, detailfile, converthex2ip
+import re
 
 
 def _gethostnames(report, precheck):
@@ -325,6 +326,16 @@ def _getiptables(report, precheck):
                         content += "{} ".format(rule)
                     if ip:
                         content += ip
+                        if re.fullmatch("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", ip) \
+                                and rule == "ACCEPT":
+                            report.infrastructure(ip, "IPTables allowed input IP")
+                            if port and prot:
+                                report.infrastructure(ip, "Consumer in port {} ({})".format(port,
+                                                                                            prot))
+                            elif port:
+                                report.infrastructure(ip, "Consumer in port {}".format(port))
+                            elif prot:
+                                report.infrastructure(ip, "Consumer only protocol {}".format(prot))
                     if port:
                         content += ":{}".format(port)
                     if prot:
@@ -351,6 +362,16 @@ def _getiptables(report, precheck):
                         content += "{} ".format(rule)
                     if ip:
                         content += ip
+                        if re.fullmatch("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", ip) \
+                                and rule == "ACCEPT":
+                            report.infrastructure(ip, "IPTables allowed output IP")
+                            if port and prot:
+                                report.infrastructure(ip, "Service in port {} ({})".format(port,
+                                                                                           prot))
+                            elif port:
+                                report.infrastructure(ip, "Service in port {}".format(port))
+                            elif prot:
+                                report.infrastructure(ip, "Service only protocol {}".format(prot))
                     if port:
                         content += ":{}".format(port)
                     if prot:
@@ -363,6 +384,7 @@ def _getiptables(report, precheck):
         for item in report.iptables["INPUT"]:
             detail += " |__{}\n".format(item)
             summ += " |   |__{}\n".format(item)
+
     if report.iptables["FORWARD"]:
         detail += "\nFORWARD:\n"
         summ += " |__FORWARD:\n"
