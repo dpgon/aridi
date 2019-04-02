@@ -331,10 +331,11 @@ def _getiptables(report, precheck):
                             ip = ip_address(ip[:-3])
                             report.infrastructure(ip, "IPTables allowed input IP")
                             if port and prot:
-                                report.infrastructure(ip, "Consumer in port {} ({})".format(port,
-                                                                                            prot))
+                                report.infrastructure(ip, "Consumer from local "
+                                                          "port {} ({})".format(port,prot))
                             elif port:
-                                report.infrastructure(ip, "Consumer in port {}".format(port))
+                                report.infrastructure(ip, "Consumer from local "
+                                                          "port {}".format(port))
                             elif prot:
                                 report.infrastructure(ip, "Consumer only protocol {}".format(prot))
                     if port:
