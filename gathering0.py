@@ -1,5 +1,7 @@
-import os
+import os, re
 from os.path import isfile
+from subprocess import check_output, DEVNULL, CalledProcessError
+from ipaddress import ip_address
 
 
 class Precheck:
@@ -31,6 +33,7 @@ class Precheck:
                          ["/etc/hosts", 7],
                          ["/etc/hosts.allow", 7],
                          ["/etc/hosts.deny", 7],
+                         ["/etc/resolv.conf", 7],
                          ["/etc/sysctl.conf", 8],       # Security information
                          ["/etc/security/access.conf", 8],
                          ["/etc/pam.conf", 8],
@@ -46,12 +49,13 @@ class Precheck:
                          ["/proc/diskstats", 13],       # Disk stats
                          ["/proc/sys/fs/file-nr", 13],
                          ["/proc/sys/fs/inode-nr", 13],
-                         ["/proc/loadavg", 14],         # CPU stats
-                         ["/proc/stat", 14],
+                         ["/proc/loadavg", 15],         # CPU stats
+                         ["/proc/stat", 15],
+                         ["/proc/net/tcp", 16],         # Network connections
+                         ["/proc/net/udp", 16],
                          ["/var/log/message", 18],      # Estudio de Logs
                          ["/var/log/auth.log", 18],
                          ["/var/log/utmp", 18],
-                         ["/var/log/wtmp", 12],
                          ["/var/log/btmp", 18],
                          ["/var/log/kern.log", 18],
                          ["/var/log/cron.log", 18],
@@ -113,6 +117,46 @@ class Precheck:
             return 1
         else:
             return 0
+
+    @staticmethod
+    def nslookup(hostname):
+        if re.fullmatch("\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}", hostname):
+            return ip_address(hostname)
+
+        if Precheck.checkcommand("nslookup"):
+            ip = None
+            try:
+                output = check_output(["nslookup", hostname],
+                                      stderr=DEVNULL).decode("utf-8").splitlines()
+                for line in output:
+                    line = " ".join(line.split()).split(" ")
+                    try:
+                        if line[0].startswith("Address"):
+                            ip = ip_address(line[1])
+                    except:
+                        pass
+            except CalledProcessError as e:
+                ip = None
+            return ip
+
+        if Precheck.checkcommand("dig"):
+            ip = None
+            try:
+                output = check_output(["dig", hostname],
+                                      stderr=DEVNULL).decode("utf-8").splitlines()
+                for line in output:
+                    line = " ".join(line.split()).split(" ")
+                    try:
+                        if line[0].startswith(hostname):
+                            if line[-2] == "A":
+                                ip = ip_address(line[-1])
+                            elif line[-2] == "CNAME":
+                                ip = Precheck.nslookup(line[-1])
+                    except:
+                        pass
+            except CalledProcessError as e:
+                ip = None
+            return ip
 
     def amiroot(self):
         if self.uid == 0:

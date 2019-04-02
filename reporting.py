@@ -1,5 +1,5 @@
 from datetime import datetime
-from style import detailfile, detailheader, detailchapter, reporttitle
+from utils import detailfile, detailheader, detailchapter, reporttitle
 
 
 class Reporting:
@@ -50,11 +50,15 @@ class Reporting:
 
         # Users and groups info
         self.users = {}     # Name: [password type, uid, gid, long name, home, shell]
+        self.pidusers = {}  # PID: Name
         self.groups = {}
 
         # Interfaces and route info
         self.ifaces = None
         self.routes = []
+        self.iptables = {}
+        self.dns = []
+        self.ntp = []
 
         # Services information
         self.runlevel = 0

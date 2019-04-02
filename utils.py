@@ -24,3 +24,18 @@ def detailfile(text):
     line = "\n{}\n".format("-" * 80)
     output = "\n{1:^80}{0}".format(line, text)
     return output
+
+
+def converthex2ip(hextext):
+    hextext = "{}.{}.{}.{}".format(int(hextext[6:8], 16), int(hextext[4:6], 16),
+                                   int(hextext[2:4], 16), int(hextext[0:2], 16))
+    return hextext
+
+
+def converthex2ipport(hextext):
+    ip = "{}.{}.{}.{}".format(int(hextext[6:8], 16), int(hextext[4:6], 16),
+                              int(hextext[2:4], 16), int(hextext[0:2], 16))
+    port = "{}".format(int(hextext[9:], 16))
+
+    return ip, port
+

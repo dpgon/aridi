@@ -2,7 +2,7 @@ from os import uname, walk, stat
 from platform import libc_ver
 from traceback import format_exc
 from subprocess import check_output, DEVNULL, CalledProcessError
-from style import detailheader, detailfile
+from utils import detailheader, detailfile
 
 
 def _getusb():

@@ -2,7 +2,7 @@ from traceback import format_exc
 from subprocess import check_output, DEVNULL
 from socket import gethostname
 from ipaddress import ip_address
-from style import detailheader, detailfile
+from utils import detailheader, detailfile, converthex2ip
 
 
 def _gethostnames(report, precheck):
@@ -70,6 +70,7 @@ def _getusers(report, precheck):
         for item in output:
             parts = item.strip().split(":")
             report.users[parts[0]] = ["?", parts[2], parts[3], parts[4], parts[5], parts[6], []]
+            report.pidusers[int(parts[2])] = parts[0]
 
     # Check groups
     if precheck.shouldread('/etc/group'):
@@ -171,12 +172,6 @@ def _getusers(report, precheck):
     return summ, detail
 
 
-def _converthex2ip(hextext):
-    hextext = "{}.{}.{}.{}".format(int(hextext[6:8], 16), int(hextext[4:6], 16),
-                                   int(hextext[2:4], 16), int(hextext[0:2]))
-    return hextext
-
-
 def _getnetinfo(report, precheck):
     detail = detailheader("Network information")
 
@@ -235,14 +230,128 @@ def _getnetinfo(report, precheck):
         for item in info[1:]:
             item = " ".join(item.split()).split(" ")
             iface = item[0]
-            destination = _converthex2ip(item[1])
-            gateway = _converthex2ip(item[2])
+            destination = converthex2ip(item[1])
+            gateway = converthex2ip(item[2])
             mask = str(bin(int(item[7], 16)))[2:].count("1")
             detail += "Destination: {:>15}/{:0<2} - Gateway: {:15} vía {}\n".format(destination,
                                                                                     mask,
                                                                                     gateway,
                                                                                     iface)
             report.routes.append([destination, mask, gateway, iface])
+
+        detail += detailfile("Other information")
+
+        # Get DNS
+        if precheck.shouldread("/etc/resolv.conf"):
+            detail += "DNS:\n"
+
+            with open("/etc/resolv.conf") as f:
+                info = f.readlines()
+
+            for item in info:
+                item = " ".join(item.split()).split(" ")
+                if item[0].lower() == "nameserver":
+                    detail += " |__{}\n".format(item[1])
+                    if len(report.dns) > 0:
+                        summ += " |   |__{}\n".format(item[1])
+                    else:
+                        summ += " |__DNS:\n |   |__{}\n".format(item[1])
+                    report.dns.append(item[1])
+                    report.infrastructure(precheck.nslookup(item[1]), "DNS Server")
+            summ += " o\n"
+
+        # Get NTP
+        if precheck.shouldread("/etc/ntp.conf") or precheck.shouldread("/etc/xntp.conf"):
+            detail += "NTP:\n"
+
+            if precheck.shouldread("/etc/ntp.conf"):
+                with open("/etc/ntp.conf") as f:
+                    info = f.readlines()
+            else:
+                with open("/etc/xntp.conf") as f:
+                    info = f.readlines()
+
+            for item in info:
+                item = " ".join(item.split()).split(" ")
+                if item[0].lower() == "server":
+                    detail += " |__SERVER {}\n".format(item[1])
+                    if len(report.dns) > 0:
+                        summ += " |   |__{}\n".format(item[1])
+                    else:
+                        summ += " |__NTP:\n |   |__{}\n".format(item[1])
+                    report.ntp.append(item[1])
+                    report.infrastructure(precheck.nslookup(item[1]), "NTP Server")
+                if item[0].lower() == "restrict":
+                    detail += " |__CLIENT {}\n".format(item[1])
+                    report.infrastructure(precheck.nslookup(item[1]), "NTP Client")
+            summ += " o\n"
+
+    return summ, detail
+
+
+def _getiptables(report, precheck):
+    # Root is necesary
+    if not precheck.root or not precheck.checkcommand("iptables"):
+        return "", ""
+
+    detail = detailheader("IPTables information")
+    summ = "\nIPTables information\n"
+
+    output = check_output(["iptables", "-S"]).decode("utf-8").splitlines()
+
+    for item in output:
+        if item.startswith("-P"):
+            item = " ".join(item.split()).split(" ")
+            report.iptables[item[1]] = ["DEFAULT {}".format(item[2])]
+        elif item.startswith("-A") and "ACCEPT" in item:
+            item = " ".join(item.split()).split(" ")
+            if item[1] == "INPUT":
+                ip = None
+                port = None
+                for option in range(item):
+                    if item[option] == "-s":
+                        ip = item[option+1]
+                    elif item[option] == "--dport":
+                        port = item[option+1]
+                if ip and port:
+                    report.iptables["INPUT"].append("{}:{}".format(ip, port))
+                elif ip:
+                    report.iptables["INPUT"].append(ip)
+                elif port:
+                    report.iptables["INPUT"].append(":{}".format(port))
+            elif item[1] == "OUTPUT":
+                ip = None
+                port = None
+                for option in range(item):
+                    if item[option] == "-d":
+                        ip = item[option+1]
+                    elif item[option] == "--dport":
+                        port = item[option+1]
+                if ip and port:
+                    report.iptables["OUTPUT"].append("{}:{}".format(ip, port))
+                elif ip:
+                    report.iptables["OUTPUT"].append(ip)
+                elif port:
+                    report.iptables["OUTPUT"].append(":{}".format(port))
+
+    if report.iptables["INPUT"]:
+        detail += "\nINPUT:\n"
+        summ += " |__INPUT:\n"
+        for item in report.iptables["INPUT"]:
+            detail += " |__{}\n".format(item)
+            summ += " |   |__{}\n".format(item)
+    if report.iptables["FORWARD"]:
+        detail += "\nFORWARD:\n"
+        summ += " |__FORWARD:\n"
+        for item in report.iptables["FORWARD"]:
+            detail += " |__{}\n".format(item)
+            summ += " |   |__{}\n".format(item)
+    if report.iptables["OUTPUT"]:
+        detail += "\nOUTPUT:\n"
+        summ += " |__OUTPUT:\n"
+        for item in report.iptables["OUTPUT"]:
+            detail += " |__{}\n".format(item)
+            summ += "     |__{}\n".format(item)
 
     return summ, detail
 
@@ -383,6 +492,18 @@ def getspecificinfo(report, precheck):
         report.log("DEBUG", str(e))
         report.log("DEBUG", format_exc())
 
+    # Get services information
+    try:
+        report.log("DEBUG", "Services information gathering started")
+        summ, detail = _getrunningservices(precheck, report)
+        report.summarized(2, summ)
+        report.detailed(2, detail)
+        report.log("DEBUG", "Services information completed")
+    except Exception as e:
+        report.log("ERROR", "Can't obtain Services information")
+        report.log("DEBUG", str(e))
+        report.log("DEBUG", format_exc())
+
     # Get network information
     try:
         report.log("DEBUG", "Network information gathering started")
@@ -395,14 +516,14 @@ def getspecificinfo(report, precheck):
         report.log("DEBUG", str(e))
         report.log("DEBUG", format_exc())
 
-    # Get services information
+    # Get iptables information
     try:
-        report.log("DEBUG", "Services information gathering started")
-        summ, detail = _getrunningservices(precheck, report)
+        report.log("DEBUG", "IPTables information gathering started")
+        summ, detail = _getiptables(report, precheck)
         report.summarized(2, summ)
         report.detailed(2, detail)
-        report.log("DEBUG", "Services information completed")
+        report.log("DEBUG", "IPTables information completed")
     except Exception as e:
-        report.log("ERROR", "Can't obtain Services information")
+        report.log("ERROR", "Can't obtain IPTables information")
         report.log("DEBUG", str(e))
         report.log("DEBUG", format_exc())

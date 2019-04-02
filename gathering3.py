@@ -3,17 +3,21 @@ from datetime import timedelta, datetime
 from time import sleep
 from gathering1 import _getdisks
 from gathering2 import _getusers
-from os import walk, listdir, sysconf_names, sysconf
-from style import detailheader, detailfile
-from subprocess import check_output, DEVNULL, CalledProcessError
+from os import walk, listdir, sysconf_names, sysconf, readlink
+from utils import detailheader, detailfile, converthex2ipport
+from subprocess import check_output, DEVNULL
 from ipaddress import ip_address
-
 
 # Process information
 # pid : [common name, status, effective owner, owner name,
 #        memory used, nice, total CPU usage and cli name]
 process = {}
 uptime = 0
+
+tcpstate = {1: "ESTABLISHED", 2: "SYN SENT", 3: "SYN RECV", 4: "FIN WAIT1",
+            5: "FIN WAIT2", 6: "TIME WAIT", 7: "CLOSE", 8: "CLOSE_WAIT",
+            9: "LAST ACK", 10: "LISTEN", 11: "CLOSING", 12: "NEW SYN RECV",
+            13: "MAX STATES"}
 
 
 def _getprocessdata(report):
@@ -114,11 +118,10 @@ def _getprocess():
                 zombie += 1
                 zombiedata.append([item, process[item]])
         except:
-            pass        # Process deleted
+            pass  # Process deleted
 
     topcpu.sort(reverse=True)
     topmem.sort(reverse=True)
-
 
     summ += " |__{} total process, {} running, {} sleeping, " \
             "{} idle and {} zombie\n".format(total, running, sleeping, idle, zombie)
@@ -130,8 +133,6 @@ def _getprocess():
     detail += " |__Top 10 CPU process:\n"
     for counter in range(10):
         if len(process[topcpu[counter][1]][7]) > 59:
-            # TODO
-            # Filter aridi process from top5
             if counter < 5:
                 summ += " |       |__{:_>5}% {}...\n".format(topcpu[counter][0],
                                                              process[topcpu[counter][1]][7][:56])
@@ -167,21 +168,21 @@ def _getprocess():
         detail += "Running processes\n"
         for item in runningdata:
             detail += " |__{:5} {:12} {:3} {:7} {:5}% {}\n".format(item[0], item[1][3][:12],
-                                                                 item[1][5], item[1][4],
-                                                                 item[1][6], item[1][7][:35])
+                                                                   item[1][5], item[1][4],
+                                                                   item[1][6], item[1][7][:35])
     if zombie > 0:
         detail += "\nZombie processes\n"
         for item in zombiedata:
             detail += " |__{:5} {:12} {:3} {:7} {:5}% {}\n".format(item[0], item[1][3][:12],
-                                                                 item[1][5], item[1][4],
-                                                                 item[1][6], item[1][0][:35])
+                                                                   item[1][5], item[1][4],
+                                                                   item[1][6], item[1][0][:35])
 
     if sleeping > 0:
         detail += "\nSleeping processes\n"
         for item in sleepingdata:
             detail += " |__{:5} {:12} {:3} {:7} {:5}% {}\n".format(item[0], item[1][3][:12],
-                                                                 item[1][5], item[1][4],
-                                                                 item[1][6], item[1][7][:35])
+                                                                   item[1][5], item[1][4],
+                                                                   item[1][6], item[1][7][:35])
 
     return summ, detail
 
@@ -202,13 +203,14 @@ def _getuserdata(precheck, report):
 
         # Check where is the utmp file
         if precheck.shouldread("/run/utmp"):
-            output = check_output(["utmpdump", "/run/utmp"]).decode("utf-8").splitlines()[1:]
-            # TODO
-            # Saca por pantalla basura, retirarla a /dev/null
+            output = check_output(["utmpdump", "/run/utmp"],
+                                  stderr=DEVNULL).decode("utf-8").splitlines()[1:]
         elif precheck.shouldread("/var/run/utmp"):
-            output = check_output(["utmpdump", "/var/run/utmp"]).decode("utf-8").splitlines()[1:]
+            output = check_output(["utmpdump", "/var/run/utmp"],
+                                  stderr=DEVNULL).decode("utf-8").splitlines()[1:]
         elif precheck.shouldread("/var/log/utmp"):
-            output = check_output(["utmpdump", "/var/log/utmp"]).decode("utf-8").splitlines()[1:]
+            output = check_output(["utmpdump", "/var/log/utmp"],
+                                  stderr=DEVNULL).decode("utf-8").splitlines()[1:]
 
         if output:
             logged = 0
@@ -216,7 +218,7 @@ def _getuserdata(precheck, report):
             for item in output:
                 item = item.split("[")
                 item = [x.strip()[:-1].strip() for x in item][1:]
-                uttype = int(item[0])        # 5 INIT, 6 LOGIN, 7 USER and 8 DEAD
+                uttype = int(item[0])  # 5 INIT, 6 LOGIN, 7 USER and 8 DEAD
                 pid = int(item[1])
                 user = item[3]
                 term = item[4]
@@ -224,12 +226,12 @@ def _getuserdata(precheck, report):
                 date = item[7]
 
                 # Parse common kinds of datetime formats
-                if re.findall("\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}", date):
-                    clean = re.findall("\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}", date)[0]
-                    datet = datetime.strptime(clean, "%Y-%m-%dT%H:%M:%S")
-                elif re.findall("\D{3} \d{2} \d{2}:\d{2}:\d{2} \d{4}", date):
-                    clean = re.findall("\D{3} \d{2} \d{2}:\d{2}:\d{2} \d{4}", date)[0]
-                    datet = datetime.strptime(clean, "%b %d %H:%M:%S %Y")
+                # if re.findall("\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}", date):
+                #    clean = re.findall("\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}", date)[0]
+                #    datet = datetime.strptime(clean, "%Y-%m-%dT%H:%M:%S")
+                # elif re.findall("\D{3} \d{2} \d{2}:\d{2}:\d{2} \d{4}", date):
+                #    clean = re.findall("\D{3} \d{2} \d{2}:\d{2}:\d{2} \d{4}", date)[0]
+                #    datet = datetime.strptime(clean, "%b %d %H:%M:%S %Y")
                 if uttype == 6:
                     detail += " |__({}) - Init with process {}\n".format(date, process[pid][0])
                 if uttype == 7:
@@ -240,7 +242,8 @@ def _getuserdata(precheck, report):
             summ += " |__{} users currently logged\n".format(logged)
 
         if precheck.shouldread("/var/log/wtmp"):
-            output = check_output(["utmpdump", "/var/log/wtmp"]).decode("utf-8").splitlines()[1:]
+            output = check_output(["utmpdump", "/var/log/wtmp"],
+                                  stderr=DEVNULL).decode("utf-8").splitlines()[1:]
             lastusers = []
             originip = []
             monthcounter = 0
@@ -300,7 +303,8 @@ def _getuserdata(precheck, report):
 
         if precheck.shouldread("/var/log/btmp"):
             detail += "\nFailed logins:\n"
-            output = check_output(["utmpdump", "/var/log/btmp"]).decode("utf-8").splitlines()
+            output = check_output(["utmpdump", "/var/log/btmp"],
+                                  stderr=DEVNULL).decode("utf-8").splitlines()
             originip = []
             failedcounter = 0
             monthcounter = 0
@@ -352,8 +356,8 @@ def _getuserdata(precheck, report):
 
             if knownformat:
                 detail += " |__Failed logins last day:{}, " \
-                        "last week: {}, last month: {}\n".format(daycounter, weekcounter,
-                                                                 monthcounter)
+                          "last week: {}, last month: {}\n".format(daycounter, weekcounter,
+                                                                   monthcounter)
 
     return summ, detail
 
@@ -486,7 +490,7 @@ def _getcpu(precheck):
         irq = int(info[6])
         softirq = int(info[7])
 
-        usertime = usermode+nicemode
+        usertime = usermode + nicemode
         irqtime = irq + softirq
         totaltime = usertime + kernelmode + idle + iowait + irqtime
         peruser = round(100 * usertime / totaltime, 2)
@@ -609,6 +613,129 @@ def _getram(precheck):
         return summ, detail
 
 
+def _getnetdata(precheck, report):
+    # TODO
+    # La infraestructura tiene que tomarla!!!
+    # Vulnerabilidades, cuantos servicios se ejecutan como root!
+    detail = detailheader("Network live information")
+    summ = "\nNetwork connections:\n"
+    detail += "\nTCP Connections:\n"
+
+    tcpconnections = []
+    udpconnections = []
+
+    if precheck.shouldread("/proc/net/tcp"):
+        with open("/proc/net/tcp") as f:
+            info = f.readlines()
+
+        for item in info[1:]:
+            item = item.strip().split()
+            localip, localport = converthex2ipport(item[1])
+            remoteip, remoteport = converthex2ipport(item[2])
+            constate = tcpstate[int(item[3], 16)]
+            uid = int(item[7])
+            inode = int(item[9])
+            tcpconnections.append([localip, localport, remoteip, remoteport,
+                                constate, report.pidusers[uid], inode])
+
+    if precheck.shouldread("/proc/net/udp"):
+        with open("/proc/net/udp") as f:
+            info = f.readlines()
+
+        for item in info[1:]:
+            item = item.strip().split()
+            localip, localport = converthex2ipport(item[1])
+            remoteip, remoteport = converthex2ipport(item[2])
+            constate = tcpstate[int(item[3], 16)]
+            uid = int(item[7])
+            inode = int(item[9])
+            udpconnections.append([localip, localport, remoteip, remoteport,
+                                constate, report.pidusers[uid], inode])
+
+    for item in listdir("/proc"):
+        try:
+            if re.findall(r'\d+', item):
+                for directory in listdir("/proc/{}/fd".format(item)):
+                    try:
+                        for counter, data in enumerate(tcpconnections):
+                            name = "[{}]".format(data[6])
+                            if name in readlink("/proc/{}/fd/{}".format(item, directory)):
+                                tcpconnections[counter].append(process[int(item)][0])
+                                tcpconnections[counter].append(process[int(item)][7])
+                    except:
+                        pass
+                    try:
+                        for counter, data in enumerate(udpconnections):
+                            name = "[{}]".format(data[6])
+                            if name in readlink("/proc/{}/fd/{}".format(item, directory)):
+                                udpconnections[counter].append(process[int(item)][0])
+                                udpconnections[counter].append(process[int(item)][7])
+                    except:
+                        pass
+        except:
+            pass
+
+    tcplisten = 0
+    tcpestablished = 0
+    tcpwait = 0
+    listenports = []
+
+    for item in tcpconnections:
+        if item[4] == tcpstate[10]:
+            tcplisten += 1
+            listenports.append(item[1])
+        elif item[4] == tcpstate[1]:
+            tcpestablished += 1
+        elif item[4] == tcpstate[8]:
+            tcpwait += 1
+        if len(item) > 7:
+            detail += " |__{:<21} - {:<21} {:<12} {:<10} {:<12}\n".format(item[0] + ":" + item[1],
+                                                                          item[2] + ":" + item[3],
+                                                                          item[4], item[5][:10],
+                                                                          item[7])
+            detail += " |     |__{}\n".format(item[8][:70])
+        else:
+            detail += " |__{:<21} - {:<21} {:<12} {:<10}\n".format(item[0] + ":" + item[1],
+                                                                   item[2] + ":" + item[3],
+                                                                   item[4], item[5])
+
+    summ += " |__{} TCP listen ports {}\n".format(tcplisten, listenports)
+    summ += " |__{} TCP established connections\n".format(tcpestablished)
+    summ += " |__{} TCP sockets in close waiting\n".format(tcpwait)
+
+    udplisten = 0
+    udpestablished = 0
+    udpwait = 0
+    listenports = []
+
+    detail += " O\n\nUDP Connections:\n"
+    for item in udpconnections:
+        if item[4] == tcpstate[10]:
+            udplisten += 1
+            listenports.append(item[1])
+        elif item[4] == tcpstate[1]:
+            udpestablished += 1
+        elif item[4] == tcpstate[8]:
+            udpwait += 1
+        if len(item) > 7:
+            detail += " |__{:<21} - {:<21} {:<12} {:<10} {:<12}\n".format(item[0] + ":" + item[1],
+                                                                          item[2] + ":" + item[3],
+                                                                          item[4], item[5][:10],
+                                                                          item[7])
+            detail += " |     |__{}\n".format(item[8][:70])
+        else:
+            detail += " |__{:<21} - {:<21} {:<12} {:<10}\n".format(item[0] + ":" + item[1],
+                                                                   item[2] + ":" + item[3],
+                                                                   item[4], item[5])
+    detail += " O\n"
+
+    summ += " |__{} UDP listen ports {}\n".format(udplisten, listenports)
+    summ += " |__{} UDP established connections\n".format(udpestablished)
+    summ += " |__{} UDP sockets in close waiting\n".format(udpwait)
+
+    return summ, detail
+
+
 def getvolatileinfo(report, precheck):
     # Get Processes information
     try:
@@ -622,18 +749,6 @@ def getvolatileinfo(report, precheck):
         report.log("DEBUG", "Processes information completed")
     except Exception as e:
         report.log("ERROR", "Can't obtain processes information")
-        report.log("DEBUG", str(e))
-        report.log("DEBUG", traceback.format_exc())
-
-    # Get disk live reports
-    try:
-        report.log("DEBUG", "Disk live information gathering started")
-        summ, detail = _getdisk(precheck, report)
-        report.summarized(3, summ)
-        report.detailed(3, detail)
-        report.log("DEBUG", "Disk live information completed")
-    except Exception as e:
-        report.log("ERROR", "Can't obtain Disk live information")
         report.log("DEBUG", str(e))
         report.log("DEBUG", traceback.format_exc())
 
@@ -661,7 +776,19 @@ def getvolatileinfo(report, precheck):
         report.log("DEBUG", str(e))
         report.log("DEBUG", traceback.format_exc())
 
-    # Get Users live reports
+    # Get disk live reports
+    try:
+        report.log("DEBUG", "Disk live information gathering started")
+        summ, detail = _getdisk(precheck, report)
+        report.summarized(3, summ)
+        report.detailed(3, detail)
+        report.log("DEBUG", "Disk live information completed")
+    except Exception as e:
+        report.log("ERROR", "Can't obtain Disk live information")
+        report.log("DEBUG", str(e))
+        report.log("DEBUG", traceback.format_exc())
+
+    # Get users live reports
     try:
         report.log("DEBUG", "User live information gathering started")
         summ, detail = _getuserdata(precheck, report)
@@ -670,5 +797,17 @@ def getvolatileinfo(report, precheck):
         report.log("DEBUG", "User live information completed")
     except Exception as e:
         report.log("ERROR", "Can't obtain User live information")
+        report.log("DEBUG", str(e))
+        report.log("DEBUG", traceback.format_exc())
+
+    # Get network live reports
+    try:
+        report.log("DEBUG", "Nnetwork live information gathering started")
+        summ, detail = _getnetdata(precheck, report)
+        report.summarized(3, summ)
+        report.detailed(3, detail)
+        report.log("DEBUG", "Network live information completed")
+    except Exception as e:
+        report.log("ERROR", "Can't obtain network live information")
         report.log("DEBUG", str(e))
         report.log("DEBUG", traceback.format_exc())
