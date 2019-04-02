@@ -308,7 +308,7 @@ def _getiptables(report, precheck):
             if item[1] == "INPUT":
                 ip = None
                 port = None
-                for option in range(item):
+                for option in range(len(item)):
                     if item[option] == "-s":
                         ip = item[option+1]
                     elif item[option] == "--dport":
@@ -322,7 +322,7 @@ def _getiptables(report, precheck):
             elif item[1] == "OUTPUT":
                 ip = None
                 port = None
-                for option in range(item):
+                for option in range(len(item)):
                     if item[option] == "-d":
                         ip = item[option+1]
                     elif item[option] == "--dport":
@@ -408,8 +408,8 @@ def _getrunningservices(precheck, report):
 
     elif precheck.checkcommand("chkconfig"):
         output = check_output(["chkconfig", "--list"]).decode("utf-8").splitlines()
-        detail += detailfile("SysVinit services:")
-        summ += "\nsystemd enabled services:\n"
+        detail += detailfile("SysV init services:")
+        summ += "\nSysV init enabled services:\n"
         if 0 < report.runlevel < 6:
             checkon = "{}:on".format(report.runlevel)
             checkoff = "{}:off".format(report.runlevel)
