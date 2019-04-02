@@ -326,8 +326,9 @@ def _getiptables(report, precheck):
                         content += "{} ".format(rule)
                     if ip:
                         content += ip
-                        if re.fullmatch("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", ip) \
+                        if re.fullmatch("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/32", ip) \
                                 and rule == "ACCEPT":
+                            ip = ip_address(ip[:-3])
                             report.infrastructure(ip, "IPTables allowed input IP")
                             if port and prot:
                                 report.infrastructure(ip, "Consumer in port {} ({})".format(port,
@@ -362,8 +363,9 @@ def _getiptables(report, precheck):
                         content += "{} ".format(rule)
                     if ip:
                         content += ip
-                        if re.fullmatch("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", ip) \
+                        if re.fullmatch("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/32", ip) \
                                 and rule == "ACCEPT":
+                            ip = ip_address(ip[:-3])
                             report.infrastructure(ip, "IPTables allowed output IP")
                             if port and prot:
                                 report.infrastructure(ip, "Service in port {} ({})".format(port,
