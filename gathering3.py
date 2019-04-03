@@ -7,6 +7,7 @@ from os import walk, listdir, sysconf_names, sysconf, readlink
 from utils import detailheader, detailfile, converthex2ipport
 from subprocess import check_output, DEVNULL
 from ipaddress import ip_address
+from locale import setlocale, LC_TIME
 
 # Process information
 # pid : [common name, status, effective owner, owner name,
@@ -614,9 +615,6 @@ def _getram(precheck):
 
 
 def _getnetdata(precheck, report):
-    # TODO
-    # La infraestructura tiene que tomarla!!!
-    # Vulnerabilidades, cuantos servicios se ejecutan como root!
     detail = detailheader("Network live information")
     summ = "\nNetwork connections:\n"
     detail += "\nTCP Connections:\n"
@@ -680,14 +678,30 @@ def _getnetdata(precheck, report):
     tcpwait = 0
     listenports = []
 
+    localmachine = []
+    for item in report.ifaces:
+        if len(report.ifaces[item]) > 1:
+            localmachine.append(report.ifaces[item][1].split("/")[0])
+
     for item in tcpconnections:
         if item[4] == tcpstate[10]:
             tcplisten += 1
             listenports.append(item[1])
+            if not item[0] == "0.0.0.0":
+                report.infrastructure(ip_address(item[0]),
+                                      "Port TCP {} with service {}".format(item[1], item[7]))
+            else:
+                for address in localmachine:
+                    report.infrastructure(ip_address(address),
+                                          "Port TCP {} with service {}".format(item[1], item[7]))
         elif item[4] == tcpstate[1]:
             tcpestablished += 1
+            report.infrastructure(ip_address(item[2]),
+                                  "Connected at port {} from local ip {}".format(item[3], item[0]))
         elif item[4] == tcpstate[8]:
             tcpwait += 1
+            report.infrastructure(ip_address(item[2]),
+                                  "Connected at port {} from local ip {}".format(item[3], item[0]))
         if len(item) > 7:
             detail += " |__{:<21} - {:<21} {:<12} {:<10} {:<12}\n".format(item[0] + ":" + item[1],
                                                                           item[2] + ":" + item[3],
@@ -737,6 +751,9 @@ def _getnetdata(precheck, report):
 
 
 def getvolatileinfo(report, precheck):
+    # Get locale for parse time
+    setlocale(LC_TIME, '')
+
     # Get Processes information
     try:
         report.log("DEBUG", "Processes information gathering started")

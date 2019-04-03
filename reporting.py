@@ -214,17 +214,20 @@ class Reporting:
         for item in keys:
             if "Local machine" in self.infrastructure_data[item]:
                 text += " |__{}\n".format(str(item))
-                for name in self.infrastructure_data[item]:
+                for name in sorted(self.infrastructure_data[item]):
                     if not "Local machine" in name:
                         text += " |       |__{}\n".format(name)
                 del self.infrastructure_data[item]
+        text += " o\n"
 
         keys = list(self.infrastructure_data.keys())
-        text += "\nRemote IP Address:\n"
-        for item in keys:
-            text += " |__{}\n".format(str(item))
-            for name in self.infrastructure_data[item]:
-                text += " |       |__{}\n".format(name)
+        if len(keys) > 0:
+            text += "\nRemote IP Address:\n"
+            for item in keys:
+                text += " |__{}\n".format(str(item))
+                for name in sorted(self.infrastructure_data[item]):
+                    text += " |       |__{}\n".format(name)
+            text += " o\n"
 
         return text
 

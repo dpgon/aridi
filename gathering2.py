@@ -259,6 +259,8 @@ def _getnetinfo(report, precheck):
                         summ += " |__DNS:\n |   |__{}\n".format(item[1])
                     report.dns.append(item[1])
                     report.infrastructure(precheck.nslookup(item[1]), "DNS Server")
+                    if item[1] == "127.0.1.1":
+                        report.infrastructure(ip_address(item[1]), "Local machine")
             summ += " o\n"
 
         # Get NTP
