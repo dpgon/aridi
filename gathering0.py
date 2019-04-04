@@ -120,7 +120,7 @@ class Precheck:
 
     @staticmethod
     def nslookup(hostname):
-        if re.fullmatch("\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}", hostname):
+        if re.fullmatch("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", hostname):
             return ip_address(hostname)
 
         if Precheck.checkcommand("nslookup"):
