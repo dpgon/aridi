@@ -131,7 +131,8 @@ class Precheck:
                 for line in output:
                     line = " ".join(line.split()).split(" ")
                     try:
-                        if line[0].startswith("Address"):
+                        if line[0].startswith("Address") and \
+                                re.fullmatch("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", line[1]):
                             ip = ip_address(line[1])
                     except:
                         pass
@@ -148,7 +149,8 @@ class Precheck:
                     line = " ".join(line.split()).split(" ")
                     try:
                         if line[0].startswith(hostname):
-                            if line[-2] == "A":
+                            if line[-2] == "A" and \
+                                    re.fullmatch("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", line[-1]):
                                 ip = ip_address(line[-1])
                             elif line[-2] == "CNAME":
                                 ip = Precheck.nslookup(line[-1])
