@@ -81,7 +81,7 @@ def main():
             args.volatile = True
             args.carving = True
         elif args.specific:
-            args.general = False    # Change to True after finish
+            args.general = True
         elif args.volatile == False and args.carving == False:
             # Default option
             args.general = True
@@ -92,6 +92,7 @@ def main():
 
     # Precheck phase
     try:
+        print("Starting aridi...")
         report.log("INFO", "aridi started")
         report.log("DEBUG", "starting precheck...")
         precheck = gathering0.Precheck()
@@ -114,7 +115,8 @@ def main():
             print("aridy.py has been invoked with restricted privileges. Some information "
                   "can't be gathered. If you want better results, execute aridy.py with "
                   "root privileges. Do you want to continue anyway? (y/N) ", end="")
-            if 'y' not in str(input()).lower().lstrip()[0]:
+            ans = str(input()).lower().lstrip()
+            if len(ans) == 0 or 'y' not in ans[0]:
                 finish(report, 0)
 
         report.log("DEBUG", "Precheck finished")
@@ -132,6 +134,7 @@ def main():
         except Exception as e:
             report.log("ERROR", "General information gathering failed")
             report.log("DEBUG", str(e))
+            report.log("DEBUG", traceback.format_exc())
 
     if args.specific:
         try:
@@ -141,6 +144,7 @@ def main():
         except Exception as e:
             report.log("ERROR", "Specific information gathering failed")
             report.log("DEBUG", str(e))
+            report.log("DEBUG", traceback.format_exc())
 
     if args.volatile:
         try:
@@ -150,6 +154,7 @@ def main():
         except Exception as e:
             report.log("ERROR", "Volatile information gathering failed")
             report.log("DEBUG", str(e))
+            report.log("DEBUG", traceback.format_exc())
 
     if args.carving:
         try:
@@ -159,6 +164,7 @@ def main():
         except Exception as e:
             report.log("ERROR", "Other information gathering failed")
             report.log("DEBUG", str(e))
+            report.log("DEBUG", traceback.format_exc())
 
     # Do the scan
     if args.scan:
@@ -169,6 +175,7 @@ def main():
         except Exception as e:
             report.log("ERROR", "Scan stage failed")
             report.log("DEBUG", str(e))
+            report.log("DEBUG", traceback.format_exc())
 
     # Output file or console. It depends of -o* options
     try:

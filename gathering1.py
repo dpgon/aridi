@@ -288,12 +288,6 @@ def _checkpermissions(precheck, report):
     suidperm = []
     guidperm = []
 
-    # Check incorrect permissions
-    incorrect = precheck.dangerousperm()
-
-    for item in incorrect:
-        report.vulns("MEDIUM", item)
-
     # Check directories with write permissions and sticky bit
     for root, dirs, files in walk("/"):
         if files:
@@ -461,6 +455,39 @@ def getgeneralinfo(report, precheck):
         report.log("DEBUG", str(e))
         report.log("DEBUG", format_exc())
 
+    # Get software reports
+    try:
+        report.log("DEBUG", "Software packages gathering started")
+
+        summ = "\nPackages manager not found\n"
+        if precheck.checkcommand("yum"):
+            precheck.packages = _getyum()
+            summ = "\nTotal RPM packages (yum):\n |__{}\n".format(len(precheck.packages))
+        elif precheck.checkcommand("dpkg-query"):
+            precheck.packages = _getdpkg()
+            summ = "\nTotal DEB packages (dpkg):\n |__{}\n".format(len(precheck.packages))
+        elif precheck.checkcommand("zypper"):
+            precheck.packages = _getzypper()
+            summ = "\nTotal RPM packages (zypper):\n |__{}\n".format(len(precheck.packages))
+        elif precheck.checkcommand("apt"):
+            precheck.packages = _getapt()
+            summ = "\nTotal DEB packages (apt):\n |__{}\n".format(len(precheck.packages))
+        elif precheck.checkcommand("pacman"):
+            precheck.packages = _getpacman()
+            summ = "\nTotal pkg.tar.xz packages (pacman):\n |__{}\n".format(len(precheck.packages))
+
+        report.summarized(1, summ)
+        report.detailed(1, detailheader("Packages information"))
+        for item in precheck.packages:
+            report.detailed(1, "{:32s} - {}\n".format(item[0], item[1]))
+
+        report.log("DEBUG", "Software packages information completed")
+
+    except Exception as e:
+        report.log("ERROR", "Can't obtain software packages information")
+        report.log("DEBUG", str(e))
+        report.log("DEBUG", format_exc())
+
     # Get filesystem reports
     try:
         report.log("DEBUG", "disk information gathering started")
@@ -503,6 +530,12 @@ def getgeneralinfo(report, precheck):
 
     try:
         report.log("DEBUG", "File and directory permission information gathering started")
+        print("aridy.py could search the filesystem in order to locate directories with no "
+              "StickyBit and all users write permission, or files with SUID or GUID, but "
+              "it could be very slow. Do you want to proceed? (y/N) ", end="")
+        ans = str(input()).lower().lstrip()
+        if len(ans) == 0 or 'y' not in ans[0]:
+            return
         stickydirs, alluserwrite, readerrors, suidperm, guidperm = _checkpermissions(precheck,
                                                                                      report)
         report.stickydirs = stickydirs
@@ -546,60 +579,24 @@ def getgeneralinfo(report, precheck):
                 f.write("'{}' file has write permission for all user\n".format(item))
             for item in readerrors:
                 f.write("{}\n".format(item))
+            for item in suidperm:
+                if item[1]:
+                    f.write("'{}' file has SUID and it's owned by the root user".format(item[0]))
+                else:
+                    f.write("'{}' file has SUID. Is it necessary?".format(item[0]))
+            for item in guidperm:
+                if item[1]:
+                    f.write("'{}' file has GUID and it's owned by the root group".format(item[0]))
+                else:
+                    f.write("'{}' file has GUID. Is it necessary?".format(item[0]))
         except Exception as e:
             report.log("ERROR", "Can't write aridy.badfiles")
             report.log("DEBUG", str(e))
             report.log("DEBUG", format_exc())
         finally:
             f.close()
-
-        for item in suidperm:
-            if item[1]:
-                report.vulns("MEDIUM", "'{}' file has SUID and "
-                                       "it's owned by the root user".format(item[0]))
-            else:
-                report.vulns("LOW", "'{}' file has SUID. Is it necessary?".format(item[0]))
-        for item in guidperm:
-            if item[1]:
-                report.vulns("MEDIUM", "'{}' file has GUID and "
-                                       "it's owned by the root group".format(item[0]))
-            else:
-                report.vulns("LOW", "'{}' file has GUID. Is it necessary?".format(item[0]))
         report.log("DEBUG", "File and directory permission information completed")
     except Exception as e:
         report.log("ERROR", "Can't obtain file and directory permission information")
-        report.log("DEBUG", str(e))
-        report.log("DEBUG", format_exc())
-    
-    # Get software reports
-    try:
-        report.log("DEBUG", "Software packages gathering started")
-
-        summ = "\nPackages manager not found\n"
-        if precheck.checkcommand("yum"):
-            precheck.packages = _getyum()
-            summ = "\nTotal RPM packages (yum):\n |__{}\n".format(len(precheck.packages))
-        elif precheck.checkcommand("dpkg-query"):
-            precheck.packages = _getdpkg()
-            summ = "\nTotal DEB packages (dpkg):\n |__{}\n".format(len(precheck.packages))
-        elif precheck.checkcommand("zypper"):
-            precheck.packages = _getzypper()
-            summ = "\nTotal RPM packages (zypper):\n |__{}\n".format(len(precheck.packages))
-        elif precheck.checkcommand("apt"):
-            precheck.packages = _getapt()
-            summ = "\nTotal DEB packages (apt):\n |__{}\n".format(len(precheck.packages))
-        elif precheck.checkcommand("pacman"):
-            precheck.packages = _getpacman()
-            summ = "\nTotal pkg.tar.xz packages (pacman):\n |__{}\n".format(len(precheck.packages))
-
-        report.summarized(1, summ)
-        report.detailed(1, detailheader("Packages information"))
-        for item in precheck.packages:
-            report.detailed(1, "{:32s} - {}\n".format(item[0], item[1]))
-
-        report.log("DEBUG", "Software packages information completed")
-
-    except Exception as e:
-        report.log("ERROR", "Can't obtain software packages information")
         report.log("DEBUG", str(e))
         report.log("DEBUG", format_exc())

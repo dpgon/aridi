@@ -113,7 +113,7 @@ def _getusers(report, precheck):
     upass = 0
     umd5 = 0
     detail += detailfile("Users with any kind of shell or password")
-    for item in report.users:
+    for item in sorted(report.users):
         if report.users[item][0] == "No password" or report.users[item][0] == "?":
             if len(line) > 72:
                 summ += line
@@ -121,25 +121,9 @@ def _getusers(report, precheck):
             else:
                 line += "{} ".format(item)
             if "false" not in report.users[item][5] and "nologin" not in report.users[item][5]:
-                report.vulns("LOW", "User {0} has shell command {1} and no password. It's "
-                                    "recommended to put /bin/false or /sbin/nologin "
-                                    "instead {1}.".format(item, report.users[item][5]))
                 detail += "\nUser: {}, Home: {}, Shell: {}\n |__Groups: {}\n".\
                     format(item, report.users[item][4], report.users[item][5],
                            report.users[item][6])
-        elif report.users[item][0] == "MD5":
-            report.vulns("MEDIUM", "User {} has a weak hash algorithm MD5. It's recommended to"
-                                   "use a stronger one, like SHA-512".format(item))
-            if len(line) > 72:
-                summ += line
-                line = "\n |    |__"
-            else:
-                line += "[{}] ".format(item)
-            detail += "\nUser: {}, Password: {}, Home: {}, Shell: {}\n |__Groups: {}\n".\
-                format(item, report.users[item][0], report.users[item][4], report.users[item][5],
-                       report.users[item][6])
-            umd5 += 1
-            upass += 1
         else:
             if len(line) > 72:
                 summ += line
@@ -154,7 +138,7 @@ def _getusers(report, precheck):
     summ += "\n |__Groups:"
     line = "\n |    |__"
     detail += detailfile("Summary of users and groups")
-    for item in report.groups:
+    for item in sorted(report.groups):
         if len(line) > 72:
             summ += line
             line = "\n |    |__"
@@ -186,7 +170,7 @@ def _getnetinfo(report, precheck):
                 if not item.startswith('#') and ":" not in item:
                     ip = ip_address(item.split(" ")[0])
                     detail += "{:>15} - {}\n".format(str(ip), item.split(" ")[1])
-                    report.infrastructure(ip, item.split(" ")[1])
+                    report.infrastructure(ip, "HOSTNAME {}".format(item.split(" ")[1]))
 
     interfaces = {}
     if precheck.checkcommand("ip"):
@@ -224,6 +208,7 @@ def _getnetinfo(report, precheck):
     # Get routes
     if precheck.shouldread("/proc/net/route"):
         detail += detailfile("Routes information")
+        summ += ' |__Network routes:\n'
 
         with open("/proc/net/route") as f:
             info = f.readlines()
@@ -234,6 +219,11 @@ def _getnetinfo(report, precheck):
             destination = converthex2ip(item[1])
             gateway = converthex2ip(item[2])
             mask = str(bin(int(item[7], 16)))[2:].count("1")
+            summ += " |    |__Destination: {:>15}/{:0<2} - " \
+                    "Gateway: {:15} vía {}\n".format(destination,
+                                                     mask,
+                                                     gateway,
+                                                     iface)
             detail += "Destination: {:>15}/{:0<2} - Gateway: {:15} vía {}\n".format(destination,
                                                                                     mask,
                                                                                     gateway,
@@ -481,11 +471,9 @@ def _getrunningservices(precheck, report):
             if len(item[1]) > 0:
                 detail += " |__{} ({})\n".format(item[0], item[1])
                 summ += " |    |__{} ({})\n".format(item[0], item[1])
-                report.vulns("LOW", "Service {} ({}) has failed.".format(item[0], item[1]))
             else:
                 detail += " |__{}\n".format(item[0])
                 summ += " |    |__{}\n".format(item[0])
-                report.vulns("LOW", "Service {} has failed.".format(item[0]))
 
     if report.runningservices:
         detail += "\nRunning services:\n"
@@ -530,7 +518,7 @@ def getspecificinfo(report, precheck):
         report.log("DEBUG", str(e))
         report.log("DEBUG", format_exc())
 
-    # Get users, groups and sudoers information
+    # Get users and groups information
     try:
         report.log("DEBUG", "Users and groups information gathering started")
         summ, detail = _getusers(report, precheck)

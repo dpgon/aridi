@@ -211,8 +211,8 @@ def _getlogfqdn(precheck, report):
     print("There are {} possible FQDN in /var/log. It's possible to do a DNS query "
           "in order to detect real FQDN, but it could take some time. Do you want"
           " to continue with ? (y/N) ".format(total), end="")
-
-    if 'y' in str(input()).lower().lstrip()[0]:
+    ans = str(input()).lower().lstrip()
+    if len(ans) > 0 and 'y' in ans[0]:
         detail = "\nFQDN found:\n"
         ipcounter = 0
 

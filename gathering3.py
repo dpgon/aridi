@@ -2,7 +2,7 @@ import traceback, re
 from datetime import timedelta, datetime
 from time import sleep
 from gathering1 import _getdisks
-from gathering2 import _getusers
+from gathering2 import _getusers, _getnetinfo
 from os import walk, listdir, sysconf_names, sysconf, readlink
 from utils import detailheader, detailfile, converthex2ipport
 from subprocess import check_output, DEVNULL
@@ -634,7 +634,7 @@ def _getnetdata(precheck, report):
             uid = int(item[7])
             inode = int(item[9])
             tcpconnections.append([localip, localport, remoteip, remoteport,
-                                constate, report.pidusers[uid], inode])
+                                   constate, report.pidusers[uid], inode])
 
     if precheck.shouldread("/proc/net/udp"):
         with open("/proc/net/udp") as f:
@@ -819,7 +819,9 @@ def getvolatileinfo(report, precheck):
 
     # Get network live reports
     try:
-        report.log("DEBUG", "Nnetwork live information gathering started")
+        report.log("DEBUG", "Network live information gathering started")
+        if not report.ifaces:
+            _getnetinfo(report, precheck)
         summ, detail = _getnetdata(precheck, report)
         report.summarized(3, summ)
         report.detailed(3, detail)
