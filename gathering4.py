@@ -98,11 +98,11 @@ def _getetcfqdn(precheck, report):
 
         for idx, item in enumerate(fqdn):
             ipaddr = precheck.nslookup(item)
+            percentage = int(100 * idx / total)
+            before = "[{}".format("=" * percentage)
+            after = "{}]".format(" " * (100 - percentage))
+            print("\r{}{:02}%{}".format(before, percentage, after), end="")
             if ipaddr:
-                percentage = int(100 * idx/total)
-                before = "[{}".format("=" * percentage)
-                after = "{}]".format(" " * (100 -percentage))
-                print("\r{}{:02}%{}".format(before, percentage, after), end="")
                 ipcounter += 1
                 report.infrastructure(ipaddr, "FQDN {}".format(item))
                 report.infrastructure(ipaddr, "Found in file {}: {}".format(fqdn[item][0],
@@ -218,11 +218,11 @@ def _getlogfqdn(precheck, report):
 
         for idx, item in enumerate(fqdn):
             ipaddr = precheck.nslookup(item)
+            percentage = int(100 * idx / total)
+            before = "[{}".format("=" * percentage)
+            after = "{}]".format(" " * (100 - percentage))
+            print("\r{}{:02}%{}".format(before, percentage, after), end="")
             if ipaddr:
-                percentage = int(100 * idx/total)
-                before = "[{}".format("=" * percentage)
-                after = "{}]".format(" " * (100 -percentage))
-                print("\r{}{:02}%{}".format(before, percentage, after), end="")
                 ipcounter += 1
                 report.infrastructure(ipaddr, "FQDN {}".format(item))
                 report.infrastructure(ipaddr, "Found in file {}: {}".format(fqdn[item][0],

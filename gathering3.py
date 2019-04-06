@@ -421,31 +421,31 @@ def _getdisk(precheck, report):
             if item[0] in diskstat:
                 summ += " |__{} ({}): {} % read and {} " \
                         "% write load. Used {}%\n".format(item[0], item[2],
-                                                          diskstat[item[0]][1],
-                                                          diskstat[item[0]][3],
+                                                          diskstat[item[0]][1] / 1000,
+                                                          diskstat[item[0]][3] / 1000,
                                                           usedratio)
                 detail += " |__{} ({}):\n".format(item[0], item[2])
                 detail += " |     |__ {} total size\n".format(item[1])
                 detail += " |     |__ {} used size\n".format(item[5])
                 detail += " |     |__ {} read sectors/sec\n".format(diskstat[item[0]][0])
                 detail += " |     |__ {} write sectors/sec\n".format(diskstat[item[0]][2])
-                detail += " |     |__ {} % load reading\n".format(diskstat[item[0]][1] / 10)
-                detail += " |     |__ {} % load writing\n".format(diskstat[item[0]][3] / 10)
+                detail += " |     |__ {} % load reading\n".format(diskstat[item[0]][1] / 1000)
+                detail += " |     |__ {} % load writing\n".format(diskstat[item[0]][3] / 1000)
             else:
                 newname = disknames.get(item[0], None)
                 if newname and newname in diskstat:
                     summ += " |__{} ({}): {} % read and {} " \
                             "% write load. Used {}%\n".format(item[0], item[2],
-                                                              diskstat[newname][0],
-                                                              diskstat[newname][2],
+                                                              diskstat[newname][1] / 1000,
+                                                              diskstat[newname][3] / 1000,
                                                               usedratio)
                     detail += " |__{} ({}):\n".format(item[0], item[2])
                     detail += " |     |__ {} total size\n".format(item[1])
                     detail += " |     |__ {} used size\n".format(item[5])
                     detail += " |     |__ {} read sectors/sec\n".format(diskstat[newname][0])
                     detail += " |     |__ {} write sectors/sec\n".format(diskstat[newname][2])
-                    detail += " |     |__ {} % load reading\n".format(diskstat[newname][1] / 10)
-                    detail += " |     |__ {} % load writing\n".format(diskstat[newname][3] / 10)
+                    detail += " |     |__ {} % load reading\n".format(diskstat[newname][1] / 1000)
+                    detail += " |     |__ {} % load writing\n".format(diskstat[newname][3] / 1000)
 
     if precheck.shouldread("/proc/sys/fs/file-nr"):
         with open("/proc/sys/fs/file-nr") as f:

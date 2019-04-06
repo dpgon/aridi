@@ -101,8 +101,10 @@ class Reporting:
         if self.infrastructure_data.get(ip):
             if hostname not in self.infrastructure_data[ip]:
                 self.infrastructure_data[ip].append(hostname)
+                return False
         else:
             self.infrastructure_data[ip] = [hostname]
+            return True
 
     def log(self, severity, text):
         """

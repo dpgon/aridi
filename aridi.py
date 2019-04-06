@@ -16,6 +16,7 @@ from gathering1 import getgeneralinfo
 from gathering2 import getspecificinfo
 from gathering3 import getvolatileinfo
 from gathering4 import getotherinfo
+from scan import scaninfrastructure
 
 
 def finish(report, message):
@@ -170,7 +171,7 @@ def main():
     if args.scan:
         try:
             report.log("INFO", "Starting scan stage...")
-            print("Escanea")
+            scaninfrastructure(report, precheck, 22)
             report.log("INFO", "Scan stage finished")
         except Exception as e:
             report.log("ERROR", "Scan stage failed")
@@ -181,8 +182,8 @@ def main():
     try:
         if args.output_full:
             text = report.view_all(execution=False, general=args.general,
-                     specific=args.specific, volatile=args.volatile,
-                     other=args.carving, infrastructure=False)
+                                   specific=args.specific, volatile=args.volatile,
+                                   other=args.carving, infrastructure=args.scan)
             if args.filename:
                 save(args.filename, text)
                 report.log("INFO", "{} saved".format(args.filename))
@@ -190,8 +191,8 @@ def main():
                 print(text)
         elif args.output_det:
             text = report.view_detailed(execution=False, general=args.general,
-                     specific=args.specific, volatile=args.volatile,
-                     other=args.carving, infrastructure=False)
+                                        specific=args.specific, volatile=args.volatile,
+                                        other=args.carving, infrastructure=args.scan)
             if args.filename:
                 save(args.filename, text)
                 report.log("INFO", "{} saved".format(args.filename))
@@ -214,8 +215,8 @@ def main():
         else:
             # Default option
             text = report.view_summarized(execution=False, general=args.general,
-                     specific=args.specific, volatile=args.volatile,
-                     other=args.carving, infrastructure=False)
+                                          specific=args.specific, volatile=args.volatile,
+                                          other=args.carving, infrastructure=args.scan)
             if args.filename:
                 save(args.filename, text)
                 report.log("INFO", "{} saved".format(args.filename))
