@@ -684,29 +684,57 @@ def _getnetdata(precheck, report):
             localmachine.append(report.ifaces[item][1].split("/")[0])
 
     for item in tcpconnections:
+        if len(item) > 7:
+            servicename = item[7]
+        else:
+            servicename = "unknown"
+
+        if precheck.portnames:
+            portname = precheck.portnames.get(int(item[1]), ["Unknown service", "Unknown service"])
+            portnam2 = precheck.portnames.get(int(item[3]), ["Unknown service", "Unknown service"])
+        else:
+            portname = ["Unknown service", "Unknown service"]
+            portnam2 = ["Unknown service", "Unknown service"]
+
         if item[4] == tcpstate[10]:
             tcplisten += 1
             listenports.append(item[1])
             if not item[0] == "0.0.0.0":
                 report.infrastructure(ip_address(item[0]),
-                                      "Port TCP {} with service {}".format(item[1], item[7]))
+                                      "Port TCP {} ({}) with service {}".format(item[1],
+                                                                                portname[0],
+                                                                                servicename))
             else:
                 for address in localmachine:
                     report.infrastructure(ip_address(address),
-                                          "Port TCP {} with service {}".format(item[1], item[7]))
+                                          "Port TCP {} ({}) with service {}".format(item[1],
+                                                                                    portname[0],
+                                                                                    servicename))
         elif item[4] == tcpstate[1]:
             tcpestablished += 1
-            report.infrastructure(ip_address(item[2]),
-                                  "Connected at port {} from local ip {}".format(item[3], item[0]))
+            if item[1] in listenports:
+                report.infrastructure(ip_address(item[2]),
+                                      "Connected in port {} ({}) of local"
+                                      " ip {}".format(item[1], portname[0], item[0]))
+            else:
+                report.infrastructure(ip_address(item[2]),
+                                      "Connected at port {} ({}) from local"
+                                      " ip {}".format(item[3], portnam2[0], item[0]))
         elif item[4] == tcpstate[8]:
             tcpwait += 1
-            report.infrastructure(ip_address(item[2]),
-                                  "Connected at port {} from local ip {}".format(item[3], item[0]))
+            if item[1] in listenports:
+                report.infrastructure(ip_address(item[2]),
+                                      "Connected in port {} ({}) of local "
+                                      "ip {}".format(item[1], portnam2[0], item[0]))
+            else:
+                report.infrastructure(ip_address(item[2]),
+                                      "Connected at port {} ({}) from local "
+                                      "ip {}".format(item[3], portnam2[0], item[0]))
         if len(item) > 7:
             detail += " |__{:<21} - {:<21} {:<12} {:<10} {:<12}\n".format(item[0] + ":" + item[1],
                                                                           item[2] + ":" + item[3],
                                                                           item[4], item[5][:10],
-                                                                          item[7])
+                                                                          servicename)
             detail += " |     |__{}\n".format(item[8][:70])
         else:
             detail += " |__{:<21} - {:<21} {:<12} {:<10}\n".format(item[0] + ":" + item[1],

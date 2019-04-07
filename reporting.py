@@ -16,7 +16,7 @@ class Reporting:
 
         # for logging
         self.log_data = []
-        self.verbose = 2
+        self.verbose = 3
 
         # hardware info
         self.cpuinfo = {}
@@ -111,18 +111,18 @@ class Reporting:
         Record a log registry
         :param severity: string DEBUG, INFO, WARNING, ERROR
         :param text: text to log
-        :return:
         """
         date = str(datetime.now())
-        self.log_data.append([date, severity, text])
+
         if severity == "ERROR" and self.verbose > -1:
-            print(date + " - " + severity + " - " + text)
+            print("ERROR: {}".format(text))
+            self.log_data.append([date, severity, text])
         elif severity == "WARNING" and self.verbose > 0:
-            print(date + " - " + severity + " - " + text)
+            self.log_data.append([date, severity, text])
         elif severity == "INFO" and self.verbose > 1:
-            print(date + " - " + severity + " - " + text)
+            self.log_data.append([date, severity, text])
         elif severity == "DEBUG" and self.verbose > 2:
-            print(date + " - " + severity + " - " + text)
+            self.log_data.append([date, severity, text])
 
     def view_summarized(self, execution=True, general=True,
                         specific=True, volatile=True,
@@ -223,6 +223,7 @@ class Reporting:
         text += " o\n"
 
         keys = list(self.infrastructure_data.keys())
+        keys.sort()
         if len(keys) > 0:
             text += "\nRemote IP Address:\n"
             for item in keys:

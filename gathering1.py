@@ -530,7 +530,7 @@ def getgeneralinfo(report, precheck):
 
     try:
         report.log("DEBUG", "File and directory permission information gathering started")
-        print("aridy.py could search the filesystem in order to locate directories with no "
+        print("\naridy.py could search the filesystem in order to locate directories with no "
               "StickyBit and all users write permission, or files with SUID or GUID, but "
               "it could be very slow. Do you want to proceed? (y/N) ", end="")
         ans = str(input()).lower().lstrip()

@@ -1,7 +1,7 @@
 from os import walk
 from ipaddress import ip_address
 import traceback, re, socket
-from utils import detailheader
+from utils import detailheader, percentagebar
 
 
 def _getetc(report):
@@ -88,28 +88,26 @@ def _getetcfqdn(precheck, report):
                 f.close()
 
     total = len(fqdn)
-    print("There are {} possible FQDN in /etc. It's possible to do a DNS query "
+    print("\nThere are {} possible FQDN in /etc. It's possible to do a DNS query "
           "in order to detect real FQDN, but it could take some time. Do you want"
           " to continue with ? (y/N) ".format(total), end="")
 
-    if 'y' in str(input()).lower().lstrip()[0]:
+    ans = str(input()).lower().lstrip()
+    if len(ans) > 0 and 'y' in ans[0]:
         detail = "\nFQDN found:\n"
         ipcounter = 0
 
         for idx, item in enumerate(fqdn):
             ipaddr = precheck.nslookup(item)
-            percentage = int(100 * idx / total)
-            before = "[{}".format("=" * percentage)
-            after = "{}]".format(" " * (100 - percentage))
-            print("\r{}{:02}%{}".format(before, percentage, after), end="")
+            percentagebar(total, idx)
             if ipaddr:
                 ipcounter += 1
                 report.infrastructure(ipaddr, "FQDN {}".format(item))
                 report.infrastructure(ipaddr, "Found in file {}: {}".format(fqdn[item][0],
                                                                             fqdn[item][1]))
                 detail += " |__{} ({})\n".format(item, ipaddr)
+        percentagebar(total, total)
 
-        print("\n{} FQDN found".format(ipcounter))
         summ = " |__{} FQDN found\n".format(ipcounter)
     else:
         summ = ""
@@ -208,7 +206,7 @@ def _getlogfqdn(precheck, report):
                 f.close()
 
     total = len(fqdn)
-    print("There are {} possible FQDN in /var/log. It's possible to do a DNS query "
+    print("\nThere are {} possible FQDN in /var/log. It's possible to do a DNS query "
           "in order to detect real FQDN, but it could take some time. Do you want"
           " to continue with ? (y/N) ".format(total), end="")
     ans = str(input()).lower().lstrip()
@@ -218,18 +216,15 @@ def _getlogfqdn(precheck, report):
 
         for idx, item in enumerate(fqdn):
             ipaddr = precheck.nslookup(item)
-            percentage = int(100 * idx / total)
-            before = "[{}".format("=" * percentage)
-            after = "{}]".format(" " * (100 - percentage))
-            print("\r{}{:02}%{}".format(before, percentage, after), end="")
+            percentagebar(total, idx)
             if ipaddr:
                 ipcounter += 1
                 report.infrastructure(ipaddr, "FQDN {}".format(item))
                 report.infrastructure(ipaddr, "Found in file {}: {}".format(fqdn[item][0],
                                                                             fqdn[item][1]))
                 detail += " |__{} ({})\n".format(item, ipaddr)
+        percentagebar(total, total)
 
-        print("\n{} FQDN found".format(ipcounter))
         summ = " |__{} FQDN found\n".format(ipcounter)
     else:
         summ = ""

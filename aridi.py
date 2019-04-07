@@ -62,8 +62,6 @@ def main():
                            action="store_true")
         group.add_argument("-od", "--output-det", help="Shows a detailed report",
                            action="store_true")
-        group.add_argument("-ov", "--output-vuln", help="Shows a vulnerabilities report",
-                           action="store_true")
         group.add_argument("-oi", "--output-inf", help="Shows a report with the infrastructure",
                            action="store_true")
         parser.add_argument("filename", nargs='?', metavar="FILE",
@@ -71,7 +69,7 @@ def main():
         args = parser.parse_args()
 
         # Adjunst verbosity level
-        if args.verbose != None:
+        if args.verbose:
             report.log("DEBUG", "Verbosity level " + str(args.verbose))
             report.verbose = args.verbose
 
@@ -83,7 +81,7 @@ def main():
             args.carving = True
         elif args.specific:
             args.general = True
-        elif args.volatile == False and args.carving == False:
+        elif not args.volatile and not args.carving:
             # Default option
             args.general = True
     except Exception as e:
@@ -97,23 +95,21 @@ def main():
         report.log("INFO", "aridi started")
         report.log("DEBUG", "starting precheck...")
         precheck = gathering0.Precheck()
-
-        if precheck.libscapy:
-            report.log("DEBUG", "scapy library available")
+        if precheck.loadports("./services.csv"):
+            report.log("INFO", "{} port names loaded".format(len(precheck.portnames)))
         else:
-            report.log("DEBUG", "scapy library not available")
-
-        if precheck.nmap:
-            report.log("DEBUG", "nmap found at '{}'".format(precheck.nmap))
-        else:
-            report.log("DEBUG", "nmap not available")
+            message = "aridi can't load port names."
+            if args.scan:
+                message += " Scan flag was disabled"
+                args.scan = None
+            report.log("ERROR", message)
 
         if precheck.root:
             report.log("DEBUG", "Executed with uid 0")
         else:
             report.log("DEBUG", "Executed as a user")
             report.log("WARNING", "aridy.py has been invoked with restricted privileges")
-            print("aridy.py has been invoked with restricted privileges. Some information "
+            print("\naridy.py has been invoked with restricted privileges. Some information "
                   "can't be gathered. If you want better results, execute aridy.py with "
                   "root privileges. Do you want to continue anyway? (y/N) ", end="")
             ans = str(input()).lower().lstrip()
@@ -198,13 +194,6 @@ def main():
                 report.log("INFO", "{} saved".format(args.filename))
             else:
                 print(text)
-        elif args.output_vuln:
-            text = report.view_vulns()
-            if args.filename:
-                save(args.filename, text)
-                report.log("INFO", "{} saved".format(args.filename))
-            else:
-                print(text)
         elif args.output_inf:
             text = report.view_infrastructure()
             if args.filename:
@@ -228,6 +217,10 @@ def main():
                        "See the log for more information.")
 
     report.log("INFO", "aridi.py completed successfully")
+    if args.filename:
+        print("\nAridi has finished. Report saved to {}.\n".format(args.filename))
+    else:
+        print("\nAridi has finished\n")
     finish(report, 0)
 
 

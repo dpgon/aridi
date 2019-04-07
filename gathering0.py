@@ -6,6 +6,8 @@ from ipaddress import ip_address
 
 class Precheck:
 
+    portnames = {}
+
     interesting_files = [["/etc/environment", 0],       # Path info in precheck stage
                          ["/proc/cpuinfo", 1],          # Hardware info
                          ["/proc/meminfo", 1],
@@ -74,16 +76,24 @@ class Precheck:
         self.root = self.amiroot()
         self.files = {}
         self._examinefiles()
-        self.libscapy = self.checkscapy()
-        self.nmap = self.checkcommand("nmap")
 
     @staticmethod
-    def checkscapy():
-        # Check if scapy module is available
+    def loadports(file):
         try:
-            import scapy
-            return True
-        except ImportError:
+            if isfile(file):
+                with open(file, "r") as f:
+                    portlist = f.readlines()
+                for item in portlist:
+                    item = item.strip().split("|")
+                    if not item[1] in Precheck.portnames.keys():
+                        if len(item) > 2:
+                            Precheck.portnames[int(item[1])] = [item[0], item[2]]
+                        else:
+                            Precheck.portnames[int(item[1])] = [item[0], ""]
+                return True
+            else:
+                return False
+        except:
             return False
 
     @staticmethod
@@ -112,7 +122,6 @@ class Precheck:
             return 3
         elif info.st_mode & 0b000100000 and group in gids:
             return 2
-        #elif info.st_mode & 0b100000000 and owner == uid:
         elif owner == uid:
             return 1
         else:
