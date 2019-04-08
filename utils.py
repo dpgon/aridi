@@ -40,7 +40,10 @@ def converthex2ipport(hextext):
     return ip, port
 
 def percentagebar(total, step):
-    percentage = int(100 * step / total)
+    if total > 0:
+        percentage = int(100 * step / total)
+    else:
+        percentage = 100
     before = "[{}".format("=" * percentage)
     after = "{}]".format(" " * (100 - percentage))
     print("\r{}{:02}%{}".format(before, percentage, after), end="")

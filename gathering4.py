@@ -1,4 +1,4 @@
-from os import walk
+from os import walk, scandir
 from ipaddress import ip_address
 import traceback, re, socket
 from utils import detailheader, percentagebar
@@ -9,10 +9,18 @@ def _getetc(report):
 
     summ = "\n/etc information:\n"
 
+    # Percentage calculate
+    dirs = ['/etc/'+x.name for x in scandir("/etc") if x.is_dir()]
+    total = len(dirs)
+
     ipscounter = 0
 
     detail += "\nIP found:\n"
     for root, dir, file in walk("/etc"):
+        if root in dirs:
+            dirs.remove(root)
+            percentagebar(total, total-len(dirs))
+
         for item in file:
             if not "dhcpd" in item:
                 try:
@@ -121,10 +129,18 @@ def _getlog(report):
 
     summ = "\n/var/log information:\n"
 
+    # Percentage calculate
+    dirs = ['/var/log/'+x.name for x in scandir("/var/log") if x.is_dir()]
+    total = len(dirs)
+
     ipscounter = 0
 
     detail += "\nIP found:\n"
     for root, dir, file in walk("/var/log"):
+        if root in dirs:
+            dirs.remove(root)
+            percentagebar(total, total-len(dirs))
+
         for item in file:
             ipdetected = []
             try:

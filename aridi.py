@@ -17,6 +17,7 @@ from gathering2 import getspecificinfo
 from gathering3 import getvolatileinfo
 from gathering4 import getotherinfo
 from scan import scaninfrastructure
+from graph import makegraph
 
 
 def finish(report, message):
@@ -52,6 +53,8 @@ def main():
         parser.add_argument("-c", "--carving", help="Try to gather other information",
                             action="store_true")
         parser.add_argument("--scan", help="Scan the local network and the gathered IPs",
+                            action="store_true")
+        parser.add_argument("--graph", help="If graphviz is installed, draw the network graph",
                             action="store_true")
         parser.add_argument("-V", "--verbose", metavar="level",
                             help="Increase verbosity level (from -1 lower to 3 higher, 2 default)",
@@ -171,6 +174,19 @@ def main():
             report.log("INFO", "Scan stage finished")
         except Exception as e:
             report.log("ERROR", "Scan stage failed")
+            report.log("DEBUG", str(e))
+            report.log("DEBUG", traceback.format_exc())
+
+    # Do the graph
+    if args.graph:
+        try:
+            report.log("INFO", "Creating graph...")
+            if makegraph(report):
+                report.log("INFO", "Graph generated")
+            else:
+                report.log("INFO", "Graph didn't generate")
+        except Exception as e:
+            report.log("ERROR", "Graph creation failed")
             report.log("DEBUG", str(e))
             report.log("DEBUG", traceback.format_exc())
 

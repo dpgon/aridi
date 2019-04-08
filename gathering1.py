@@ -1,8 +1,8 @@
-from os import uname, walk, stat
+from os import uname, walk, stat, scandir
 from platform import libc_ver
 from traceback import format_exc
 from subprocess import check_output, DEVNULL, CalledProcessError
-from utils import detailheader, detailfile
+from utils import detailheader, detailfile, percentagebar
 
 
 def _getusb():
@@ -288,8 +288,16 @@ def _checkpermissions(precheck, report):
     suidperm = []
     guidperm = []
 
+    # Percentage calculate
+    dirs = ['/'+x.name for x in scandir("/") if x.is_dir()]
+    total = len(dirs)
+
     # Check directories with write permissions and sticky bit
     for root, dirs, files in walk("/"):
+        if root in dirs:
+            dirs.remove(root)
+            percentagebar(total, total-len(dirs))
+
         if files:
             init = root.split("/")[1]
             if init not in ["dev", "proc", "sys", "run"]:
