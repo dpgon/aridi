@@ -29,6 +29,7 @@ def _getetc(report):
                 try:
                     f = open(root + "/" + item, "r")
                     content = f.readlines()
+                    f.close()
                     for line in content:
                         ips = re.findall("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", line)
 
@@ -66,8 +67,6 @@ def _getetc(report):
                                     ipscounter += 1
                 except:
                     pass
-                finally:
-                    f.close()
     percentagebar(total, total)
 
     summ += " |__{} ips found in /etc directory\n".format(ipscounter)
@@ -83,11 +82,12 @@ def _getetcfqdn(precheck, report):
             try:
                 f = open(root + "/" + item, "r")
                 content = f.readlines()
+                f.close()
                 for line in content:
                     if not re.match("[#;<]", line.strip()):
                         line = " ".join(line.strip().split())
                         for part in line.split():
-                            if not "@" in part:
+                            if not "@" in part and not "-" in part:
                                 names = re.findall("[a-z0-9-]{1,63}(?:\.[a-z0-9-]{1,63})+"
                                                    "\.[a-z0-9-]{1,63}", part)
                                 if names:
@@ -96,8 +96,6 @@ def _getetcfqdn(precheck, report):
                                             fqdn[name] = ["{}/{}".format(root, item), line]
             except:
                 pass
-            finally:
-                f.close()
 
     total = len(fqdn)
     print("\nThere are {} possible FQDN in /etc. It's possible to do a DNS query "
@@ -213,7 +211,7 @@ def _getlogfqdn(precheck, report):
                             "vmlinuz" not in line.lower():
                         line = " ".join(line.strip().split())
                         for part in line.split():
-                            if not "@" in part:
+                            if not "@" in part and not "-" in part:
                                 names = re.findall("[a-z0-9-]{1,63}(?:\.[a-z0-9-]{1,63})+"
                                                    "\.[a-z0-9-]{1,63}", part)
                                 if names:
