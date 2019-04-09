@@ -1,4 +1,7 @@
-import socket, threading, traceback
+import socket
+import threading
+import traceback
+from resource import getrlimit, RLIMIT_NOFILE
 from struct import pack, unpack
 from binascii import hexlify, unhexlify
 from ipaddress import ip_address, ip_network
@@ -123,7 +126,10 @@ def _ipscan(ip, precheck):
         t = threading.Thread(target=_opentcpport, args=(ip, port))
         threads.append(t)
 
+    limit = getrlimit(RLIMIT_NOFILE)[0] - 10
     for item in threads:
+        while threading.active_count() > limit:
+            pass
         item.start()
 
     while threading.active_count() > 1:
