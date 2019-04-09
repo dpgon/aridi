@@ -11,7 +11,6 @@ class Reporting:
         # store the reports data
         self.summarized_data = [[], [], [], [], [], []]
         self.detailed_data = [[], [], [], [], [], []]
-        self.vulns_data = []
         self.infrastructure_data = {}
 
         # for logging
@@ -204,15 +203,6 @@ class Reporting:
 
         return text
 
-    def view_vulns(self):
-        text = reporttitle("VULNERABILITIES REPORT")
-
-        self.vulns_data.sort()
-        for item in self.vulns_data:
-            text += item[0] + " - " + item[1] + "\n"
-
-        return text
-
     def view_infrastructure(self):
         text = reporttitle("INFRASTRUCTURE REPORT")
 
@@ -243,13 +233,10 @@ class Reporting:
     def view_all(self, execution=True, general=True,
                  specific=True, volatile=True,
                  other=True, infrastructure=True):
-        text = "*******************************\n"
-        text += "********* Full report *********\n"
-        text += "*******************************\n\n"
+        text = detailchapter("Full report")
         text += self.view_detailed(execution=execution, general=general,
                                    specific=specific, volatile=volatile,
                                    other=other, infrastructure=infrastructure)
-        text += self.view_vulns()
         text += self.view_infrastructure()
         text += self.view_summarized(execution=execution, general=general,
                                      specific=specific, volatile=volatile,
