@@ -147,6 +147,7 @@ def _portscan(report, precheck):
 
     localmachine = []
     localnetwork = []
+    iptables = []
     outconns = []
     inconns = []
     carvips = []
@@ -154,6 +155,8 @@ def _portscan(report, precheck):
     for item in sorted(report.infrastructure_data):
         if "Local machine" in report.infrastructure_data[item]:
             localmachine.append(item)
+        elif [x for x in report.infrastructure_data[item] if x.startswith("IPTables")]:
+            iptables.append(item)
         elif [x for x in report.infrastructure_data[item] if x.startswith("Connected at")]:
             outconns.append(item)
         elif [x for x in report.infrastructure_data[item] if x.startswith("Connected in")]:
@@ -165,11 +168,12 @@ def _portscan(report, precheck):
         elif [x for x in report.infrastructure_data[item] if x.startswith("Found")]:
             carvfqdn.append(item)
 
-    print("\n(a) TOTAL IPs: {:>10}\n(m) Local machine IPs: {:>5}\n(n) Local network IPs: {:>5}\n"
-          "(o) Outgoing connections: {:>3}\n(i) Incoming connections: {:>3}\n(x) Carved IPs: {:>9}"
+    print("\n(a) TOTAL IPs: {:>10}\n(m) Local machine IPs: {:>5}\n(f) IPTables allowed: {:>5}\n"
+          "(o) Outgoing connections: {:>3}\n(i) Incoming connections: {:>3}\n"
+          "(n) Local network IPs: {:>5}\n(x) Carved IPs: {:>9}"
           "\n(y)Carved FQDN: {:>8}".format(len(report.infrastructure_data), len(localmachine),
-                                        len(localnetwork), len(outconns), len(inconns),
-                                        len(carvips), len(carvfqdn)))
+                                           len(iptables), len(outconns), len(inconns),
+                                           len(localnetwork), len(carvips), len(carvfqdn)))
 
     print("What kind of IPs do you want to scan (write one or several letters): ", end="")
     ans = str(input()).lower().lstrip()
