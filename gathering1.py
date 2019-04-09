@@ -290,14 +290,14 @@ def _checkpermissions(precheck, report):
     guidperm = []
 
     # Percentage calculate
-    dirs = ['/'+x for x in listdir("/") if isdir("/"+x)]
-    total = len(dirs)
+    directories = ['/'+x for x in listdir("/") if isdir("/"+x)]
+    total = len(directories)
 
     # Check directories with write permissions and sticky bit
     for root, dirs, files in walk("/"):
-        if root in dirs:
-            dirs.remove(root)
-            percentagebar(total, total-len(dirs))
+        if root in directories:
+            directories.remove(root)
+            percentagebar(total, total-len(directories))
 
         if files:
             init = root.split("/")[1]

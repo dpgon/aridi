@@ -1,7 +1,9 @@
+import traceback
+import re
+import socket
 from os import walk, listdir
 from os.path import isdir
 from ipaddress import ip_address
-import traceback, re, socket
 from utils import detailheader, percentagebar
 
 
@@ -66,6 +68,7 @@ def _getetc(report):
                     pass
                 finally:
                     f.close()
+    percentagebar(total, total)
 
     summ += " |__{} ips found in /etc directory\n".format(ipscounter)
 
@@ -147,6 +150,7 @@ def _getlog(report):
             try:
                 f = open(root + "/" + item, "r")
                 content = f.readlines()
+                f.close()
                 for line in content:
                     ips = re.findall("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", line)
 
@@ -186,8 +190,7 @@ def _getlog(report):
                                     ipscounter += 1
             except:
                 pass
-            finally:
-                f.close()
+    percentagebar(total, total)
 
     summ += " |__{} ips found in /var/log directory\n".format(ipscounter)
 
@@ -202,6 +205,7 @@ def _getlogfqdn(precheck, report):
             try:
                 f = open(root + "/" + item, "r")
                 content = f.readlines()
+                f.close()
                 for line in content:
                     if not re.match("[#;<]", line.strip()) and \
                             "version" not in line.lower() and \
@@ -219,8 +223,6 @@ def _getlogfqdn(precheck, report):
                                             fqdn[name] = ["{}/{}".format(root, item), line]
             except:
                 pass
-            finally:
-                f.close()
 
     total = len(fqdn)
     print("\nThere are {} possible FQDN in /var/log. It's possible to do a DNS query "
