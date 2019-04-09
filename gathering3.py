@@ -1,4 +1,5 @@
-import traceback, re
+import traceback
+import re
 from datetime import timedelta, datetime
 from time import sleep
 from gathering1 import _getdisks

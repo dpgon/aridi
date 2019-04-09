@@ -1,5 +1,5 @@
 from datetime import datetime
-from utils import detailfile, detailheader, detailchapter, reporttitle
+from utils import detailfile, detailchapter, reporttitle
 
 
 class Reporting:
@@ -16,7 +16,7 @@ class Reporting:
 
         # for logging
         self.log_data = []
-        self.verbose = 3
+        self.verbose = 2
 
         # hardware info
         self.cpuinfo = {}

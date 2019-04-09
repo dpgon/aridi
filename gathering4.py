@@ -1,4 +1,5 @@
-from os import walk, scandir
+from os import walk, listdir
+from os.path import isdir
 from ipaddress import ip_address
 import traceback, re, socket
 from utils import detailheader, percentagebar
@@ -10,7 +11,7 @@ def _getetc(report):
     summ = "\n/etc information:\n"
 
     # Percentage calculate
-    dirs = ['/etc/'+x.name for x in scandir("/etc") if x.is_dir()]
+    dirs = ['/etc/' + x for x in listdir("/etc") if isdir("/etc/" + x)]
     total = len(dirs)
 
     ipscounter = 0
@@ -130,7 +131,7 @@ def _getlog(report):
     summ = "\n/var/log information:\n"
 
     # Percentage calculate
-    dirs = ['/var/log/'+x.name for x in scandir("/var/log") if x.is_dir()]
+    dirs = ['/var/log/' + x for x in listdir("/var/log") if isdir("/var/log/" + x)]
     total = len(dirs)
 
     ipscounter = 0

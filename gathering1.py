@@ -1,4 +1,5 @@
-from os import uname, walk, stat, scandir
+from os import uname, walk, stat, listdir
+from os.path import isdir
 from platform import libc_ver
 from traceback import format_exc
 from subprocess import check_output, DEVNULL, CalledProcessError
@@ -27,7 +28,7 @@ def _getusb():
             usb.append([usbid, name, bus])
         total.append([usbid, name, bus])
 
-    summ += " |__{} devices\n |__{} hubs " \
+    summ += "\n |__{} devices\n |__{} hubs " \
             "(Linux root hubs included)\n".format(len(usb), len(linuxroot) + len(hub))
     helptext = "(device ID - name - bus:device)"
     detail += "{:^80}\n".format(helptext)
@@ -289,7 +290,7 @@ def _checkpermissions(precheck, report):
     guidperm = []
 
     # Percentage calculate
-    dirs = ['/'+x.name for x in scandir("/") if x.is_dir()]
+    dirs = ['/'+x for x in listdir("/") if isdir("/"+x)]
     total = len(dirs)
 
     # Check directories with write permissions and sticky bit
@@ -589,14 +590,14 @@ def getgeneralinfo(report, precheck):
                 f.write("{}\n".format(item))
             for item in suidperm:
                 if item[1]:
-                    f.write("'{}' file has SUID and it's owned by the root user".format(item[0]))
+                    f.write("'{}' file has SUID and it's owned by the root user\n".format(item[0]))
                 else:
-                    f.write("'{}' file has SUID. Is it necessary?".format(item[0]))
+                    f.write("'{}' file has SUID. Is it necessary?\n".format(item[0]))
             for item in guidperm:
                 if item[1]:
-                    f.write("'{}' file has GUID and it's owned by the root group".format(item[0]))
+                    f.write("'{}' file has GUID and it's owned by the root group\n".format(item[0]))
                 else:
-                    f.write("'{}' file has GUID. Is it necessary?".format(item[0]))
+                    f.write("'{}' file has GUID. Is it necessary?\n".format(item[0]))
         except Exception as e:
             report.log("ERROR", "Can't write aridy.badfiles")
             report.log("DEBUG", str(e))

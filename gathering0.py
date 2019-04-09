@@ -1,4 +1,5 @@
-import os, re
+import os
+import re
 from os.path import isfile
 from subprocess import check_output, DEVNULL, CalledProcessError
 from ipaddress import ip_address
