@@ -126,7 +126,7 @@ def _ipscan(ip, precheck):
         t = threading.Thread(target=_opentcpport, args=(ip, port))
         threads.append(t)
 
-    limit = getrlimit(RLIMIT_NOFILE)[0] - 10
+    limit = getrlimit(RLIMIT_NOFILE)[0] - 100
     for item in threads:
         while threading.active_count() > limit:
             pass
