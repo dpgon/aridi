@@ -20,7 +20,7 @@ def makegraph(report):
         all = False
 
     # Create graph
-    dot = Graph(comment='Network graph', filename='test.dot', engine='neato')
+    dot = Graph(comment='Network graph', filename='network.dot', engine='neato')
 
     dfgw = None
     gw = []

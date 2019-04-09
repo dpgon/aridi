@@ -100,10 +100,16 @@ class Reporting:
     def infrastructure(self, ip, hostname):
         if self.infrastructure_data.get(ip):
             if hostname not in self.infrastructure_data[ip]:
-                self.infrastructure_data[ip].append(hostname)
+                if len(hostname) > 120:
+                    self.infrastructure_data[ip].append(hostname[:120]+"...")
+                else:
+                    self.infrastructure_data[ip].append(hostname)
                 return False
         else:
-            self.infrastructure_data[ip] = [hostname]
+            if len(hostname) > 120:
+                self.infrastructure_data[ip] = [hostname[:120]+"..."]
+            else:
+                self.infrastructure_data[ip] = [hostname]
             return True
 
     def log(self, severity, text):
