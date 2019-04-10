@@ -45,5 +45,5 @@ def percentagebar(total, step):
     else:
         percentage = 100
     before = "[{}".format("=" * int(percentage * 0.75))
-    after = "{}]".format(" " * (100 - int(percentage * 0.75)))
+    after = "{}]".format(" " * (75 - int(percentage * 0.75)))
     print("\r{}{:02}%{}".format(before, percentage, after), end="")

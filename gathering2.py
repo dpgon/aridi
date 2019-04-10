@@ -27,11 +27,14 @@ def _gethostnames(report, precheck):
         detail += '{}\n'.format(report.hostname)
 
     if precheck.checkcommand("dnsdomainname"):
-        report.domainname = check_output(["dnsdomainname"], stderr=DEVNULL).decode("utf-8")
-        if report.domainname:
-            summ += ' |__dnsdomainname: ' + report.domainname
-            detail += detailfile('domainname')
-            detail += '{}\n'.format(report.hostname)
+        try:
+            report.domainname = check_output(["dnsdomainname"], stderr=DEVNULL).decode("utf-8")
+            if report.domainname:
+                summ += ' |__dnsdomainname: ' + report.domainname
+                detail += detailfile('domainname')
+                detail += '{}\n'.format(report.hostname)
+        except:
+            pass
 
     if precheck.checkcommand("hostid"):
         report.hostid = check_output(["hostid"]).decode("utf-8")
