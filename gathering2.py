@@ -27,7 +27,7 @@ def _gethostnames(report, precheck):
         detail += '{}\n'.format(report.hostname)
 
     if precheck.checkcommand("dnsdomainname"):
-        report.domainname = check_output(["dnsdomainname"]).decode("utf-8")
+        report.domainname = check_output(["dnsdomainname"], stderr=DEVNULL).decode("utf-8")
         if report.domainname:
             summ += ' |__dnsdomainname: ' + report.domainname
             detail += detailfile('domainname')
@@ -175,14 +175,14 @@ def _getnetinfo(report, precheck):
     interfaces = {}
     if precheck.checkcommand("ip"):
         # Get interfaces
-        output = check_output(["ip", "-o", "link"]).decode("utf-8").splitlines()
+        output = check_output(["ip", "-o", "link"], stderr=DEVNULL).decode("utf-8").splitlines()
         for line in output:
             iface = line.split(":")[1].strip()
             mac = line.split("link")[1].split(" ")[1]
             interfaces[iface] = [mac]
 
         # Get interfaces address
-        output = check_output(["ip", "-o", "address"]).decode("utf-8").splitlines()
+        output = check_output(["ip", "-o", "address"], stderr=DEVNULL).decode("utf-8").splitlines()
         for line in output:
             line = " ".join(line.split()).split(" ")
             if line[2] == "inet":
@@ -290,7 +290,7 @@ def _getiptables(report, precheck):
     detail = detailheader("IPTables information")
     summ = "\nIPTables information\n"
 
-    output = check_output(["iptables", "-S"]).decode("utf-8").splitlines()
+    output = check_output(["iptables", "-S"], stderr=DEVNULL).decode("utf-8").splitlines()
 
     for item in output:
         if item.startswith("-P"):
@@ -423,7 +423,7 @@ def _getrunningservices(precheck, report):
             report.log("DEBUG", str(e))
 
     if precheck.checkcommand("systemctl"):
-        output = check_output(["systemctl", "list-units"]).decode("utf-8").splitlines()
+        output = check_output(["systemctl", "list-units"], stderr=DEVNULL).decode("utf-8").splitlines()
         detail += detailfile("systemd services:")
         summ += "\nSystemd services:\n"
         for item in output:
@@ -447,7 +447,7 @@ def _getrunningservices(precheck, report):
                     report.otherservices.append([sub, unit, description])
 
     elif precheck.checkcommand("chkconfig"):
-        output = check_output(["chkconfig", "--list"]).decode("utf-8").splitlines()
+        output = check_output(["chkconfig", "--list"], stderr=DEVNULL).decode("utf-8").splitlines()
         detail += detailfile("SysV init services:")
         summ += "\nSysV init enabled services:\n"
         if 0 < report.runlevel < 6:

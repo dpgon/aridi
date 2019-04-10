@@ -14,7 +14,7 @@ def _getusb():
     usb = []
     total = []
 
-    output = check_output("lsusb").decode("utf-8").splitlines()
+    output = check_output("lsusb", stderr=DEVNULL).decode("utf-8").splitlines()
 
     for item in output:
         bus = item.split(':')[0].lower().replace("bus ", "").replace(" device ", ":")
@@ -237,7 +237,8 @@ def _getdisks(precheck):
 
     # check disks and parts with lsblk
     if precheck.checkcommand("lsblk"):
-        outputlsblk = check_output(["lsblk", "-l"]).decode("utf-8").splitlines()[1:]
+        outputlsblk = check_output(["lsblk", "-l"],
+                                   stderr=DEVNULL).decode("utf-8").splitlines()[1:]
         for item in outputlsblk:
             spacefree = " ".join(item.split()).split(" ")
             name = spacefree[0]
@@ -257,7 +258,8 @@ def _getdisks(precheck):
 
     # check findmnt output
     if precheck.checkcommand("findmnt"):
-        outputfindmnt = check_output(["findmnt", "-l"]).decode("utf-8").splitlines()[1:]
+        outputfindmnt = check_output(["findmnt", "-l"],
+                                     stderr=DEVNULL).decode("utf-8").splitlines()[1:]
         for item in outputfindmnt:
             spacefree = " ".join(item.split()).split(" ")
             target = spacefree[0]
@@ -343,7 +345,8 @@ def _checkpermissions(precheck, report):
 
 def _getzypper():
     packages = []
-    output = check_output(["zypper", "packages", "--installed-only"]).decode("utf-8").splitlines()
+    output = check_output(["zypper", "packages", "--installed-only"],
+                          stderr=DEVNULL).decode("utf-8").splitlines()
     for item in output:
         if item[0] == "i":
             name = item.split("|")[2].strip()
@@ -356,7 +359,8 @@ def _getzypper():
 def _getyum():
     packages = []
     output = check_output(["yum", "list",
-                           "installed", "--noplugins"]).decode("utf-8").splitlines()[1:]
+                           "installed", "--noplugins"],
+                          stderr=DEVNULL).decode("utf-8").splitlines()[1:]
     output = " ".join(output)
     output = " ".join(output.split()).split(" ")
 
@@ -368,7 +372,7 @@ def _getyum():
 
 def _getpacman():
     packages = []
-    output = check_output(["pacman", "-Q"]).decode("utf-8").splitlines()
+    output = check_output(["pacman", "-Q"], stderr=DEVNULL).decode("utf-8").splitlines()
     for item in output:
         packages.append(item.split(" "))
     return packages
@@ -376,7 +380,8 @@ def _getpacman():
 
 def _getapt():
     packages = []
-    output = check_output(["apt", "list", "--installed"]).decode("utf-8").splitlines()
+    output = check_output(["apt", "list", "--installed"],
+                          stderr=DEVNULL).decode("utf-8").splitlines()
     for item in output:
         if "[" in item:
             name = item.split(" ")[0].split("/")[0]
@@ -389,7 +394,7 @@ def _getdpkg():
     packages = []
     output = check_output(["dpkg-query", "-f",
                            "${binary:Package}\t${source:Version}\n",
-                           "-W"]).decode("utf-8").splitlines()
+                           "-W"], stderr=DEVNULL).decode("utf-8").splitlines()
     for item in output:
         name = item.split("\t")[0]
         if ":" in name:
