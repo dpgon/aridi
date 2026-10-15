@@ -1,0 +1,35 @@
+ARIDI-BUNDLE 1 2.0.0.dev0
+boundary 88ba9d267e6ca01933a2bf5d2812a8f8
+--88ba9d267e6ca01933a2bf5d2812a8f8 begin meta.env kind=text limit=4194304
+shell=/usr/bin/bash
+timeout=timeout
+section_timeout=60
+section_limit=4194304
+boundary_source=urandom
+path=/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/sbin:/usr/local/bin
+
+--88ba9d267e6ca01933a2bf5d2812a8f8 end meta.env status=ok rc=0
+--88ba9d267e6ca01933a2bf5d2812a8f8 begin meta.date_utc kind=cmd tool=date limit=4194304
+2026-10-15T16:44:25Z
+
+--88ba9d267e6ca01933a2bf5d2812a8f8 end meta.date_utc status=ok rc=0
+--88ba9d267e6ca01933a2bf5d2812a8f8 begin meta.uid kind=cmd tool=id limit=4194304
+0
+
+--88ba9d267e6ca01933a2bf5d2812a8f8 end meta.uid status=ok rc=0
+--88ba9d267e6ca01933a2bf5d2812a8f8 begin meta.machine_id kind=file path=/etc/machine-id limit=4194304
+
+--88ba9d267e6ca01933a2bf5d2812a8f8 end meta.machine_id status=ok rc=0
+--88ba9d267e6ca01933a2bf5d2812a8f8 begin meta.dbus_machine_id kind=file path=/var/lib/dbus/machine-id limit=4194304
+
+--88ba9d267e6ca01933a2bf5d2812a8f8 end meta.dbus_machine_id status=na rc=-
+--88ba9d267e6ca01933a2bf5d2812a8f8 note meta.dbus_machine_id not found: /var/lib/dbus/machine-id
+--88ba9d267e6ca01933a2bf5d2812a8f8 begin meta.hostname kind=file path=/proc/sys/kernel/hostname limit=4194304
+corpus-fedora44
+
+--88ba9d267e6ca01933a2bf5d2812a8f8 end meta.hostname status=ok rc=0
+--88ba9d267e6ca01933a2bf5d2812a8f8 begin meta.uname kind=cmd tool=uname limit=4194304
+Linux corpus-fedora44 7.0.14-linuxkit #1 SMP PREEMPT Sun Sep 20 16:14:09 UTC 2026 aarch64 GNU/Linux
+
+--88ba9d267e6ca01933a2bf5d2812a8f8 end meta.uname status=ok rc=0
+--88ba9d267e6ca01933a2bf5d2812a8f8 close sections=7

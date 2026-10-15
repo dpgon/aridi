@@ -26,8 +26,8 @@ aarch64
 12
 ### meminfo
 MemTotal:        8124256 kB
-MemFree:         2374704 kB
-MemAvailable:    6363396 kB
+MemFree:         2199220 kB
+MemAvailable:    6350268 kB
 ### packages
 alternatives	(none):1.24-1.el9	aarch64
 audit-libs	(none):3.0.7-104.el9	aarch64
@@ -263,7 +263,7 @@ lo 00:00:00:00:00:00
 sit0 00:00:00:00
 tunl0 00:00:00:00
 ### mountinfo
-311 176 0:63 / / rw,relatime - overlay overlay rw,lowerdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30236/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/29963/fs,upperdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30237/fs,workdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30237/work,nouserxattr
+311 176 0:63 / / rw,relatime - overlay overlay rw,lowerdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30324/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/29963/fs,upperdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30325/fs,workdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30325/work,nouserxattr
 313 311 0:87 / /proc rw,nosuid,nodev,noexec,relatime - proc proc rw
 314 311 0:88 / /dev rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
 315 314 0:91 / /dev/pts rw,nosuid,noexec,relatime - devpts devpts rw,gid=5,mode=620,ptmxmode=666
@@ -271,10 +271,10 @@ tunl0 00:00:00:00
 317 316 0:41 / /sys/fs/cgroup ro,nosuid,nodev,noexec,relatime - cgroup2 cgroup rw
 318 314 0:85 / /dev/mqueue rw,nosuid,nodev,noexec,relatime - mqueue mqueue rw
 319 314 0:94 / /dev/shm rw,nosuid,nodev,noexec,relatime - tmpfs shm rw,size=65536k
-320 311 254:1 /docker/containers/30356f3db3b9ab13ff73111fecd88bee4013206126f588617a568de2c53f3bc3/hostname /etc/hostname rw,relatime - ext4 /dev/vda1 rw,discard
-321 311 254:1 /docker/containers/30356f3db3b9ab13ff73111fecd88bee4013206126f588617a568de2c53f3bc3/hosts /etc/hosts rw,relatime - ext4 /dev/vda1 rw,discard
-322 311 254:1 /docker/containers/30356f3db3b9ab13ff73111fecd88bee4013206126f588617a568de2c53f3bc3/resolv.conf /etc/resolv.conf rw,relatime - ext4 /dev/vda1 rw,discard
-324 311 0:46 /var/folders/lg/d0x4d4k15szfw_16wf9j4nv80000gn/T/tmp.n994G9nQ6t /srv/bind ro,nosuid,nodev,relatime - virtiofs virtiofs2 rw,ignore_atime,no_xattr
+320 311 254:1 /docker/containers/5870d55e5b2d68105fff4755ff450149d2d1dc43df8de0142fec30233c5d80c1/hostname /etc/hostname rw,relatime - ext4 /dev/vda1 rw,discard
+321 311 254:1 /docker/containers/5870d55e5b2d68105fff4755ff450149d2d1dc43df8de0142fec30233c5d80c1/hosts /etc/hosts rw,relatime - ext4 /dev/vda1 rw,discard
+322 311 254:1 /docker/containers/5870d55e5b2d68105fff4755ff450149d2d1dc43df8de0142fec30233c5d80c1/resolv.conf /etc/resolv.conf rw,relatime - ext4 /dev/vda1 rw,discard
+324 311 0:46 /var/folders/lg/d0x4d4k15szfw_16wf9j4nv80000gn/T/tmp.x1t5bYQQdM /srv/bind ro,nosuid,nodev,relatime - virtiofs virtiofs2 rw,ignore_atime,no_xattr
 325 311 0:95 / /srv/scratch rw,nosuid,nodev,noexec,relatime - tmpfs tmpfs rw
 177 313 0:87 /bus /proc/bus ro,nosuid,nodev,noexec,relatime - proc proc rw
 179 313 0:87 /fs /proc/fs ro,nosuid,nodev,noexec,relatime - proc proc rw
@@ -289,11 +289,11 @@ tunl0 00:00:00:00
 218 316 0:96 / /sys/firmware ro,relatime - tmpfs tmpfs ro,size=4k,nr_inodes=1
 ### df
 Filesystem     1024-blocks       Used  Available Capacity Mounted on
-overlay         1916745208   82265716 1737040416       5% /
+overlay         1916745208   82265720 1737040412       5% /
 tmpfs                65536          0      65536       0% /dev
 shm                  65536          0      65536       0% /dev/shm
-/dev/vda1       1916745208   82265716 1737040416       5% /etc/hosts
-virtiofs2       1948455240 1838110388  110344852      95% /srv/bind
+/dev/vda1       1916745208   82265720 1737040412       5% /etc/hosts
+virtiofs2       1948455240 1838034036  110421204      95% /srv/bind
 tmpfs              4062128          0    4062128       0% /srv/scratch
 tmpfs                    4          0          4       0% /proc/scsi
 ### suid_files
@@ -314,10 +314,10 @@ tmpfs                    4          0          4       0% /proc/scsi
 ### world_writable_dirs_no_sticky
 /srv/world-writable
 ### account_file_modes
--rw-r--r-- 1 0 0 358 Oct 15 16:30 /etc/group
----------- 1 0 0 274 Oct 15 16:30 /etc/gshadow
--rw-r--r-- 1 0 0 667 Oct 15 16:30 /etc/passwd
----------- 1 0 0 524 Oct 15 16:30 /etc/shadow
+-rw-r--r-- 1 0 0 358 Oct 15 16:44 /etc/group
+---------- 1 0 0 274 Oct 15 16:44 /etc/gshadow
+-rw-r--r-- 1 0 0 667 Oct 15 16:44 /etc/passwd
+---------- 1 0 0 524 Oct 15 16:44 /etc/shadow
 ### processes
 (missing: ps)
 ### process_count

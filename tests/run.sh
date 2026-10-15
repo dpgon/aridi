@@ -2,13 +2,14 @@
 # Runs the aridi test suites. Everything runs in Docker, so the host only needs a POSIX
 # shell and Docker (the host Python is never used).
 #
-# Usage: tests/run.sh [unit|collector|central|legacy|all]    (default: all)
+# Usage: tests/run.sh [unit|collector|central|legacy|all|golden]    (default: all)
 #
 #   unit       core unit tests (python -m unittest) in python:3.12-slim
-#   collector  tests of collector/aridi-collect.sh in every corpus image (phase 2)
+#   collector  tests of collector/aridi-collect.sh in every corpus image
 #   central    tests of the central component (phase 5)
 #   legacy     regression of the 2019 aridi against tests/legacy/baseline/
 #   all        all of the above; exit code is non-zero if any part fails
+#   golden     regenerate the golden report of tests/test_core/test_text.py (review the diff)
 
 set -u
 
@@ -24,7 +25,16 @@ run_unit() {
 }
 
 run_collector() {
-    echo "collector: no tests yet (TODO.md, phase 2)"
+    "$here/collector/test_script.sh" "$@"
+}
+
+run_golden() {
+    docker run --rm --network none \
+        -v "$repo":/repo:ro -v "$repo/tests/test_core/data":/golden -w /repo \
+        -e PYTHONPATH=src -e PYTHONDONTWRITEBYTECODE=1 \
+        "$python_image" sh -c 'python -m aridi.cli report --detail \
+            tests/corpus/debian12/minimal/bundle.aridi > /golden/report-debian12-minimal.txt;
+            test $? -le 1'
 }
 
 run_central() {
@@ -41,8 +51,9 @@ run_legacy() {
 
 suite=${1:-all}
 case $suite in
-    unit|collector|central|legacy)
-        "run_$suite"
+    unit|collector|central|legacy|golden)
+        shift
+        "run_$suite" "$@"
         exit $?
         ;;
     all)
@@ -61,7 +72,7 @@ case $suite in
         echo "ALL PASSED: unit collector central legacy"
         ;;
     *)
-        echo "usage: $0 [unit|collector|central|legacy|all]" >&2
+        echo "usage: $0 [unit|collector|central|legacy|all|golden]" >&2
         exit 2
         ;;
 esac

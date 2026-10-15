@@ -1,0 +1,35 @@
+ARIDI-BUNDLE 1 2.0.0.dev0
+boundary 33913427267804e60a2d847156673763
+--33913427267804e60a2d847156673763 begin meta.env kind=text limit=4194304
+shell=/usr/bin/bash
+timeout=timeout
+section_timeout=60
+section_limit=4194304
+boundary_source=urandom
+path=/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/sbin:/usr/local/bin
+
+--33913427267804e60a2d847156673763 end meta.env status=ok rc=0
+--33913427267804e60a2d847156673763 begin meta.date_utc kind=cmd tool=date limit=4194304
+2026-10-15T16:44:22Z
+
+--33913427267804e60a2d847156673763 end meta.date_utc status=ok rc=0
+--33913427267804e60a2d847156673763 begin meta.uid kind=cmd tool=id limit=4194304
+0
+
+--33913427267804e60a2d847156673763 end meta.uid status=ok rc=0
+--33913427267804e60a2d847156673763 begin meta.machine_id kind=file path=/etc/machine-id limit=4194304
+
+--33913427267804e60a2d847156673763 end meta.machine_id status=ok rc=0
+--33913427267804e60a2d847156673763 begin meta.dbus_machine_id kind=file path=/var/lib/dbus/machine-id limit=4194304
+
+--33913427267804e60a2d847156673763 end meta.dbus_machine_id status=na rc=-
+--33913427267804e60a2d847156673763 note meta.dbus_machine_id not found: /var/lib/dbus/machine-id
+--33913427267804e60a2d847156673763 begin meta.hostname kind=file path=/proc/sys/kernel/hostname limit=4194304
+corpus-fedora44
+
+--33913427267804e60a2d847156673763 end meta.hostname status=ok rc=0
+--33913427267804e60a2d847156673763 begin meta.uname kind=cmd tool=uname limit=4194304
+Linux corpus-fedora44 7.0.14-linuxkit #1 SMP PREEMPT Sun Sep 20 16:14:09 UTC 2026 aarch64 GNU/Linux
+
+--33913427267804e60a2d847156673763 end meta.uname status=ok rc=0
+--33913427267804e60a2d847156673763 close sections=7

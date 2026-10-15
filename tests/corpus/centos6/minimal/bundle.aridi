@@ -1,0 +1,36 @@
+ARIDI-BUNDLE 1 2.0.0.dev0
+boundary e0bfd801b7203e3529448c9b1580fee7
+--e0bfd801b7203e3529448c9b1580fee7 begin meta.env kind=text limit=4194304
+shell=/run/rosetta/rosetta
+timeout=timeout
+section_timeout=60
+section_limit=4194304
+boundary_source=urandom
+path=/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/sbin:/usr/local/bin
+
+--e0bfd801b7203e3529448c9b1580fee7 end meta.env status=ok rc=0
+--e0bfd801b7203e3529448c9b1580fee7 begin meta.date_utc kind=cmd tool=date limit=4194304
+2026-10-15T16:45:26Z
+
+--e0bfd801b7203e3529448c9b1580fee7 end meta.date_utc status=ok rc=0
+--e0bfd801b7203e3529448c9b1580fee7 begin meta.uid kind=cmd tool=id limit=4194304
+0
+
+--e0bfd801b7203e3529448c9b1580fee7 end meta.uid status=ok rc=0
+--e0bfd801b7203e3529448c9b1580fee7 begin meta.machine_id kind=file path=/etc/machine-id limit=4194304
+
+--e0bfd801b7203e3529448c9b1580fee7 end meta.machine_id status=na rc=-
+--e0bfd801b7203e3529448c9b1580fee7 note meta.machine_id not found: /etc/machine-id
+--e0bfd801b7203e3529448c9b1580fee7 begin meta.dbus_machine_id kind=file path=/var/lib/dbus/machine-id limit=4194304
+
+--e0bfd801b7203e3529448c9b1580fee7 end meta.dbus_machine_id status=na rc=-
+--e0bfd801b7203e3529448c9b1580fee7 note meta.dbus_machine_id not found: /var/lib/dbus/machine-id
+--e0bfd801b7203e3529448c9b1580fee7 begin meta.hostname kind=file path=/proc/sys/kernel/hostname limit=4194304
+corpus-centos6
+
+--e0bfd801b7203e3529448c9b1580fee7 end meta.hostname status=ok rc=0
+--e0bfd801b7203e3529448c9b1580fee7 begin meta.uname kind=cmd tool=uname limit=4194304
+Linux corpus-centos6 7.0.14-linuxkit #1 SMP PREEMPT Sun Sep 20 16:14:09 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+
+--e0bfd801b7203e3529448c9b1580fee7 end meta.uname status=ok rc=0
+--e0bfd801b7203e3529448c9b1580fee7 close sections=7

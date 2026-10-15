@@ -1,0 +1,36 @@
+ARIDI-BUNDLE 1 2.0.0.dev0
+boundary 5f216c78dcf6bd645438a954743a9941
+--5f216c78dcf6bd645438a954743a9941 begin meta.env kind=text limit=4194304
+shell=/bin/busybox
+timeout=timeout
+section_timeout=60
+section_limit=4194304
+boundary_source=urandom
+path=/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/sbin:/usr/local/bin
+
+--5f216c78dcf6bd645438a954743a9941 end meta.env status=ok rc=0
+--5f216c78dcf6bd645438a954743a9941 begin meta.date_utc kind=cmd tool=date limit=4194304
+2026-10-15T16:44:31Z
+
+--5f216c78dcf6bd645438a954743a9941 end meta.date_utc status=ok rc=0
+--5f216c78dcf6bd645438a954743a9941 begin meta.uid kind=cmd tool=id limit=4194304
+0
+
+--5f216c78dcf6bd645438a954743a9941 end meta.uid status=ok rc=0
+--5f216c78dcf6bd645438a954743a9941 begin meta.machine_id kind=file path=/etc/machine-id limit=4194304
+
+--5f216c78dcf6bd645438a954743a9941 end meta.machine_id status=na rc=-
+--5f216c78dcf6bd645438a954743a9941 note meta.machine_id not found: /etc/machine-id
+--5f216c78dcf6bd645438a954743a9941 begin meta.dbus_machine_id kind=file path=/var/lib/dbus/machine-id limit=4194304
+
+--5f216c78dcf6bd645438a954743a9941 end meta.dbus_machine_id status=na rc=-
+--5f216c78dcf6bd645438a954743a9941 note meta.dbus_machine_id not found: /var/lib/dbus/machine-id
+--5f216c78dcf6bd645438a954743a9941 begin meta.hostname kind=file path=/proc/sys/kernel/hostname limit=4194304
+corpus-alpine320
+
+--5f216c78dcf6bd645438a954743a9941 end meta.hostname status=ok rc=0
+--5f216c78dcf6bd645438a954743a9941 begin meta.uname kind=cmd tool=uname limit=4194304
+Linux corpus-alpine320 7.0.14-linuxkit #1 SMP PREEMPT Sun Sep 20 16:14:09 UTC 2026 aarch64 Linux
+
+--5f216c78dcf6bd645438a954743a9941 end meta.uname status=ok rc=0
+--5f216c78dcf6bd645438a954743a9941 close sections=7

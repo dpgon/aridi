@@ -31,12 +31,12 @@ destino está en `docs/CAMBIO.md`.
 | Ruta | Qué es |
 |---|---|
 | `legacy/` | El aridi de 2019, intacto. Se borra al alcanzar la paridad (fase 4). Ver `legacy/README.md`. |
-| `collector/aridi-collect.sh` | Script POSIX de recogida en bruto (vacío hasta la fase 2) |
+| `collector/aridi-collect.sh` | Script POSIX de recogida en bruto: armazón y secciones `meta.*`; las áreas llegan en la fase 3 |
 | `src/aridi/` | Núcleo: solo librería estándar; interpreta paquetes en bruto (CLI `aridi`) |
 | `src/aridi_central/` | Central Django (desde la fase 5; todavía no existe) |
-| `tests/` | `run.sh` (punto de entrada), pruebas `unittest`, `legacy/` (línea base de 2019) y, más adelante, `corpus/` |
+| `tests/` | `run.sh` (punto de entrada), pruebas `unittest`, `collector/` (script en todas las imágenes), `corpus/` (muestras), `lima/` (VMs) y `legacy/` (línea base de 2019) |
 | `requirements/` | `central.in` y `central.txt`: dependencias del central, fijadas con hashes |
-| `docs/` | Estudio, idea, alcance medido, futuro, arquitectura y cambio (en español) |
+| `docs/` | Estudio, idea, alcance medido, futuro, arquitectura, cambio y formato (`FORMATO.md`, el contrato del paquete y de la fotografía), en español |
 | `pyproject.toml` | Distribución `aridi`: núcleo sin dependencias; extra `central` |
 
 **El aridi de 2019** (`legacy/`):
@@ -98,6 +98,13 @@ pide. Si hay que tocarlo, se respeta su estilo:
 - **`unit`:** `python -m unittest discover -s tests -t .` en `python:3.12-slim`, con el
   repositorio montado en solo lectura. Las pruebas van en `tests/`, en ficheros
   `test_*.py`, con la librería estándar `unittest` (sin pytest).
+- **`collector`:** `tests/collector/test_script.sh` ejecuta el script en las 10 imágenes
+  del corpus, con cada shell disponible, como root y como uid 65534. Comprueba que
+  termina con 0, que no deja rastro (`find -newer`) y que los estados (`denied`,
+  `timeout`…) son los esperados; después valida los paquetes con el lector del núcleo.
+- **`golden`:** `tests/run.sh golden` regenera el informe de referencia de
+  `tests/test_core/test_text.py`. Hay que hacerlo tras recapturar el corpus o cambiar el
+  informe, **revisando el diff**.
 - **`legacy`:** `tests/legacy/baseline.sh compare` ejecuta el aridi de 2019 en Debian 12 y
   CentOS 7, sin red, y comprueba que sus errores, sus secciones y su código de salida no
   cambian respecto a `tests/legacy/baseline/`. Si una tarea toca `legacy/` a propósito,
@@ -111,7 +118,8 @@ pide. Si hay que tocarlo, se respeta su estilo:
 
 - No hay nada que compilar.
 - **Núcleo:** `PYTHONPATH=src python3.12 -m aridi.cli …` o, tras `pip install .`,
-  `aridi …`. Todavía no hace nada (fase 2).
+  `aridi validate|interpret|report <paquete>`. Hasta la fase 3, todas las áreas salen
+  como «no analyzer».
 - **Dependencias del central:** `pip install --require-hashes -r requirements/central.txt`.
   Para regenerarlo, sigue el comando de `requirements/central.in`.
 - **aridi de 2019:** `cd legacy && sudo python3 aridi.py [-a|-g|-s|-v|-c] [--scan]

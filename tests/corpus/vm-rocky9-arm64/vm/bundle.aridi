@@ -1,0 +1,36 @@
+ARIDI-BUNDLE 1 2.0.0.dev0
+boundary 57fd59f843c75788f1e03bd02df58a3a
+--57fd59f843c75788f1e03bd02df58a3a begin meta.env kind=text limit=4194304
+shell=/usr/bin/bash
+timeout=timeout
+section_timeout=60
+section_limit=4194304
+boundary_source=urandom
+path=/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/sbin:/usr/local/bin
+
+--57fd59f843c75788f1e03bd02df58a3a end meta.env status=ok rc=0
+--57fd59f843c75788f1e03bd02df58a3a begin meta.date_utc kind=cmd tool=date limit=4194304
+2026-10-15T16:46:30Z
+
+--57fd59f843c75788f1e03bd02df58a3a end meta.date_utc status=ok rc=0
+--57fd59f843c75788f1e03bd02df58a3a begin meta.uid kind=cmd tool=id limit=4194304
+0
+
+--57fd59f843c75788f1e03bd02df58a3a end meta.uid status=ok rc=0
+--57fd59f843c75788f1e03bd02df58a3a begin meta.machine_id kind=file path=/etc/machine-id limit=4194304
+1899ee9c501b49d8a6da6b191cb5314b
+
+--57fd59f843c75788f1e03bd02df58a3a end meta.machine_id status=ok rc=0
+--57fd59f843c75788f1e03bd02df58a3a begin meta.dbus_machine_id kind=file path=/var/lib/dbus/machine-id limit=4194304
+
+--57fd59f843c75788f1e03bd02df58a3a end meta.dbus_machine_id status=na rc=-
+--57fd59f843c75788f1e03bd02df58a3a note meta.dbus_machine_id not found: /var/lib/dbus/machine-id
+--57fd59f843c75788f1e03bd02df58a3a begin meta.hostname kind=file path=/proc/sys/kernel/hostname limit=4194304
+lima-aridi-corpus-rocky9-arm64
+
+--57fd59f843c75788f1e03bd02df58a3a end meta.hostname status=ok rc=0
+--57fd59f843c75788f1e03bd02df58a3a begin meta.uname kind=cmd tool=uname limit=4194304
+Linux lima-aridi-corpus-rocky9-arm64 5.14.0-687.10.1.el9_8.0.1.aarch64 #1 SMP PREEMPT_DYNAMIC Sun May 24 13:01:44 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux
+
+--57fd59f843c75788f1e03bd02df58a3a end meta.uname status=ok rc=0
+--57fd59f843c75788f1e03bd02df58a3a close sections=7

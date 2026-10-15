@@ -1,0 +1,36 @@
+ARIDI-BUNDLE 1 2.0.0.dev0
+boundary 9e1b6b65e692be571dbdeebdcdf74ddf
+--9e1b6b65e692be571dbdeebdcdf74ddf begin meta.env kind=text limit=4194304
+shell=/usr/bin/dash
+timeout=timeout
+section_timeout=60
+section_limit=4194304
+boundary_source=urandom
+path=/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/sbin:/usr/local/bin
+
+--9e1b6b65e692be571dbdeebdcdf74ddf end meta.env status=ok rc=0
+--9e1b6b65e692be571dbdeebdcdf74ddf begin meta.date_utc kind=cmd tool=date limit=4194304
+2026-10-15T16:49:30Z
+
+--9e1b6b65e692be571dbdeebdcdf74ddf end meta.date_utc status=ok rc=0
+--9e1b6b65e692be571dbdeebdcdf74ddf begin meta.uid kind=cmd tool=id limit=4194304
+0
+
+--9e1b6b65e692be571dbdeebdcdf74ddf end meta.uid status=ok rc=0
+--9e1b6b65e692be571dbdeebdcdf74ddf begin meta.machine_id kind=file path=/etc/machine-id limit=4194304
+6d77740c7d9643fd8fb3eb6322915997
+
+--9e1b6b65e692be571dbdeebdcdf74ddf end meta.machine_id status=ok rc=0
+--9e1b6b65e692be571dbdeebdcdf74ddf begin meta.dbus_machine_id kind=file path=/var/lib/dbus/machine-id limit=4194304
+6d77740c7d9643fd8fb3eb6322915997
+
+--9e1b6b65e692be571dbdeebdcdf74ddf end meta.dbus_machine_id status=ok rc=0
+--9e1b6b65e692be571dbdeebdcdf74ddf begin meta.hostname kind=file path=/proc/sys/kernel/hostname limit=4194304
+lima-aridi-corpus-debian12-amd64
+
+--9e1b6b65e692be571dbdeebdcdf74ddf end meta.hostname status=ok rc=0
+--9e1b6b65e692be571dbdeebdcdf74ddf begin meta.uname kind=cmd tool=uname limit=4194304
+Linux lima-aridi-corpus-debian12-amd64 6.1.0-53-cloud-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.1.187-1 (2026-09-07) x86_64 GNU/Linux
+
+--9e1b6b65e692be571dbdeebdcdf74ddf end meta.uname status=ok rc=0
+--9e1b6b65e692be571dbdeebdcdf74ddf close sections=7

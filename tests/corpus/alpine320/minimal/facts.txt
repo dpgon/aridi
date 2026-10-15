@@ -16,8 +16,8 @@ aarch64
 12
 ### meminfo
 MemTotal:        8124256 kB
-MemFree:         2374396 kB
-MemAvailable:    6402588 kB
+MemFree:         2218320 kB
+MemAvailable:    6373056 kB
 ### packages
 alpine-baselayout-3.6.5-r0
 alpine-baselayout-data-3.6.5-r0
@@ -119,7 +119,7 @@ bob:!
 ### listening_netstat
 Active Internet connections (only servers)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
-tcp        0      0 127.0.0.1:8081          0.0.0.0:*               LISTEN      46/busybox
+tcp        0      0 127.0.0.1:8081          0.0.0.0:*               LISTEN      45/busybox
 ### proc_net_tcp6_listen
 ### proc_net_udp_unconnected
 ### links_ip
@@ -149,7 +149,7 @@ lo 00:00:00:00:00:00
 sit0 00:00:00:00
 tunl0 00:00:00:00
 ### mountinfo
-311 176 0:63 / / rw,relatime - overlay overlay rw,lowerdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30250/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/29966/fs,upperdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30251/fs,workdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30251/work,nouserxattr
+311 176 0:63 / / rw,relatime - overlay overlay rw,lowerdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30338/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/29966/fs,upperdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30339/fs,workdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30339/work,nouserxattr
 313 311 0:87 / /proc rw,nosuid,nodev,noexec,relatime - proc proc rw
 314 311 0:88 / /dev rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
 315 314 0:91 / /dev/pts rw,nosuid,noexec,relatime - devpts devpts rw,gid=5,mode=620,ptmxmode=666
@@ -157,10 +157,10 @@ tunl0 00:00:00:00
 317 316 0:41 / /sys/fs/cgroup ro,nosuid,nodev,noexec,relatime - cgroup2 cgroup rw
 318 314 0:85 / /dev/mqueue rw,nosuid,nodev,noexec,relatime - mqueue mqueue rw
 319 314 0:94 / /dev/shm rw,nosuid,nodev,noexec,relatime - tmpfs shm rw,size=65536k
-320 311 254:1 /docker/containers/4077e2ae464223e30eeae93e09ac8a03d9d4353178815a13cec020ad81950b65/hostname /etc/hostname rw,relatime - ext4 /dev/vda1 rw,discard
-321 311 254:1 /docker/containers/4077e2ae464223e30eeae93e09ac8a03d9d4353178815a13cec020ad81950b65/hosts /etc/hosts rw,relatime - ext4 /dev/vda1 rw,discard
-322 311 254:1 /docker/containers/4077e2ae464223e30eeae93e09ac8a03d9d4353178815a13cec020ad81950b65/resolv.conf /etc/resolv.conf rw,relatime - ext4 /dev/vda1 rw,discard
-324 311 0:46 /var/folders/lg/d0x4d4k15szfw_16wf9j4nv80000gn/T/tmp.nc6IXFucr9 /srv/bind ro,nosuid,nodev,relatime - virtiofs virtiofs2 rw,ignore_atime,no_xattr
+320 311 254:1 /docker/containers/63ec1df83fad1aa985ade5d68f3fc7b3e18ef49133eb0199869f76329d27d972/hostname /etc/hostname rw,relatime - ext4 /dev/vda1 rw,discard
+321 311 254:1 /docker/containers/63ec1df83fad1aa985ade5d68f3fc7b3e18ef49133eb0199869f76329d27d972/hosts /etc/hosts rw,relatime - ext4 /dev/vda1 rw,discard
+322 311 254:1 /docker/containers/63ec1df83fad1aa985ade5d68f3fc7b3e18ef49133eb0199869f76329d27d972/resolv.conf /etc/resolv.conf rw,relatime - ext4 /dev/vda1 rw,discard
+324 311 0:46 /var/folders/lg/d0x4d4k15szfw_16wf9j4nv80000gn/T/tmp.RKcHUn7APy /srv/bind ro,nosuid,nodev,relatime - virtiofs virtiofs2 rw,ignore_atime,no_xattr
 325 311 0:95 / /srv/scratch rw,nosuid,nodev,noexec,relatime - tmpfs tmpfs rw
 177 313 0:87 /bus /proc/bus ro,nosuid,nodev,noexec,relatime - proc proc rw
 179 313 0:87 /fs /proc/fs ro,nosuid,nodev,noexec,relatime - proc proc rw
@@ -175,13 +175,13 @@ tunl0 00:00:00:00
 218 316 0:96 / /sys/firmware ro,relatime - tmpfs tmpfs ro,size=4k,nr_inodes=1
 ### df
 Filesystem           1024-blocks    Used Available Capacity Mounted on
-overlay              1916745208  82266516 1737039616   5% /
+overlay              1916745208  82266520 1737039612   5% /
 tmpfs                    65536         0     65536   0% /dev
 shm                      65536         0     65536   0% /dev/shm
-/dev/vda1            1916745208  82266516 1737039616   5% /etc/hostname
-/dev/vda1            1916745208  82266516 1737039616   5% /etc/hosts
-/dev/vda1            1916745208  82266516 1737039616   5% /etc/resolv.conf
-virtiofs2            1948455240 1838104268 110350972  94% /srv/bind
+/dev/vda1            1916745208  82266520 1737039612   5% /etc/hostname
+/dev/vda1            1916745208  82266520 1737039612   5% /etc/hosts
+/dev/vda1            1916745208  82266520 1737039612   5% /etc/resolv.conf
+virtiofs2            1948455240 1838036468 110418772  94% /srv/bind
 tmpfs                  4062128         0   4062128   0% /srv/scratch
 tmpfs                    65536         0     65536   0% /proc/interrupts
 tmpfs                    65536         0     65536   0% /proc/kcore
@@ -196,9 +196,9 @@ tmpfs                        4         0         4   0% /sys/firmware
 /srv/world-writable
 ### account_file_modes
 ls: /etc/gshadow: No such file or directory
--rw-r--r--    1 0        0              568 Oct 15 16:30 /etc/group
--rw-r--r--    1 0        0              802 Oct 15 16:30 /etc/passwd
--rw-r-----    1 0        42             417 Oct 15 16:30 /etc/shadow
+-rw-r--r--    1 0        0              568 Oct 15 16:44 /etc/group
+-rw-r--r--    1 0        0              802 Oct 15 16:44 /etc/passwd
+-rw-r-----    1 0        42             417 Oct 15 16:44 /etc/shadow
 ### processes
 ps: bad -o argument 'uid', supported arguments: user,group,comm,args,pid,ppid,pgid,etime,nice,rgroup,ruser,time,tty,vsz,sid,stat,rss
 ### process_count

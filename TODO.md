@@ -227,28 +227,30 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
 
 ### 2.1 Especificación
 
-- [ ] Crear `docs/FORMATO.md` con la especificación del **paquete en bruto v1**:
+- [x] Crear `docs/FORMATO.md` con la especificación del **paquete en bruto v1**:
   - cabecera `ARIDI-BUNDLE 1 <versión_script>`;
   - frontera aleatoria por ejecución;
   - por sección: nombre, estado (`ok`, `denied`, `missing`, `na`, `timeout`, `error`),
     código de salida, bytes y contenido;
+    **(Hecho con un cambio: los bytes los calcula el lector, no el script. Contarlos en
+    `sh` sin ficheros temporales no es fiable; ver `docs/FORMATO.md`, *Decisiones*.)**
   - cierre con número de secciones;
   - reglas de escape;
   - lo que el script **nunca** emite (hashes completos de `shadow`, contenido de claves
     privadas).
-- [ ] En `docs/FORMATO.md`, especificar también la **fotografía v1**: `schema_version`,
+- [x] En `docs/FORMATO.md`, especificar también la **fotografía v1**: `schema_version`,
   `machine` (`machine_id`, `hostname`), `collected_at`, `collector_version`,
   `sections.<área>` con `status`, `reason` y `data`, la marca `volatile`, y la lista
   `relations` con códigos de papel **enumerados**, no frases. Por ejemplo: `local`,
   `dns_server`, `ntp_server`, `login_source`, `failed_login_source`, `fw_allowed_in`,
   `fw_allowed_out`, `peer_in`, `peer_out`, `named_in_file`, `neighbour`, `scan_open_port`.
-- [ ] En `docs/FORMATO.md`, la política de versiones: qué cambio sube la versión,
+- [x] En `docs/FORMATO.md`, la política de versiones: qué cambio sube la versión,
   compatibilidad hacia atrás de `aridi interpret` con paquetes antiguos y qué pasa con
   una versión desconocida (error explícito).
 
 ### 2.2 Script de recogida: armazón
 
-- [ ] En `collector/aridi-collect.sh`, implementar el armazón:
+- [x] En `collector/aridi-collect.sh`, implementar el armazón:
   - funciones `section <nombre> <comando…>`, `section_file <nombre> <ruta>` y
     `have <herramienta>`;
   - estados según el resultado: `missing` si falta la herramienta, `denied` si no hay
@@ -262,10 +264,10 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
     stdin (por ejemplo `ssh`) se come el resto del script. En bash, que lee la tubería
     línea a línea, el script se corta sin avisar. Se observó con `tests/lima/scenario-vm.sh`
     en Rocky 9 (fase 1). En dash no ocurre porque lee el script por bloques.
-- [ ] Añadir las secciones de identidad que necesita la cabecera de la fotografía:
+- [x] Añadir las secciones de identidad que necesita la cabecera de la fotografía:
   `/etc/machine-id` (o `/var/lib/dbus/machine-id`), `hostname`, `uname -a`, `id -u` y la
   fecha UTC.
-- [ ] Pruebas en `tests/collector/test_script.sh`, ejecutadas por
+- [x] Pruebas en `tests/collector/test_script.sh`, ejecutadas por
   `tests/run.sh collector` en **todas** las imágenes de `tests/corpus/images.txt`, en
   variante `minimal`:
   - el script termina con código 0;
@@ -273,35 +275,36 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
   - **no se crea ni se modifica ningún fichero**: se comprueba con
     `find / -xdev -newer <marca>` antes y después, excluyendo `/proc`, `/sys` y `/dev`;
   - funciona con `dash`, `bash`, `busybox ash` y el `sh` de CentOS 6;
-  - con bash, el script llega entero aunque haya datos de más detrás en stdin (la
-    última sección aparece).
-- [ ] Prueba con un usuario sin privilegios (`--user 65534`): termina igual y marca como
+  - con bash, lo que venga detrás del script en stdin no se ejecuta, y una sección
+    `cat` del *probe* (que bash lee línea a línea) sale vacía: ningún comando lee stdin.
+    Se comprobó que la prueba falla si se quita el `</dev/null`.
+- [x] Prueba con un usuario sin privilegios (`--user 65534`): termina igual y marca como
   `denied` lo que no puede leer.
 
 ### 2.3 Núcleo: lectura, modelo y CLI
 
-- [ ] `src/aridi/bundle.py`: leer un paquete v1 y devolver las secciones (nombre, estado,
+- [x] `src/aridi/bundle.py`: leer un paquete v1 y devolver las secciones (nombre, estado,
   código, bytes); rechazar una versión desconocida o un paquete truncado con una
   excepción propia. **Pruebas** en `tests/test_parsers/test_bundle.py`: paquetes del
   corpus, uno truncado, una versión desconocida y una frontera que aparezca dentro del
   contenido.
-- [ ] `src/aridi/model.py`, con `dataclasses`:
+- [x] `src/aridi/model.py`, con `dataclasses`:
   - `Snapshot`, `Section` (`status`, `reason`, `data`, `volatile`), `Relation` (IP como
     `ipaddress.ip_address`, v4 y v6, y papel enumerado);
   - serialización a JSON y desde JSON;
   - `schema_version = 1`.
 
   **Pruebas:** ida y vuelta a JSON, papeles desconocidos rechazados, IPs v4 y v6.
-- [ ] `src/aridi/interpret.py`: de paquete a `Snapshot`, con un registro de analizadores
+- [x] `src/aridi/interpret.py`: de paquete a `Snapshot`, con un registro de analizadores
   por área. Un área sin analizador o con la sección en un estado distinto de `ok`
   produce `Section(status=…, reason=…)`; **nunca desaparece**. Una excepción en un
   analizador produce `status="error"` con el motivo, y el resto continúa. **Pruebas:**
   un analizador que lanza una excepción no tumba los demás.
-- [ ] `src/aridi/views/text.py`: informe legible con resumen y detalle por área (los dos
+- [x] `src/aridi/views/text.py`: informe legible con resumen y detalle por área (los dos
   niveles se conservan de 2019) y una sección final **«Lo que no se ha podido ver»**,
   con área, estado y motivo. **Pruebas:** salida estable (*golden*) para un paquete del
   corpus.
-- [ ] `src/aridi/cli.py`:
+- [x] `src/aridi/cli.py`:
   - `aridi validate <paquete>`;
   - `aridi interpret <paquete> [-o fichero.json]`;
   - `aridi report <paquete> [--detail]`;

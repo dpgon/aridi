@@ -1,0 +1,36 @@
+ARIDI-BUNDLE 1 2.0.0.dev0
+boundary 6043088dbc4e7d47ebb43f986e4a2b4a
+--6043088dbc4e7d47ebb43f986e4a2b4a begin meta.env kind=text limit=4194304
+shell=/usr/bin/dash
+timeout=timeout
+section_timeout=60
+section_limit=4194304
+boundary_source=urandom
+path=/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/sbin:/usr/local/bin
+
+--6043088dbc4e7d47ebb43f986e4a2b4a end meta.env status=ok rc=0
+--6043088dbc4e7d47ebb43f986e4a2b4a begin meta.date_utc kind=cmd tool=date limit=4194304
+2026-10-15T16:43:49Z
+
+--6043088dbc4e7d47ebb43f986e4a2b4a end meta.date_utc status=ok rc=0
+--6043088dbc4e7d47ebb43f986e4a2b4a begin meta.uid kind=cmd tool=id limit=4194304
+0
+
+--6043088dbc4e7d47ebb43f986e4a2b4a end meta.uid status=ok rc=0
+--6043088dbc4e7d47ebb43f986e4a2b4a begin meta.machine_id kind=file path=/etc/machine-id limit=4194304
+
+--6043088dbc4e7d47ebb43f986e4a2b4a end meta.machine_id status=na rc=-
+--6043088dbc4e7d47ebb43f986e4a2b4a note meta.machine_id not found: /etc/machine-id
+--6043088dbc4e7d47ebb43f986e4a2b4a begin meta.dbus_machine_id kind=file path=/var/lib/dbus/machine-id limit=4194304
+
+--6043088dbc4e7d47ebb43f986e4a2b4a end meta.dbus_machine_id status=na rc=-
+--6043088dbc4e7d47ebb43f986e4a2b4a note meta.dbus_machine_id not found: /var/lib/dbus/machine-id
+--6043088dbc4e7d47ebb43f986e4a2b4a begin meta.hostname kind=file path=/proc/sys/kernel/hostname limit=4194304
+corpus-debian12
+
+--6043088dbc4e7d47ebb43f986e4a2b4a end meta.hostname status=ok rc=0
+--6043088dbc4e7d47ebb43f986e4a2b4a begin meta.uname kind=cmd tool=uname limit=4194304
+Linux corpus-debian12 7.0.14-linuxkit #1 SMP PREEMPT Sun Sep 20 16:14:09 UTC 2026 aarch64 GNU/Linux
+
+--6043088dbc4e7d47ebb43f986e4a2b4a end meta.uname status=ok rc=0
+--6043088dbc4e7d47ebb43f986e4a2b4a close sections=7

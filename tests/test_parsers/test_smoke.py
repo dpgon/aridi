@@ -12,11 +12,13 @@ class SmokeTest(unittest.TestCase):
         self.assertEqual(aridi.__version__, "2.0.0.dev0")
         self.assertEqual(aridi.BUNDLE_FORMAT_VERSION, 1)
 
-    def test_subcommands_not_implemented_yet(self):
-        for command in ("report", "interpret", "validate"):
-            with self.subTest(command=command), redirect_stderr(io.StringIO()) as err:
-                self.assertEqual(cli.main([command, "some.aridi"]), cli.EXIT_FAILED)
-                self.assertIn("not implemented", err.getvalue())
+    def test_bundle_format_matches_reader_and_collector(self):
+        from aridi import bundle
+        from tests.helpers import REPO
+        self.assertEqual(bundle.FORMAT_VERSION, aridi.BUNDLE_FORMAT_VERSION)
+        script = (REPO / "collector" / "aridi-collect.sh").read_text(encoding="utf-8")
+        self.assertIn(f"ARIDI_BUNDLE_FORMAT={aridi.BUNDLE_FORMAT_VERSION}\n", script)
+        self.assertIn(f'ARIDI_COLLECTOR_VERSION="{aridi.__version__}"', script)
 
     def test_command_is_required(self):
         with redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as ctx:

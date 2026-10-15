@@ -18,8 +18,8 @@ x86_64
 2
 ### meminfo
 MemTotal:        2021684 kB
-MemFree:         1394348 kB
-MemAvailable:    1754976 kB
+MemFree:         1372712 kB
+MemAvailable:    1735008 kB
 ### packages
 adduser	3.134	all
 apparmor	3.0.8-3	amd64
@@ -474,45 +474,45 @@ alice:$y$
 bob:!
 ### listening
 Netid State  Recv-Q Send-Q     Local Address:Port  Peer Address:PortProcess                                    
-udp   UNCONN 0      0             127.0.0.54:53         0.0.0.0:*    users:(("systemd-resolve",pid=679,fd=20)) 
-udp   UNCONN 0      0          127.0.0.53%lo:53         0.0.0.0:*    users:(("systemd-resolve",pid=679,fd=18)) 
-udp   UNCONN 0      0      192.168.5.15%eth0:68         0.0.0.0:*    users:(("systemd-network",pid=437,fd=18)) 
-udp   UNCONN 0      0                0.0.0.0:5353       0.0.0.0:*    users:(("systemd-resolve",pid=679,fd=24)) 
-udp   UNCONN 0      0                0.0.0.0:5355       0.0.0.0:*    users:(("systemd-resolve",pid=679,fd=11)) 
-udp   UNCONN 0      0                0.0.0.0:58673      0.0.0.0:*    users:(("systemd-timesyn",pid=5853,fd=16))
-udp   UNCONN 0      0                0.0.0.0:5514       0.0.0.0:*    users:(("socat",pid=5697,fd=5))           
-udp   UNCONN 0      0                   [::]:5353          [::]:*    users:(("systemd-resolve",pid=679,fd=25)) 
-udp   UNCONN 0      0                   [::]:5355          [::]:*    users:(("systemd-resolve",pid=679,fd=13)) 
-tcp   LISTEN 0      5              127.0.0.1:8081       0.0.0.0:*    users:(("socat",pid=5693,fd=5))           
-tcp   LISTEN 0      4096       127.0.0.53%lo:53         0.0.0.0:*    users:(("systemd-resolve",pid=679,fd=19)) 
-tcp   LISTEN 0      4096          127.0.0.54:53         0.0.0.0:*    users:(("systemd-resolve",pid=679,fd=21)) 
-tcp   LISTEN 0      128              0.0.0.0:22         0.0.0.0:*    users:(("sshd",pid=505,fd=3))             
-tcp   LISTEN 0      4096             0.0.0.0:5355       0.0.0.0:*    users:(("systemd-resolve",pid=679,fd=12)) 
-tcp   LISTEN 0      5                      *:8080             *:*    users:(("socat",pid=5689,fd=5))           
-tcp   LISTEN 0      128                 [::]:22            [::]:*    users:(("sshd",pid=505,fd=4))             
-tcp   LISTEN 0      4096                [::]:5355          [::]:*    users:(("systemd-resolve",pid=679,fd=14)) 
+udp   UNCONN 0      0             127.0.0.54:53         0.0.0.0:*    users:(("systemd-resolve",pid=690,fd=20)) 
+udp   UNCONN 0      0          127.0.0.53%lo:53         0.0.0.0:*    users:(("systemd-resolve",pid=690,fd=18)) 
+udp   UNCONN 0      0      192.168.5.15%eth0:68         0.0.0.0:*    users:(("systemd-network",pid=435,fd=18)) 
+udp   UNCONN 0      0                0.0.0.0:5353       0.0.0.0:*    users:(("systemd-resolve",pid=690,fd=24)) 
+udp   UNCONN 0      0                0.0.0.0:5355       0.0.0.0:*    users:(("systemd-resolve",pid=690,fd=11)) 
+udp   UNCONN 0      0                0.0.0.0:5514       0.0.0.0:*    users:(("socat",pid=5736,fd=5))           
+udp   UNCONN 0      0                0.0.0.0:47596      0.0.0.0:*    users:(("systemd-timesyn",pid=5893,fd=16))
+udp   UNCONN 0      0                   [::]:5353          [::]:*    users:(("systemd-resolve",pid=690,fd=25)) 
+udp   UNCONN 0      0                   [::]:5355          [::]:*    users:(("systemd-resolve",pid=690,fd=13)) 
+tcp   LISTEN 0      4096          127.0.0.54:53         0.0.0.0:*    users:(("systemd-resolve",pid=690,fd=21)) 
+tcp   LISTEN 0      4096       127.0.0.53%lo:53         0.0.0.0:*    users:(("systemd-resolve",pid=690,fd=19)) 
+tcp   LISTEN 0      5              127.0.0.1:8081       0.0.0.0:*    users:(("socat",pid=5732,fd=5))           
+tcp   LISTEN 0      4096             0.0.0.0:5355       0.0.0.0:*    users:(("systemd-resolve",pid=690,fd=12)) 
+tcp   LISTEN 0      128              0.0.0.0:22         0.0.0.0:*    users:(("sshd",pid=501,fd=3))             
+tcp   LISTEN 0      5                      *:8080             *:*    users:(("socat",pid=5728,fd=5))           
+tcp   LISTEN 0      4096                [::]:5355          [::]:*    users:(("systemd-resolve",pid=690,fd=14)) 
+tcp   LISTEN 0      128                 [::]:22            [::]:*    users:(("sshd",pid=501,fd=4))             
 ### listening_netstat
 (missing: netstat)
 ### proc_net_tcp6_listen
 00000000000000000000000000000000:1F90
-00000000000000000000000000000000:0016
 00000000000000000000000000000000:14EB
+00000000000000000000000000000000:0016
 ### proc_net_udp_unconnected
 3600007F:0035
 3500007F:0035
 0F05A8C0:0044
 00000000:14E9
 00000000:14EB
-00000000:E531
 00000000:158A
+00000000:B9EC
 ### links_ip
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000\    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000\    link/ether 52:55:55:d4:f2:93 brd ff:ff:ff:ff:ff:ff\    altname enp0s4
 ### interfaces_ip
 1: lo    inet 127.0.0.1/8 scope host lo\       valid_lft forever preferred_lft forever
 1: lo    inet6 ::1/128 scope host noprefixroute \       valid_lft forever preferred_lft forever
-2: eth0    inet 192.168.5.15/24 metric 200 brd 192.168.5.255 scope global dynamic eth0\       valid_lft 86270sec preferred_lft 86270sec
-2: eth0    inet6 fec0::5055:55ff:fed4:f293/64 scope site dynamic mngtmpaddr noprefixroute \       valid_lft 86273sec preferred_lft 14273sec
+2: eth0    inet 192.168.5.15/24 metric 200 brd 192.168.5.255 scope global dynamic eth0\       valid_lft 86242sec preferred_lft 86242sec
+2: eth0    inet6 fec0::5055:55ff:fed4:f293/64 scope site dynamic mngtmpaddr noprefixroute \       valid_lft 86245sec preferred_lft 14245sec
 2: eth0    inet6 fe80::5055:55ff:fed4:f293/64 scope link \       valid_lft forever preferred_lft forever
 ### interfaces_sys
 eth0 52:55:55:d4:f2:93
@@ -531,7 +531,7 @@ lo 00:00:00:00:00:00
 31 21 0:26 / /sys/fs/pstore rw,nosuid,nodev,noexec,relatime shared:10 - pstore pstore rw
 32 21 0:27 / /sys/firmware/efi/efivars rw,nosuid,nodev,noexec,relatime shared:11 - efivarfs efivarfs rw
 33 21 0:28 / /sys/fs/bpf rw,nosuid,nodev,noexec,relatime shared:12 - bpf bpf rw,mode=700
-35 22 0:29 / /proc/sys/fs/binfmt_misc rw,relatime shared:14 - autofs systemd-1 rw,fd=30,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=11389
+35 22 0:29 / /proc/sys/fs/binfmt_misc rw,relatime shared:14 - autofs systemd-1 rw,fd=30,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=11407
 36 23 0:30 / /dev/hugepages rw,relatime shared:15 - hugetlbfs hugetlbfs rw,pagesize=2M
 37 23 0:18 / /dev/mqueue rw,nosuid,nodev,noexec,relatime shared:16 - mqueue mqueue rw
 38 21 0:7 / /sys/kernel/debug rw,nosuid,nodev,noexec,relatime shared:17 - debugfs debugfs rw
@@ -559,7 +559,7 @@ efivarfs                 256         18       234       8% /sys/firmware/efi/efi
 /dev/vda15            126678      12076    114602      10% /boot/efi
 /dev/sr0               20944      20944         0     100% /mnt/lima-cidata
 tmpfs                 202168          0    202168       0% /run/user/501
-:/Users/hostuser  1948455240 1838225680 110229560      95% /Users/hostuser
+:/Users/hostuser  1948455240 1838728136 109727104      95% /Users/hostuser
 tmpfs                 202168          0    202168       0% /run/user/2001
 ### suid_files
 /usr/bin/chfn
@@ -585,10 +585,10 @@ tmpfs                 202168          0    202168       0% /run/user/2001
 ### world_writable_dirs_no_sticky
 /srv/world-writable
 ### account_file_modes
--rw-r--r-- 1 0  0  746 Oct 15 18:33 /etc/group
--rw-r----- 1 0 42  622 Oct 15 18:33 /etc/gshadow
--rw-r--r-- 1 0  0 1482 Oct 15 18:33 /etc/passwd
--rw-r----- 1 0 42  858 Oct 15 18:33 /etc/shadow
+-rw-r--r-- 1 0  0  746 Oct 15 18:49 /etc/group
+-rw-r----- 1 0 42  622 Oct 15 18:49 /etc/gshadow
+-rw-r--r-- 1 0  0 1482 Oct 15 18:49 /etc/passwd
+-rw-r----- 1 0 42  858 Oct 15 18:49 /etc/shadow
 ### processes
     PID   UID STAT COMMAND
       1     0 Ss   systemd
@@ -607,24 +607,24 @@ tmpfs                 202168          0    202168       0% /run/user/2001
      14     0 S    ksoftirqd/0
      15     0 I    rcu_preempt
      16     0 S    migration/0
-     17     0 I    kworker/0:1-inode_switch_wbs
+     17     0 I    kworker/0:1-cgroup_bpf_destroy
      18     0 S    cpuhp/0
      19     0 S    cpuhp/1
      20     0 S    migration/1
      21     0 S    ksoftirqd/1
-     22     0 I    kworker/1:0-cgroup_free
+     22     0 I    kworker/1:0-cgroup_release
      23     0 I<   kworker/1:0H-events_highpri
      25     0 I    kworker/u4:1-flush-254:0
      26     0 S    kdevtmpfs
      27     0 I<   inet_frag_wq
      28     0 S    kauditd
-     29     0 S    khungtaskd
-     30     0 S    oom_reaper
-     31     0 I    kworker/u4:2-writeback
-     32     0 I<   writeback
-     33     0 S    kcompactd0
-     34     0 SN   ksmd
-     35     0 I    kworker/1:1-cgroup_release
+     29     0 I    kworker/1:1-inode_switch_wbs
+     30     0 S    khungtaskd
+     31     0 S    oom_reaper
+     32     0 I    kworker/u4:2-ext4-rsv-conversion
+     33     0 I<   writeback
+     34     0 S    kcompactd0
+     35     0 SN   ksmd
      36     0 SN   khugepaged
      37     0 I<   kintegrityd
      38     0 I<   kblockd
@@ -634,61 +634,64 @@ tmpfs                 202168          0    202168       0% /run/user/2001
      42     0 I<   kworker/0:1H-kblockd
      43     0 S    kswapd0
      49     0 I<   kthrotld
-     51     0 I    kworker/1:2-events
-     53     0 I    kworker/0:2-cgwb_release
+     51     0 I    kworker/0:2-cgroup_release
+     53     0 I    kworker/1:2-cgroup_free
      55     0 I<   acpi_thermal_pm
      56     0 I<   nvme-wq
      57     0 I<   nvme-reset-wq
      58     0 I<   nvme-delete-wq
      59     0 I<   mld
-     60     0 I<   ipv6_addrconf
-     65     0 I<   kstrp
-     69     0 I<   kworker/u5:0
-    111     0 I<   kworker/1:1H-kblockd
-    130     0 S    scsi_eh_0
-    131     0 I<   scsi_tmf_0
-    201     0 S    jbd2/vda1-8
-    202     0 I<   ext4-rsv-conver
-    213     0 S    hwrng
-    255     0 Ss   systemd-journal
-    261     0 I    kworker/u4:3-flush-254:0
-    279     0 Ss   systemd-udevd
-    300     0 S    khvcd
-    301     0 I<   cryptd
-    404     0 I    kworker/0:3-cgroup_release
-    437   998 Ss   systemd-network
-    438     0 I    kworker/0:4-cgroup_free
-    497   101 Ss   dbus-daemon
-    500     0 Ss   systemd-logind
-    502     0 Ss+  agetty
-    503     0 I    kworker/1:3-mm_percpu_wq
-    504     0 Ss+  agetty
-    505     0 Ss   sshd
-    510     0 Ss   unattended-upgr
-    679   996 Ss   systemd-resolve
-    799   501 Ss   systemd
-    802   501 S    (sd-pam)
-    845     0 Ss   sshd
-    881     0 Ssl  lima-guestagent
-    900   501 S    sshd
-   5389   501 Ssl  sshfs
-   5689     0 Ss   socat
-   5693     0 Ss   socat
-   5697     0 Ss   socat
-   5701  4242 Ss   sleep
-   5810  2001 Ss   systemd
-   5811  2001 S    (sd-pam)
-   5834     0 Ss   sshd
-   5836     0 Ss   ssh
-   5845  2001 S    sshd
-   5846  2001 Ss   sh
-   5847  2001 S    sleep
-   5853   997 Ssl  systemd-timesyn
-   5860     0 Ss   sudo
-   5864     0 S    sh
-   5910     0 R    ps
+     60     0 I<   kworker/1:1H-kblockd
+     61     0 I<   ipv6_addrconf
+     66     0 I<   kstrp
+     70     0 I<   kworker/u5:0
+    127     0 S    scsi_eh_0
+    128     0 I<   scsi_tmf_0
+    198     0 S    jbd2/vda1-8
+    199     0 I<   ext4-rsv-conver
+    210     0 S    hwrng
+    252     0 Ss   systemd-journal
+    258     0 I    kworker/u4:3-events_unbound
+    259     0 I    kworker/1:3-cgroup_free
+    275     0 I    kworker/1:4-events
+    277     0 Ss   systemd-udevd
+    298     0 S    khvcd
+    300     0 I<   cryptd
+    435   998 Ss   systemd-network
+    494   101 Ss   dbus-daemon
+    497     0 Ss   systemd-logind
+    499     0 Ss+  agetty
+    500     0 Ss+  agetty
+    501     0 Ss   sshd
+    502     0 Ss   unattended-upgr
+    517     0 I    kworker/0:3-cgroup_offline
+    690   996 Ss   systemd-resolve
+    793   501 Ss   systemd
+    794     0 I    kworker/0:4-events
+    796   501 S    (sd-pam)
+    824     0 Ss   sshd
+    885   501 S    sshd
+    889     0 Ssl  lima-guestagent
+    914     0 I    kworker/u4:4
+   5432   501 Ssl  sshfs
+   5728     0 Ss   socat
+   5732     0 Ss   socat
+   5736     0 Ss   socat
+   5740  4242 Ss   sleep
+   5769     0 I    kworker/1:5-events
+   5850  2001 Ss   systemd
+   5851  2001 S    (sd-pam)
+   5874     0 Ss   sshd
+   5876     0 Ss   ssh
+   5885  2001 S    sshd
+   5886  2001 Ss   sh
+   5887  2001 S    sleep
+   5893   997 Ssl  systemd-timesyn
+   5990     0 Ss   sudo
+   5994     0 S    sh
+   6040     0 R    ps
 ### process_count
-97
+100
 ### hostname
 lima-aridi-corpus-debian12-amd64
 ### resolv_conf
@@ -741,7 +744,7 @@ dev-disk-by\x2dpath-virtio\x2dpci\x2d0000:00:02.0.device                        
 dev-disk-by\x2dpath-virtio\x2dpci\x2d0000:00:02.0\x2dpart1.device                        loaded    active   plugged   /dev/disk/by-path/virtio-pci-0000:00:02.0-part1
 dev-disk-by\x2dpath-virtio\x2dpci\x2d0000:00:02.0\x2dpart14.device                       loaded    active   plugged   /dev/disk/by-path/virtio-pci-0000:00:02.0-part14
 dev-disk-by\x2dpath-virtio\x2dpci\x2d0000:00:02.0\x2dpart15.device                       loaded    active   plugged   /dev/disk/by-path/virtio-pci-0000:00:02.0-part15
-dev-disk-by\x2duuid-2026\x2d10\x2d15\x2d18\x2d31\x2d20\x2d47.device                      loaded    active   plugged   QEMU_CD-ROM cidata
+dev-disk-by\x2duuid-2026\x2d10\x2d15\x2d18\x2d46\x2d32\x2d13.device                      loaded    active   plugged   QEMU_CD-ROM cidata
 dev-disk-by\x2duuid-31040f39\x2dced8\x2d4a93\x2db141\x2d981b6b15cdf2.device              loaded    active   plugged   /dev/disk/by-uuid/31040f39-ced8-4a93-b141-981b6b15cdf2
 dev-disk-by\x2duuid-845A\x2d1A8F.device                                                  loaded    active   plugged   /dev/disk/by-uuid/845A-1A8F
 dev-hvc0.device                                                                          loaded    active   plugged   /dev/hvc0
@@ -990,8 +993,8 @@ systemd-tmpfiles-clean.timer                                                    
 # Warning: table ip nat is managed by iptables-nft, do not touch!
 table ip nat {
 	chain LIMADNS {
-		ip daddr 192.168.5.3 udp dport 53 counter packets 6 bytes 402 dnat to 192.168.5.2:64756
-		ip daddr 192.168.5.3 tcp dport 53 counter packets 0 bytes 0 dnat to 192.168.5.2:58080
+		ip daddr 192.168.5.3 udp dport 53 counter packets 6 bytes 402 dnat to 192.168.5.2:55490
+		ip daddr 192.168.5.3 tcp dport 53 counter packets 0 bytes 0 dnat to 192.168.5.2:58294
 	}
 
 	chain PREROUTING {
@@ -1001,7 +1004,7 @@ table ip nat {
 
 	chain OUTPUT {
 		type nat hook output priority -100; policy accept;
-		counter packets 24 bytes 1622 jump LIMADNS
+		counter packets 25 bytes 1678 jump LIMADNS
 	}
 }
 table inet aridi_corpus {
@@ -1022,7 +1025,7 @@ table inet aridi_corpus {
 	}
 }
 ### iptables
-# Generated by iptables-save v1.8.9 (nf_tables) on Thu Oct 15 18:33:54 2026
+# Generated by iptables-save v1.8.9 (nf_tables) on Thu Oct 15 18:49:34 2026
 *nat
 :PREROUTING ACCEPT [0:0]
 :INPUT ACCEPT [0:0]
@@ -1031,7 +1034,7 @@ table inet aridi_corpus {
 :LIMADNS - [0:0]
 -A PREROUTING -j LIMADNS
 -A OUTPUT -j LIMADNS
--A LIMADNS -d 192.168.5.3/32 -p udp -m udp --dport 53 -j DNAT --to-destination 192.168.5.2:64756
--A LIMADNS -d 192.168.5.3/32 -p tcp -m tcp --dport 53 -j DNAT --to-destination 192.168.5.2:58080
+-A LIMADNS -d 192.168.5.3/32 -p udp -m udp --dport 53 -j DNAT --to-destination 192.168.5.2:55490
+-A LIMADNS -d 192.168.5.3/32 -p tcp -m tcp --dport 53 -j DNAT --to-destination 192.168.5.2:58294
 COMMIT
-# Completed on Thu Oct 15 18:33:54 2026
+# Completed on Thu Oct 15 18:49:34 2026

@@ -1,0 +1,35 @@
+ARIDI-BUNDLE 1 2.0.0.dev0
+boundary 6f40127a4b5f5710b085cf67b27b9c5d
+--6f40127a4b5f5710b085cf67b27b9c5d begin meta.env kind=text limit=4194304
+shell=/usr/bin/bash
+timeout=timeout
+section_timeout=60
+section_limit=4194304
+boundary_source=urandom
+path=/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/sbin:/usr/local/bin
+
+--6f40127a4b5f5710b085cf67b27b9c5d end meta.env status=ok rc=0
+--6f40127a4b5f5710b085cf67b27b9c5d begin meta.date_utc kind=cmd tool=date limit=4194304
+2026-10-15T16:44:13Z
+
+--6f40127a4b5f5710b085cf67b27b9c5d end meta.date_utc status=ok rc=0
+--6f40127a4b5f5710b085cf67b27b9c5d begin meta.uid kind=cmd tool=id limit=4194304
+0
+
+--6f40127a4b5f5710b085cf67b27b9c5d end meta.uid status=ok rc=0
+--6f40127a4b5f5710b085cf67b27b9c5d begin meta.machine_id kind=file path=/etc/machine-id limit=4194304
+
+--6f40127a4b5f5710b085cf67b27b9c5d end meta.machine_id status=ok rc=0
+--6f40127a4b5f5710b085cf67b27b9c5d begin meta.dbus_machine_id kind=file path=/var/lib/dbus/machine-id limit=4194304
+
+--6f40127a4b5f5710b085cf67b27b9c5d end meta.dbus_machine_id status=na rc=-
+--6f40127a4b5f5710b085cf67b27b9c5d note meta.dbus_machine_id not found: /var/lib/dbus/machine-id
+--6f40127a4b5f5710b085cf67b27b9c5d begin meta.hostname kind=file path=/proc/sys/kernel/hostname limit=4194304
+corpus-rocky9
+
+--6f40127a4b5f5710b085cf67b27b9c5d end meta.hostname status=ok rc=0
+--6f40127a4b5f5710b085cf67b27b9c5d begin meta.uname kind=cmd tool=uname limit=4194304
+Linux corpus-rocky9 7.0.14-linuxkit #1 SMP PREEMPT Sun Sep 20 16:14:09 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux
+
+--6f40127a4b5f5710b085cf67b27b9c5d end meta.uname status=ok rc=0
+--6f40127a4b5f5710b085cf67b27b9c5d close sections=7

@@ -1,0 +1,36 @@
+ARIDI-BUNDLE 1 2.0.0.dev0
+boundary 088bf21e0ac6908965c834f65d137f3a
+--088bf21e0ac6908965c834f65d137f3a begin meta.env kind=text limit=4194304
+shell=/usr/bin/bash
+timeout=timeout
+section_timeout=60
+section_limit=4194304
+boundary_source=urandom
+path=/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/sbin:/usr/local/bin
+
+--088bf21e0ac6908965c834f65d137f3a end meta.env status=ok rc=0
+--088bf21e0ac6908965c834f65d137f3a begin meta.date_utc kind=cmd tool=date limit=4194304
+2026-10-15T16:44:58Z
+
+--088bf21e0ac6908965c834f65d137f3a end meta.date_utc status=ok rc=0
+--088bf21e0ac6908965c834f65d137f3a begin meta.uid kind=cmd tool=id limit=4194304
+0
+
+--088bf21e0ac6908965c834f65d137f3a end meta.uid status=ok rc=0
+--088bf21e0ac6908965c834f65d137f3a begin meta.machine_id kind=file path=/etc/machine-id limit=4194304
+
+--088bf21e0ac6908965c834f65d137f3a end meta.machine_id status=na rc=-
+--088bf21e0ac6908965c834f65d137f3a note meta.machine_id not found: /etc/machine-id
+--088bf21e0ac6908965c834f65d137f3a begin meta.dbus_machine_id kind=file path=/var/lib/dbus/machine-id limit=4194304
+
+--088bf21e0ac6908965c834f65d137f3a end meta.dbus_machine_id status=na rc=-
+--088bf21e0ac6908965c834f65d137f3a note meta.dbus_machine_id not found: /var/lib/dbus/machine-id
+--088bf21e0ac6908965c834f65d137f3a begin meta.hostname kind=file path=/proc/sys/kernel/hostname limit=4194304
+corpus-leap156
+
+--088bf21e0ac6908965c834f65d137f3a end meta.hostname status=ok rc=0
+--088bf21e0ac6908965c834f65d137f3a begin meta.uname kind=cmd tool=uname limit=4194304
+Linux corpus-leap156 7.0.14-linuxkit #1 SMP PREEMPT Sun Sep 20 16:14:09 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux
+
+--088bf21e0ac6908965c834f65d137f3a end meta.uname status=ok rc=0
+--088bf21e0ac6908965c834f65d137f3a close sections=7

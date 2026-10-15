@@ -1,0 +1,35 @@
+ARIDI-BUNDLE 1 2.0.0.dev0
+boundary baebd5cdd2dfd3c3c1c7c46e561ba07f
+--baebd5cdd2dfd3c3c1c7c46e561ba07f begin meta.env kind=text limit=4194304
+shell=/usr/bin/bash
+timeout=timeout
+section_timeout=60
+section_limit=4194304
+boundary_source=urandom
+path=/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/sbin:/usr/local/bin
+
+--baebd5cdd2dfd3c3c1c7c46e561ba07f end meta.env status=ok rc=0
+--baebd5cdd2dfd3c3c1c7c46e561ba07f begin meta.date_utc kind=cmd tool=date limit=4194304
+2026-10-15T16:45:19Z
+
+--baebd5cdd2dfd3c3c1c7c46e561ba07f end meta.date_utc status=ok rc=0
+--baebd5cdd2dfd3c3c1c7c46e561ba07f begin meta.uid kind=cmd tool=id limit=4194304
+0
+
+--baebd5cdd2dfd3c3c1c7c46e561ba07f end meta.uid status=ok rc=0
+--baebd5cdd2dfd3c3c1c7c46e561ba07f begin meta.machine_id kind=file path=/etc/machine-id limit=4194304
+
+--baebd5cdd2dfd3c3c1c7c46e561ba07f end meta.machine_id status=ok rc=0
+--baebd5cdd2dfd3c3c1c7c46e561ba07f begin meta.dbus_machine_id kind=file path=/var/lib/dbus/machine-id limit=4194304
+
+--baebd5cdd2dfd3c3c1c7c46e561ba07f end meta.dbus_machine_id status=na rc=-
+--baebd5cdd2dfd3c3c1c7c46e561ba07f note meta.dbus_machine_id not found: /var/lib/dbus/machine-id
+--baebd5cdd2dfd3c3c1c7c46e561ba07f begin meta.hostname kind=file path=/proc/sys/kernel/hostname limit=4194304
+corpus-centos7
+
+--baebd5cdd2dfd3c3c1c7c46e561ba07f end meta.hostname status=ok rc=0
+--baebd5cdd2dfd3c3c1c7c46e561ba07f begin meta.uname kind=cmd tool=uname limit=4194304
+Linux corpus-centos7 7.0.14-linuxkit #1 SMP PREEMPT Sun Sep 20 16:14:09 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux
+
+--baebd5cdd2dfd3c3c1c7c46e561ba07f end meta.uname status=ok rc=0
+--baebd5cdd2dfd3c3c1c7c46e561ba07f close sections=7

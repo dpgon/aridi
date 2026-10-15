@@ -5,8 +5,9 @@ fase 1). Cada muestra es el resultado de ejecutar `collector/aridi-collect.sh` c
 en una máquina desechable preparada con un escenario conocido, junto con la «verdad de
 referencia» obtenida con las herramientas del propio sistema.
 
-> **Estado:** hasta la fase 3, el colector está vacío, así que `bundle.aridi` tiene 0
-> bytes. Al cerrar cada área de la fase 3 se vuelve a capturar el corpus completo.
+> **Estado:** desde la fase 2, el colector solo emite las secciones `meta.*` (identidad
+> de la ejecución, `docs/FORMATO.md`). Al cerrar cada área de la fase 3 se vuelve a
+> capturar el corpus completo.
 
 ## Estructura
 

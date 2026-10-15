@@ -43,7 +43,8 @@ readable snapshot of a single Linux machine.
 The decision and its trade-offs are in [`docs/CAMBIO.md`](docs/CAMBIO.md), and the work
 plan is in [`TODO.md`](TODO.md). Until the rewrite reaches feature parity, the 2019
 program described below lives, unmodified, in [`legacy/`](legacy/). Nothing from the
-rewrite is usable yet.
+rewrite is usable yet: the bundle format, the collector skeleton and the `aridi
+validate|interpret|report` commands exist, but no area is collected or analyzed.
 
 ## Requirements
 
@@ -134,6 +135,7 @@ The project documentation lives in [`docs/`](docs/) and is written in **Spanish*
 | [`docs/FUTURE.md`](docs/FUTURE.md) | Planned stages: reliable collector, central inventory, change alerts, scoped network discovery |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Current architecture, data model, interfaces, decision log, technical debt |
 | [`docs/CAMBIO.md`](docs/CAMBIO.md) | The rewrite: what is kept, rewritten or dropped, target architecture, what is lost, alternatives, stages, risks |
+| [`docs/FORMATO.md`](docs/FORMATO.md) | Contract of the rewrite: raw bundle v1, snapshot v1, versioning policy, core CLI |
 
 The work plan of the rewrite is [`TODO.md`](TODO.md). Contributor and AI-agent working
 rules are in [`CLAUDE.md`](CLAUDE.md). Both are in Spanish.
