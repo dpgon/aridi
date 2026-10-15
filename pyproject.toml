@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aridi"
+version = "2.0.0.dev0"
+description = "Linux information gathering and infrastructure scanner"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "GPL-3.0-only"
+license-files = ["LICENSE"]
+authors = [{ name = "Daniel Pozo" }]
+# The core (src/aridi) uses only the Python standard library: no dependencies.
+dependencies = []
+
+[project.optional-dependencies]
+# Central component (src/aridi_central). Install pinned, with hashes:
+#   pip install --require-hashes -r requirements/central.txt
+central = [
+    "Django>=5.2,<5.3",
+    "gunicorn>=23,<24",
+]
+
+[project.scripts]
+aridi = "aridi.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

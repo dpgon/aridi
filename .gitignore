@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+build/
+dist/
+
+# Output files of the 2019 aridi (legacy/)
+aridi.log
+aridi.badfiles
+network.dot
+network.dot.*
+report.txt
+
+# Raw bundles produced by the collector, except the test corpus
+*.aridi
+!tests/corpus/**/*.aridi
+
+# Central component data
+/data/
+*.sqlite3
+*.db
+
+# Lima VMs
+.lima/
+
+# Local state of the user's tooling (decision of 2026-10-15)
+.m-terminal/
