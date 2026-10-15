@@ -1,0 +1,14 @@
+Group 'mail' not found. Creating the user mailbox file with 0600 mode.
+ok user alice with password (default algorithm)
+Group 'mail' not found. Creating the user mailbox file with 0600 mode.
+ok user bob locked (usermod -L)
+ok group ghostgrp with member without account (ghostuser)
+ok suid file /usr/local/bin/aridi-suid-test (copy of /bin/true)
+ok world-writable dir without sticky bit /srv/world-writable
+ok banner /etc/issue.net with ANSI and <script>
+ok hosts entries v4/v6 and IPv6 nameserver
+ok carving data /etc/aridi-corpus.conf and /var/log/aridi-corpus.log
+skip listener tcp6-any 8080 (no socat, python3 or busybox nc)
+skip listener tcp4-local 8081 (no socat, python3 or busybox nc)
+skip listener udp4-any 5514 (no socat, python3 or busybox nc)
+ok process with uid 4242 without account (sleep)

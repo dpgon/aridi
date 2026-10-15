@@ -28,7 +28,8 @@ el proyecto funcionando**. Hasta la fase 4, el aridi de 2019 sigue disponible en
 - **Las áreas del colector se construyen en el orden del código de 2019:**
   general → específica → volátil → carving → vecinos.
 - **Las muestras que los contenedores no pueden dar** (systemd, sesiones reales, x86_64)
-  se capturan con **Lima 1.x**.
+  se capturan con **Lima 2.x** (instalado: 2.2.1; el plan decía 1.x, pero la versión
+  actual es la 2).
 
 ---
 
@@ -146,25 +147,25 @@ Esta fase consigue los datos con los que se probará todo el colector.
 
 ### 1.1 Maquinaria de captura en contenedores
 
-- [ ] Crear `tests/corpus/images.txt` con una imagen por línea, fijada por *digest*:
+- [x] Crear `tests/corpus/images.txt` con una imagen por línea, fijada por *digest*:
   - `debian:12`, `debian:13`, `ubuntu:24.04`, `rockylinux:9`, `fedora:44`,
     `alpine:3.20`, `opensuse/leap:15.6`;
   - `archlinux:latest`, `centos:7` (con *vault*) y `centos:6` (con *vault*), estas tres
     en `--platform linux/amd64` emulada si no hay arm64.
-- [ ] Crear `tests/corpus/scenario.sh` (POSIX `sh`, se ejecuta dentro del contenedor).
+- [x] Crear `tests/corpus/scenario.sh` (POSIX `sh`, se ejecuta dentro del contenedor).
   Reproduce los casos de `docs/MVP.md`:
   - el usuario `alice` con contraseña (que dará yescrypt donde sea el valor por defecto);
   - una cuenta bloqueada;
   - un grupo con un miembro sin usuario;
   - un servidor TCP en `[::]:8080` y otro en `127.0.0.1:8081`;
-  - un UDP en `0.0.0.0:5353`;
+  - un UDP en `0.0.0.0:5514` (no 5353: en Debian lo ocupa `systemd-resolved`);
   - un proceso con uid 4242 sin entrada en `passwd`;
   - un montaje *bind*;
   - un fichero SUID de prueba y un directorio escribible por todos sin *sticky bit*.
 
   Para los servidores usa la herramienta que haya (`busybox nc`, `socat`, `python3`) y,
   si no hay ninguna, lo omite y lo anota.
-- [ ] Crear `tests/corpus/facts.sh`. Se ejecuta en el mismo contenedor tras
+- [x] Crear `tests/corpus/facts.sh`. Se ejecuta en el mismo contenedor tras
   `scenario.sh` y escribe `facts.txt` con la «verdad de referencia» obtenida con las
   herramientas del sistema:
   - número y lista de paquetes (`dpkg-query -W`, `rpm -qa`, `apk info -v`, `pacman -Q`);
@@ -174,7 +175,7 @@ Esta fase consigue los datos con los que se probará todo el colector.
   - interfaces y direcciones;
   - montajes (`/proc/self/mountinfo`);
   - kernel y libc.
-- [ ] Crear `tests/corpus/capture.sh <imagen> <variante>`, con dos variantes:
+- [x] Crear `tests/corpus/capture.sh <imagen> <variante>`, con dos variantes:
   - `minimal`: la imagen tal cual, **sin Python**;
   - `server`: con `iproute2`/`iproute`, `procps`, `util-linux`, `nftables` e
     `iptables`.
@@ -183,17 +184,17 @@ Esta fase consigue los datos con los que se probará todo el colector.
   `--network none`, salvo una ejecución en red *bridge* para obtener `eth0@ifN`) y
   después `facts.sh`. Guarda todo en `tests/corpus/<distro>/<variante>/`
   (`bundle.aridi`, `facts.txt`, `meta.txt` con imagen, *digest*, fecha y arquitectura).
-- [ ] Probar `capture.sh` con `debian:12 minimal` y el script vacío: tiene que producir
+- [x] Probar `capture.sh` con `debian:12 minimal` y el script vacío: tiene que producir
   los tres ficheros sin dejar nada fuera de `tests/corpus/`.
 
 ### 1.2 VMs con Lima para lo que no dan los contenedores
 
-- [ ] Crear `tests/lima/debian12-arm64.yaml`, `tests/lima/rocky9-arm64.yaml` y
+- [x] Crear `tests/lima/debian12-arm64.yaml`, `tests/lima/rocky9-arm64.yaml` y
   `tests/lima/debian12-amd64.yaml` (QEMU, emulado), cada uno con systemd, `openssh-server`,
   `nftables`, `chrony` (Rocky) o `systemd-timesyncd` (Debian), un usuario sin privilegios
   y un usuario `aridi` con `sudo -n` (según la decisión de 5.0; hasta entonces, NOPASSWD
   completo, **solo en la VM de prueba**).
-- [ ] Crear `tests/lima/scenario-vm.sh`, que añade a `tests/corpus/scenario.sh` lo
+- [x] Crear `tests/lima/scenario-vm.sh`, que añade a `tests/corpus/scenario.sh` lo
   propio de una VM:
   - inicios de sesión SSH reales a `localhost`, que generan `wtmp`/`lastlog` o
     `wtmpdb`;
@@ -201,10 +202,10 @@ Esta fase consigue los datos con los que se probará todo el colector.
   - reglas nftables con INPUT, OUTPUT y FORWARD, y en Rocky reglas firewalld;
   - un servicio systemd que falle a propósito;
   - un subvolumen btrfs si la imagen lo admite (si no, se anota).
-- [ ] Crear `tests/lima/capture-vm.sh <vm>`, que hace `limactl start`, ejecuta el
+- [x] Crear `tests/lima/capture-vm.sh <vm>`, que hace `limactl start`, ejecuta el
   escenario, ejecuta `limactl shell <vm> sudo sh -s < collector/aridi-collect.sh` y
   `facts.sh`, guarda el resultado en `tests/corpus/vm-<vm>/` y hace `limactl delete`.
-- [ ] Documentar en `tests/corpus/README.md` cómo se regenera cada muestra, qué cubre cada
+- [x] Documentar en `tests/corpus/README.md` cómo se regenera cada muestra, qué cubre cada
   una y qué **no** cubre (por ejemplo, ningún USB real).
 
 **Criterio de aceptación de la fase 1:**
@@ -256,7 +257,11 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
   - límite de bytes por sección (`head -c`);
   - `umask 077`;
   - **ninguna escritura en disco**: todo por stdout, sin ficheros temporales;
-  - `LC_ALL=C`.
+  - `LC_ALL=C`;
+  - **cada comando con `</dev/null`**: el script llega por `sh -s`, y un comando que lea
+    stdin (por ejemplo `ssh`) se come el resto del script. En bash, que lee la tubería
+    línea a línea, el script se corta sin avisar. Se observó con `tests/lima/scenario-vm.sh`
+    en Rocky 9 (fase 1). En dash no ocurre porque lee el script por bloques.
 - [ ] Añadir las secciones de identidad que necesita la cabecera de la fotografía:
   `/etc/machine-id` (o `/var/lib/dbus/machine-id`), `hostname`, `uname -a`, `id -u` y la
   fecha UTC.
@@ -267,7 +272,9 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
   - la salida empieza por `ARIDI-BUNDLE 1`;
   - **no se crea ni se modifica ningún fichero**: se comprueba con
     `find / -xdev -newer <marca>` antes y después, excluyendo `/proc`, `/sys` y `/dev`;
-  - funciona con `dash`, `bash`, `busybox ash` y el `sh` de CentOS 6.
+  - funciona con `dash`, `bash`, `busybox ash` y el `sh` de CentOS 6;
+  - con bash, el script llega entero aunque haya datos de más detrás en stdin (la
+    última sección aparece).
 - [ ] Prueba con un usuario sin privilegios (`--user 65534`): termina igual y marca como
   `denied` lo que no puede leer.
 
@@ -540,7 +547,7 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
 - [ ] (d) Pruebas:
   - la muestra en red *bridge* con `eth0@ifN` **da** interfaces (n.º 15);
   - `[::]:8080` aparece como TCP en escucha (n.º 16);
-  - `0.0.0.0:5353` aparece como UDP en escucha (n.º 16);
+  - `0.0.0.0:5514` aparece como UDP en escucha (n.º 16);
   - el proceso con uid 4242 no tumba el apartado (n.º 16);
   - un DNS IPv6 en `resolv.conf` no genera una IP nula (`ESTUDIO.md` §8);
   - coincide con `ss -lntup` de `facts.txt` donde exista.

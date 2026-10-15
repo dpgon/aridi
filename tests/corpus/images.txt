@@ -1,0 +1,14 @@
+# Container images of the test corpus (TODO.md, phase 1.1).
+# Columns: name  image@digest  platform  package-family
+# The digest is the multi-architecture index digest; the platform selects the variant.
+# archlinux and centos:6 only exist for amd64 and run emulated on arm64 hosts.
+debian12   debian:12@sha256:2c037a04925515fdd6ea85ea14a682d0e79931f5e9f5d07b6dbfc6ba12f9e858          linux/arm64  apt
+debian13   debian:13@sha256:913f6706df59a68922d1dd08f78c2476560a8d367897200a6005b00e5f67c2d5          linux/arm64  apt
+ubuntu2404 ubuntu:24.04@sha256:534baea6a22c03a63003dbc8dbe78fe34bc0d7e595d9a9dc9834884ff530eb55       linux/arm64  apt
+rocky9     rockylinux:9@sha256:d7be1c094cc5845ee815d4632fe377514ee6ebcf8efaed6892889657e5ddaaa6       linux/arm64  dnf
+fedora44   fedora:44@sha256:43b29f65a41eb9c35e1cd5323e3bdf3b655c2357a9f4f1ff2f9c2798e5045d80          linux/arm64  dnf
+alpine320  alpine:3.20@sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc        linux/arm64  apk
+leap156    opensuse/leap:15.6@sha256:79be7751205ea84559990fb76b1bec71e38d6fad41c70a4f6c921b803b58f421 linux/arm64  zypper
+arch       archlinux:latest@sha256:3c64b538588416593f69a1aebd2f2ec0f2541b29159f32556fa7def2167147a0   linux/amd64  pacman
+centos7    centos:7@sha256:be65f488b7764ad3638f236b7b515b3678369a5124c47b8d32916d6487418ea4           linux/arm64  yum7
+centos6    centos:6@sha256:a93df2e96e07f56ea48f215425c6f1673ab922927894595bb5c0ee4c5a955133           linux/amd64  yum6
