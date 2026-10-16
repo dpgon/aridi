@@ -25,12 +25,24 @@ capture() {
     out="$corpus/vm-$vm/vm"
 
     limactl delete --force "$instance" >/dev/null 2>&1 || true
-    limactl start --tty=false --name "$instance" "$template" > "$corpus/.lima-$vm.log" 2>&1 || {
+    # --mount-none: Lima appends the mounts of the base template (the host home directory)
+    # to ours, so "mounts: []" in the YAML is not enough.
+    limactl start --tty=false --mount-none --name "$instance" "$template" \
+        > "$corpus/.lima-$vm.log" 2>&1 || {
         echo "$vm: limactl start failed, see tests/corpus/.lima-$vm.log" >&2
         return 1
     }
 
     vmsh() { limactl shell --workdir / "$instance" "$@"; }
+
+    # Never collect in a VM that sees host directories.
+    host_mounts=$(vmsh sh -c "grep -E ' - (virtiofs|9p|fuse\.sshfs) ' /proc/self/mountinfo" || true)
+    if [ -n "$host_mounts" ]; then
+        echo "$vm: the VM has host directories mounted, aborting:" >&2
+        echo "$host_mounts" >&2
+        limactl delete --force "$instance" >/dev/null 2>&1
+        return 1
+    fi
 
     rm -rf "$out"
     mkdir -p "$out"
@@ -41,8 +53,10 @@ capture() {
     sleep 2
 
     set +e
+    started=$(date +%s)
     vmsh sudo sh -s < "$collector" > "$out/bundle.aridi" 2> "$out/collector.stderr"
     collector_rc=$?
+    collector_seconds=$(( $(date +%s) - started ))
     vmsh sudo sh -s < "$corpus/facts.sh" > "$out/facts.txt" 2>&1
     facts_rc=$?
     set -e
@@ -58,6 +72,7 @@ capture() {
         echo "captured_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
         echo "collector_version=$(sed -n 's/^ARIDI_COLLECTOR_VERSION="\(.*\)"/\1/p' "$collector")"
         echo "collector_exit=$collector_rc"
+        echo "collector_seconds=$collector_seconds"
         echo "facts_exit=$facts_rc"
         echo "lima_version=$(limactl --version | awk '{print $3}')"
     } > "$out/meta.txt"

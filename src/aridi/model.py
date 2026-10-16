@@ -42,6 +42,10 @@ class Role(StrEnum):
     SCAN_OPEN_PORT = "scan_open_port"
 
 
+# States that are not a gap: the data is there, or it does not apply to this machine.
+NOT_A_GAP = frozenset({Status.OK, Status.NA})
+
+
 class Outcome(StrEnum):
     """Result of a snapshot as a whole."""
 
@@ -68,22 +72,42 @@ class Relation:
                 "detail": self.detail}
 
 
+def _status(value):
+    try:
+        return Status(value)
+    except ValueError:
+        raise SnapshotError(f"unknown status {value!r}") from None
+
+
+@dataclass
+class Gap:
+    """A part of an area that could not be seen, while the rest of the area could."""
+
+    item: str
+    status: Status
+    reason: str
+
+    def __post_init__(self):
+        self.status = _status(self.status)
+
+    def to_dict(self):
+        return {"item": self.item, "status": self.status.value, "reason": self.reason}
+
+
 @dataclass
 class Section:
     status: Status
     reason: str | None = None
     data: object = None
     volatile: bool = False
+    gaps: list = field(default_factory=list)
 
     def __post_init__(self):
-        try:
-            self.status = Status(self.status)
-        except ValueError:
-            raise SnapshotError(f"unknown section status {self.status!r}") from None
+        self.status = _status(self.status)
 
     def to_dict(self):
         return {"status": self.status.value, "reason": self.reason, "data": self.data,
-                "volatile": self.volatile}
+                "volatile": self.volatile, "gaps": [g.to_dict() for g in self.gaps]}
 
 
 @dataclass
@@ -103,8 +127,17 @@ class Snapshot:
     schema_version: int = SCHEMA_VERSION
 
     def gaps(self):
-        """(area, section) pairs whose status is not ok, in area order."""
-        return [(name, s) for name, s in self.sections.items() if s.status != Status.OK]
+        """(area, item, status, reason) of what could not be seen, in area order.
+
+        item is None for a whole area. Areas and items in "na" are not gaps.
+        """
+        found = []
+        for name, section in self.sections.items():
+            if section.status not in NOT_A_GAP:
+                found.append((name, None, section.status, section.reason))
+            found.extend((name, g.item, g.status, g.reason) for g in section.gaps
+                         if g.status not in NOT_A_GAP)
+        return found
 
     def outcome(self):
         return Outcome.GAPS if self.gaps() else Outcome.COMPLETE
@@ -142,7 +175,9 @@ class Snapshot:
                 collector_version=data["collector_version"],
                 bundle_format=data["bundle_format"],
                 sections={name: Section(s["status"], s.get("reason"), s.get("data"),
-                                        bool(s.get("volatile", False)))
+                                        bool(s.get("volatile", False)),
+                                        [Gap(g["item"], g["status"], g["reason"])
+                                         for g in s.get("gaps", [])])
                           for name, s in data["sections"].items()},
                 relations=[Relation(r["ip"], r["role"], r["source"], r.get("detail", ""))
                            for r in data.get("relations", [])],

@@ -43,8 +43,10 @@ readable snapshot of a single Linux machine.
 The decision and its trade-offs are in [`docs/CAMBIO.md`](docs/CAMBIO.md), and the work
 plan is in [`TODO.md`](TODO.md). Until the rewrite reaches feature parity, the 2019
 program described below lives, unmodified, in [`legacy/`](legacy/). Nothing from the
-rewrite is usable yet: the bundle format, the collector skeleton and the `aridi
-validate|interpret|report` commands exist, but no area is collected or analyzed.
+rewrite is finished yet. What exists is the local mode: `collector/aridi-collect.sh`
+collects the 17 areas into a raw bundle, and `aridi validate|interpret|report` turn it
+into a snapshot and a text report. It is tested on the sample corpus only; there is no
+remote execution, central inventory or alerting yet.
 
 ## Requirements
 

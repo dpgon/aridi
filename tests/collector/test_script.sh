@@ -51,6 +51,14 @@ bundle_end
 EOF
 }
 
+emulator_touches_tmp() {
+    # True if reading a process command line, alone, changes /tmp in this container.
+    docker exec "$1" sh -c '
+        touch /tmp/.aridi-probe; sleep 1; cat /proc/1/cmdline >/dev/null
+        changed=$(find /tmp -newer /tmp/.aridi-probe ! -path /tmp/.aridi-probe)
+        rm -f /tmp/.aridi-probe; [ "$changed" = /tmp ]'
+}
+
 test_image() {
     name=$1
     image=$2
@@ -84,7 +92,14 @@ test_image() {
         [ -s "$bundle.stderr" ] && fail "$name/$shell: stderr: $(head -c 200 "$bundle.stderr")"
         changed=$(docker exec "$container" \
             find / -xdev -newer /tmp/.aridi-marker ! -path /tmp/.aridi-marker 2>/dev/null)
-        [ -z "$changed" ] || fail "$name/$shell: files created or modified: $changed"
+        if [ "$changed" = /tmp ] && emulator_touches_tmp "$container"; then
+            # Under amd64 emulation on an arm64 host, reading /proc/PID/cmdline (even with
+            # cat) creates and removes a file in /tmp: an artifact of the emulator, proved
+            # in this same image by emulator_touches_tmp. Any other change still fails.
+            echo "ok $name/$shell: only /tmp changed, as plain cat of /proc/1/cmdline does here"
+        elif [ -n "$changed" ]; then
+            fail "$name/$shell: files created or modified: $changed"
+        fi
         echo "ok $name/$shell: $(grep -c ' begin ' "$bundle") sections"
     done
 

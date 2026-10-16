@@ -23,12 +23,16 @@ class TextTest(unittest.TestCase):
         self.assertEqual(report, GOLDEN.read_text(encoding="utf-8"))
 
     def test_every_area_and_the_gaps_section(self):
-        report = text.render(interpret(bundle.read(GOLDEN_SAMPLE)))
+        snapshot = interpret(bundle.read(GOLDEN_SAMPLE))
+        report = text.render(snapshot)
         for area in AREAS:
             self.assertIn(area.title, report)
         gaps = report.split("What could not be seen\n")[1]
-        self.assertEqual(gaps.count("no_parser"), 17)
-        self.assertIn("Result:       with gaps", report)
+        without_parser = [name for name, s in snapshot.sections.items()
+                          if s.status == "no_parser"]
+        self.assertEqual(gaps.count("no_parser"), len(without_parser))
+        result = "with gaps" if snapshot.gaps() else "complete"
+        self.assertIn(f"Result:       {result}", report)
 
     def test_untrusted_text_is_escaped(self):
         hostname = b"evil\x1b[31mred\x07\n"
@@ -47,13 +51,16 @@ class TextTest(unittest.TestCase):
     def test_renderer_used_for_ok_areas(self):
         parsed = bundle.parse(make_bundle([("system.os_release", b"ID=debian\n")]))
         snapshot = interpret(parsed, parsers={"system": lambda s: AreaResult({"id": "x"})})
-        report = text.render(snapshot)
-        self.assertIn("(no text view for this area yet)", report)
+        original = text._renderers.pop("system", None)
         try:
+            report = text.render(snapshot)
+            self.assertIn("(no text view for this area yet)", report)
             text.renderer("system")(lambda data, detail: [f"Id: {data['id']}\x1b"])
             report = text.render(snapshot)
         finally:
             text._renderers.pop("system", None)
+            if original:
+                text._renderers["system"] = original
         self.assertIn("  Id: x\\x1b", report)
 
 

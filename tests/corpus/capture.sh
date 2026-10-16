@@ -26,6 +26,9 @@ here=$(cd "$(dirname "$0")" && pwd)
 repo=$(cd "$here/../.." && pwd)
 collector="$repo/collector/aridi-collect.sh"
 network_name=aridi-corpus
+# Read-only bind source: a Docker volume, not a host directory (a host bind mount would put
+# host paths in the sample's mountinfo).
+bind_volume=aridi-corpus-bind
 
 image_line() {
     awk -v n="$1" '$1 == n { print; found = 1 } END { exit !found }' "$here/images.txt"
@@ -36,7 +39,7 @@ server_install() {
     case $1 in
         apt) echo "apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends iproute2 procps util-linux nftables iptables socat && rm -rf /var/lib/apt/lists/*" ;;
         dnf) echo "dnf install -y iproute procps-ng util-linux nftables iptables-nft socat && dnf clean all" ;;
-        apk) echo "apk add --no-cache iproute2 procps util-linux nftables iptables socat" ;;
+        apk) echo "apk add --no-cache iproute2 procps util-linux nftables iptables socat openrc" ;;
         zypper) echo "zypper -n install --no-recommends iproute2 procps util-linux nftables iptables socat && zypper clean -a" ;;
         # pacman 7 sandboxing fails under amd64 emulation (seccomp error 22).
         pacman) echo "pacman -Sy --noconfirm --needed --disable-sandbox iproute2 procps-ng util-linux nftables iptables socat && pacman -Scc --noconfirm" ;;
@@ -82,17 +85,21 @@ capture() {
 
     out="$here/$name/$variant"
     container="aridi-corpus-$name-$variant"
-    bind_dir=$(mktemp -d)
-    echo "corpus bind mount" > "$bind_dir/README"
+    if ! docker volume inspect "$bind_volume" >/dev/null 2>&1; then
+        docker volume create "$bind_volume" >/dev/null &&
+            docker run --rm --network none --platform "$platform" -v "$bind_volume":/v "$image" \
+                sh -c 'echo "corpus bind mount" > /v/README' >/dev/null ||
+            { echo "$name/$variant: creating volume $bind_volume failed" >&2; return 1; }
+    fi
     docker rm -f "$container" >/dev/null 2>&1 || true
 
     # shellcheck disable=SC2086
     docker run -d --name "$container" --platform "$platform" $net \
         --hostname "corpus-$name" \
         --mount type=tmpfs,destination=/srv/scratch \
-        -v "$bind_dir":/srv/bind:ro \
+        --mount type=volume,src="$bind_volume",dst=/srv/bind,readonly \
         "$run_image" sh -c 'while :; do sleep 3600; done' >/dev/null ||
-        { echo "$name/$variant: docker run failed" >&2; rm -rf "$bind_dir"; return 1; }
+        { echo "$name/$variant: docker run failed" >&2; return 1; }
 
     rm -rf "$out"
     mkdir -p "$out"
@@ -118,8 +125,10 @@ capture() {
     echo "ok process with uid 4242 without account (sleep)" >> "$out/scenario.txt"
 
     set +e
+    started=$(date +%s)
     docker exec -i "$container" sh -s < "$collector" > "$out/bundle.aridi" 2> "$out/collector.stderr"
     collector_rc=$?
+    collector_seconds=$(( $(date +%s) - started ))
     docker exec -i "$container" sh -s < "$here/facts.sh" > "$out/facts.txt" 2>&1
     facts_rc=$?
     set -e
@@ -136,12 +145,12 @@ capture() {
         echo "captured_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
         echo "collector_version=$(sed -n 's/^ARIDI_COLLECTOR_VERSION="\(.*\)"/\1/p' "$collector")"
         echo "collector_exit=$collector_rc"
+        echo "collector_seconds=$collector_seconds"
         echo "facts_exit=$facts_rc"
         echo "docker_version=$(docker version --format '{{.Server.Version}}')"
     } > "$out/meta.txt"
 
     docker rm -f "$container" >/dev/null
-    rm -rf "$bind_dir"
     echo "$name/$variant: collector exit $collector_rc, $(wc -c < "$out/bundle.aridi" | tr -d ' ') bytes, $(grep -c '^ok' "$out/scenario.txt") ok / $(grep -c '^skip' "$out/scenario.txt") skipped"
 }
 

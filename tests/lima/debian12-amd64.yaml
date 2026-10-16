@@ -7,7 +7,13 @@ vmType: qemu
 cpus: 2
 memory: 2GiB
 disk: 10GiB
+# No host directories inside the VM (see debian12-arm64.yaml): capture-vm.sh passes
+# --mount-none, because Lima appends the base template mounts to this list.
 mounts: []
+# Neutral guest user: by default Lima copies the host user name and full name (GECOS).
+user:
+  name: lima
+  comment: lima corpus user
 containerd:
   system: false
   user: false

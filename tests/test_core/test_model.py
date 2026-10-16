@@ -4,7 +4,7 @@ import ipaddress
 import json
 import unittest
 
-from aridi.model import (SCHEMA_VERSION, Machine, Outcome, Relation, Role, Section,
+from aridi.model import (SCHEMA_VERSION, Gap, Machine, Outcome, Relation, Role, Section,
                          Snapshot, SnapshotError, Status)
 
 
@@ -15,7 +15,8 @@ def sample():
         collector_version="2.0.0.test",
         bundle_format=1,
         sections={
-            "system": Section(Status.OK, None, {"id": "debian", "version_id": "12"}),
+            "system": Section(Status.OK, None, {"id": "debian", "version_id": "12"},
+                              gaps=[Gap("libc", Status.MISSING, "no ldd")]),
             "processes": Section(Status.NO_PARSER, "no analyzer", volatile=True),
         },
         relations=[
@@ -39,7 +40,9 @@ class ModelTest(unittest.TestCase):
         self.assertEqual(data["machine"], {"machine_id": "0" * 32, "hostname": "host1"})
         self.assertEqual(data["sections"]["processes"],
                          {"status": "no_parser", "reason": "no analyzer", "data": None,
-                          "volatile": True})
+                          "volatile": True, "gaps": []})
+        self.assertEqual(data["sections"]["system"]["gaps"],
+                         [{"item": "libc", "status": "missing", "reason": "no ldd"}])
         self.assertEqual(data["relations"][1], {"ip": "2001:db8::40", "role": "named_in_file",
                                                 "source": "carving",
                                                 "detail": "/etc/hosts:3"})
@@ -78,12 +81,26 @@ class ModelTest(unittest.TestCase):
             with self.subTest(text=text), self.assertRaises(SnapshotError):
                 Snapshot.from_json(text)
 
-    def test_outcome(self):
+    def test_outcome_and_gaps(self):
         snapshot = sample()
         self.assertEqual(snapshot.outcome(), Outcome.GAPS)
-        self.assertEqual([name for name, _ in snapshot.gaps()], ["processes"])
+        self.assertEqual(snapshot.gaps(),
+                         [("system", "libc", Status.MISSING, "no ldd"),
+                          ("processes", None, Status.NO_PARSER, "no analyzer")])
         snapshot.sections["processes"] = Section(Status.OK, data=[], volatile=True)
+        snapshot.sections["system"].gaps = []
         self.assertEqual(snapshot.outcome(), Outcome.COMPLETE)
+
+    def test_not_applicable_is_not_a_gap(self):
+        snapshot = sample()
+        snapshot.sections["processes"] = Section(Status.NA, "no /proc", volatile=True)
+        snapshot.sections["system"].gaps = [Gap("usb", Status.NA, "no /sys/bus/usb")]
+        self.assertEqual(snapshot.gaps(), [])
+        self.assertEqual(snapshot.outcome(), Outcome.COMPLETE)
+
+    def test_unknown_gap_status_rejected(self):
+        with self.assertRaises(SnapshotError):
+            Gap("libc", "lost", "?")
 
 
 if __name__ == "__main__":

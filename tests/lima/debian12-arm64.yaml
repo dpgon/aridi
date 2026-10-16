@@ -6,8 +6,14 @@ arch: aarch64
 cpus: 2
 memory: 2GiB
 disk: 10GiB
-# No host directories inside the VM: the collector walks the whole filesystem.
+# No host directories inside the VM: the collector walks the whole filesystem. Lima
+# appends the base template mounts to this list, so capture-vm.sh also passes --mount-none
+# and checks /proc/self/mountinfo.
 mounts: []
+# Neutral guest user: by default Lima copies the host user name and full name (GECOS).
+user:
+  name: lima
+  comment: lima corpus user
 containerd:
   system: false
   user: false

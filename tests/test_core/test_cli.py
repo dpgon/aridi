@@ -10,10 +10,16 @@ import unittest
 from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 
+from aridi import bundle as bundle_module
 from aridi import cli
+from aridi.interpret import interpret
+from aridi.model import Outcome
 from tests.helpers import CORPUS, make_bundle
 
 SAMPLE = CORPUS / "debian12" / "minimal" / "bundle.aridi"
+# The expected exit code comes from the snapshot itself (complete since phase 3).
+EXPECTED = (cli.EXIT_COMPLETE if interpret(bundle_module.read(SAMPLE)).outcome()
+            == Outcome.COMPLETE else cli.EXIT_GAPS)
 
 
 def run(*argv):
@@ -56,7 +62,7 @@ class CliTest(unittest.TestCase):
 
     def test_interpret_to_stdout(self):
         code, out, _ = run("interpret", SAMPLE)
-        self.assertEqual(code, cli.EXIT_GAPS)
+        self.assertEqual(code, EXPECTED)
         data = json.loads(out)
         self.assertEqual(data["schema_version"], 1)
         self.assertEqual(len(data["sections"]), 17)
@@ -64,7 +70,7 @@ class CliTest(unittest.TestCase):
     def test_interpret_to_new_file_0600(self):
         target = self.tmp / "snapshot.json"
         code, out, _ = run("interpret", SAMPLE, "-o", target)
-        self.assertEqual((code, out), (cli.EXIT_GAPS, ""))
+        self.assertEqual((code, out), (EXPECTED, ""))
         self.assertEqual(stat.S_IMODE(target.stat().st_mode), 0o600)
         self.assertEqual(json.loads(target.read_text())["schema_version"], 1)
 
@@ -86,7 +92,7 @@ class CliTest(unittest.TestCase):
 
     def test_report_summary_and_detail(self):
         code, out, _ = run("report", SAMPLE)
-        self.assertEqual(code, cli.EXIT_GAPS)
+        self.assertEqual(code, EXPECTED)
         self.assertIn("Level:        summary", out)
         code, out, _ = run("report", SAMPLE, "--detail")
         self.assertIn("Level:        detail", out)
@@ -99,7 +105,7 @@ class CliTest(unittest.TestCase):
         def all_ok(parsed):
             snapshot = original(parsed, parsers={})
             for section in snapshot.sections.values():
-                section.status = "ok"
+                section.status, section.data, section.gaps = "ok", {}, []
             return snapshot
 
         cli.interpret = all_ok

@@ -28,9 +28,9 @@ aarch64
 ### cpu_count
 2
 ### meminfo
-MemTotal:        1808312 kB
-MemFree:          942028 kB
-MemAvailable:    1375416 kB
+MemTotal:        1808316 kB
+MemFree:          893672 kB
+MemAvailable:    1356576 kB
 ### packages
 NetworkManager	1:1.54.3-2.el9	aarch64
 NetworkManager-libnm	1:1.54.3-2.el9	aarch64
@@ -488,7 +488,7 @@ rpcuser:x:29:29:RPC Service User:/var/lib/nfs:/sbin/nologin
 sshd:x:74:74:Privilege-separated SSH:/usr/share/empty.sshd:/usr/sbin/nologin
 chrony:x:995:995:chrony system user:/var/lib/chrony:/sbin/nologin
 dbus:x:81:81:System Message Bus:/:/usr/sbin/nologin
-hostuser:x:501:1000:Hostuser Name:/home/hostuser.guest:/bin/bash
+lima:x:501:1000:lima corpus user:/home/lima.guest:/bin/bash
 aridi:x:1000:1001::/home/aridi:/bin/bash
 alice:x:2001:2001::/home/alice:/bin/sh
 bob:x:2002:2002::/home/bob:/bin/sh
@@ -523,7 +523,7 @@ input:x:104:
 kvm:x:36:
 render:x:105:
 sgx:x:106:
-systemd-journal:x:190:hostuser
+systemd-journal:x:190:lima
 systemd-coredump:x:999:
 tss:x:59:
 polkitd:x:998:
@@ -535,7 +535,7 @@ rpcuser:x:29:
 sshd:x:74:
 chrony:x:995:
 dbus:x:81:
-hostuser:x:1000:
+lima:x:1000:
 aridi:x:1001:
 alice:x:2001:
 bob:x:2002:
@@ -564,40 +564,40 @@ rpcuser:!!
 sshd:!!
 chrony:!!
 dbus:!*
-hostuser:!!
+lima:!!
 aridi:!!
 alice:$6$
 bob:!!
 ### listening
 Netid State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess                                                   
-udp   UNCONN 0      0            0.0.0.0:111       0.0.0.0:*    users:(("rpcbind",pid=633,fd=5),("systemd",pid=1,fd=115))
-udp   UNCONN 0      0          127.0.0.1:323       0.0.0.0:*    users:(("chronyd",pid=15740,fd=5))                       
-udp   UNCONN 0      0            0.0.0.0:5514      0.0.0.0:*    users:(("socat",pid=15607,fd=5))                         
-udp   UNCONN 0      0               [::]:111          [::]:*    users:(("rpcbind",pid=633,fd=7),("systemd",pid=1,fd=117))
-udp   UNCONN 0      0              [::1]:323          [::]:*    users:(("chronyd",pid=15740,fd=6))                       
-tcp   LISTEN 0      4096         0.0.0.0:111       0.0.0.0:*    users:(("rpcbind",pid=633,fd=4),("systemd",pid=1,fd=113))
-tcp   LISTEN 0      128          0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=5628,fd=7))                           
-tcp   LISTEN 0      5          127.0.0.1:8081      0.0.0.0:*    users:(("socat",pid=15603,fd=5))                         
-tcp   LISTEN 0      5                  *:8080            *:*    users:(("socat",pid=15599,fd=5))                         
-tcp   LISTEN 0      4096            [::]:111          [::]:*    users:(("rpcbind",pid=633,fd=6),("systemd",pid=1,fd=116))
-tcp   LISTEN 0      128             [::]:22           [::]:*    users:(("sshd",pid=5628,fd=8))                           
+udp   UNCONN 0      0          127.0.0.1:323       0.0.0.0:*    users:(("chronyd",pid=15709,fd=5))                       
+udp   UNCONN 0      0            0.0.0.0:5514      0.0.0.0:*    users:(("socat",pid=15576,fd=5))                         
+udp   UNCONN 0      0            0.0.0.0:111       0.0.0.0:*    users:(("rpcbind",pid=627,fd=5),("systemd",pid=1,fd=130))
+udp   UNCONN 0      0              [::1]:323          [::]:*    users:(("chronyd",pid=15709,fd=6))                       
+udp   UNCONN 0      0               [::]:111          [::]:*    users:(("rpcbind",pid=627,fd=7),("systemd",pid=1,fd=132))
+tcp   LISTEN 0      5          127.0.0.1:8081      0.0.0.0:*    users:(("socat",pid=15572,fd=5))                         
+tcp   LISTEN 0      128          0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=5497,fd=7))                           
+tcp   LISTEN 0      4096         0.0.0.0:111       0.0.0.0:*    users:(("rpcbind",pid=627,fd=4),("systemd",pid=1,fd=129))
+tcp   LISTEN 0      5                  *:8080            *:*    users:(("socat",pid=15568,fd=5))                         
+tcp   LISTEN 0      128             [::]:22           [::]:*    users:(("sshd",pid=5497,fd=8))                           
+tcp   LISTEN 0      4096            [::]:111          [::]:*    users:(("rpcbind",pid=627,fd=6),("systemd",pid=1,fd=131))
 ### listening_netstat
 (missing: netstat)
 ### proc_net_tcp6_listen
 00000000000000000000000000000000:1F90
-00000000000000000000000000000000:006F
 00000000000000000000000000000000:0016
+00000000000000000000000000000000:006F
 ### proc_net_udp_unconnected
-00000000:006F
 0100007F:0143
 00000000:158A
+00000000:006F
 ### links_ip
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000\    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000\    link/ether 52:55:55:b0:44:b5 brd ff:ff:ff:ff:ff:ff\    altname enp0s1
 ### interfaces_ip
 1: lo    inet 127.0.0.1/8 scope host lo\       valid_lft forever preferred_lft forever
 1: lo    inet6 ::1/128 scope host \       valid_lft forever preferred_lft forever
-2: eth0    inet 192.168.5.15/24 brd 192.168.5.255 scope global dynamic noprefixroute eth0\       valid_lft 3575sec preferred_lft 3575sec
+2: eth0    inet 192.168.5.15/24 brd 192.168.5.255 scope global dynamic noprefixroute eth0\       valid_lft 3573sec preferred_lft 3573sec
 2: eth0    inet6 fe80::5055:55ff:feb0:44b5/64 scope link \       valid_lft forever preferred_lft forever
 ### interfaces_sys
 eth0 52:55:55:b0:44:b5
@@ -605,7 +605,7 @@ lo 00:00:00:00:00:00
 ### mountinfo
 25 78 0:24 / /proc rw,nosuid,nodev,noexec,relatime shared:15 - proc proc rw
 26 78 0:25 / /sys rw,nosuid,nodev,noexec,relatime shared:3 - sysfs sysfs rw,seclabel
-27 78 0:6 / /dev rw,nosuid shared:11 - devtmpfs devtmpfs rw,seclabel,size=871408k,nr_inodes=217852,mode=755,inode64
+27 78 0:6 / /dev rw,nosuid shared:11 - devtmpfs devtmpfs rw,seclabel,size=871412k,nr_inodes=217853,mode=755,inode64
 28 26 0:7 / /sys/kernel/security rw,nosuid,nodev,noexec,relatime shared:4 - securityfs securityfs rw
 29 27 0:26 / /dev/shm rw,nosuid,nodev shared:12 - tmpfs tmpfs rw,seclabel,inode64
 30 27 0:27 / /dev/pts rw,nosuid,noexec,relatime shared:13 - devpts devpts rw,seclabel,gid=5,mode=620,ptmxmode=000
@@ -618,35 +618,33 @@ lo 00:00:00:00:00:00
 78 1 252:3 / / rw,relatime shared:1 - xfs /dev/vda3 rw,seclabel,attr2,inode64,logbufs=8,logbsize=32k,noquota
 81 78 0:37 / /var/lib/nfs/rpc_pipefs rw,relatime shared:2 - rpc_pipefs rpc_pipefs rw
 37 26 0:23 / /sys/fs/selinux rw,nosuid,noexec,relatime shared:10 - selinuxfs selinuxfs rw
-38 25 0:33 / /proc/sys/fs/binfmt_misc rw,relatime shared:16 - autofs systemd-1 rw,fd=29,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=21965
-39 27 0:22 / /dev/mqueue rw,nosuid,nodev,noexec,relatime shared:17 - mqueue mqueue rw,seclabel
-40 27 0:34 / /dev/hugepages rw,relatime shared:18 - hugetlbfs hugetlbfs rw,seclabel,pagesize=2M
-41 26 0:8 / /sys/kernel/debug rw,nosuid,nodev,noexec,relatime shared:19 - debugfs debugfs rw,seclabel
+38 25 0:33 / /proc/sys/fs/binfmt_misc rw,relatime shared:16 - autofs systemd-1 rw,fd=29,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=21776
+39 27 0:34 / /dev/hugepages rw,relatime shared:17 - hugetlbfs hugetlbfs rw,seclabel,pagesize=2M
+40 26 0:8 / /sys/kernel/debug rw,nosuid,nodev,noexec,relatime shared:18 - debugfs debugfs rw,seclabel
+41 27 0:22 / /dev/mqueue rw,nosuid,nodev,noexec,relatime shared:19 - mqueue mqueue rw,seclabel
 42 26 0:13 / /sys/kernel/tracing rw,nosuid,nodev,noexec,relatime shared:20 - tracefs tracefs rw,seclabel
-43 26 0:35 / /sys/fs/fuse/connections rw,nosuid,nodev,noexec,relatime shared:21 - fusectl fusectl rw
+66 31 0:35 / /run/credentials/systemd-sysctl.service ro,nosuid,nodev,noexec,relatime shared:21 - ramfs none rw,seclabel,mode=700
 68 31 0:36 / /run/credentials/systemd-sysusers.service ro,nosuid,nodev,noexec,relatime shared:22 - ramfs none rw,seclabel,mode=700
-70 31 0:38 / /run/credentials/systemd-sysctl.service ro,nosuid,nodev,noexec,relatime shared:23 - ramfs none rw,seclabel,mode=700
+43 26 0:38 / /sys/fs/fuse/connections rw,nosuid,nodev,noexec,relatime shared:23 - fusectl fusectl rw
 73 31 0:39 / /run/credentials/systemd-tmpfiles-setup-dev.service ro,nosuid,nodev,noexec,relatime shared:24 - ramfs none rw,seclabel,mode=700
 97 78 252:2 / /boot rw,relatime shared:45 - xfs /dev/vda2 rw,seclabel,attr2,inode64,logbufs=8,logbsize=32k,noquota
 105 97 252:1 / /boot/efi rw,relatime shared:52 - vfat /dev/vda1 rw,fmask=0077,dmask=0077,codepage=437,iocharset=ascii,shortname=winnt,errors=remount-ro
 137 31 0:40 / /run/credentials/systemd-tmpfiles-setup.service ro,nosuid,nodev,noexec,relatime shared:54 - ramfs none rw,seclabel,mode=700
-636 78 252:16 / /mnt/lima-cidata ro,relatime shared:325 - iso9660 /dev/vdb ro,nojoliet,overriderockperm,check=s,map=n,blocksize=2048,uid=0,dmode=700,fmode=700
-497 78 0:46 / /Users/hostuser ro,relatime shared:262 - virtiofs lima-6d24db71180225c1 ro,context=system_u:object_r:nfs_t:s0
-655 31 0:48 / /run/user/501 rw,nosuid,nodev,relatime shared:352 - tmpfs tmpfs rw,seclabel,size=180828k,nr_inodes=45207,mode=700,uid=501,gid=1000,inode64
-498 31 0:49 / /run/user/2001 rw,nosuid,nodev,relatime shared:271 - tmpfs tmpfs rw,seclabel,size=180828k,nr_inodes=45207,mode=700,uid=2001,gid=2001,inode64
+617 78 252:16 / /mnt/lima-cidata ro,relatime shared:316 - iso9660 /dev/vdb ro,nojoliet,overriderockperm,check=s,map=n,blocksize=2048,uid=0,dmode=700,fmode=700
+636 31 0:47 / /run/user/501 rw,nosuid,nodev,relatime shared:342 - tmpfs tmpfs rw,seclabel,size=180828k,nr_inodes=45207,mode=700,uid=501,gid=1000,inode64
+553 31 0:48 / /run/user/2001 rw,nosuid,nodev,relatime shared:262 - tmpfs tmpfs rw,seclabel,size=180828k,nr_inodes=45207,mode=700,uid=2001,gid=2001,inode64
 ### df
-Filesystem            1024-blocks       Used Available Capacity Mounted on
-devtmpfs                   871408          0    871408       0% /dev
-tmpfs                      904156          0    904156       0% /dev/shm
-tmpfs                      361664       5096    356568       2% /run
-efivarfs                       56          2        55       3% /sys/firmware/efi/efivars
-/dev/vda3                 9292780    1210164   8082616      14% /
-/dev/vda2                  958464     234292    724172      25% /boot
-/dev/vda1                  102156      12624     89532      13% /boot/efi
-/dev/vdb                    19574      19574         0     100% /mnt/lima-cidata
-lima-6d24db71180225c1  1948455240 1838327004 110128236      95% /Users/hostuser
-tmpfs                      180828          0    180828       0% /run/user/501
-tmpfs                      180828          0    180828       0% /run/user/2001
+Filesystem     1024-blocks    Used Available Capacity Mounted on
+devtmpfs            871412       0    871412       0% /dev
+tmpfs               904156       0    904156       0% /dev/shm
+tmpfs               361664    5088    356576       2% /run
+efivarfs                56       2        55       3% /sys/firmware/efi/efivars
+/dev/vda3          9292780 1209948   8082832      14% /
+/dev/vda2           958464  234292    724172      25% /boot
+/dev/vda1           102156   12624     89532      13% /boot/efi
+/dev/vdb             19574   19574         0     100% /mnt/lima-cidata
+tmpfs               180828       0    180828       0% /run/user/501
+tmpfs               180828       0    180828       0% /run/user/2001
 ### suid_files
 /usr/bin/chage
 /usr/bin/crontab
@@ -671,10 +669,10 @@ tmpfs                      180828          0    180828       0% /run/user/2001
 ### world_writable_dirs_no_sticky
 /srv/world-writable
 ### account_file_modes
--rw-r--r--. 1 0 0  617 Oct 15 18:46 /etc/group
-----------. 1 0 0  486 Oct 15 18:46 /etc/gshadow
--rw-r--r--. 1 0 0 1340 Oct 15 18:46 /etc/passwd
-----------. 1 0 0  799 Oct 15 18:46 /etc/shadow
+-rw-r--r--. 1 0 0  609 Oct 15 21:44 /etc/group
+----------. 1 0 0  478 Oct 15 21:44 /etc/gshadow
+-rw-r--r--. 1 0 0 1335 Oct 15 21:44 /etc/passwd
+----------. 1 0 0  795 Oct 15 21:44 /etc/shadow
 ### processes
     PID   UID STAT COMMAND
       1     0 Ss   systemd
@@ -686,9 +684,9 @@ tmpfs                      180828          0    180828       0% /run/user/2001
       7     0 I<   kworker/R-netns
       8     0 I    kworker/0:0-rcu_gp
       9     0 I<   kworker/0:0H-events_highpri
-     10     0 I    kworker/u8:0-flush-252:0
+     10     0 I    kworker/u8:0-writeback
      11     0 I<   kworker/R-mm_percpu_wq
-     12     0 I    kworker/u8:1-flush-252:0
+     12     0 I    kworker/u8:1-events_unbound
      13     0 I    rcu_tasks_kthre
      14     0 I    rcu_tasks_rude_
      15     0 I    rcu_tasks_trace
@@ -697,7 +695,7 @@ tmpfs                      180828          0    180828       0% /run/user/2001
      18     0 S    rcu_exp_par_gp_
      19     0 S    rcu_exp_gp_kthr
      20     0 S    migration/0
-     21     0 I    kworker/0:1-events
+     21     0 I    kworker/0:1-rcu_gp
      22     0 S    cpuhp/0
      23     0 S    cpuhp/1
      24     0 S    migration/1
@@ -723,94 +721,92 @@ tmpfs                      180828          0    180828       0% /run/user/2001
      44     0 I<   kworker/R-edac-poller
      45     0 I<   kworker/R-devfreq_wq
      46     0 S    watchdogd
-     47     0 I<   kworker/0:1H-kblockd
-     48     0 S    kswapd0
-     49     0 I    kworker/1:1-events
+     47     0 I    kworker/1:1-events
+     48     0 I<   kworker/1:1H-kblockd
+     49     0 S    kswapd0
      50     0 I    kworker/u8:2-events_unbound
-     52     0 I    kworker/u8:3-events_unbound
+     52     0 I    kworker/u8:3-writeback
      67     0 I<   kworker/R-kthrotld
      71     0 I<   kworker/R-acpi_thermal_pm
      72     0 S    hwrng
      73     0 I<   kworker/R-kmpath_rdacd
      74     0 I<   kworker/R-kaluad
      75     0 I<   kworker/R-mld
-     76     0 I<   kworker/1:1H-kblockd
-     77     0 I<   kworker/R-ipv6_addrconf
-     82     0 I<   kworker/R-kstrp
-     86     0 I<   kworker/u9:0
-    159     0 S    irq/13-ACPI:Eve
-    161     0 I    kworker/0:2-cgroup_destroy
-    200     0 I    kworker/0:3-cgroup_destroy
-    208     0 I    kworker/0:4
-    211     0 I    kworker/0:5-events
-    314     0 I    kworker/1:2-cgroup_destroy
-    319     0 I<   kworker/R-rpciod
-    320     0 I<   kworker/R-xprtiod
-    418     0 S    khvcd
-    423     0 I    kworker/1:3-mm_percpu_wq
-    432     0 I    kworker/1:4-events
-    448     0 I<   kworker/R-xfsalloc
-    449     0 I<   kworker/R-xfs_mru_cache
-    450     0 I<   kworker/R-xfs-buf/vda3
-    451     0 I<   kworker/R-xfs-conv/vda3
-    452     0 I<   kworker/R-xfs-reclaim/vda3
-    453     0 I<   kworker/R-xfs-blockgc/vda3
-    454     0 I<   kworker/R-xfs-inodegc/vda3
-    455     0 I<   kworker/R-xfs-log/vda3
-    456     0 I<   kworker/R-xfs-cil/vda3
-    457     0 S    xfsaild/vda3
-    566     0 Ss   systemd-journal
-    583     0 Ss   systemd-udevd
-    617     0 I<   kworker/R-xfs-buf/vda2
-    618     0 I<   kworker/R-xfs-conv/vda2
-    619     0 I<   kworker/R-xfs-reclaim/vda2
-    620     0 I<   kworker/R-xfs-blockgc/vda2
-    621     0 I<   kworker/R-xfs-inodegc/vda2
-    622     0 I<   kworker/R-xfs-log/vda2
-    623     0 I<   kworker/R-xfs-cil/vda2
-    624     0 S    xfsaild/vda2
-    633    32 Ss   rpcbind
-    635     0 S<sl auditd
-    637     0 S<   sedispatch
-    664    81 Ss   dbus-broker-lau
-    665    81 S    dbus-broker
-    669     0 Ssl  irqbalance
-    671     2 Ss   rngd
-    672     0 Ss   systemd-logind
-    689     0 Ss   systemd-hostnam
-    693     0 Ssl  NetworkManager
-    714     0 Ssl  gssproxy
-    849     0 Ssl  rsyslogd
-    852     0 Ss   crond
-    853     0 Ss+  agetty
-    854     0 Ss+  agetty
-   2225   501 Ss   systemd
-   2235   501 S    (sd-pam)
-   2731     0 Ssl  lima-guestagent
-   3055     0 Ss   sshd-session
-   3129   501 S    sshd-session
-   4624     0 I    kworker/u8:4-flush-252:0
-   5628     0 Ss   sshd
-   5875     0 I    kworker/u8:5-events_unbound
-   7375     0 Ssl  firewalld
-   8980   998 Ssl  polkitd
-  15599     0 Ss   socat
-  15603     0 Ss   socat
-  15607     0 Ss   socat
-  15611  4242 Ss   sleep
-  15705     0 Ss   sssd_kcm
-  15708  2001 Ss   systemd
-  15710  2001 S    (sd-pam)
-  15724     0 Ss   sshd-session
-  15727     0 Ss   ssh
-  15731  2001 S    sshd-session
-  15734  2001 Ss   sleep
-  15740   995 S    chronyd
-  15863     0 Ss   sudo
-  15906     0 S    sh
-  15950     0 R    ps
+     76     0 I<   kworker/R-ipv6_addrconf
+     81     0 I<   kworker/R-kstrp
+     85     0 I<   kworker/u9:0
+    158     0 S    irq/13-ACPI:Eve
+    160     0 I    kworker/0:2-cgroup_destroy
+    161     0 I    kworker/0:3-mm_percpu_wq
+    200     0 I<   kworker/0:1H-kblockd
+    209     0 I    kworker/1:2-cgroup_destroy
+    317     0 I<   kworker/R-rpciod
+    318     0 I<   kworker/R-xprtiod
+    411     0 I    kworker/0:4-events
+    414     0 S    khvcd
+    424     0 I    kworker/0:5-xfs-conv/vda3
+    442     0 I<   kworker/R-xfsalloc
+    443     0 I<   kworker/R-xfs_mru_cache
+    444     0 I<   kworker/R-xfs-buf/vda3
+    445     0 I<   kworker/R-xfs-conv/vda3
+    446     0 I<   kworker/R-xfs-reclaim/vda3
+    447     0 I<   kworker/R-xfs-blockgc/vda3
+    448     0 I<   kworker/R-xfs-inodegc/vda3
+    449     0 I<   kworker/R-xfs-log/vda3
+    450     0 I<   kworker/R-xfs-cil/vda3
+    451     0 S    xfsaild/vda3
+    560     0 Ss   systemd-journal
+    577     0 Ss   systemd-udevd
+    578     0 I    kworker/1:3-events
+    611     0 I<   kworker/R-xfs-buf/vda2
+    612     0 I<   kworker/R-xfs-conv/vda2
+    613     0 I<   kworker/R-xfs-reclaim/vda2
+    614     0 I<   kworker/R-xfs-blockgc/vda2
+    615     0 I<   kworker/R-xfs-inodegc/vda2
+    616     0 I<   kworker/R-xfs-log/vda2
+    617     0 I<   kworker/R-xfs-cil/vda2
+    618     0 S    xfsaild/vda2
+    627    32 Ss   rpcbind
+    629     0 S<sl auditd
+    631     0 S<   sedispatch
+    658    81 Ss   dbus-broker-lau
+    659    81 S    dbus-broker
+    663     0 Ssl  irqbalance
+    664     2 Ss   rngd
+    665     0 Ss   systemd-logind
+    683     0 Ss   systemd-hostnam
+    687     0 Ssl  NetworkManager
+    704     0 Ssl  gssproxy
+    802     0 Ssl  rsyslogd
+    808     0 Ss   crond
+    809     0 Ss+  agetty
+    810     0 Ss+  agetty
+   2203   501 Ss   systemd
+   2208   501 S    (sd-pam)
+   2614     0 Ssl  lima-guestagent
+   3037     0 Ss   sshd-session
+   3167   501 S    sshd-session
+   4547     0 I    kworker/u8:4-events_unbound
+   5497     0 Ss   sshd
+   7421     0 Ssl  firewalld
+   8996   998 Ssl  polkitd
+  15568     0 Ss   socat
+  15572     0 Ss   socat
+  15576     0 Ss   socat
+  15580  4242 Ss   sleep
+  15674     0 Ss   sssd_kcm
+  15677  2001 Ss   systemd
+  15679  2001 S    (sd-pam)
+  15693     0 Ss   sshd-session
+  15696     0 Ss   ssh
+  15700  2001 S    sshd-session
+  15703  2001 Ss+  sleep
+  15709   995 S    chronyd
+  17847     0 Ss   sudo
+  17890     0 S    sh
+  17934     0 R    ps
 ### process_count
-134
+132
 ### hostname
 lima-aridi-corpus-rocky9-arm64
 ### resolv_conf
@@ -851,7 +847,7 @@ dev-disk-by\x2dpath-virtio\x2dpci\x2d0000:00:06.0\x2dpart1.device               
 dev-disk-by\x2dpath-virtio\x2dpci\x2d0000:00:06.0\x2dpart2.device                    loaded    active   plugged   /dev/disk/by-path/virtio-pci-0000:00:06.0-part2
 dev-disk-by\x2dpath-virtio\x2dpci\x2d0000:00:06.0\x2dpart3.device                    loaded    active   plugged   /dev/disk/by-path/virtio-pci-0000:00:06.0-part3
 dev-disk-by\x2dpath-virtio\x2dpci\x2d0000:00:07.0.device                             loaded    active   plugged   /dev/disk/by-path/virtio-pci-0000:00:07.0
-dev-disk-by\x2duuid-2026\x2d10\x2d15\x2d18\x2d45\x2d58\x2d52.device                  loaded    active   plugged   /dev/disk/by-uuid/2026-10-15-18-45-58-52
+dev-disk-by\x2duuid-2026\x2d10\x2d15\x2d21\x2d43\x2d43\x2d65.device                  loaded    active   plugged   /dev/disk/by-uuid/2026-10-15-21-43-43-65
 dev-disk-by\x2duuid-54A0\x2dC405.device                                              loaded    active   plugged   /dev/disk/by-uuid/54A0-C405
 dev-disk-by\x2duuid-68327dac\x2d0671\x2d4250\x2da358\x2d733d4bf12a3c.device          loaded    active   plugged   /dev/disk/by-uuid/68327dac-0671-4250-a358-733d4bf12a3c
 dev-disk-by\x2duuid-f87198e0\x2dc67d\x2d44fb\x2db44e\x2d9714f2c7fb00.device          loaded    active   plugged   /dev/disk/by-uuid/f87198e0-c67d-44fb-b44e-9714f2c7fb00
@@ -918,12 +914,11 @@ sys-kernel-debug.mount                                                          
 sys-kernel-tracing.mount                                                             loaded    active   mounted   Kernel Trace File System
 sysroot.mount                                                                        not-found inactive dead      sysroot.mount
 tmp.mount                                                                            loaded    inactive dead      Temporary Directory /tmp
-Users-hostuser.mount                                                                 loaded    active   mounted   /Users/hostuser
 var-lib-nfs-rpc_pipefs.mount                                                         loaded    active   mounted   RPC Pipe File System
 systemd-ask-password-console.path                                                    loaded    active   waiting   Dispatch Password Requests to Console Directory Watch
 systemd-ask-password-wall.path                                                       loaded    active   waiting   Forward Password Requests to Wall Directory Watch
 init.scope                                                                           loaded    active   running   System and Service Manager
-session-5.scope                                                                      loaded    active   running   Session 5 of User hostuser
+session-5.scope                                                                      loaded    active   running   Session 5 of User lima
 session-9.scope                                                                      loaded    active   running   Session 9 of User alice
 apt-daily.service                                                                    not-found inactive dead      apt-daily.service
 aridi-fails.service                                                                  loaded    failed   failed    aridi corpus: service that fails on purpose

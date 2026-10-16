@@ -1,95 +1,514 @@
 aridi report: corpus-debian12
 =============================
 Machine id:   (unknown)
-Collected at: 2026-10-15T16:43:46Z
+Collected at: 2026-10-15T19:38:48Z
 Collector:    2.0.0.dev0 (bundle format 1, snapshot schema 1)
-Result:       with gaps
+Result:       complete
 Level:        detail
 
 System
 ------
-  [no analyzer] no analyzer for this area yet
+  Distribution: Debian GNU/Linux 12 (bookworm) [debian 12]
+  Kernel:       Linux 7.0.14-linuxkit
+  Architecture: aarch64
+  Libc:         glibc 2.36
+  Name:         Debian GNU/Linux
+  Version:      12 (bookworm)
+  Codename:     bookworm
+  Like:         (none)
+  Source:       system.os_release
+  Kernel build: #1 SMP PREEMPT Sun Sep 20 16:14:09 UTC 2026
+  /proc/version: Linux version 7.0.14-linuxkit (root@buildkitsandbox) (gcc (Alpine 15.2.0) 15.2.0, GNU ld (GNU Binutils) 2.45.1) #1 SMP PREEMPT Sun Sep 20 16:14:09 UTC 2026
+  debian_version: 12.15
 
 Hardware
 --------
-  [no analyzer] no analyzer for this area yet
+  CPU:    12 x Apple part 0x000 (aarch64), 1 socket(s), 12 core(s), 1 thread(s) per core
+  Memory: 7.7 GiB, swap 1.0 GiB
+  USB:    0 device(s), 2 hub(s)
+  Vendor: Apple
+  Online: 0,1,2,3,4,5,6,7,8,9,10,11
+  Flags:  fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti
+  Bugs:   (none)
+  ARM:    implementer 0x61, part 0x000
+  USB usb1: 1d6b:0002 root hub Linux 7.0.14-linuxkit vhci_hcd USB/IP Virtual Host Controller
+  USB usb2: 1d6b:0003 root hub Linux 7.0.14-linuxkit vhci_hcd USB/IP Virtual Host Controller
 
 Packages
 --------
-  [no analyzer] no analyzer for this area yet
+  Installed: 88 (dpkg 88)
+  adduser 3.134 all
+  apt 2.6.1 arm64
+  base-files 12.4+deb12u15 arm64
+  base-passwd 3.6.1 arm64
+  bash 5.2.15-2+b13 arm64
+  bsdutils 1:2.38.1-5+deb12u3 arm64
+  coreutils 9.1-1 arm64
+  dash 0.5.12-2 arm64
+  debconf 1.5.82 all
+  debian-archive-keyring 2023.3+deb12u2 all
+  debianutils 5.7-0.5~deb12u1 arm64
+  diffutils 1:3.8-4 arm64
+  dpkg 1.21.23 arm64
+  e2fsprogs 1.47.0-2+b2 arm64
+  findutils 4.9.0-4 arm64
+  gcc-12-base 12.2.0-14+deb12u1 arm64
+  gpgv 2.2.40-1.1+deb12u2 arm64
+  grep 3.8-5 arm64
+  gzip 1.12-1 arm64
+  hostname 3.23+nmu1 arm64
+  init-system-helpers 1.65.2+deb12u1 all
+  libacl1 2.3.1-3 arm64
+  libapt-pkg6.0 2.6.1 arm64
+  libattr1 1:2.5.1-4 arm64
+  libaudit-common 1:3.0.9-1 all
+  libaudit1 1:3.0.9-1 arm64
+  libblkid1 2.38.1-5+deb12u3 arm64
+  libbz2-1.0 1.0.8-5+b1 arm64
+  libc-bin 2.36-9+deb12u14 arm64
+  libc6 2.36-9+deb12u14 arm64
+  libcap-ng0 0.8.3-1+b3 arm64
+  libcap2 1:2.66-4+deb12u3+b1 arm64
+  libcom-err2 1.47.0-2+b2 arm64
+  libcrypt1 1:4.4.33-2 arm64
+  libdb5.3 5.3.28+dfsg2-1 arm64
+  libdebconfclient0 0.270 arm64
+  libext2fs2 1.47.0-2+b2 arm64
+  libffi8 3.4.4-1 arm64
+  libgcc-s1 12.2.0-14+deb12u1 arm64
+  libgcrypt20 1.10.1-3+deb12u1 arm64
+  libgmp10 2:6.2.1+dfsg1-1.1 arm64
+  libgnutls30 3.7.9-2+deb12u7 arm64
+  libgpg-error0 1.46-1 arm64
+  libhogweed6 3.8.1-2 arm64
+  libidn2-0 2.3.3-1+b1 arm64
+  liblz4-1 1.9.4-1 arm64
+  liblzma5 5.4.1-1+deb12u2 arm64
+  libmd0 1.0.4-2 arm64
+  libmount1 2.38.1-5+deb12u3 arm64
+  libnettle8 3.8.1-2 arm64
+  libp11-kit0 0.24.1-2 arm64
+  libpam-modules 1.5.2-6+deb12u2 arm64
+  libpam-modules-bin 1.5.2-6+deb12u2 arm64
+  libpam-runtime 1.5.2-6+deb12u2 all
+  libpam0g 1.5.2-6+deb12u2 arm64
+  libpcre2-8-0 10.42-1+deb12u2 arm64
+  libseccomp2 2.5.4-1+deb12u1 arm64
+  libselinux1 3.4-1+b6 arm64
+  libsemanage-common 3.4-1 all
+  libsemanage2 3.4-1+b5 arm64
+  libsepol2 3.4-2.1 arm64
+  libsmartcols1 2.38.1-5+deb12u3 arm64
+  libss2 1.47.0-2+b2 arm64
+  libstdc++6 12.2.0-14+deb12u1 arm64
+  libsystemd0 252.39-1~deb12u2 arm64
+  libtasn1-6 4.19.0-2+deb12u1 arm64
+  libtinfo6 6.4-4 arm64
+  libudev1 252.39-1~deb12u2 arm64
+  libunistring2 1.0-2 arm64
+  libuuid1 2.38.1-5+deb12u3 arm64
+  libxxhash0 0.8.1-1 arm64
+  libzstd1 1.5.4+dfsg2-5 arm64
+  login 1:4.13+dfsg1-1+deb12u2 arm64
+  logsave 1.47.0-2+b2 arm64
+  mawk 1.3.4.20200120-3.1 arm64
+  mount 2.38.1-5+deb12u3 arm64
+  ncurses-base 6.4-4 all
+  ncurses-bin 6.4-4 arm64
+  passwd 1:4.13+dfsg1-1+deb12u2 arm64
+  perl-base 5.36.0-7+deb12u3 arm64
+  sed 4.9-1+deb12u1 arm64
+  sysvinit-utils 3.06-4 arm64
+  tar 1.34+dfsg-1.2+deb12u1 arm64
+  tzdata 2026c-0+deb12u1 all
+  usr-is-merged 37~deb12u1 all
+  util-linux 2.38.1-5+deb12u3 arm64
+  util-linux-extra 2.38.1-5+deb12u3 arm64
+  zlib1g 1:1.2.13.dfsg-1 arm64
 
 Storage
 -------
-  [no analyzer] no analyzer for this area yet
+  Disks:  vda 1.8 TiB, vdb 648.2 MiB
+  Mounts: 24 (10 pseudo filesystems)
+    /  overlay overlay  78.5 GiB of 1.8 TiB (5%)
+        options rw,relatime  root /  dev 0:63
+    /proc  proc proc  usage unknown
+        options rw,nosuid,nodev,noexec,relatime  root /  dev 0:87
+    /dev  tmpfs tmpfs  0 B of 64.0 MiB (0%)
+        options rw,nosuid  root /  dev 0:88
+    /dev/pts  devpts devpts  usage unknown
+        options rw,nosuid,noexec,relatime  root /  dev 0:91
+    /sys  sysfs sysfs  usage unknown  [ro]
+        options ro,nosuid,nodev,noexec,relatime  root /  dev 0:93
+    /sys/fs/cgroup  cgroup2 cgroup  usage unknown  [ro]
+        options ro,nosuid,nodev,noexec,relatime  root /  dev 0:41
+    /dev/mqueue  mqueue mqueue  usage unknown
+        options rw,nosuid,nodev,noexec,relatime  root /  dev 0:85
+    /dev/shm  tmpfs shm  0 B of 64.0 MiB (0%)
+        options rw,nosuid,nodev,noexec,relatime  root /  dev 0:94
+    /etc/hostname  ext4 /dev/vda1  usage unknown  [bind]
+        options rw,relatime  root /docker/containers/f9ebf4f2d2724e524ceaa426ceaeed636197d9fc09d0ebe46981ea05c7456b8c/hostname  dev 254:1
+    /etc/hosts  ext4 /dev/vda1  usage unknown  [bind]
+        options rw,relatime  root /docker/containers/f9ebf4f2d2724e524ceaa426ceaeed636197d9fc09d0ebe46981ea05c7456b8c/hosts  dev 254:1
+    /etc/resolv.conf  ext4 /dev/vda1  usage unknown  [bind]
+        options rw,relatime  root /docker/containers/f9ebf4f2d2724e524ceaa426ceaeed636197d9fc09d0ebe46981ea05c7456b8c/resolv.conf  dev 254:1
+    /srv/bind  ext4 /dev/vda1  78.5 GiB of 1.8 TiB (5%)  [bind, ro]
+        options ro,relatime  root /docker/volumes/aridi-corpus-bind/_data  dev 254:1
+    /srv/scratch  tmpfs tmpfs  0 B of 3.9 GiB (0%)
+        options rw,nosuid,nodev,noexec,relatime  root /  dev 0:95
+    /proc/bus  proc proc  usage unknown  [bind, ro]
+        options ro,nosuid,nodev,noexec,relatime  root /bus  dev 0:87
+    /proc/fs  proc proc  usage unknown  [bind, ro]
+        options ro,nosuid,nodev,noexec,relatime  root /fs  dev 0:87
+    /proc/irq  proc proc  usage unknown  [bind, ro]
+        options ro,nosuid,nodev,noexec,relatime  root /irq  dev 0:87
+    /proc/sys  proc proc  usage unknown  [bind, ro]
+        options ro,nosuid,nodev,noexec,relatime  root /sys  dev 0:87
+    /proc/sysrq-trigger  proc proc  usage unknown  [bind, ro]
+        options ro,nosuid,nodev,noexec,relatime  root /sysrq-trigger  dev 0:87
+    /proc/interrupts  tmpfs tmpfs  usage unknown  [bind]
+        options rw,nosuid  root /null  dev 0:88
+    /proc/kcore  tmpfs tmpfs  usage unknown  [bind]
+        options rw,nosuid  root /null  dev 0:88
+    /proc/keys  tmpfs tmpfs  usage unknown  [bind]
+        options rw,nosuid  root /null  dev 0:88
+    /proc/scsi  tmpfs tmpfs  0 B of 4.0 KiB (0%)  [ro]
+        options ro,relatime  root /  dev 0:96
+    /proc/timer_list  tmpfs tmpfs  usage unknown  [bind]
+        options rw,nosuid  root /null  dev 0:88
+    /sys/firmware  tmpfs tmpfs  usage unknown  [bind, ro]
+        options ro,relatime  root /  dev 0:96
+  Swap:   /var/lib/swap 1.0 GiB
+  Device loop0 loop 0 B
+  Device loop1 loop 0 B
+  Device loop2 loop 0 B
+  Device loop3 loop 0 B
+  Device loop4 loop 0 B
+  Device loop5 loop 0 B
+  Device loop6 loop 0 B
+  Device loop7 loop 0 B
+  Device nbd0 nbd 0 B
+  Device nbd1 nbd 0 B
+  Device nbd10 nbd 0 B
+  Device nbd11 nbd 0 B
+  Device nbd12 nbd 0 B
+  Device nbd13 nbd 0 B
+  Device nbd14 nbd 0 B
+  Device nbd15 nbd 0 B
+  Device nbd2 nbd 0 B
+  Device nbd3 nbd 0 B
+  Device nbd4 nbd 0 B
+  Device nbd5 nbd 0 B
+  Device nbd6 nbd 0 B
+  Device nbd7 nbd 0 B
+  Device nbd8 nbd 0 B
+  Device nbd9 nbd 0 B
+  Device ram0 ram 4.0 MiB
+  Device ram1 ram 4.0 MiB
+  Device ram10 ram 4.0 MiB
+  Device ram11 ram 4.0 MiB
+  Device ram12 ram 4.0 MiB
+  Device ram13 ram 4.0 MiB
+  Device ram14 ram 4.0 MiB
+  Device ram15 ram 4.0 MiB
+  Device ram2 ram 4.0 MiB
+  Device ram3 ram 4.0 MiB
+  Device ram4 ram 4.0 MiB
+  Device ram5 ram 4.0 MiB
+  Device ram6 ram 4.0 MiB
+  Device ram7 ram 4.0 MiB
+  Device ram8 ram 4.0 MiB
+  Device ram9 ram 4.0 MiB
+  Device vda disk 1.8 TiB
+  Device vda1 part 1.8 TiB
+  Device vdb disk 648.2 MiB
 
 Dangerous permissions
 ---------------------
-  [no analyzer] no analyzer for this area yet
+  SUID files: 9 (0 not owned by root)
+  SGID files: 3
+  World-writable files: 0
+  World-writable dirs without sticky bit: 1 (with sticky bit: 4)
+    dir without sticky bit: /srv/world-writable 0777 uid=0 gid=0
+    suid: /usr/local/bin/aridi-suid-test 4755 uid=0 gid=0
+    suid: /usr/bin/passwd 4755 uid=0 gid=0
+    suid: /usr/bin/gpasswd 4755 uid=0 gid=0
+    suid: /usr/bin/chsh 4755 uid=0 gid=0
+    suid: /usr/bin/umount 4755 uid=0 gid=0
+    suid: /usr/bin/chfn 4755 uid=0 gid=0
+    suid: /usr/bin/mount 4755 uid=0 gid=0
+    suid: /usr/bin/su 4755 uid=0 gid=0
+    suid: /usr/bin/newgrp 4755 uid=0 gid=0
+    sgid: /usr/bin/chage 2755 uid=0 gid=42
+    sgid: /usr/bin/expiry 2755 uid=0 gid=42
+    sgid: /usr/sbin/unix_chkpwd 2755 uid=0 gid=42
+  Account file /etc/passwd: 0644 uid=0 gid=0 (ok)
+  Account file /etc/group: 0644 uid=0 gid=0 (ok)
+  Account file /etc/shadow: 0640 uid=0 gid=42 (more open than 0400)
+  Account file /etc/gshadow: 0640 uid=0 gid=42 (more open than 0400)
 
 Identity and banners
 --------------------
-  [no analyzer] no analyzer for this area yet
+  [not applicable] dns domain: the hostname does not resolve: dnsdomainname: Temporary failure in name resolution
+  Hostname:   corpus-debian12
+  DNS domain: (the hostname does not resolve)
+  NIS domain: (none)
+  Host id:    00000000
+  Banners:    /etc/issue, /etc/issue.net, /etc/motd
+  --- /etc/issue
+  | Debian GNU/Linux 12 \n \l
+  | 
+  --- /etc/issue.net
+  | Corpus banner \x1b[31mred\x1b[0m <script>alert(1)</script>
+  --- /etc/motd
+  | 
+  | The programs included with the Debian GNU/Linux system are free software;
+  | the exact distribution terms for each program are described in the
+  | individual files in /usr/share/doc/*/copyright.
+  | 
+  | Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+  | permitted by applicable law.
 
 Users and groups
 ----------------
-  [no analyzer] no analyzer for this area yet
+  Accounts: 20, groups: 41
+  Passwords: 19 locked, 1 set
+  Algorithms: yescrypt 1
+  Accounts with a password:
+    alice (uid 2001, yescrypt, /bin/sh)
+  Group ghostgrp: member ghostuser has no local account
+    user root uid=0 gid=0 password=locked algorithm=None home=/root shell=/bin/bash groups=root
+    user daemon uid=1 gid=1 password=locked algorithm=None home=/usr/sbin shell=/usr/sbin/nologin groups=daemon
+    user bin uid=2 gid=2 password=locked algorithm=None home=/bin shell=/usr/sbin/nologin groups=bin
+    user sys uid=3 gid=3 password=locked algorithm=None home=/dev shell=/usr/sbin/nologin groups=sys
+    user sync uid=4 gid=65534 password=locked algorithm=None home=/bin shell=/bin/sync groups=nogroup
+    user games uid=5 gid=60 password=locked algorithm=None home=/usr/games shell=/usr/sbin/nologin groups=games
+    user man uid=6 gid=12 password=locked algorithm=None home=/var/cache/man shell=/usr/sbin/nologin groups=man
+    user lp uid=7 gid=7 password=locked algorithm=None home=/var/spool/lpd shell=/usr/sbin/nologin groups=lp
+    user mail uid=8 gid=8 password=locked algorithm=None home=/var/mail shell=/usr/sbin/nologin groups=mail
+    user news uid=9 gid=9 password=locked algorithm=None home=/var/spool/news shell=/usr/sbin/nologin groups=news
+    user uucp uid=10 gid=10 password=locked algorithm=None home=/var/spool/uucp shell=/usr/sbin/nologin groups=uucp
+    user proxy uid=13 gid=13 password=locked algorithm=None home=/bin shell=/usr/sbin/nologin groups=proxy
+    user www-data uid=33 gid=33 password=locked algorithm=None home=/var/www shell=/usr/sbin/nologin groups=www-data
+    user backup uid=34 gid=34 password=locked algorithm=None home=/var/backups shell=/usr/sbin/nologin groups=backup
+    user list uid=38 gid=38 password=locked algorithm=None home=/var/list shell=/usr/sbin/nologin groups=list
+    user irc uid=39 gid=39 password=locked algorithm=None home=/run/ircd shell=/usr/sbin/nologin groups=irc
+    user _apt uid=42 gid=65534 password=locked algorithm=None home=/nonexistent shell=/usr/sbin/nologin groups=nogroup
+    user nobody uid=65534 gid=65534 password=locked algorithm=None home=/nonexistent shell=/usr/sbin/nologin groups=nogroup
+    user alice uid=2001 gid=2001 password=set algorithm=yescrypt home=/home/alice shell=/bin/sh groups=alice,ghostgrp
+    user bob uid=2002 gid=2002 password=locked algorithm=None home=/home/bob shell=/bin/sh groups=bob
+    group root gid=0 members=
+    group daemon gid=1 members=
+    group bin gid=2 members=
+    group sys gid=3 members=
+    group adm gid=4 members=
+    group tty gid=5 members=
+    group disk gid=6 members=
+    group lp gid=7 members=
+    group mail gid=8 members=
+    group news gid=9 members=
+    group uucp gid=10 members=
+    group man gid=12 members=
+    group proxy gid=13 members=
+    group kmem gid=15 members=
+    group dialout gid=20 members=
+    group fax gid=21 members=
+    group voice gid=22 members=
+    group cdrom gid=24 members=
+    group floppy gid=25 members=
+    group tape gid=26 members=
+    group sudo gid=27 members=
+    group audio gid=29 members=
+    group dip gid=30 members=
+    group www-data gid=33 members=
+    group backup gid=34 members=
+    group operator gid=37 members=
+    group list gid=38 members=
+    group irc gid=39 members=
+    group src gid=40 members=
+    group shadow gid=42 members=
+    group utmp gid=43 members=
+    group video gid=44 members=
+    group sasl gid=45 members=
+    group plugdev gid=46 members=
+    group staff gid=50 members=
+    group games gid=60 members=
+    group users gid=100 members=
+    group nogroup gid=65534 members=
+    group alice gid=2001 members=
+    group bob gid=2002 members=
+    group ghostgrp gid=4300 members=ghostuser,alice
 
 Services
 --------
-  [no analyzer] no analyzer for this area yet
+  Managers: sysv (init: sh, systemd running: no)
+  Services: 1, running 0, failed 0
+  unknown:
+    hwclock.sh [sysv] enabled=enabled runlevels=S
 
 Network
 -------
-  [no analyzer] no analyzer for this area yet
+  Interface lo: unknown mac 00:00:00:00:00:00  ::1/128
+  Interface tunl0: down mac 00:00:00:00  (no address)
+  Interface gre0: down mac 00:00:00:00  (no address)
+  Interface gretap0: down mac 00:00:00:00:00:00  (no address)
+  Interface erspan0: down mac 00:00:00:00:00:00  (no address)
+  Interface ip_vti0: down mac 00:00:00:00  (no address)
+  Interface ip6_vti0: down mac 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00  (no address)
+  Interface sit0: down mac 00:00:00:00  (no address)
+  Interface ip6tnl0: down mac 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00  (no address)
+  Interface ip6gre0: down mac 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00  (no address)
+  Address without interface: 127.0.0.1
+  Default route: (none)
+  DNS: 192.168.65.7, 2001:db8::53
+  Listening sockets: 0
+  Route v6: ::1/128 dev lo
+  /etc/hosts: 127.0.0.1 localhost
+  /etc/hosts: ::1 localhost ip6-localhost ip6-loopback
+  /etc/hosts: fe00:: ip6-localnet
+  /etc/hosts: ff00:: ip6-mcastprefix
+  /etc/hosts: ff02::1 ip6-allnodes
+  /etc/hosts: ff02::2 ip6-allrouters
+  /etc/hosts: 10.20.30.40 corpus-db.example.internal
+  /etc/hosts: 2001:db8::40 corpus-db6.example.internal
 
 Firewall
 --------
-  [no analyzer] no analyzer for this area yet
+  [not applicable] firewall: no firewall engine with rules found
+  Engines: (none found)
+  Rules: 0
 
 Time synchronization
 --------------------
-  [no analyzer] no analyzer for this area yet
+  [not applicable] time service: no chrony, ntpd nor timesyncd
+  Services: (none)
 
 Processes (volatile)
 --------------------
-  [no analyzer] no analyzer for this area yet
+  Processes: 12 (R 1, S 11)
+  Top memory:
+         98 root       S cpu   2.78% rss    1.5 MiB  sh -s
+          1 root       S cpu    0.0% rss    1.4 MiB  sh -c while :; do sleep 3600; done
+          7 root       S cpu    0.0% rss    1.1 MiB  sleep 3600
+         71 4242       S cpu    0.0% rss    1.1 MiB  sleep 3600
+       1683 ?          S cpu    0.0% rss  (unknown)  sh
+       1684 ?          S cpu    0.0% rss  (unknown)  sh
+       1685 ?          S cpu    0.0% rss  (unknown)  sh
+       1686 ?          S cpu    0.0% rss  (unknown)  sh
+       1687 ?          S cpu    0.0% rss  (unknown)  awk
+       1688 ?          R cpu    0.0% rss  (unknown)  head
+  Top CPU since start:
+         98 root       S cpu   2.78% rss    1.5 MiB  sh -s
+          1 root       S cpu    0.0% rss    1.4 MiB  sh -c while :; do sleep 3600; done
+          7 root       S cpu    0.0% rss    1.1 MiB  sleep 3600
+         71 4242       S cpu    0.0% rss    1.1 MiB  sleep 3600
+       1683 ?          S cpu    0.0% rss  (unknown)  sh
+       1684 ?          S cpu    0.0% rss  (unknown)  sh
+       1685 ?          S cpu    0.0% rss  (unknown)  sh
+       1686 ?          S cpu    0.0% rss  (unknown)  sh
+       1687 ?          S cpu    0.0% rss  (unknown)  awk
+       1688 ?          R cpu    0.0% rss  (unknown)  head
+  All processes:
+          1 root       S cpu    0.0% rss    1.4 MiB  sh -c while :; do sleep 3600; done
+          7 root       S cpu    0.0% rss    1.1 MiB  sleep 3600
+         71 4242       S cpu    0.0% rss    1.1 MiB  sleep 3600
+         98 root       S cpu   2.78% rss    1.5 MiB  sh -s
+       1683 ?          S cpu    0.0% rss  (unknown)  sh
+       1684 ?          S cpu    0.0% rss  (unknown)  sh
+       1685 ?          S cpu    0.0% rss  (unknown)  sh
+       1686 ?          S cpu    0.0% rss  (unknown)  sh
+       1687 ?          S cpu    0.0% rss  (unknown)  awk
+       1688 ?          R cpu    0.0% rss  (unknown)  head
+       1689 ?          S cpu    0.0% rss  (unknown)  timeout
+       1690 ?          S cpu    0.0% rss  (unknown)  sh
 
 CPU, memory and disk usage (volatile)
 -------------------------------------
-  [no analyzer] no analyzer for this area yet
+  Memory: 1.5 GiB used, 3.3 GiB cache, 627.9 MiB buffers, 2.3 GiB free of 7.7 GiB
+  Swap:   0 B used of 1.0 GiB
+  Load:   0.82 0.53 0.52 (1, 5, 15 min)
+  CPU since boot: 0.86% user, 0.39% system, 0.01% iowait, 98.64% idle
+  CPU last second: 0.41% user, 0.49% system, 0.0% iowait, 99.02% idle
+  Disk vda: 0.0% busy, 0.0 reads/s, 0.0 writes/s
+  Disk vda1: 0.0% busy, 0.0 reads/s, 0.0 writes/s
+  Disk vdb: 0.0% busy, 0.0 reads/s, 0.0 writes/s
+  Open files: 759 of 811705
+  Inodes in cache: 266128 (31520 free)
 
 Sessions and logins
 -------------------
-  [no analyzer] no analyzer for this area yet
+  Sources: who, wtmp, btmp
+  Active sessions: 0
+  Logins: 0 last day, 0 last week, 0 last month
+  Failed logins: 0 last day, 0 last week, 0 last month
 
 Established connections (volatile)
 ----------------------------------
-  [no analyzer] no analyzer for this area yet
+  Connections: 0 (0 incoming, 0 outgoing)
 
 IPs and names in files
 ----------------------
-  [no analyzer] no analyzer for this area yet
+  Addresses: 9 in etc, 2 in log
+    10.20.30.40  /etc/hosts:7
+    127.0.0.1  /etc/hosts:1
+    192.0.2.10  /etc/aridi-corpus.conf:2
+    192.168.65.7  /etc/resolv.conf:5
+    203.0.113.7  /etc/aridi-corpus.conf:6
+    203.0.113.50  /var/log/aridi-corpus.log:1
+    ::1  /etc/hosts:2
+    2001:db8::10  /etc/aridi-corpus.conf:3
+    2001:db8::40  /etc/hosts:8
+    2001:db8::53  /etc/resolv.conf:9
+    2001:db8::77  /var/log/aridi-corpus.log:2
+  Possible host names in /etc (not resolved): 6
+    apt.systemd.daily  /etc/cron.daily/apt-compat
+    bugs.debian.org  /etc/dpkg/origins/debian
+    corpus-db.example.internal  /etc/hosts
+    corpus-db6.example.internal  /etc/hosts
+    deb.debian.org  /etc/apt/sources.list.d/debian.sources
+    www.debian.org  /etc/dpkg/origins/debian
+  Excluded (commented line): 25
+  Excluded (link-local): 1
+  Excluded (network prefix): 1
+  Excluded (part of a longer token): 10
+  Excluded (reserved, multicast or link-local): 4
+  Excluded (version number): 1
 
 Neighbours (volatile)
 ---------------------
-  [no analyzer] no analyzer for this area yet
+  Neighbours: 0 (from /proc/net/arp (IPv4 only))
+
+Infrastructure
+==============
+Local machine:
+  127.0.0.1
+    named_in_file (carving, /etc/hosts:1)
+  ::1
+    named_in_file (carving, /etc/hosts:2)
+Remote addresses:
+  10.20.30.40
+    named_in_file (network, /etc/hosts: corpus-db.example.internal)
+    named_in_file (carving, /etc/hosts:7)
+  192.0.2.10
+    named_in_file (carving, /etc/aridi-corpus.conf:2)
+  192.168.65.7
+    dns_server (network, resolv.conf)
+    named_in_file (carving, /etc/resolv.conf:5)
+  203.0.113.7
+    named_in_file (carving, /etc/aridi-corpus.conf:6)
+  203.0.113.50
+    named_in_file (carving, /var/log/aridi-corpus.log:1)
+  2001:db8::10
+    named_in_file (carving, /etc/aridi-corpus.conf:3)
+  2001:db8::40
+    named_in_file (network, /etc/hosts: corpus-db6.example.internal)
+    named_in_file (carving, /etc/hosts:8)
+  2001:db8::53
+    dns_server (network, resolv.conf)
+    named_in_file (carving, /etc/resolv.conf:9)
+  2001:db8::77
+    named_in_file (carving, /var/log/aridi-corpus.log:2)
 
 What could not be seen
 ======================
-System                      no_parser      no analyzer for this area yet
-Hardware                    no_parser      no analyzer for this area yet
-Packages                    no_parser      no analyzer for this area yet
-Storage                     no_parser      no analyzer for this area yet
-Dangerous permissions       no_parser      no analyzer for this area yet
-Identity and banners        no_parser      no analyzer for this area yet
-Users and groups            no_parser      no analyzer for this area yet
-Services                    no_parser      no analyzer for this area yet
-Network                     no_parser      no analyzer for this area yet
-Firewall                    no_parser      no analyzer for this area yet
-Time synchronization        no_parser      no analyzer for this area yet
-Processes                   no_parser      no analyzer for this area yet
-CPU, memory and disk usage  no_parser      no analyzer for this area yet
-Sessions and logins         no_parser      no analyzer for this area yet
-Established connections     no_parser      no analyzer for this area yet
-IPs and names in files      no_parser      no analyzer for this area yet
-Neighbours                  no_parser      no analyzer for this area yet
+Nothing: every area was collected and analyzed.

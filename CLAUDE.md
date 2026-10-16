@@ -31,7 +31,7 @@ destino está en `docs/CAMBIO.md`.
 | Ruta | Qué es |
 |---|---|
 | `legacy/` | El aridi de 2019, intacto. Se borra al alcanzar la paridad (fase 4). Ver `legacy/README.md`. |
-| `collector/aridi-collect.sh` | Script POSIX de recogida en bruto: armazón y secciones `meta.*`; las áreas llegan en la fase 3 |
+| `collector/aridi-collect.sh` | Script POSIX de recogida en bruto: las 17 áreas, con filtrado en origen de lo sensible (`docs/FORMATO.md`) |
 | `src/aridi/` | Núcleo: solo librería estándar; interpreta paquetes en bruto (CLI `aridi`) |
 | `src/aridi_central/` | Central Django (desde la fase 5; todavía no existe) |
 | `tests/` | `run.sh` (punto de entrada), pruebas `unittest`, `collector/` (script en todas las imágenes), `corpus/` (muestras), `lima/` (VMs) y `legacy/` (línea base de 2019) |
@@ -118,8 +118,8 @@ pide. Si hay que tocarlo, se respeta su estilo:
 
 - No hay nada que compilar.
 - **Núcleo:** `PYTHONPATH=src python3.12 -m aridi.cli …` o, tras `pip install .`,
-  `aridi validate|interpret|report <paquete>`. Hasta la fase 3, todas las áreas salen
-  como «no analyzer».
+  `aridi validate|interpret|report <paquete>`. Modo local: `sh collector/aridi-collect.sh
+  > m.aridi` (solo en máquinas desechables, regla 2) y `aridi report m.aridi`.
 - **Dependencias del central:** `pip install --require-hashes -r requirements/central.txt`.
   Para regenerarlo, sigue el comando de `requirements/central.in`.
 - **aridi de 2019:** `cd legacy && sudo python3 aridi.py [-a|-g|-s|-v|-c] [--scan]

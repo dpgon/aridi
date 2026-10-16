@@ -21,8 +21,8 @@ aarch64
 12
 ### meminfo
 MemTotal:        8124256 kB
-MemFree:         2168348 kB
-MemAvailable:    6324180 kB
+MemFree:         2311624 kB
+MemAvailable:    6225752 kB
 ### packages
 aaa_base	(none):84.87+git20180409.04c9dae-150300.10.28.2	aarch64
 bash	(none):4.4-150400.27.6.1	aarch64
@@ -215,7 +215,7 @@ alice:$6$
 bob:!
 ### listening
 Netid State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess                       
-udp   UNCONN 0      0            0.0.0.0:5514      0.0.0.0:*    users:(("socat",pid=61,fd=5))
+udp   UNCONN 0      0            0.0.0.0:5514      0.0.0.0:*    users:(("socat",pid=60,fd=5))
 tcp   LISTEN 0      5          127.0.0.1:8081      0.0.0.0:*    users:(("socat",pid=54,fd=5))
 tcp   LISTEN 0      5                  *:8080            *:*    users:(("socat",pid=48,fd=5))
 ### listening_netstat
@@ -231,10 +231,10 @@ tcp   LISTEN 0      5                  *:8080            *:*    users:(("socat",
 4: gretap0@NONE: <BROADCAST,MULTICAST> mtu 1462 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/ether 00:00:00:00:00:00 brd ff:ff:ff:ff:ff:ff
 5: erspan0@NONE: <BROADCAST,MULTICAST> mtu 1450 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/ether 00:00:00:00:00:00 brd ff:ff:ff:ff:ff:ff
 6: ip_vti0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/ipip 0.0.0.0 brd 0.0.0.0
-7: ip6_vti0@NONE: <NOARP> mtu 1428 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/tunnel6 :: brd :: permaddr 7a7c:443d:d062::
+7: ip6_vti0@NONE: <NOARP> mtu 1428 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/tunnel6 :: brd :: permaddr aa8c:ab69:b25d::
 8: sit0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/sit 0.0.0.0 brd 0.0.0.0
-9: ip6tnl0@NONE: <NOARP> mtu 1452 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/tunnel6 :: brd :: permaddr c203:401a:78fc::
-10: ip6gre0@NONE: <NOARP> mtu 1448 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/gre6 :: brd :: permaddr 1615:bce4:5ad6::
+9: ip6tnl0@NONE: <NOARP> mtu 1452 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/tunnel6 :: brd :: permaddr 6ea3:b114:fc3f::
+10: ip6gre0@NONE: <NOARP> mtu 1448 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/gre6 :: brd :: permaddr babf:adaf:3567::
 ### interfaces_ip
 1: lo    inet 127.0.0.1/8 scope host lo\       valid_lft forever preferred_lft forever
 1: lo    inet6 ::1/128 scope host proto kernel_lo \       valid_lft forever preferred_lft forever
@@ -251,7 +251,7 @@ lo 00:00:00:00:00:00
 sit0 00:00:00:00
 tunl0 00:00:00:00
 ### mountinfo
-312 177 0:63 / / rw,relatime - overlay overlay rw,lowerdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30348/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30052/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/29968/fs,upperdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30349/fs,workdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30349/work,nouserxattr
+312 177 0:63 / / rw,relatime - overlay overlay rw,lowerdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/31959/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30052/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/29968/fs,upperdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/31960/fs,workdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/31960/work,nouserxattr
 314 312 0:87 / /proc rw,nosuid,nodev,noexec,relatime - proc proc rw
 315 312 0:88 / /dev rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
 316 315 0:91 / /dev/pts rw,nosuid,noexec,relatime - devpts devpts rw,gid=5,mode=620,ptmxmode=666
@@ -259,10 +259,10 @@ tunl0 00:00:00:00
 318 317 0:41 / /sys/fs/cgroup ro,nosuid,nodev,noexec,relatime - cgroup2 cgroup rw
 319 315 0:85 / /dev/mqueue rw,nosuid,nodev,noexec,relatime - mqueue mqueue rw
 320 315 0:94 / /dev/shm rw,nosuid,nodev,noexec,relatime - tmpfs shm rw,size=65536k
-321 312 254:1 /docker/containers/27a49cdbc7ea4134a19f417cf05dad6037a116469bf87fc64be45bfd0c6aca27/hostname /etc/hostname rw,relatime - ext4 /dev/vda1 rw,discard
-322 312 254:1 /docker/containers/27a49cdbc7ea4134a19f417cf05dad6037a116469bf87fc64be45bfd0c6aca27/hosts /etc/hosts rw,relatime - ext4 /dev/vda1 rw,discard
-324 312 254:1 /docker/containers/27a49cdbc7ea4134a19f417cf05dad6037a116469bf87fc64be45bfd0c6aca27/resolv.conf /etc/resolv.conf rw,relatime - ext4 /dev/vda1 rw,discard
-325 312 0:46 /var/folders/lg/d0x4d4k15szfw_16wf9j4nv80000gn/T/tmp.t72vLaEqI8 /srv/bind ro,nosuid,nodev,relatime - virtiofs virtiofs2 rw,ignore_atime,no_xattr
+321 312 254:1 /docker/containers/0fa668cd0e9e7d88fd63903b96cdfec3aca1267a29bf1384ca72972ae8486fac/hostname /etc/hostname rw,relatime - ext4 /dev/vda1 rw,discard
+322 312 254:1 /docker/containers/0fa668cd0e9e7d88fd63903b96cdfec3aca1267a29bf1384ca72972ae8486fac/hosts /etc/hosts rw,relatime - ext4 /dev/vda1 rw,discard
+324 312 254:1 /docker/containers/0fa668cd0e9e7d88fd63903b96cdfec3aca1267a29bf1384ca72972ae8486fac/resolv.conf /etc/resolv.conf rw,relatime - ext4 /dev/vda1 rw,discard
+325 312 254:1 /docker/volumes/aridi-corpus-bind/_data /srv/bind ro,relatime master:1 - ext4 /dev/vda1 rw,discard
 326 312 0:95 / /srv/scratch rw,nosuid,nodev,noexec,relatime - tmpfs tmpfs rw
 179 314 0:87 /bus /proc/bus ro,nosuid,nodev,noexec,relatime - proc proc rw
 180 314 0:87 /fs /proc/fs ro,nosuid,nodev,noexec,relatime - proc proc rw
@@ -276,14 +276,13 @@ tunl0 00:00:00:00
 218 314 0:88 /null /proc/timer_list rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
 219 317 0:96 / /sys/firmware ro,relatime - tmpfs tmpfs ro,size=4k,nr_inodes=1
 ### df
-Filesystem     1024-blocks       Used  Available Capacity Mounted on
-overlay         1916745208   82271776 1737034356       5% /
-tmpfs                65536          0      65536       0% /dev
-shm                  65536          0      65536       0% /dev/shm
-/dev/vda1       1916745208   82271776 1737034356       5% /etc/hosts
-virtiofs2       1948455240 1838042836  110412404      95% /srv/bind
-tmpfs              4062128          0    4062128       0% /srv/scratch
-tmpfs                    4          0          4       0% /proc/scsi
+Filesystem     1024-blocks     Used  Available Capacity Mounted on
+overlay         1916745208 82318952 1736987180       5% /
+tmpfs                65536        0      65536       0% /dev
+shm                  65536        0      65536       0% /dev/shm
+/dev/vda1       1916745208 82318952 1736987180       5% /srv/bind
+tmpfs              4062128        0    4062128       0% /srv/scratch
+tmpfs                    4        0          4       0% /proc/scsi
 ### suid_files
 /sbin/unix2_chkpwd
 /sbin/unix_chkpwd
@@ -306,19 +305,19 @@ tmpfs                    4          0          4       0% /proc/scsi
 /srv/world-writable
 ### account_file_modes
 ls: cannot access '/etc/gshadow': No such file or directory
--rw-r--r-- 1 0  0 279 Oct 15 16:44 /etc/group
--rw-r--r-- 1 0  0 106 Oct 15 16:44 /etc/passwd
--rw-r----- 1 0 15 176 Oct 15 16:44 /etc/shadow
+-rw-r--r-- 1 0  0 279 Oct 15 19:40 /etc/group
+-rw-r--r-- 1 0  0 106 Oct 15 19:40 /etc/passwd
+-rw-r----- 1 0 15 176 Oct 15 19:40 /etc/shadow
 ### processes
     PID   UID STAT COMMAND
       1     0 Ss   sh
       7     0 S    sleep
      48     0 Ss   socat
      54     0 Ss   socat
-     61     0 Ss   socat
-     68  4242 Ss   sleep
-    168     0 Ss   sh
-    235     0 R    ps
+     60     0 Ss   socat
+     66  4242 Ss   sleep
+   2478     0 Ss   sh
+   2545     0 R    ps
 ### process_count
 10
 ### hostname

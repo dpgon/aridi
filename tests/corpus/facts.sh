@@ -40,13 +40,13 @@ hash_prefixes() {
 
 packages() {
     if have dpkg-query; then
-        dpkg-query -W -f '${db:Status-Abbrev}\t${binary:Package}\t${Version}\t${Architecture}\n' | awk '$1 == "ii"' | cut -f2-
+        dpkg-query -W -f '${db:Status-Abbrev}\t${binary:Package}\t${Version}\t${Architecture}\n' 2>/dev/null | awk '$1 == "ii"' | cut -f2-
     elif have rpm; then
-        rpm -qa --qf '%{NAME}\t%{EPOCH}:%{VERSION}-%{RELEASE}\t%{ARCH}\n' | sort
+        rpm -qa --qf '%{NAME}\t%{EPOCH}:%{VERSION}-%{RELEASE}\t%{ARCH}\n' 2>/dev/null | sort
     elif have apk; then
         apk info -v 2>/dev/null | sort
     elif have pacman; then
-        pacman -Q
+        pacman -Q 2>/dev/null
     else
         echo "(missing: package manager)"
     fi

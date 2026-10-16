@@ -54,21 +54,31 @@ class AreaResult:
     relations: list = field(default_factory=list)
     status: Status = Status.OK
     reason: str | None = None
+    gaps: list = field(default_factory=list)     # model.Gap: parts not seen
 
 
 _parsers = {}
+_uses = {}
+_needs_own = {}
 
 
-def register(area):
+def register(area, uses=(), needs_own=True):
     """Decorator: register FUNC(sections) -> AreaResult as the analyzer of AREA.
 
-    sections is a dict {name: RawSection} with the bundle sections "<area>.*".
+    sections is a dict {name: RawSection} with the bundle sections "<area>.*", plus those
+    of the prefixes in USES (other areas, or "meta") that the analyzer reads too. With
+    needs_own=False the area has no sections of its own (it reuses those of USES).
     """
     if area not in AREA_NAMES:
         raise ValueError(f"unknown area {area!r}")
+    for prefix in uses:
+        if prefix not in AREA_NAMES and prefix != "meta":
+            raise ValueError(f"unknown prefix {prefix!r} used by {area!r}")
 
     def decorator(func):
         _parsers[area] = func
+        _uses[area] = tuple(uses)
+        _needs_own[area] = needs_own
         return func
     return decorator
 
@@ -116,13 +126,15 @@ def _collected_at(bundle):
 
 def _area_section(area, bundle, parsers):
     prefix = area.name + "."
-    sections = {name: raw for name, raw in bundle.sections.items()
-                if name.startswith(prefix)}
+    own = [name for name in bundle.sections if name.startswith(prefix)]
     parser = parsers.get(area.name)
     if parser is None:
         return Section(Status.NO_PARSER, "no analyzer for this area yet",
                        volatile=area.volatile), []
-    if not sections:
+    prefixes = (prefix,) + tuple(f"{used}." for used in _uses.get(area.name, ()))
+    sections = {name: raw for name, raw in bundle.sections.items()
+                if name.startswith(prefixes)}
+    if not (own if _needs_own.get(area.name, True) else sections):
         return Section(Status.NOT_COLLECTED, "the bundle has no section of this area",
                        volatile=area.volatile), []
     try:
@@ -131,7 +143,8 @@ def _area_section(area, bundle, parsers):
         log.exception("analyzer of area %s failed", area.name)
         return Section(Status.ERROR, f"analyzer failed: {type(exc).__name__}: {exc}",
                        volatile=area.volatile), []
-    return Section(result.status, result.reason, result.data, area.volatile), result.relations
+    section = Section(result.status, result.reason, result.data, area.volatile, result.gaps)
+    return section, result.relations
 
 
 def interpret(bundle, parsers=None):

@@ -62,13 +62,14 @@ chmod 700 /home/alice/.ssh
 chmod 600 /home/alice/.ssh/authorized_keys
 # -n: ssh must never read stdin (this script may be fed through "sh -s").
 sshopts="-n -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR"
-if ssh $sshopts alice@127.0.0.1 true && ssh $sshopts -6 alice@::1 true; then
+# -tt: sshd records a session in utmp/wtmp only when it has a terminal.
+if ssh $sshopts -tt alice@127.0.0.1 true && ssh $sshopts -tt -6 alice@::1 true; then
     ok "finished ssh sessions of alice from 127.0.0.1 and ::1"
 else
     skip "finished ssh sessions of alice"
 fi
 # The open session must not keep this script's stdout open, or the caller waits for it.
-if ssh $sshopts -f alice@127.0.0.1 sleep 3600 >/dev/null 2>&1; then
+if ssh $sshopts -tt -f alice@127.0.0.1 sleep 3600 >/dev/null 2>&1; then
     ok "open ssh session of alice (sleep 3600)"
 else
     skip "open ssh session of alice"

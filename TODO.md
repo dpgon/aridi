@@ -352,48 +352,48 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
 
 #### 3.1 Sistema: distribución, kernel y libc
 
-- [ ] (a) Secciones `os_release` (`/etc/os-release` o `/usr/lib/os-release`) y
+- [x] (a) Secciones `os_release` (`/etc/os-release` o `/usr/lib/os-release`) y
   `release_files`. Las rutas son las **correctas**: `/etc/centos-release`,
   `/etc/redhat-release`, `/etc/fedora-release`, `/etc/SuSE-release`,
   `/etc/debian_version`, `/etc/slackware-version`, `/etc/alpine-release` y
   `/etc/lsb-release`. Además `uname -a`, `/proc/version` y la libc (`ldd --version`;
   musl con `ldd` a secas o `/lib/ld-musl-*`).
-- [ ] (b) `parsers/system.py`:
+- [x] (b) `parsers/system.py`:
   - nombre, versión, `VERSION_ID`, `ID`/`ID_LIKE`, kernel y libc (glibc o musl, con su
     versión);
   - **con `VERSION_ID` cuando no hay `VERSION`** (Alpine);
   - respaldo a los ficheros de release si no hay `os-release` (CentOS 6).
-- [ ] (c) Vista de sistema.
-- [ ] (d) Pruebas: Alpine muestra `3.20.x`; CentOS 6 se identifica sin `os-release`;
+- [x] (c) Vista de sistema.
+- [x] (d) Pruebas: Alpine muestra `3.20.x`; CentOS 6 se identifica sin `os-release`;
   musl frente a glibc; las 10 imágenes coinciden con `facts.txt`.
-- [ ] (e) Regresión: los nombres de distribución de Debian 12 y CentOS 7 coinciden con los
+- [x] (e) Regresión: los nombres de distribución de Debian 12 y CentOS 7 coinciden con los
   de `legacy/`.
 
 #### 3.2 Hardware: CPU, memoria y USB
 
-- [ ] (a) Secciones `/proc/cpuinfo`, `/sys/devices/system/cpu/` (`online` y
+- [x] (a) Secciones `/proc/cpuinfo`, `/sys/devices/system/cpu/` (`online` y
   `topology/*`), `lscpu` si existe, `/proc/meminfo` y `/sys/bus/usb/devices/*/`
   (`idVendor`, `idProduct`, `product`, `manufacturer`, `bDeviceClass`). **Sin depender de
   `lsusb`.**
-- [ ] (b) `parsers/hardware.py`:
+- [x] (b) `parsers/hardware.py`:
   - arquitectura, sockets, núcleos y hilos (por topología de `/sys`, no por campos de x86);
   - fabricante y modelo en **x86_64** (`vendor_id` y `model name`) y en **ARM**
     (`CPU implementer`, `CPU part`, con una tabla mínima de fabricantes ARM);
   - flags y *bugs*;
   - memoria y swap totales;
   - dispositivos USB y concentradores.
-- [ ] (c) Vista de hardware.
-- [ ] (d) Pruebas:
+- [x] (c) Vista de hardware.
+- [x] (d) Pruebas:
   - en arm64, la muestra **no** da «0 cores» ni modelo vacío (fallo n.º 11 de
     `MVP.md`);
   - x86_64 con la VM `debian12-amd64`;
   - sin `/sys/bus/usb` se obtiene `na` y no `error`;
   - USB con datos sintéticos en `tests/test_parsers/data/usb/`.
-- [ ] (e) Regresión: la memoria total coincide con la de `legacy/`.
+- [x] (e) Regresión: la memoria total coincide con la de `legacy/`.
 
 #### 3.3 Paquetes instalados
 
-- [ ] (a) Leer **las bases de datos directamente cuando existan**, sin depender del
+- [x] (a) Leer **las bases de datos directamente cuando existan**, sin depender del
   gestor:
   - `/var/lib/dpkg/status`;
   - `/lib/apk/db/installed`;
@@ -402,86 +402,92 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
   y para RPM, `rpm -qa --qf '%{NAME}\t%{EPOCH}\t%{VERSION}\t%{RELEASE}\t%{ARCH}\n'`
   (RPM no tiene un formato de base de datos legible). Si no hay `rpm`, se marca
   `missing`.
-- [ ] (b) `parsers/packages.py`:
+- [x] (b) `parsers/packages.py`:
   - nombre, versión **del paquete binario** (no la del fuente), arquitectura y gestor;
   - excluir y contar aparte los `gpg-pubkey`;
   - en dpkg, solo los paquetes en estado `install ok installed`.
-- [ ] (c) Vista: el resumen muestra el total por gestor y el detalle la lista.
-- [ ] (d) Pruebas: el recuento y los nombres coinciden **exactamente** con `facts.txt`
+- [x] (c) Vista: el resumen muestra el total por gestor y el detalle la lista.
+- [x] (d) Pruebas: el recuento y los nombres coinciden **exactamente** con `facts.txt`
   en las 10 imágenes, incluidas **Fedora 44** (fallo n.º 14), **Alpine** (n.º 14),
   openSUSE y Arch, y Debian con la versión binaria.
-- [ ] (e) Regresión: Debian 12 da 141 y CentOS 7 el mismo número que `rpm -qa` sin
+- [x] (e) Regresión: Debian 12 da 141 y CentOS 7 el mismo número que `rpm -qa` sin
   `gpg-pubkey`. `legacy/` daba 141 y 161.
 
 #### 3.4 Almacenamiento
 
-- [ ] (a) Secciones `/proc/partitions`, `/proc/self/mountinfo`, `/sys/block/*/`
+- [x] (a) Secciones `/proc/partitions`, `/proc/self/mountinfo`, `/sys/block/*/`
   (`size`, `removable`, `dm/name` y `holders`), `/proc/swaps`, `df -P -k` y
   `lsblk -P -b -o NAME,TYPE,SIZE,MOUNTPOINTS` si existe. **Nunca por columnas
   separadas por espacios.**
-- [ ] (b) `parsers/storage.py`:
+- [x] (b) `parsers/storage.py`:
   - discos, particiones, LVM y dm;
   - montajes con sistema de ficheros y opciones, **incluidos los montajes múltiples, los
     *bind* y los subvolúmenes btrfs**;
   - tamaño y uso **en bytes**, con el porcentaje calculado sobre bytes;
   - swap.
-- [ ] (c) Vista: unidades legibles calculadas a partir de bytes.
-- [ ] (d) Pruebas:
+- [x] (c) Vista: unidades legibles calculadas a partir de bytes.
+- [x] (d) Pruebas:
   - las muestras con el `lsblk` actual (Debian 12, Ubuntu 24.04, Rocky 9, Fedora 44)
     **no** fallan (n.º 13);
   - montaje *bind*;
-  - btrfs (VM, si está disponible);
+  - btrfs (VM, si está disponible): **las imágenes de Lima usan ext4, así que solo hay
+    datos sintéticos** (subvolúmenes en `test_storage.py`);
   - porcentaje de uso igual a `df` con ±1 punto;
   - CentOS 6 sin `lsblk`.
-- [ ] (e) Regresión: CentOS 7, donde `legacy/` funcionaba, da los mismos montajes.
+- [x] (e) Regresión: CentOS 7, donde `legacy/` funcionaba, da los mismos montajes.
 
 #### 3.5 Permisos peligrosos
 
-- [ ] (a) Sección `find / -xdev \( -perm -4000 -o -perm -2000 -o -perm -0002 \)
-  -printf …`, con alternativa sin `-printf` para busybox. Tiene tiempo máximo y límite
+- [x] (a) Sección `find / -xdev \( -perm -4000 -o -perm -2000 -o -perm -0002 \)
+  -printf …`, con alternativa sin `-printf` para busybox. **(Hecho con
+  `-exec stat -c "%f %u %g %n" {} +`, que es igual en GNU y busybox: una sola vía.)** Tiene tiempo máximo y límite
   de entradas, y emite propietario, grupo, modo y tipo. Además, una sección con
   `stat`/`ls -ln` de `/etc/passwd`, `/etc/group`, `/etc/shadow` y `/etc/gshadow`: es la
   comprobación recuperada de `dangerousperm()` (`legacy/gathering0.py:193-208`).
-- [ ] (b) `parsers/permissions.py`:
+- [x] (b) `parsers/permissions.py`:
   - directorios escribibles por todos sin *sticky bit*;
   - ficheros escribibles por todos;
   - SUID y SGID, indicando si son de root;
   - permisos de los 4 ficheros de cuentas frente a lo recomendado (644, 644, 400 o 000,
     400 o 000);
   - estado `timeout` con un recuento parcial si se agota el tiempo.
-- [ ] (c) Vista, equivalente a `aridi.badfiles` pero dentro del informe. **No se escribe
+- [x] (c) Vista, equivalente a `aridi.badfiles` pero dentro del informe. **No se escribe
   ningún fichero.**
-- [ ] (d) Pruebas:
+- [x] (d) Pruebas:
   - el SUID y el directorio de prueba del escenario aparecen;
   - en Debian 12 el recuento de SUID coincide con
     `find / -xdev -perm -4000 -type f | wc -l` de `facts.txt`;
-  - un `timeout` forzado (límite de 0 s) da `status="timeout"`;
+  - un `timeout` forzado da `status="timeout"` con el resultado parcial. **Con datos
+    sintéticos:** `timeout 0` desactiva el límite en coreutils, y el `timeout` real del
+    script ya lo prueba `tests/run.sh collector`;
   - busybox (Alpine).
-- [ ] (e) Regresión: las entradas SUID de `legacy/` en Debian 12 (9, incluida una de otro
+- [x] (e) Regresión: las entradas SUID de `legacy/` en Debian 12 (9, incluida una de otro
   montaje) quedan en 8 por `-xdev`. Documentar la diferencia en la prueba.
 
 ### Específica
 
 #### 3.6 Identidad y banners
 
-- [ ] (a) Secciones `hostname`, `/proc/sys/kernel/hostname`,
+- [x] (a) Secciones `hostname`, `/proc/sys/kernel/hostname`,
   `/proc/sys/kernel/domainname`, `dnsdomainname` (si existe), `hostid` (si existe),
   `/etc/issue`, `/etc/issue.net`, `/etc/motd` y `/etc/motd.d/*`, con límite de tamaño.
-- [ ] (b) `parsers/identity.py`: hostname, dominio (**el dominio, no el hostname**:
+- [x] (b) `parsers/identity.py`: hostname, dominio (**el dominio, no el hostname**:
   fallo de `legacy/gathering2.py:35`), hostid y banners como texto no fiable (sin
   interpretarlo).
-- [ ] (c) Vista: los banners con caracteres de control neutralizados.
-- [ ] (d) Pruebas: un banner con secuencias ANSI y `<script>` sale neutralizado en la
+  **Dominio desconocido** (no vacío) cuando `dnsdomainname` no puede resolver el
+  hostname (sale con 1): pasa en los contenedores sin red.
+- [x] (c) Vista: los banners con caracteres de control neutralizados.
+- [x] (d) Pruebas: un banner con secuencias ANSI y `<script>` sale neutralizado en la
   vista de texto; dominio vacío frente a configurado.
-- [ ] (e) Regresión: el hostname coincide con el de `legacy/`.
+- [x] (e) Regresión: el hostname coincide con el de `legacy/`.
 
 #### 3.7 Usuarios y grupos
 
-- [ ] (a) Secciones `/etc/passwd` y `/etc/group`, y **`/etc/shadow` filtrado en origen**:
+- [x] (a) Secciones `/etc/passwd` y `/etc/group`, y **`/etc/shadow` filtrado en origen**:
   solo `usuario:prefijo` (`$y$`, `$6$`… hasta el segundo `$`, o `!`, `*` o vacío) y los
   campos de caducidad, con `awk` o `sed`. **El hash nunca sale de la máquina.** Lo mismo
   para `/etc/gshadow`.
-- [ ] (b) `parsers/users.py`:
+- [x] (b) `parsers/users.py`:
   - usuarios con uid, gid, gecos, home, shell, grupos y el algoritmo de la contraseña;
   - algoritmos: MD5 `$1$`, bcrypt `$2a$`/`$2b$`/`$2y$`, SHA-256 `$5$`, SHA-512 `$6$`,
     **yescrypt `$y$`**, gost-yescrypt `$gy$`, scrypt `$7$`;
@@ -491,9 +497,9 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
   - un miembro de grupo sin usuario **no falla**: se registra como «miembro sin cuenta
     local»;
   - el recuento por algoritmo es correcto (el contador MD5 de 2019 siempre valía 0).
-- [ ] (c) Vista: resumen sin perder nombres (fallo de corte de línea de
+- [x] (c) Vista: resumen sin perder nombres (fallo de corte de línea de
   `legacy/gathering2.py:121-149`).
-- [ ] (d) Pruebas:
+- [x] (d) Pruebas:
   - `alice` con `$y$` en Debian 12, Ubuntu 24.04 y Fedora 44 **no** sale como «sin
     contraseña» (n.º 12);
   - Alpine con `kvm` como miembro sin usuario no falla (n.º 12);
@@ -501,34 +507,36 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
   - **ningún paquete del corpus contiene una cadena con forma de hash completo**: prueba
     con la expresión `\$[0-9a-z]+\$[^:]{20,}` sobre todos los `bundle.aridi`;
   - sin root, `denied`.
-- [ ] (e) Regresión: el número de usuarios y grupos coincide con el de `legacy/` (18 y 38
+- [x] (e) Regresión: el número de usuarios y grupos coincide con el de `legacy/` (18 y 38
   en Debian 12).
 
 #### 3.8 Servicios
 
-- [ ] (a) Secciones:
+- [x] (a) Secciones:
   - `systemctl list-units --all --plain --no-legend --no-pager --full`,
     `systemctl list-unit-files --no-legend --no-pager`, **solo si
     `/run/systemd/system` existe** (si no, `na`);
   - `runlevel`, `chkconfig --list` y `/etc/rc.d/rc*.d`;
   - OpenRC: `rc-status -a` o `/etc/runlevels`;
   - runit: `sv status /var/service/*` o `/etc/service`.
-- [ ] (b) `parsers/services.py`: lista homogénea de servicios con gestor, nombre, estado
+- [x] (b) `parsers/services.py`: lista homogénea de servicios con gestor, nombre, estado
   activo y subestado (en marcha, fallido, otros), habilitado, y el *runlevel* o *target*.
-- [ ] (c) Vista: los fallidos primero, después el recuento de los que están en marcha y
+- [x] (c) Vista: los fallidos primero, después el recuento de los que están en marcha y
   el detalle por estado.
-- [ ] (d) Pruebas:
+- [x] (d) Pruebas:
   - VMs con systemd: el servicio que falla a propósito aparece como fallido;
   - CentOS 7 en contenedor (`systemctl` presente, sin systemd) da `na` para systemd y
     **no** un error (n.º 19), y usa `chkconfig`/`rc.d`;
-  - Alpine con OpenRC;
+  - Alpine con OpenRC (en la variante `server`, que instala `openrc`; la imagen no da de
+    alta ningún servicio, así que se comprueban los *runlevels* y el resto con datos
+    sintéticos);
   - CentOS 6 con SysV.
-- [ ] (e) Regresión: no hay base útil en `legacy/`, porque en los contenedores fallaba.
+- [x] (e) Regresión: no hay base útil en `legacy/`, porque en los contenedores fallaba.
   Comparar con `systemctl` en la VM.
 
 #### 3.9 Red: interfaces, rutas, DNS y puertos en escucha
 
-- [ ] (a) Secciones:
+- [x] (a) Secciones:
   - `ip -o link`, `ip -o addr` e `ip -o -6 route`, si existe `ip`;
   - **siempre** `/sys/class/net/*/` (`address`, `operstate`, `mtu`, `type`),
     `/proc/net/if_inet6`, `/proc/net/route`, `/proc/net/ipv6_route`, `/etc/hosts` y
@@ -536,7 +544,7 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
   - `/run/systemd/resolve/resolv.conf` si existe;
   - `/proc/net/tcp`, `tcp6`, `udp`, `udp6` y `raw`;
   - el mapa inodo → PID de `/proc/[0-9]*/fd/*` con `ls -l` o `readlink`.
-- [ ] (b) `parsers/network.py`:
+- [x] (b) `parsers/network.py`:
   - interfaces con MAC y todas sus direcciones v4 y v6, **con nombres `eth0@if5`
     normalizados** (n.º 15);
   - rutas v4 y v6;
@@ -545,71 +553,76 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
   - **puertos en escucha TCP y UDP, v4 y v6**, con el proceso. UDP en escucha es estado
     `07` sin destino, no `LISTEN` (n.º 16).
   - Un uid o PID sin nombre no falla.
-  - Relaciones: `local`, `dns_server` y `peer` desde `/etc/hosts`.
-- [ ] (c) Vista de red y puertos.
-- [ ] (d) Pruebas:
+  - Relaciones: `local`, `dns_server` y `peer` desde `/etc/hosts`. **(Hecho con
+    `named_in_file` para `/etc/hosts`: la lista de papeles no tiene un `peer` genérico.
+    Se excluyen las entradas multicast, reservadas y *link-local*.)**
+- [x] (c) Vista de red y puertos.
+- [x] (d) Pruebas:
   - la muestra en red *bridge* con `eth0@ifN` **da** interfaces (n.º 15);
   - `[::]:8080` aparece como TCP en escucha (n.º 16);
   - `0.0.0.0:5514` aparece como UDP en escucha (n.º 16);
   - el proceso con uid 4242 no tumba el apartado (n.º 16);
   - un DNS IPv6 en `resolv.conf` no genera una IP nula (`ESTUDIO.md` §8);
   - coincide con `ss -lntup` de `facts.txt` donde exista.
-- [ ] (e) Regresión: la vista `-oi` de `legacy/` en Debian 12 sin red (`127.0.0.1`, DNS
+- [x] (e) Regresión: la vista `-oi` de `legacy/` en Debian 12 sin red (`127.0.0.1`, DNS
   `192.168.65.7`) aparece igual en las relaciones nuevas.
 
 #### 3.10 Cortafuegos
 
-- [ ] (a) Secciones `nft -j list ruleset` (o `nft list ruleset`), `iptables-save` e
+- [x] (a) Secciones `nft -j list ruleset` (o `nft list ruleset`), `iptables-save` e
   `ip6tables-save` (incluidas las variantes `-legacy` y `-nft` si existen),
   `firewall-cmd --list-all-zones` y `ufw status verbose`. Todas exigen root; sin root,
   `denied`.
-- [ ] (b) `parsers/firewall.py`:
+- [x] (b) `parsers/firewall.py`:
   - motor o motores detectados, y políticas por defecto;
   - reglas de aceptación **INPUT, OUTPUT y FORWARD**, v4 y v6, con origen, destino,
     puerto y protocolo;
   - zonas de firewalld y reglas de ufw;
   - relaciones `fw_allowed_in` y `fw_allowed_out` para IPs `/32` y `/128`.
-- [ ] (c) Vista de cortafuegos.
-- [ ] (d) Pruebas: nftables en las VMs (reglas del escenario, FORWARD incluido); firewalld
+- [x] (c) Vista de cortafuegos.
+- [x] (d) Pruebas: nftables en las VMs (reglas del escenario, FORWARD incluido); firewalld
   en Rocky 9; contenedor sin `CAP_NET_ADMIN` da `denied` o `error` con motivo, no un
   apartado vacío.
-- [ ] (e) Regresión: no hay base útil en `legacy/`, porque en los contenedores fallaba.
+- [x] (e) Regresión: no hay base útil en `legacy/`, porque en los contenedores fallaba.
 
 #### 3.11 Sincronización de hora (recuperada de `legacy/gathering2.py:260`)
 
-- [ ] (a) Secciones `/etc/chrony.conf`, `/etc/chrony/chrony.conf`, `chronyc -n sources`,
+- [x] (a) Secciones `/etc/chrony.conf`, `/etc/chrony/chrony.conf`, `chronyc -n sources`,
   `/etc/ntp.conf`, `ntpq -pn`, `/etc/systemd/timesyncd.conf` y `timedatectl
   show-timesync --all`.
-- [ ] (b) `parsers/timesync.py`: servicio de hora, servidores configurados y en uso, y la
+- [x] (b) `parsers/timesync.py`: servicio de hora, servidores configurados y en uso, y la
   relación `ntp_server` (sin resolver nombres; los nombres se guardan como texto).
-- [ ] (c) Vista.
-- [ ] (d) Pruebas: chrony en Rocky 9 y timesyncd en Debian 12 (VMs); un contenedor sin
+- [x] (c) Vista.
+- [x] (d) Pruebas: chrony en Rocky 9 y timesyncd en Debian 12 (VMs); un contenedor sin
   servicio de hora da `na`.
 
 ### Volátil
 
 #### 3.12 Procesos
 
-- [ ] (a) Sección: para cada `/proc/[0-9]*`, `stat`, `status` (Uid y VmRSS) y `cmdline`
+- [x] (a) Sección: para cada `/proc/[0-9]*`, `stat`, `status` (Uid y VmRSS) y `cmdline`
   (con `\0` convertido a espacio), con límite de procesos y bytes. Además `/proc/uptime`
   y `getconf CLK_TCK`.
-- [ ] (b) `parsers/processes.py`, con la sección marcada `volatile`:
+  **La línea de órdenes se corta a 512 bytes y se ocultan en origen los valores de
+  opciones con aspecto de secreto (`--password=`, `--token`, `secret=`…). No cubre todas
+  las formas (`mysql -pSECRETO`): limitación documentada en `docs/FORMATO.md`.**
+- [x] (b) `parsers/processes.py`, con la sección marcada `volatile`:
   - estado, usuario (tolerante a un uid sin nombre), RSS, *nice*, %CPU desde el arranque
     (fórmula de `legacy/gathering3.py:66-75`), zombis;
   - **top N con cualquier número de procesos**.
-- [ ] (c) Vista: totales por estado, top 5 en el resumen y top 10 en el detalle.
-- [ ] (d) Pruebas: un contenedor con 2 procesos **no** falla (n.º 17); el proceso con uid
+- [x] (c) Vista: totales por estado, top 5 en el resumen y top 10 en el detalle.
+- [x] (d) Pruebas: un contenedor con 2 procesos **no** falla (n.º 17); el proceso con uid
   4242 aparece con el uid como nombre; zombi sintético en
   `tests/test_parsers/data/proc/`.
-- [ ] (e) Regresión: no hay base útil en `legacy/` (fallaba en todas). Comparar con
+- [x] (e) Regresión: no hay base útil en `legacy/` (fallaba en todas). Comparar con
   `ps` en la VM.
 
 #### 3.13 Uso de CPU, memoria y disco
 
-- [ ] (a) Secciones `/proc/meminfo`, `/proc/loadavg`, `/proc/stat` y `/proc/diskstats`,
+- [x] (a) Secciones `/proc/meminfo`, `/proc/loadavg`, `/proc/stat` y `/proc/diskstats`,
   **dos muestras separadas por `sleep 1`**, además de `/proc/sys/fs/file-nr` y
   `/proc/sys/fs/inode-nr`.
-- [ ] (b) `parsers/load.py` (`volatile`):
+- [x] (b) `parsers/load.py` (`volatile`):
   - memoria usada, en búferes y libre, y swap;
   - carga a 1, 5 y 15 minutos;
   - CPU desde el arranque y en el último segundo;
@@ -617,21 +630,23 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
     2019 dividía entre 1000);
   - lecturas y escrituras por segundo;
   - descriptores e inodos.
-- [ ] (c) Vista.
-- [ ] (d) Pruebas: % de disco con datos sintéticos conocidos; memoria igual a la de
+- [x] (c) Vista.
+- [x] (d) Pruebas: % de disco con datos sintéticos conocidos; memoria igual a la de
   `legacy/` en Debian 12 (7934 MB en el mismo anfitrión).
-- [ ] (e) Regresión: el uso de CPU y memoria cuadra con lo que daba `legacy/` en la misma
+- [x] (e) Regresión: el uso de CPU y memoria cuadra con lo que daba `legacy/` en la misma
   muestra, con ±5 puntos por ser volátil.
 
 #### 3.14 Sesiones e inicios de sesión
 
-- [ ] (a) Secciones:
+- [x] (a) Secciones:
   - `utmpdump` de `/run/utmp`, `/var/log/wtmp` y `/var/log/btmp` (si existen);
   - `wtmpdb last` y `lastlog2` (sistemas sin `wtmp`);
   - `who`;
   - `last -F -w` y `lastb -F -w` como respaldo;
   - `journalctl _COMM=sshd -o short-iso --since -30d --no-pager`, con límite de líneas.
-- [ ] (b) `parsers/sessions.py` (`volatile` para lo activo):
+  **Añadido:** `_COMM=sshd-session` (OpenSSH 9.8+, Rocky 9) y las líneas de sshd de
+  `/var/log/auth.log`, `secure` y `messages` para sistemas sin journald.
+- [x] (b) `parsers/sessions.py` (`volatile` para lo activo):
   - sesiones activas;
   - últimos accesos con recuentos de día, semana y mes;
   - accesos fallidos con IPs de origen v4 y v6;
@@ -639,71 +654,78 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
 
   Las fechas se tratan en UTC, sin depender de la configuración regional (en 2019 se
   usaba `setlocale`). Un PID que ya no existe no falla.
-- [ ] (c) Vista.
-- [ ] (d) Pruebas: VMs con inicios reales y fallidos; un sistema con `wtmpdb`, si alguna
+- [x] (c) Vista.
+- [x] (d) Pruebas: VMs con inicios reales y fallidos; un sistema con `wtmpdb`, si alguna
   imagen del corpus lo usa (Debian 13 u openSUSE; anotar cuál); fechas en otro idioma en
-  datos sintéticos.
-- [ ] (e) Regresión: no hay base útil en `legacy/`.
+  datos sintéticos. **Ninguna imagen del corpus trae `wtmpdb`** (Debian 13 y openSUSE
+  15.6 en contenedor dan `missing`): solo hay datos sintéticos del formato de `last -F`.
+  **Las sesiones del escenario necesitan `ssh -tt`:** sshd solo las registra en
+  utmp/wtmp cuando tienen terminal.
+- [x] (e) Regresión: no hay base útil en `legacy/`.
 
 #### 3.15 Conexiones establecidas
 
-- [ ] (a) Reutiliza las secciones de `/proc/net/*` y el mapa inodo → PID de 3.9.
-- [ ] (b) `parsers/connections.py` (`volatile`): conexiones TCP y UDP v4 y v6 no en
+- [x] (a) Reutiliza las secciones de `/proc/net/*` y el mapa inodo → PID de 3.9.
+- [x] (b) `parsers/connections.py` (`volatile`): conexiones TCP y UDP v4 y v6 no en
   escucha, con proceso y estado, y relaciones `peer_in` y `peer_out` con el puerto y su
   nombre.
-- [ ] Copiar `legacy/services.csv` a `src/aridi/data/services.csv` sin cambios y crear
+- [x] Copiar `legacy/services.csv` a `src/aridi/data/services.csv` sin cambios y crear
   `src/aridi/ports.py`, que lo carga (formato `nombre|puerto|descripción`) para dar
   nombre a los puertos en 3.9 y 3.15. Así no se pierde al borrar `legacy/` (4.2); se
   regenerará en 7.1. **Pruebas:** carga del fichero y puerto desconocido sin error.
-- [ ] (c) Vista.
-- [ ] (d) Pruebas: una conexión sintética v6 y v4; un uid sin nombre.
+- [x] (c) Vista.
+- [x] (d) Pruebas: una conexión sintética v6 y v4; un uid sin nombre.
 
 ### Carving y vecinos
 
 #### 3.16 IPs y nombres en `/etc`, `/var/log` y journald
 
-- [ ] (a) Secciones:
+- [x] (a) Secciones:
   - `grep -rIEoHn` de IPv4 e IPv6 sobre `/etc` y `/var/log`, **solo ficheros de texto**
     (`-I`), con límite de tamaño por fichero y de líneas totales, emitiendo
     `fichero:línea:coincidencia`;
   - `journalctl --since -7d -o cat --no-pager`, con límite de líneas y filtrado por IP
     en origen.
-- [ ] (b) `parsers/carving.py`:
+- [x] (b) `parsers/carving.py`:
   - trasladar los filtros de `legacy/gathering4.py:36-55` (169.254, multicast, 0.x,
     `.0`, versiones, prefijos de red);
   - añadir IPv6;
-  - relación `named_in_file` con fichero y línea truncada;
+  - relación `named_in_file` con fichero y línea truncada; **(hecho sin el texto de la
+    línea: solo fichero y número de línea, porque la línea puede llevar secretos. La
+    extracción de IPs se hace en origen con awk y en `/etc` solo se leen ficheros
+    legibles por cualquier usuario, nunca `shadow` ni claves)**
   - FQDN encontrados en `/etc`, **guardados sin resolver** (la resolución DNS queda
     aparcada, `docs/CAMBIO.md`).
-- [ ] (c) Vista.
-- [ ] (d) Pruebas: `/etc` sintético con IPs válidas, versiones y redes; un fichero
+- [x] (c) Vista.
+- [x] (d) Pruebas: `/etc` sintético con IPs válidas, versiones y redes; un fichero
   binario se ignora; respeta el límite; contrastar con `legacy/` («2 ips found in /etc»
   en Debian 12).
-- [ ] (e) Regresión: las mismas 2 IPs que `legacy/` en Debian 12.
+- [x] (e) Regresión: las mismas 2 IPs que `legacy/` en Debian 12.
 
 #### 3.17 Vecinos (descubrimiento pasivo)
 
-- [ ] (a) Secciones `/proc/net/arp` e `ip -6 neigh` / `ip neigh`.
-- [ ] (b) `parsers/neighbours.py`: IP v4 y v6, MAC, interfaz y estado; relación
+- [x] (a) Secciones `/proc/net/arp` e `ip -6 neigh` / `ip neigh`.
+- [x] (b) `parsers/neighbours.py`: IP v4 y v6, MAC, interfaz y estado; relación
   `neighbour`. **No genera ningún tráfico.**
-- [ ] (c) Vista.
-- [ ] (d) Pruebas: VM con vecinos; contenedor sin `ip` (solo `/proc/net/arp`).
+- [x] (c) Vista.
+- [x] (d) Pruebas: VM con vecinos; contenedor sin `ip` (solo `/proc/net/arp`).
 
 ### Transversal de la fase 3
 
 #### 3.18 Mapa de relaciones, límites y huecos
 
-- [ ] `src/aridi/relations.py`: consolida las relaciones de todas las áreas por IP, con
+- [x] `src/aridi/relations.py`: consolida las relaciones de todas las áreas por IP, con
   sus papeles enumerados, y genera la vista «infraestructura» (`Local machine` /
   `Remote`), equivalente a `legacy/ -oi`.
-- [ ] Pruebas: cada papel de `docs/FORMATO.md` sale de al menos una muestra o dato
+- [x] Pruebas: cada papel de `docs/FORMATO.md` sale de al menos una muestra o dato
   sintético; v4 y v6 se ordenan sin error (en 2019 mezclarlas, o tener una clave nula,
   rompía `-oi`).
-- [ ] **Regresión global:** ejecutar `tests/run.sh all` y comprobar que **no hay ninguna
+- [x] **Regresión global:** ejecutar `tests/run.sh all` y comprobar que **no hay ninguna
   muestra del corpus con un área en `error`**. Cualquier `error` es un fallo que
   corregir o un `na`, `missing` o `denied` mal clasificado.
-- [ ] Medir y anotar en `tests/corpus/README.md` la duración del script por muestra. Si
-  alguna supera los 60 s, abrir una tarea para revisar los límites de esa área.
+- [x] Medir y anotar en `tests/corpus/README.md` la duración del script por muestra. Si
+  alguna supera los 60 s, abrir una tarea para revisar los límites de esa área. **Máximo
+  21 s (Arch emulado en amd64); ninguna supera los 60 s.**
 
 **Criterio de aceptación de la fase 3:**
 
