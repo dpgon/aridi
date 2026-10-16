@@ -14,7 +14,7 @@
 # Copyright (C) 2019-2026 the aridi authors
 # License: GNU General Public License v3.0 only (see LICENSE)
 
-ARIDI_COLLECTOR_VERSION="2.0.0.dev0"
+ARIDI_COLLECTOR_VERSION="2.0.0"
 ARIDI_BUNDLE_FORMAT=1
 
 # Limits per section. They can be lowered by the tests (tests/collector/).

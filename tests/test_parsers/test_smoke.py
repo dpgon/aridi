@@ -9,7 +9,7 @@ from aridi import cli
 class SmokeTest(unittest.TestCase):
 
     def test_version(self):
-        self.assertEqual(aridi.__version__, "2.0.0.dev0")
+        self.assertEqual(aridi.__version__, "2.0.0")
         self.assertEqual(aridi.BUNDLE_FORMAT_VERSION, 1)
 
     def test_bundle_format_matches_reader_and_collector(self):
