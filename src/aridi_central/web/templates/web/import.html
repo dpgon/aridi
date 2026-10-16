@@ -1,0 +1,10 @@
+{% extends "web/base.html" %}
+{% block title %}Import{% endblock %}
+{% block content %}
+<h1>Import a local collection</h1>
+<p class="muted">Made on the machine with <code>sh aridi-collect.sh &gt; host.aridi</code>.</p>
+<form method="post" enctype="multipart/form-data">{% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Import</button>
+</form>
+{% endblock %}

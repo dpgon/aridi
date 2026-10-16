@@ -1,0 +1,24 @@
+{% for area in areas %}{% if area.interesting %}
+<details open>
+  <summary>{{ area.title }}{% if area.volatile %} <span class="muted">(volatile)</span>{% endif %}:
+    {% if area.state == "lost" %}<span class="failed">could not be seen any more ({{ area.after }})</span>
+    {% elif area.state == "regained" %}<span class="complete">seen again (was {{ area.before }})</span>
+    {% elif area.state == "unavailable" %}<span class="muted">not seen in either ({{ area.after }})</span>
+    {% elif area.before != area.after %}{{ area.before }} → {{ area.after }}
+    {% else %}{{ area.changes|length }} change{{ area.changes|length|pluralize }}{% endif %}</summary>
+  {% for note in area.notes %}<p class="muted">{{ note }}</p>{% endfor %}
+  {% if area.gaps_lost %}<p class="gaps">No longer seen: {{ area.gaps_lost|join:", " }}</p>{% endif %}
+  {% if area.gaps_regained %}<p class="complete">Seen again: {{ area.gaps_regained|join:", " }}</p>{% endif %}
+  {% if area.changes %}
+  <div class="table-wrap"><table>
+    <tr><th>What</th><th>Element</th><th>Change</th><th>Before</th><th>After</th></tr>
+    {% for c in area.changes %}
+    <tr><td>{{ c.collection }}</td><td>{{ c.key }}</td><td class="change-{{ c.kind }}">{{ c.kind }}</td>
+      <td>{% for name, value in c.before.items %}{% if name != "value" %}{{ name }}: {% endif %}{{ value|default_if_none:"(none)" }}<br>{% endfor %}</td>
+      <td>{% for name, value in c.after.items %}{% if name != "value" %}{{ name }}: {% endif %}{{ value|default_if_none:"(none)" }}<br>{% endfor %}</td></tr>
+    {% endfor %}
+  </table></div>
+  {% endif %}
+</details>
+{% endif %}{% empty %}<p class="muted">Nothing to compare.</p>
+{% endfor %}

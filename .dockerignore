@@ -1,0 +1,8 @@
+# Only what the Dockerfile copies: no tests, corpus, documents or local data.
+*
+!requirements/central.txt
+!src/aridi
+!src/aridi_central
+!collector/aridi-collect.sh
+**/__pycache__
+**/tests

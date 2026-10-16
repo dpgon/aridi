@@ -1,0 +1,20 @@
+{% extends "web/base.html" %}
+{% block title %}{{ network.cidr }}{% endblock %}
+{% block content %}
+<h1>{{ network.cidr }}</h1>
+<p>{{ network.description }}</p>
+<p class="muted">{{ network.get_ports_display }} · {% if network.active %}active{% else %}inactive{% endif %} ·
+  authorized by {{ network.authorized_by.username|default:"(removed user)" }} on {{ network.authorized_at|date:"Y-m-d H:i" }} UTC</p>
+{% if perms.collection.add_job and enabled and network.active %}
+<form method="post" action="{% url 'network-scan' network.pk %}">{% csrf_token %}<button type="submit">Scan now</button></form>
+{% elif not enabled %}<p class="muted">Scanning is disabled in this central (ARIDI_SCAN_ENABLED).</p>{% endif %}
+<h2>Open ports{% if last %} in the scan of {{ last|date:"Y-m-d H:i" }} UTC{% endif %}</h2>
+<div class="table-wrap"><table>
+  <tr><th>Address</th><th>Port</th><th>Service</th></tr>
+  {% for r in results %}<tr><td>{{ r.ip }}</td><td>{{ r.protocol }}/{{ r.port }}</td><td>{{ r.service }}</td></tr>
+  {% empty %}<tr><td colspan="3" class="muted">{% if last %}No open ports.{% else %}Not scanned yet.{% endif %}</td></tr>{% endfor %}
+</table></div>
+<h2>Scans</h2>
+<table>{% for job in jobs %}<tr><td>{{ job.created_at|date:"Y-m-d H:i" }}</td><td class="{{ job.state }}">{{ job.state }}</td><td>{{ job.get_origin_display }}</td><td>{{ job.reason }}</td></tr>
+{% empty %}<tr><td class="muted">None.</td></tr>{% endfor %}</table>
+{% endblock %}

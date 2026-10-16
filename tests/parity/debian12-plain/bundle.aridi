@@ -1,0 +1,2618 @@
+ARIDI-BUNDLE 1 2.0.0.dev0
+boundary dd47e02ccc131f691cab6dff71f3de7f
+--dd47e02ccc131f691cab6dff71f3de7f begin meta.env kind=text limit=4194304
+shell=/usr/bin/dash
+timeout=coreutils
+section_timeout=60
+section_limit=4194304
+boundary_source=urandom
+path=/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/sbin:/usr/local/bin
+
+--dd47e02ccc131f691cab6dff71f3de7f end meta.env status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin meta.date_utc kind=cmd tool=date limit=4194304
+2026-10-16T05:55:21Z
+
+--dd47e02ccc131f691cab6dff71f3de7f end meta.date_utc status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin meta.uid kind=cmd tool=id limit=4194304
+0
+
+--dd47e02ccc131f691cab6dff71f3de7f end meta.uid status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin meta.machine_id kind=file path=/etc/machine-id limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end meta.machine_id status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note meta.machine_id not found: /etc/machine-id
+--dd47e02ccc131f691cab6dff71f3de7f begin meta.dbus_machine_id kind=file path=/var/lib/dbus/machine-id limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end meta.dbus_machine_id status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note meta.dbus_machine_id not found: /var/lib/dbus/machine-id
+--dd47e02ccc131f691cab6dff71f3de7f begin meta.hostname kind=file path=/proc/sys/kernel/hostname limit=4194304
+parity-debian12
+
+--dd47e02ccc131f691cab6dff71f3de7f end meta.hostname status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin meta.uname kind=cmd tool=uname limit=4194304
+Linux parity-debian12 7.0.14-linuxkit #1 SMP PREEMPT Sun Sep 20 16:14:09 UTC 2026 aarch64 GNU/Linux
+
+--dd47e02ccc131f691cab6dff71f3de7f end meta.uname status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin system.os_release kind=file path=/etc/os-release limit=4194304
+PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+NAME="Debian GNU/Linux"
+VERSION_ID="12"
+VERSION="12 (bookworm)"
+VERSION_CODENAME=bookworm
+ID=debian
+HOME_URL="https://www.debian.org/"
+SUPPORT_URL="https://www.debian.org/support"
+BUG_REPORT_URL="https://bugs.debian.org/"
+
+--dd47e02ccc131f691cab6dff71f3de7f end system.os_release status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin system.os_release_usr kind=file path=/usr/lib/os-release limit=4194304
+PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+NAME="Debian GNU/Linux"
+VERSION_ID="12"
+VERSION="12 (bookworm)"
+VERSION_CODENAME=bookworm
+ID=debian
+HOME_URL="https://www.debian.org/"
+SUPPORT_URL="https://www.debian.org/support"
+BUG_REPORT_URL="https://bugs.debian.org/"
+
+--dd47e02ccc131f691cab6dff71f3de7f end system.os_release_usr status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin system.centos_release kind=file path=/etc/centos-release limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end system.centos_release status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note system.centos_release not found: /etc/centos-release
+--dd47e02ccc131f691cab6dff71f3de7f begin system.redhat_release kind=file path=/etc/redhat-release limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end system.redhat_release status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note system.redhat_release not found: /etc/redhat-release
+--dd47e02ccc131f691cab6dff71f3de7f begin system.fedora_release kind=file path=/etc/fedora-release limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end system.fedora_release status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note system.fedora_release not found: /etc/fedora-release
+--dd47e02ccc131f691cab6dff71f3de7f begin system.suse_release kind=file path=/etc/SuSE-release limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end system.suse_release status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note system.suse_release not found: /etc/SuSE-release
+--dd47e02ccc131f691cab6dff71f3de7f begin system.debian_version kind=file path=/etc/debian_version limit=4194304
+12.15
+
+--dd47e02ccc131f691cab6dff71f3de7f end system.debian_version status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin system.slackware_version kind=file path=/etc/slackware-version limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end system.slackware_version status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note system.slackware_version not found: /etc/slackware-version
+--dd47e02ccc131f691cab6dff71f3de7f begin system.alpine_release kind=file path=/etc/alpine-release limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end system.alpine_release status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note system.alpine_release not found: /etc/alpine-release
+--dd47e02ccc131f691cab6dff71f3de7f begin system.lsb_release kind=file path=/etc/lsb-release limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end system.lsb_release status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note system.lsb_release not found: /etc/lsb-release
+--dd47e02ccc131f691cab6dff71f3de7f begin system.kernel_ostype kind=file path=/proc/sys/kernel/ostype limit=4194304
+Linux
+
+--dd47e02ccc131f691cab6dff71f3de7f end system.kernel_ostype status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin system.kernel_osrelease kind=file path=/proc/sys/kernel/osrelease limit=4194304
+7.0.14-linuxkit
+
+--dd47e02ccc131f691cab6dff71f3de7f end system.kernel_osrelease status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin system.kernel_version kind=file path=/proc/sys/kernel/version limit=4194304
+#1 SMP PREEMPT Sun Sep 20 16:14:09 UTC 2026
+
+--dd47e02ccc131f691cab6dff71f3de7f end system.kernel_version status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin system.proc_version kind=file path=/proc/version limit=4194304
+Linux version 7.0.14-linuxkit (root@buildkitsandbox) (gcc (Alpine 15.2.0) 15.2.0, GNU ld (GNU Binutils) 2.45.1) #1 SMP PREEMPT Sun Sep 20 16:14:09 UTC 2026
+
+--dd47e02ccc131f691cab6dff71f3de7f end system.proc_version status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin system.machine kind=cmd tool=uname limit=4194304
+aarch64
+
+--dd47e02ccc131f691cab6dff71f3de7f end system.machine status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin system.ldd_version kind=cmd tool=sh limit=4194304
+ldd (Debian GLIBC 2.36-9+deb12u14) 2.36
+Copyright (C) 2022 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+Written by Roland McGrath and Ulrich Drepper.
+
+--dd47e02ccc131f691cab6dff71f3de7f end system.ldd_version status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin system.getconf_libc kind=cmd tool=getconf limit=4194304
+glibc 2.36
+
+--dd47e02ccc131f691cab6dff71f3de7f end system.getconf_libc status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin system.musl_loader kind=cmd tool=sh limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end system.musl_loader status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin hardware.cpuinfo kind=file path=/proc/cpuinfo limit=4194304
+processor	: 0
+BogoMIPS	: 48.00
+Features	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti
+CPU implementer	: 0x61
+CPU architecture: 8
+CPU variant	: 0x0
+CPU part	: 0x000
+CPU revision	: 0
+
+processor	: 1
+BogoMIPS	: 48.00
+Features	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti
+CPU implementer	: 0x61
+CPU architecture: 8
+CPU variant	: 0x0
+CPU part	: 0x000
+CPU revision	: 0
+
+processor	: 2
+BogoMIPS	: 48.00
+Features	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti
+CPU implementer	: 0x61
+CPU architecture: 8
+CPU variant	: 0x0
+CPU part	: 0x000
+CPU revision	: 0
+
+processor	: 3
+BogoMIPS	: 48.00
+Features	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti
+CPU implementer	: 0x61
+CPU architecture: 8
+CPU variant	: 0x0
+CPU part	: 0x000
+CPU revision	: 0
+
+processor	: 4
+BogoMIPS	: 48.00
+Features	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti
+CPU implementer	: 0x61
+CPU architecture: 8
+CPU variant	: 0x0
+CPU part	: 0x000
+CPU revision	: 0
+
+processor	: 5
+BogoMIPS	: 48.00
+Features	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti
+CPU implementer	: 0x61
+CPU architecture: 8
+CPU variant	: 0x0
+CPU part	: 0x000
+CPU revision	: 0
+
+processor	: 6
+BogoMIPS	: 48.00
+Features	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti
+CPU implementer	: 0x61
+CPU architecture: 8
+CPU variant	: 0x0
+CPU part	: 0x000
+CPU revision	: 0
+
+processor	: 7
+BogoMIPS	: 48.00
+Features	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti
+CPU implementer	: 0x61
+CPU architecture: 8
+CPU variant	: 0x0
+CPU part	: 0x000
+CPU revision	: 0
+
+processor	: 8
+BogoMIPS	: 48.00
+Features	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti
+CPU implementer	: 0x61
+CPU architecture: 8
+CPU variant	: 0x0
+CPU part	: 0x000
+CPU revision	: 0
+
+processor	: 9
+BogoMIPS	: 48.00
+Features	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti
+CPU implementer	: 0x61
+CPU architecture: 8
+CPU variant	: 0x0
+CPU part	: 0x000
+CPU revision	: 0
+
+processor	: 10
+BogoMIPS	: 48.00
+Features	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti
+CPU implementer	: 0x61
+CPU architecture: 8
+CPU variant	: 0x0
+CPU part	: 0x000
+CPU revision	: 0
+
+processor	: 11
+BogoMIPS	: 48.00
+Features	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti
+CPU implementer	: 0x61
+CPU architecture: 8
+CPU variant	: 0x0
+CPU part	: 0x000
+CPU revision	: 0
+
+
+--dd47e02ccc131f691cab6dff71f3de7f end hardware.cpuinfo status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin hardware.cpu_online kind=file path=/sys/devices/system/cpu/online limit=4194304
+0-11
+
+--dd47e02ccc131f691cab6dff71f3de7f end hardware.cpu_online status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin hardware.cpu_present kind=file path=/sys/devices/system/cpu/present limit=4194304
+0-11
+
+--dd47e02ccc131f691cab6dff71f3de7f end hardware.cpu_present status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin hardware.cpu_topology kind=cmd tool=sh limit=4194304
+cpu0 package=0 core=0 die= cluster=-1 threads=0 online=
+cpu1 package=0 core=1 die= cluster=-1 threads=1 online=
+cpu10 package=0 core=10 die= cluster=-1 threads=10 online=
+cpu11 package=0 core=11 die= cluster=-1 threads=11 online=
+cpu2 package=0 core=2 die= cluster=-1 threads=2 online=
+cpu3 package=0 core=3 die= cluster=-1 threads=3 online=
+cpu4 package=0 core=4 die= cluster=-1 threads=4 online=
+cpu5 package=0 core=5 die= cluster=-1 threads=5 online=
+cpu6 package=0 core=6 die= cluster=-1 threads=6 online=
+cpu7 package=0 core=7 die= cluster=-1 threads=7 online=
+cpu8 package=0 core=8 die= cluster=-1 threads=8 online=
+cpu9 package=0 core=9 die= cluster=-1 threads=9 online=
+
+--dd47e02ccc131f691cab6dff71f3de7f end hardware.cpu_topology status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin hardware.machine kind=cmd tool=uname limit=4194304
+aarch64
+
+--dd47e02ccc131f691cab6dff71f3de7f end hardware.machine status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin hardware.lscpu kind=cmd tool=lscpu limit=4194304
+Architecture:                            aarch64
+CPU op-mode(s):                          64-bit
+Byte Order:                              Little Endian
+CPU(s):                                  12
+On-line CPU(s) list:                     0-11
+Vendor ID:                               Apple
+Model name:                              -
+Model:                                   0
+Thread(s) per core:                      1
+Core(s) per cluster:                     12
+Socket(s):                               -
+Cluster(s):                              1
+Stepping:                                0x0
+BogoMIPS:                                48.00
+Flags:                                   fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti
+Vulnerability Gather data sampling:      Not affected
+Vulnerability Ghostwrite:                Not affected
+Vulnerability Indirect target selection: Not affected
+Vulnerability Itlb multihit:             Not affected
+Vulnerability L1tf:                      Not affected
+Vulnerability Mds:                       Not affected
+Vulnerability Meltdown:                  Not affected
+Vulnerability Mmio stale data:           Not affected
+Vulnerability Old microcode:             Not affected
+Vulnerability Reg file data sampling:    Not affected
+Vulnerability Retbleed:                  Not affected
+Vulnerability Spec rstack overflow:      Not affected
+Vulnerability Spec store bypass:         Vulnerable
+Vulnerability Spectre v1:                Mitigation; __user pointer sanitization
+Vulnerability Spectre v2:                Mitigation; CSV2, but not BHB
+Vulnerability Srbds:                     Not affected
+Vulnerability Tsa:                       Not affected
+Vulnerability Tsx async abort:           Not affected
+Vulnerability Vmscape:                   Not affected
+
+--dd47e02ccc131f691cab6dff71f3de7f end hardware.lscpu status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin hardware.meminfo kind=file path=/proc/meminfo limit=4194304
+MemTotal:        8124256 kB
+MemFree:         1387316 kB
+MemAvailable:    6644128 kB
+Buffers:          703268 kB
+Cached:          4117944 kB
+SwapCached:            0 kB
+Active:          1621080 kB
+Inactive:        3921980 kB
+Active(anon):     656080 kB
+Inactive(anon):   111456 kB
+Active(file):     965000 kB
+Inactive(file):  3810524 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:       1048572 kB
+SwapFree:        1048572 kB
+Zswap:                 0 kB
+Zswapped:              0 kB
+Dirty:               752 kB
+Writeback:             0 kB
+AnonPages:        657624 kB
+Mapped:           388824 kB
+Shmem:             45716 kB
+KReclaimable:     684656 kB
+Slab:             811200 kB
+SReclaimable:     684656 kB
+SUnreclaim:       126544 kB
+KernelStack:        7488 kB
+PageTables:        10968 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     5110700 kB
+Committed_AS:    2880812 kB
+VmallocTotal:   135288315904 kB
+VmallocUsed:       16080 kB
+VmallocChunk:          0 kB
+Percpu:            12048 kB
+AnonHugePages:    401408 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:     24576 kB
+FilePmdMapped:         0 kB
+Balloon:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+
+--dd47e02ccc131f691cab6dff71f3de7f end hardware.meminfo status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin hardware.usb kind=cmd tool=sh limit=4194304
+device usb1
+idVendor=1d6b
+idProduct=0002
+bDeviceClass=09
+busnum=1
+devnum=1
+speed=480
+manufacturer=Linux 7.0.14-linuxkit vhci_hcd
+product=USB/IP Virtual Host Controller
+
+device usb2
+idVendor=1d6b
+idProduct=0003
+bDeviceClass=09
+busnum=2
+devnum=1
+speed=10000
+manufacturer=Linux 7.0.14-linuxkit vhci_hcd
+product=USB/IP Virtual Host Controller
+
+
+--dd47e02ccc131f691cab6dff71f3de7f end hardware.usb status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin packages.dpkg kind=cmd tool=awk limit=4194304
+Package: adduser
+Status: install ok installed
+Architecture: all
+Version: 3.134
+
+Package: apt
+Status: install ok installed
+Architecture: arm64
+Version: 2.6.1
+
+Package: base-files
+Status: install ok installed
+Architecture: arm64
+Version: 12.4+deb12u15
+
+Package: base-passwd
+Status: install ok installed
+Architecture: arm64
+Version: 3.6.1
+
+Package: bash
+Status: install ok installed
+Architecture: arm64
+Version: 5.2.15-2+b13
+
+Package: bind9-dnsutils
+Status: install ok installed
+Architecture: arm64
+Version: 1:9.18.49-1~deb12u2
+
+Package: bind9-host
+Status: install ok installed
+Architecture: arm64
+Version: 1:9.18.49-1~deb12u2
+
+Package: bind9-libs
+Status: install ok installed
+Architecture: arm64
+Version: 1:9.18.49-1~deb12u2
+
+Package: bsdutils
+Status: install ok installed
+Architecture: arm64
+Version: 1:2.38.1-5+deb12u3
+
+Package: coreutils
+Status: install ok installed
+Architecture: arm64
+Version: 9.1-1
+
+Package: dash
+Status: install ok installed
+Architecture: arm64
+Version: 0.5.12-2
+
+Package: debconf
+Status: install ok installed
+Architecture: all
+Version: 1.5.82
+
+Package: debian-archive-keyring
+Status: install ok installed
+Architecture: all
+Version: 2023.3+deb12u2
+
+Package: debianutils
+Status: install ok installed
+Architecture: arm64
+Version: 5.7-0.5~deb12u1
+
+Package: diffutils
+Status: install ok installed
+Architecture: arm64
+Version: 1:3.8-4
+
+Package: dnsutils
+Status: install ok installed
+Architecture: all
+Version: 1:9.18.49-1~deb12u2
+
+Package: dpkg
+Status: install ok installed
+Architecture: arm64
+Version: 1.21.23
+
+Package: e2fsprogs
+Status: install ok installed
+Architecture: arm64
+Version: 1.47.0-2+b2
+
+Package: findutils
+Status: install ok installed
+Architecture: arm64
+Version: 4.9.0-4
+
+Package: gcc-12-base
+Status: install ok installed
+Architecture: arm64
+Version: 12.2.0-14+deb12u1
+
+Package: gpgv
+Status: install ok installed
+Architecture: arm64
+Version: 2.2.40-1.1+deb12u2
+
+Package: grep
+Status: install ok installed
+Architecture: arm64
+Version: 3.8-5
+
+Package: gzip
+Status: install ok installed
+Architecture: arm64
+Version: 1.12-1
+
+Package: hostname
+Status: install ok installed
+Architecture: arm64
+Version: 3.23+nmu1
+
+Package: init-system-helpers
+Status: install ok installed
+Architecture: all
+Version: 1.65.2+deb12u1
+
+Package: iproute2
+Status: install ok installed
+Architecture: arm64
+Version: 6.1.0-3
+
+Package: iptables
+Status: install ok installed
+Architecture: arm64
+Version: 1.8.9-2
+
+Package: libacl1
+Status: install ok installed
+Architecture: arm64
+Version: 2.3.1-3
+
+Package: libapt-pkg6.0
+Status: install ok installed
+Architecture: arm64
+Version: 2.6.1
+
+Package: libattr1
+Status: install ok installed
+Architecture: arm64
+Version: 1:2.5.1-4
+
+Package: libaudit-common
+Status: install ok installed
+Architecture: all
+Version: 1:3.0.9-1
+
+Package: libaudit1
+Status: install ok installed
+Architecture: arm64
+Version: 1:3.0.9-1
+
+Package: libblkid1
+Status: install ok installed
+Architecture: arm64
+Version: 2.38.1-5+deb12u3
+
+Package: libbpf1
+Status: install ok installed
+Architecture: arm64
+Version: 1:1.1.2-0+deb12u1
+
+Package: libbsd0
+Status: install ok installed
+Architecture: arm64
+Version: 0.11.7-2
+
+Package: libbz2-1.0
+Status: install ok installed
+Architecture: arm64
+Version: 1.0.8-5+b1
+
+Package: libc-bin
+Status: install ok installed
+Architecture: arm64
+Version: 2.36-9+deb12u14
+
+Package: libc6
+Status: install ok installed
+Architecture: arm64
+Version: 2.36-9+deb12u14
+
+Package: libcap-ng0
+Status: install ok installed
+Architecture: arm64
+Version: 0.8.3-1+b3
+
+Package: libcap2
+Status: install ok installed
+Architecture: arm64
+Version: 1:2.66-4+deb12u3+b1
+
+Package: libcap2-bin
+Status: install ok installed
+Architecture: arm64
+Version: 1:2.66-4+deb12u3+b1
+
+Package: libcom-err2
+Status: install ok installed
+Architecture: arm64
+Version: 1.47.0-2+b2
+
+Package: libcrypt1
+Status: install ok installed
+Architecture: arm64
+Version: 1:4.4.33-2
+
+Package: libdb5.3
+Status: install ok installed
+Architecture: arm64
+Version: 5.3.28+dfsg2-1
+
+Package: libdebconfclient0
+Status: install ok installed
+Architecture: arm64
+Version: 0.270
+
+Package: libedit2
+Status: install ok installed
+Architecture: arm64
+Version: 3.1-20221030-2
+
+Package: libelf1
+Status: install ok installed
+Architecture: arm64
+Version: 0.188-2.1
+
+Package: libexpat1
+Status: install ok installed
+Architecture: arm64
+Version: 2.5.0-1+deb12u4
+
+Package: libext2fs2
+Status: install ok installed
+Architecture: arm64
+Version: 1.47.0-2+b2
+
+Package: libffi8
+Status: install ok installed
+Architecture: arm64
+Version: 3.4.4-1
+
+Package: libfstrm0
+Status: install ok installed
+Architecture: arm64
+Version: 0.6.1-1
+
+Package: libgcc-s1
+Status: install ok installed
+Architecture: arm64
+Version: 12.2.0-14+deb12u1
+
+Package: libgcrypt20
+Status: install ok installed
+Architecture: arm64
+Version: 1.10.1-3+deb12u1
+
+Package: libgmp10
+Status: install ok installed
+Architecture: arm64
+Version: 2:6.2.1+dfsg1-1.1
+
+Package: libgnutls30
+Status: install ok installed
+Architecture: arm64
+Version: 3.7.9-2+deb12u7
+
+Package: libgpg-error0
+Status: install ok installed
+Architecture: arm64
+Version: 1.46-1
+
+Package: libgssapi-krb5-2
+Status: install ok installed
+Architecture: arm64
+Version: 1.20.1-2+deb12u5
+
+Package: libhogweed6
+Status: install ok installed
+Architecture: arm64
+Version: 3.8.1-2
+
+Package: libicu72
+Status: install ok installed
+Architecture: arm64
+Version: 72.1-3+deb12u1
+
+Package: libidn2-0
+Status: install ok installed
+Architecture: arm64
+Version: 2.3.3-1+b1
+
+Package: libip4tc2
+Status: install ok installed
+Architecture: arm64
+Version: 1.8.9-2
+
+Package: libip6tc2
+Status: install ok installed
+Architecture: arm64
+Version: 1.8.9-2
+
+Package: libjemalloc2
+Status: install ok installed
+Architecture: arm64
+Version: 5.3.0-1
+
+Package: libjson-c5
+Status: install ok installed
+Architecture: arm64
+Version: 0.16-2
+
+Package: libk5crypto3
+Status: install ok installed
+Architecture: arm64
+Version: 1.20.1-2+deb12u5
+
+Package: libkeyutils1
+Status: install ok installed
+Architecture: arm64
+Version: 1.6.3-2
+
+Package: libkrb5-3
+Status: install ok installed
+Architecture: arm64
+Version: 1.20.1-2+deb12u5
+
+Package: libkrb5support0
+Status: install ok installed
+Architecture: arm64
+Version: 1.20.1-2+deb12u5
+
+Package: liblmdb0
+Status: install ok installed
+Architecture: arm64
+Version: 0.9.24-1
+
+Package: liblz4-1
+Status: install ok installed
+Architecture: arm64
+Version: 1.9.4-1
+
+Package: liblzma5
+Status: install ok installed
+Architecture: arm64
+Version: 5.4.1-1+deb12u2
+
+Package: libmaxminddb0
+Status: install ok installed
+Architecture: arm64
+Version: 1.7.1-1
+
+Package: libmd0
+Status: install ok installed
+Architecture: arm64
+Version: 1.0.4-2
+
+Package: libmnl0
+Status: install ok installed
+Architecture: arm64
+Version: 1.0.4-3
+
+Package: libmount1
+Status: install ok installed
+Architecture: arm64
+Version: 2.38.1-5+deb12u3
+
+Package: libncursesw6
+Status: install ok installed
+Architecture: arm64
+Version: 6.4-4
+
+Package: libnetfilter-conntrack3
+Status: install ok installed
+Architecture: arm64
+Version: 1.0.9-3
+
+Package: libnettle8
+Status: install ok installed
+Architecture: arm64
+Version: 3.8.1-2
+
+Package: libnfnetlink0
+Status: install ok installed
+Architecture: arm64
+Version: 1.0.2-2
+
+Package: libnftnl11
+Status: install ok installed
+Architecture: arm64
+Version: 1.2.4-2
+
+Package: libnghttp2-14
+Status: install ok installed
+Architecture: arm64
+Version: 1.52.0-1+deb12u3
+
+Package: libnsl2
+Status: install ok installed
+Architecture: arm64
+Version: 1.3.0-2
+
+Package: libp11-kit0
+Status: install ok installed
+Architecture: arm64
+Version: 0.24.1-2
+
+Package: libpam-modules
+Status: install ok installed
+Architecture: arm64
+Version: 1.5.2-6+deb12u2
+
+Package: libpam-modules-bin
+Status: install ok installed
+Architecture: arm64
+Version: 1.5.2-6+deb12u2
+
+Package: libpam-runtime
+Status: install ok installed
+Architecture: all
+Version: 1.5.2-6+deb12u2
+
+Package: libpam0g
+Status: install ok installed
+Architecture: arm64
+Version: 1.5.2-6+deb12u2
+
+Package: libpcre2-8-0
+Status: install ok installed
+Architecture: arm64
+Version: 10.42-1+deb12u2
+
+Package: libproc2-0
+Status: install ok installed
+Architecture: arm64
+Version: 2:4.0.2-3
+
+Package: libprotobuf-c1
+Status: install ok installed
+Architecture: arm64
+Version: 1.4.1-1+b1
+
+Package: libpython3-stdlib
+Status: install ok installed
+Architecture: arm64
+Version: 3.11.2-1+b1
+
+Package: libpython3.11-minimal
+Status: install ok installed
+Architecture: arm64
+Version: 3.11.2-6+deb12u9
+
+Package: libpython3.11-stdlib
+Status: install ok installed
+Architecture: arm64
+Version: 3.11.2-6+deb12u9
+
+Package: libreadline8
+Status: install ok installed
+Architecture: arm64
+Version: 8.2-1.3
+
+Package: libseccomp2
+Status: install ok installed
+Architecture: arm64
+Version: 2.5.4-1+deb12u1
+
+Package: libselinux1
+Status: install ok installed
+Architecture: arm64
+Version: 3.4-1+b6
+
+Package: libsemanage-common
+Status: install ok installed
+Architecture: all
+Version: 3.4-1
+
+Package: libsemanage2
+Status: install ok installed
+Architecture: arm64
+Version: 3.4-1+b5
+
+Package: libsepol2
+Status: install ok installed
+Architecture: arm64
+Version: 3.4-2.1
+
+Package: libsmartcols1
+Status: install ok installed
+Architecture: arm64
+Version: 2.38.1-5+deb12u3
+
+Package: libsqlite3-0
+Status: install ok installed
+Architecture: arm64
+Version: 3.40.1-2+deb12u2
+
+Package: libss2
+Status: install ok installed
+Architecture: arm64
+Version: 1.47.0-2+b2
+
+Package: libssl3
+Status: install ok installed
+Architecture: arm64
+Version: 3.0.22-1~deb12u1
+
+Package: libstdc++6
+Status: install ok installed
+Architecture: arm64
+Version: 12.2.0-14+deb12u1
+
+Package: libsystemd0
+Status: install ok installed
+Architecture: arm64
+Version: 252.39-1~deb12u2
+
+Package: libtasn1-6
+Status: install ok installed
+Architecture: arm64
+Version: 4.19.0-2+deb12u1
+
+Package: libtinfo6
+Status: install ok installed
+Architecture: arm64
+Version: 6.4-4
+
+Package: libtirpc-common
+Status: install ok installed
+Architecture: all
+Version: 1.3.3+ds-1
+
+Package: libtirpc3
+Status: install ok installed
+Architecture: arm64
+Version: 1.3.3+ds-1
+
+Package: libudev1
+Status: install ok installed
+Architecture: arm64
+Version: 252.39-1~deb12u2
+
+Package: libunistring2
+Status: install ok installed
+Architecture: arm64
+Version: 1.0-2
+
+Package: libuuid1
+Status: install ok installed
+Architecture: arm64
+Version: 2.38.1-5+deb12u3
+
+Package: libuv1
+Status: install ok installed
+Architecture: arm64
+Version: 1.44.2-1+deb12u1
+
+Package: libxml2
+Status: install ok installed
+Architecture: arm64
+Version: 2.9.14+dfsg-1.3~deb12u6
+
+Package: libxtables12
+Status: install ok installed
+Architecture: arm64
+Version: 1.8.9-2
+
+Package: libxxhash0
+Status: install ok installed
+Architecture: arm64
+Version: 0.8.1-1
+
+Package: libzstd1
+Status: install ok installed
+Architecture: arm64
+Version: 1.5.4+dfsg2-5
+
+Package: login
+Status: install ok installed
+Architecture: arm64
+Version: 1:4.13+dfsg1-1+deb12u2
+
+Package: logsave
+Status: install ok installed
+Architecture: arm64
+Version: 1.47.0-2+b2
+
+Package: mawk
+Status: install ok installed
+Architecture: arm64
+Version: 1.3.4.20200120-3.1
+
+Package: media-types
+Status: install ok installed
+Architecture: all
+Version: 10.0.0
+
+Package: mount
+Status: install ok installed
+Architecture: arm64
+Version: 2.38.1-5+deb12u3
+
+Package: ncurses-base
+Status: install ok installed
+Architecture: all
+Version: 6.4-4
+
+Package: ncurses-bin
+Status: install ok installed
+Architecture: arm64
+Version: 6.4-4
+
+Package: netbase
+Status: install ok installed
+Architecture: all
+Version: 6.4
+
+Package: passwd
+Status: install ok installed
+Architecture: arm64
+Version: 1:4.13+dfsg1-1+deb12u2
+
+Package: perl-base
+Status: install ok installed
+Architecture: arm64
+Version: 5.36.0-7+deb12u3
+
+Package: procps
+Status: install ok installed
+Architecture: arm64
+Version: 2:4.0.2-3
+
+Package: python3
+Status: install ok installed
+Architecture: arm64
+Version: 3.11.2-1+b1
+
+Package: python3-minimal
+Status: install ok installed
+Architecture: arm64
+Version: 3.11.2-1+b1
+
+Package: python3.11
+Status: install ok installed
+Architecture: arm64
+Version: 3.11.2-6+deb12u9
+
+Package: python3.11-minimal
+Status: install ok installed
+Architecture: arm64
+Version: 3.11.2-6+deb12u9
+
+Package: readline-common
+Status: install ok installed
+Architecture: all
+Version: 8.2-1.3
+
+Package: sed
+Status: install ok installed
+Architecture: arm64
+Version: 4.9-1+deb12u1
+
+Package: sysvinit-utils
+Status: install ok installed
+Architecture: arm64
+Version: 3.06-4
+
+Package: tar
+Status: install ok installed
+Architecture: arm64
+Version: 1.34+dfsg-1.2+deb12u1
+
+Package: tzdata
+Status: install ok installed
+Architecture: all
+Version: 2026c-0+deb12u1
+
+Package: usr-is-merged
+Status: install ok installed
+Architecture: all
+Version: 37~deb12u1
+
+Package: util-linux
+Status: install ok installed
+Architecture: arm64
+Version: 2.38.1-5+deb12u3
+
+Package: util-linux-extra
+Status: install ok installed
+Architecture: arm64
+Version: 2.38.1-5+deb12u3
+
+Package: zlib1g
+Status: install ok installed
+Architecture: arm64
+Version: 1:1.2.13.dfsg-1
+
+
+--dd47e02ccc131f691cab6dff71f3de7f end packages.dpkg status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin packages.apk kind=cmd tool=awk limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end packages.apk status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note packages.apk no /lib/apk/db/installed
+--dd47e02ccc131f691cab6dff71f3de7f begin packages.pacman kind=cmd tool=awk limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end packages.pacman status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note packages.pacman no /var/lib/pacman/local
+--dd47e02ccc131f691cab6dff71f3de7f begin packages.rpm kind=cmd tool=rpm limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end packages.rpm status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note packages.rpm no rpm database
+--dd47e02ccc131f691cab6dff71f3de7f begin storage.partitions kind=file path=/proc/partitions limit=4194304
+major minor  #blocks  name
+
+   1        0       4096 ram0
+   1        1       4096 ram1
+   1        2       4096 ram2
+   1        3       4096 ram3
+   1        4       4096 ram4
+   1        5       4096 ram5
+   1        6       4096 ram6
+   1        7       4096 ram7
+   1        8       4096 ram8
+   1        9       4096 ram9
+   1       10       4096 ram10
+   1       11       4096 ram11
+   1       12       4096 ram12
+   1       13       4096 ram13
+   1       14       4096 ram14
+   1       15       4096 ram15
+ 254        0 1948454912 vda
+ 254        1 1948453888 vda1
+ 254       16     663792 vdb
+
+--dd47e02ccc131f691cab6dff71f3de7f end storage.partitions status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin storage.mountinfo kind=file path=/proc/self/mountinfo limit=4194304
+312 177 0:63 / / rw,relatime - overlay overlay rw,lowerdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/32213/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/29925/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/29914/fs,upperdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/32214/fs,workdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/32214/work,nouserxattr
+314 312 0:87 / /proc rw,nosuid,nodev,noexec,relatime - proc proc rw
+315 312 0:88 / /dev rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
+316 315 0:91 / /dev/pts rw,nosuid,noexec,relatime - devpts devpts rw,gid=5,mode=620,ptmxmode=666
+317 312 0:93 / /sys ro,nosuid,nodev,noexec,relatime - sysfs sysfs ro
+318 317 0:41 / /sys/fs/cgroup ro,nosuid,nodev,noexec,relatime - cgroup2 cgroup rw
+319 315 0:85 / /dev/mqueue rw,nosuid,nodev,noexec,relatime - mqueue mqueue rw
+320 315 0:94 / /dev/shm rw,nosuid,nodev,noexec,relatime - tmpfs shm rw,size=65536k
+321 312 254:1 /docker/containers/8cc6185ee75a6f4781114c110d66abd367d1fe5eba2a305896fee4865bf4dbc1/hostname /etc/hostname rw,relatime - ext4 /dev/vda1 rw,discard
+322 312 254:1 /docker/containers/8cc6185ee75a6f4781114c110d66abd367d1fe5eba2a305896fee4865bf4dbc1/hosts /etc/hosts rw,relatime - ext4 /dev/vda1 rw,discard
+324 312 254:1 /docker/containers/8cc6185ee75a6f4781114c110d66abd367d1fe5eba2a305896fee4865bf4dbc1/resolv.conf /etc/resolv.conf rw,relatime - ext4 /dev/vda1 rw,discard
+179 314 0:87 /bus /proc/bus ro,nosuid,nodev,noexec,relatime - proc proc rw
+180 314 0:87 /fs /proc/fs ro,nosuid,nodev,noexec,relatime - proc proc rw
+182 314 0:87 /irq /proc/irq ro,nosuid,nodev,noexec,relatime - proc proc rw
+183 314 0:87 /sys /proc/sys ro,nosuid,nodev,noexec,relatime - proc proc rw
+191 314 0:87 /sysrq-trigger /proc/sysrq-trigger ro,nosuid,nodev,noexec,relatime - proc proc rw
+214 314 0:88 /null /proc/interrupts rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
+215 314 0:88 /null /proc/kcore rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
+216 314 0:88 /null /proc/keys rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
+217 314 0:95 / /proc/scsi ro,relatime - tmpfs tmpfs ro,size=4k,nr_inodes=1
+218 314 0:88 /null /proc/timer_list rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
+219 317 0:95 / /sys/firmware ro,relatime - tmpfs tmpfs ro,size=4k,nr_inodes=1
+
+--dd47e02ccc131f691cab6dff71f3de7f end storage.mountinfo status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin storage.swaps kind=file path=/proc/swaps limit=4194304
+Filename				Type		Size		Used		Priority
+/var/lib/swap                           file		1048572		0		-1
+
+--dd47e02ccc131f691cab6dff71f3de7f end storage.swaps status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin storage.block kind=cmd tool=sh limit=4194304
+loop0 kind=disk size=0 removable=0 ro=0 dev=7:0 dm= holders= slaves=
+loop1 kind=disk size=0 removable=0 ro=0 dev=7:1 dm= holders= slaves=
+loop2 kind=disk size=0 removable=0 ro=0 dev=7:2 dm= holders= slaves=
+loop3 kind=disk size=0 removable=0 ro=0 dev=7:3 dm= holders= slaves=
+loop4 kind=disk size=0 removable=0 ro=0 dev=7:4 dm= holders= slaves=
+loop5 kind=disk size=0 removable=0 ro=0 dev=7:5 dm= holders= slaves=
+loop6 kind=disk size=0 removable=0 ro=0 dev=7:6 dm= holders= slaves=
+loop7 kind=disk size=0 removable=0 ro=0 dev=7:7 dm= holders= slaves=
+nbd0 kind=disk size=0 removable=0 ro=0 dev=43:0 dm= holders= slaves=
+nbd1 kind=disk size=0 removable=0 ro=0 dev=43:32 dm= holders= slaves=
+nbd10 kind=disk size=0 removable=0 ro=0 dev=43:320 dm= holders= slaves=
+nbd11 kind=disk size=0 removable=0 ro=0 dev=43:352 dm= holders= slaves=
+nbd12 kind=disk size=0 removable=0 ro=0 dev=43:384 dm= holders= slaves=
+nbd13 kind=disk size=0 removable=0 ro=0 dev=43:416 dm= holders= slaves=
+nbd14 kind=disk size=0 removable=0 ro=0 dev=43:448 dm= holders= slaves=
+nbd15 kind=disk size=0 removable=0 ro=0 dev=43:480 dm= holders= slaves=
+nbd2 kind=disk size=0 removable=0 ro=0 dev=43:64 dm= holders= slaves=
+nbd3 kind=disk size=0 removable=0 ro=0 dev=43:96 dm= holders= slaves=
+nbd4 kind=disk size=0 removable=0 ro=0 dev=43:128 dm= holders= slaves=
+nbd5 kind=disk size=0 removable=0 ro=0 dev=43:160 dm= holders= slaves=
+nbd6 kind=disk size=0 removable=0 ro=0 dev=43:192 dm= holders= slaves=
+nbd7 kind=disk size=0 removable=0 ro=0 dev=43:224 dm= holders= slaves=
+nbd8 kind=disk size=0 removable=0 ro=0 dev=43:256 dm= holders= slaves=
+nbd9 kind=disk size=0 removable=0 ro=0 dev=43:288 dm= holders= slaves=
+ram0 kind=disk size=8192 removable=0 ro=0 dev=1:0 dm= holders= slaves=
+ram1 kind=disk size=8192 removable=0 ro=0 dev=1:1 dm= holders= slaves=
+ram10 kind=disk size=8192 removable=0 ro=0 dev=1:10 dm= holders= slaves=
+ram11 kind=disk size=8192 removable=0 ro=0 dev=1:11 dm= holders= slaves=
+ram12 kind=disk size=8192 removable=0 ro=0 dev=1:12 dm= holders= slaves=
+ram13 kind=disk size=8192 removable=0 ro=0 dev=1:13 dm= holders= slaves=
+ram14 kind=disk size=8192 removable=0 ro=0 dev=1:14 dm= holders= slaves=
+ram15 kind=disk size=8192 removable=0 ro=0 dev=1:15 dm= holders= slaves=
+ram2 kind=disk size=8192 removable=0 ro=0 dev=1:2 dm= holders= slaves=
+ram3 kind=disk size=8192 removable=0 ro=0 dev=1:3 dm= holders= slaves=
+ram4 kind=disk size=8192 removable=0 ro=0 dev=1:4 dm= holders= slaves=
+ram5 kind=disk size=8192 removable=0 ro=0 dev=1:5 dm= holders= slaves=
+ram6 kind=disk size=8192 removable=0 ro=0 dev=1:6 dm= holders= slaves=
+ram7 kind=disk size=8192 removable=0 ro=0 dev=1:7 dm= holders= slaves=
+ram8 kind=disk size=8192 removable=0 ro=0 dev=1:8 dm= holders= slaves=
+ram9 kind=disk size=8192 removable=0 ro=0 dev=1:9 dm= holders= slaves=
+vda kind=disk size=3896909824 removable=0 ro=0 dev=254:0 dm= holders= slaves=
+vda1 kind=part size=3896907776 removable= ro=0 dev=254:1 dm= holders= slaves=
+vdb kind=disk size=1327584 removable=0 ro=1 dev=254:16 dm= holders= slaves=
+
+--dd47e02ccc131f691cab6dff71f3de7f end storage.block status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin storage.df kind=cmd tool=df limit=4194304
+Filesystem     1024-blocks     Used  Available Capacity Mounted on
+overlay         1916745208 82348556 1736957576       5% /
+tmpfs                65536        0      65536       0% /dev
+shm                  65536        0      65536       0% /dev/shm
+/dev/vda1       1916745208 82348556 1736957576       5% /etc/hosts
+tmpfs                    4        0          4       0% /proc/scsi
+
+--dd47e02ccc131f691cab6dff71f3de7f end storage.df status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin storage.lsblk kind=cmd tool=sh limit=4194304
+NAME="nbd0" KNAME="nbd0" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
+NAME="nbd1" KNAME="nbd1" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
+NAME="nbd2" KNAME="nbd2" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
+NAME="nbd3" KNAME="nbd3" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
+NAME="nbd4" KNAME="nbd4" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
+NAME="nbd5" KNAME="nbd5" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
+NAME="nbd6" KNAME="nbd6" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
+NAME="nbd7" KNAME="nbd7" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
+NAME="vda" KNAME="vda" PKNAME="" TYPE="disk" SIZE="1995217829888" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
+NAME="vda1" KNAME="vda1" PKNAME="vda" TYPE="part" SIZE="1995216781312" RM="0" RO="0" FSTYPE="" MOUNTPOINT="/etc/resolv.conf"
+NAME="vdb" KNAME="vdb" PKNAME="" TYPE="disk" SIZE="679723008" RM="0" RO="1" FSTYPE="" MOUNTPOINT=""
+NAME="nbd8" KNAME="nbd8" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
+NAME="nbd9" KNAME="nbd9" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
+NAME="nbd10" KNAME="nbd10" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
+NAME="nbd11" KNAME="nbd11" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
+NAME="nbd12" KNAME="nbd12" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
+NAME="nbd13" KNAME="nbd13" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
+NAME="nbd14" KNAME="nbd14" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
+NAME="nbd15" KNAME="nbd15" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
+
+--dd47e02ccc131f691cab6dff71f3de7f end storage.lsblk status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin permissions.find kind=cmd tool=sh limit=4194304
+89ed 0 0 /usr/bin/passwd
+89ed 0 0 /usr/bin/gpasswd
+85ed 0 42 /usr/bin/chage
+89ed 0 0 /usr/bin/chsh
+85ed 0 42 /usr/bin/expiry
+89ed 0 0 /usr/bin/umount
+89ed 0 0 /usr/bin/chfn
+89ed 0 0 /usr/bin/mount
+89ed 0 0 /usr/bin/su
+89ed 0 0 /usr/bin/newgrp
+85ed 0 42 /usr/sbin/unix_chkpwd
+43ff 0 0 /run/lock
+43ff 0 0 /tmp
+45fd 0 8 /var/mail
+45fd 0 50 /var/local
+43ff 0 0 /var/tmp
+
+--dd47e02ccc131f691cab6dff71f3de7f end permissions.find status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin permissions.account_files kind=cmd tool=sh limit=4194304
+81a4 0 0 /etc/passwd
+81a4 0 0 /etc/group
+81a0 0 42 /etc/shadow
+81a0 0 42 /etc/gshadow
+
+--dd47e02ccc131f691cab6dff71f3de7f end permissions.account_files status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin identity.hostname kind=cmd tool=hostname limit=4194304
+parity-debian12
+
+--dd47e02ccc131f691cab6dff71f3de7f end identity.hostname status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin identity.kernel_hostname kind=file path=/proc/sys/kernel/hostname limit=4194304
+parity-debian12
+
+--dd47e02ccc131f691cab6dff71f3de7f end identity.kernel_hostname status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin identity.etc_hostname kind=file path=/etc/hostname limit=4194304
+parity-debian12
+
+--dd47e02ccc131f691cab6dff71f3de7f end identity.etc_hostname status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin identity.nis_domainname kind=file path=/proc/sys/kernel/domainname limit=4194304
+(none)
+
+--dd47e02ccc131f691cab6dff71f3de7f end identity.nis_domainname status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin identity.dnsdomainname kind=cmd tool=dnsdomainname limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end identity.dnsdomainname status=ok rc=1
+--dd47e02ccc131f691cab6dff71f3de7f note identity.dnsdomainname dnsdomainname: Temporary failure in name resolution
+--dd47e02ccc131f691cab6dff71f3de7f begin identity.hostid kind=cmd tool=hostid limit=4194304
+00000000
+
+--dd47e02ccc131f691cab6dff71f3de7f end identity.hostid status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin identity.issue kind=file path=/etc/issue limit=4194304
+Debian GNU/Linux 12 \n \l
+
+
+--dd47e02ccc131f691cab6dff71f3de7f end identity.issue status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin identity.issue_net kind=file path=/etc/issue.net limit=4194304
+Debian GNU/Linux 12
+
+--dd47e02ccc131f691cab6dff71f3de7f end identity.issue_net status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin identity.motd kind=file path=/etc/motd limit=4194304
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+
+--dd47e02ccc131f691cab6dff71f3de7f end identity.motd status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin identity.motd_d kind=cmd tool=sh limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end identity.motd_d status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note identity.motd_d no /etc/motd.d
+--dd47e02ccc131f691cab6dff71f3de7f begin users.passwd kind=file path=/etc/passwd filter=prefix limit=4194304
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
+_apt:x:42:65534::/nonexistent:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+
+--dd47e02ccc131f691cab6dff71f3de7f end users.passwd status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin users.group kind=file path=/etc/group filter=prefix limit=4194304
+root:x:0:
+daemon:x:1:
+bin:x:2:
+sys:x:3:
+adm:x:4:
+tty:x:5:
+disk:x:6:
+lp:x:7:
+mail:x:8:
+news:x:9:
+uucp:x:10:
+man:x:12:
+proxy:x:13:
+kmem:x:15:
+dialout:x:20:
+fax:x:21:
+voice:x:22:
+cdrom:x:24:
+floppy:x:25:
+tape:x:26:
+sudo:x:27:
+audio:x:29:
+dip:x:30:
+www-data:x:33:
+backup:x:34:
+operator:x:37:
+list:x:38:
+irc:x:39:
+src:x:40:
+shadow:x:42:
+utmp:x:43:
+video:x:44:
+sasl:x:45:
+plugdev:x:46:
+staff:x:50:
+games:x:60:
+users:x:100:
+nogroup:x:65534:
+
+--dd47e02ccc131f691cab6dff71f3de7f end users.group status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin users.shadow kind=file path=/etc/shadow filter=prefix limit=4194304
+root:*:20731:0:99999:7:::
+daemon:*:20731:0:99999:7:::
+bin:*:20731:0:99999:7:::
+sys:*:20731:0:99999:7:::
+sync:*:20731:0:99999:7:::
+games:*:20731:0:99999:7:::
+man:*:20731:0:99999:7:::
+lp:*:20731:0:99999:7:::
+mail:*:20731:0:99999:7:::
+news:*:20731:0:99999:7:::
+uucp:*:20731:0:99999:7:::
+proxy:*:20731:0:99999:7:::
+www-data:*:20731:0:99999:7:::
+backup:*:20731:0:99999:7:::
+list:*:20731:0:99999:7:::
+irc:*:20731:0:99999:7:::
+_apt:*:20731:0:99999:7:::
+nobody:*:20731:0:99999:7:::
+
+--dd47e02ccc131f691cab6dff71f3de7f end users.shadow status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin users.gshadow kind=file path=/etc/gshadow filter=prefix limit=4194304
+root:*::
+daemon:*::
+bin:*::
+sys:*::
+adm:*::
+tty:*::
+disk:*::
+lp:*::
+mail:*::
+news:*::
+uucp:*::
+man:*::
+proxy:*::
+kmem:*::
+dialout:*::
+fax:*::
+voice:*::
+cdrom:*::
+floppy:*::
+tape:*::
+sudo:*::
+audio:*::
+dip:*::
+www-data:*::
+backup:*::
+operator:*::
+list:*::
+irc:*::
+src:*::
+shadow:*::
+utmp:*::
+video:*::
+sasl:*::
+plugdev:*::
+staff:*::
+games:*::
+users:*::
+nogroup:*::
+
+--dd47e02ccc131f691cab6dff71f3de7f end users.gshadow status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin services.init_comm kind=file path=/proc/1/comm limit=4194304
+sh
+
+--dd47e02ccc131f691cab6dff71f3de7f end services.init_comm status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin services.systemd_units kind=cmd tool=systemctl limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end services.systemd_units status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note services.systemd_units systemd is not running
+--dd47e02ccc131f691cab6dff71f3de7f begin services.systemd_unit_files kind=cmd tool=systemctl limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end services.systemd_unit_files status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note services.systemd_unit_files systemd is not running
+--dd47e02ccc131f691cab6dff71f3de7f begin services.runlevel kind=cmd tool=runlevel limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end services.runlevel status=missing rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note services.runlevel tool not found: runlevel
+--dd47e02ccc131f691cab6dff71f3de7f begin services.chkconfig kind=cmd tool=chkconfig limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end services.chkconfig status=missing rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note services.chkconfig tool not found: chkconfig
+--dd47e02ccc131f691cab6dff71f3de7f begin services.rc_d kind=cmd tool=sh limit=4194304
+/etc/rc0.d:
+K01hwclock.sh
+/etc/rc1.d:
+/etc/rc2.d:
+/etc/rc3.d:
+/etc/rc4.d:
+/etc/rc5.d:
+/etc/rc6.d:
+K01hwclock.sh
+/etc/rcS.d:
+S01hwclock.sh
+S01procps
+
+--dd47e02ccc131f691cab6dff71f3de7f end services.rc_d status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin services.openrc_runlevels kind=cmd tool=sh limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end services.openrc_runlevels status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note services.openrc_runlevels no /etc/runlevels
+--dd47e02ccc131f691cab6dff71f3de7f begin services.openrc_status kind=cmd tool=rc-status limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end services.openrc_status status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note services.openrc_status no /etc/runlevels
+--dd47e02ccc131f691cab6dff71f3de7f begin services.runit kind=cmd tool=sv limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end services.runit status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note services.runit no runit services
+--dd47e02ccc131f691cab6dff71f3de7f begin network.ip_link kind=cmd tool=ip limit=4194304
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000\    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: tunl0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/ipip 0.0.0.0 brd 0.0.0.0
+3: gre0@NONE: <NOARP> mtu 1476 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/gre 0.0.0.0 brd 0.0.0.0
+4: gretap0@NONE: <BROADCAST,MULTICAST> mtu 1462 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/ether 00:00:00:00:00:00 brd ff:ff:ff:ff:ff:ff
+5: erspan0@NONE: <BROADCAST,MULTICAST> mtu 1450 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/ether 00:00:00:00:00:00 brd ff:ff:ff:ff:ff:ff
+6: ip_vti0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/ipip 0.0.0.0 brd 0.0.0.0
+7: ip6_vti0@NONE: <NOARP> mtu 1428 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/tunnel6 :: brd :: permaddr ae5b:3be8:9d2e::
+8: sit0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/sit 0.0.0.0 brd 0.0.0.0
+9: ip6tnl0@NONE: <NOARP> mtu 1452 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/tunnel6 :: brd :: permaddr fe48:6d38:7115::
+10: ip6gre0@NONE: <NOARP> mtu 1448 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/gre6 :: brd :: permaddr e7b:2c0d:6c8b::
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.ip_link status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin network.ip_addr kind=cmd tool=ip limit=4194304
+1: lo    inet 127.0.0.1/8 scope host lo\       valid_lft forever preferred_lft forever
+1: lo    inet6 ::1/128 scope host \       valid_lft forever preferred_lft forever
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.ip_addr status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin network.ip_route kind=cmd tool=ip limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.ip_route status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin network.ip_route6 kind=cmd tool=ip limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.ip_route6 status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin network.sys_class_net kind=cmd tool=sh limit=4194304
+erspan0 address=00:00:00:00:00:00 operstate=down mtu=1450 type=1 ifindex=5 iflink=0
+gre0 address=00:00:00:00 operstate=down mtu=1476 type=778 ifindex=3 iflink=0
+gretap0 address=00:00:00:00:00:00 operstate=down mtu=1462 type=1 ifindex=4 iflink=0
+ip6_vti0 address=00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00 operstate=down mtu=1428 type=769 ifindex=7 iflink=0
+ip6gre0 address=00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00 operstate=down mtu=1448 type=823 ifindex=10 iflink=0
+ip6tnl0 address=00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00 operstate=down mtu=1452 type=769 ifindex=9 iflink=0
+ip_vti0 address=00:00:00:00 operstate=down mtu=1480 type=768 ifindex=6 iflink=0
+lo address=00:00:00:00:00:00 operstate=unknown mtu=65536 type=772 ifindex=1 iflink=1
+sit0 address=00:00:00:00 operstate=down mtu=1480 type=776 ifindex=8 iflink=0
+tunl0 address=00:00:00:00 operstate=down mtu=1480 type=768 ifindex=2 iflink=0
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.sys_class_net status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin network.if_inet6 kind=file path=/proc/net/if_inet6 limit=4194304
+00000000000000000000000000000001 01 80 10 80       lo
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.if_inet6 status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin network.fib_trie kind=file path=/proc/net/fib_trie limit=4194304
+Main:
+  +-- 127.0.0.0/8 2 0 2
+     +-- 127.0.0.0/31 1 0 0
+        |-- 127.0.0.0
+           /8 host LOCAL
+        |-- 127.0.0.1
+           /32 host LOCAL
+     |-- 127.255.255.255
+        /32 link BROADCAST
+Local:
+  +-- 127.0.0.0/8 2 0 2
+     +-- 127.0.0.0/31 1 0 0
+        |-- 127.0.0.0
+           /8 host LOCAL
+        |-- 127.0.0.1
+           /32 host LOCAL
+     |-- 127.255.255.255
+        /32 link BROADCAST
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.fib_trie status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin network.proc_route kind=file path=/proc/net/route limit=4194304
+Iface	Destination	Gateway 	Flags	RefCnt	Use	Metric	Mask		MTU	Window	IRTT                                                       
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.proc_route status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin network.proc_ipv6_route kind=file path=/proc/net/ipv6_route limit=4194304
+00000000000000000000000000000000 00 00000000000000000000000000000000 00 00000000000000000000000000000000 ffffffff 00000001 00000000 00200200       lo
+00000000000000000000000000000001 80 00000000000000000000000000000000 00 00000000000000000000000000000000 00000000 00000002 00000000 80200001       lo
+00000000000000000000000000000000 00 00000000000000000000000000000000 00 00000000000000000000000000000000 ffffffff 00000001 00000000 00200200       lo
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.proc_ipv6_route status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin network.hosts kind=file path=/etc/hosts limit=4194304
+127.0.0.1	localhost
+::1	localhost ip6-localhost ip6-loopback
+fe00::	ip6-localnet
+ff00::	ip6-mcastprefix
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.hosts status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin network.resolv_conf kind=file path=/etc/resolv.conf limit=4194304
+# Generated by Docker Engine.
+# This file can be edited; Docker Engine will not make further changes once it
+# has been modified.
+
+nameserver 192.168.65.7
+
+# Based on host file: '/etc/resolv.conf' (legacy)
+# Overrides: []
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.resolv_conf status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin network.resolved_resolv_conf kind=file path=/run/systemd/resolve/resolv.conf limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.resolved_resolv_conf status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note network.resolved_resolv_conf not found: /run/systemd/resolve/resolv.conf
+--dd47e02ccc131f691cab6dff71f3de7f begin network.proc_tcp kind=file path=/proc/net/tcp limit=4194304
+  sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode                                                     
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.proc_tcp status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin network.proc_tcp6 kind=file path=/proc/net/tcp6 limit=4194304
+  sl  local_address                         remote_address                        st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.proc_tcp6 status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin network.proc_udp kind=file path=/proc/net/udp limit=4194304
+   sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode ref pointer drops            
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.proc_udp status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin network.proc_udp6 kind=file path=/proc/net/udp6 limit=4194304
+  sl  local_address                         remote_address                        st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode ref pointer drops
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.proc_udp6 status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin network.proc_raw kind=file path=/proc/net/raw limit=4194304
+  sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode ref pointer drops
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.proc_raw status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin network.proc_raw6 kind=file path=/proc/net/raw6 limit=4194304
+  sl  local_address                         remote_address                        st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode ref pointer drops
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.proc_raw6 status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin network.socket_pids kind=cmd tool=sh limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.socket_pids status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin network.process_names kind=cmd tool=sh limit=4194304
+1 0 sh
+1635 0 sh
+1636 0 sh
+1637 0 sh
+1638 0 sh
+1639 0 awk
+1640 0 head
+1641 0 timeout
+1642 0 sh
+40 0 sh
+7 0 sleep
+
+--dd47e02ccc131f691cab6dff71f3de7f end network.process_names status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin firewall.nft_json kind=cmd tool=nft limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end firewall.nft_json status=missing rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note firewall.nft_json tool not found: nft
+--dd47e02ccc131f691cab6dff71f3de7f begin firewall.nft kind=cmd tool=nft limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end firewall.nft status=missing rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note firewall.nft tool not found: nft
+--dd47e02ccc131f691cab6dff71f3de7f begin firewall.iptables_legacy kind=cmd tool=sh limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end firewall.iptables_legacy status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin firewall.ip6tables_legacy kind=cmd tool=sh limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end firewall.ip6tables_legacy status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin firewall.firewalld kind=cmd tool=firewall-cmd limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end firewall.firewalld status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note firewall.firewalld firewalld is not running
+--dd47e02ccc131f691cab6dff71f3de7f begin firewall.ufw kind=cmd tool=ufw limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end firewall.ufw status=missing rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note firewall.ufw tool not found: ufw
+--dd47e02ccc131f691cab6dff71f3de7f begin timesync.chrony_conf kind=file path=/etc/chrony.conf limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end timesync.chrony_conf status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note timesync.chrony_conf not found: /etc/chrony.conf
+--dd47e02ccc131f691cab6dff71f3de7f begin timesync.chrony_conf_debian kind=file path=/etc/chrony/chrony.conf limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end timesync.chrony_conf_debian status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note timesync.chrony_conf_debian not found: /etc/chrony/chrony.conf
+--dd47e02ccc131f691cab6dff71f3de7f begin timesync.chronyc kind=cmd tool=chronyc limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end timesync.chronyc status=missing rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note timesync.chronyc tool not found: chronyc
+--dd47e02ccc131f691cab6dff71f3de7f begin timesync.ntp_conf kind=file path=/etc/ntp.conf limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end timesync.ntp_conf status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note timesync.ntp_conf not found: /etc/ntp.conf
+--dd47e02ccc131f691cab6dff71f3de7f begin timesync.ntpq kind=cmd tool=ntpq limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end timesync.ntpq status=missing rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note timesync.ntpq tool not found: ntpq
+--dd47e02ccc131f691cab6dff71f3de7f begin timesync.timesyncd_conf kind=cmd tool=sh limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end timesync.timesyncd_conf status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note timesync.timesyncd_conf no timesyncd configuration
+--dd47e02ccc131f691cab6dff71f3de7f begin timesync.timedatectl kind=cmd tool=timedatectl limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end timesync.timedatectl status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note timesync.timedatectl systemd is not running
+--dd47e02ccc131f691cab6dff71f3de7f begin processes.stat kind=cmd tool=sh limit=4194304
+1 (sh) S 0 1 1 0 -1 4194560 802 0 0 0 0 0 0 0 20 0 1 0 24854287 2396160 310 18446744073709551615 187651051094016 187651051213304 281474327498496 0 0 0 0 0 65538 1 0 0 17 2 0 0 0 0 0 187651051285376 187651051291152 187651831902208 281474327502691 281474327502726 281474327502726 281474327502828 0
+1681 (sh) S 40 40 40 0 -1 4194368 44 0 0 0 0 0 0 0 20 0 1 0 24854461 2396160 144 18446744073709551615 187650510749696 187650510868984 281474337027264 0 0 0 0 0 65536 1 0 0 17 6 0 0 0 0 0 187650510941056 187650510946832 187651187273728 281474337030016 281474337030022 281474337030022 281474337030124 0
+1682 (sh) S 1681 40 40 0 -1 4194368 51 0 0 0 0 0 0 0 20 0 1 0 24854461 2396160 176 18446744073709551615 187650510749696 187650510868984 281474337027264 0 0 0 0 0 65536 1 0 0 17 8 0 0 0 0 0 187650510941056 187650510946832 187651187273728 281474337030016 281474337030022 281474337030022 281474337030124 0
+1683 (sh) S 1681 40 40 0 -1 4194368 42 0 0 0 0 0 0 0 20 0 1 0 24854461 2396160 144 18446744073709551615 187650510749696 187650510868984 281474337027264 0 0 0 0 0 65536 1 0 0 17 7 0 0 0 0 0 187650510941056 187650510946832 187651187273728 281474337030016 281474337030022 281474337030022 281474337030124 0
+1684 (sh) S 1682 40 40 0 -1 4194368 47 0 0 0 0 0 0 0 20 0 1 0 24854461 2396160 144 18446744073709551615 187650510749696 187650510868984 281474337027264 0 0 0 0 0 65536 1 0 0 17 6 0 0 0 0 0 187650510941056 187650510946832 187651187273728 281474337030016 281474337030022 281474337030022 281474337030124 0
+1685 (head) R 1682 40 40 0 -1 4194304 102 0 0 0 0 0 0 0 20 0 1 0 24854461 2301952 258 18446744073709551615 187650714501120 187650714540568 281473924106080 0 0 0 0 0 0 1 0 0 17 2 0 0 0 0 0 187650714631088 187650714632888 187651118940160 281473924108133 281473924108149 281473924108149 281473924108266 0
+1686 (awk) S 1683 40 40 0 -1 4194304 113 0 0 0 0 0 0 0 20 0 1 0 24854461 3149824 328 18446744073709551615 187650013069312 187650013213460 281474461321904 0 0 0 0 0 0 1 0 0 17 11 0 0 0 0 0 187650013281000 187650013286912 187650371981312 281474461323019 281474461323126 281474461323126 281474461323243 0
+1687 (timeout) S 1684 1687 40 0 -1 4194304 52 0 0 0 0 0 0 0 20 0 1 0 24854461 2301952 258 18446744073709551615 187650638610432 187650638647648 281474543423184 0 0 0 0 3145728 90119 1 0 0 17 9 0 0 0 0 0 187650638740464 187650638742740 187651154919424 281474543427383 281474543427442 281474543427442 281474543427559 0
+1688 (sh) S 1687 1687 40 0 -1 4194304 80 0 0 0 0 0 0 0 20 0 1 0 24854462 2396160 310 18446744073709551615 187650804940800 187650805060088 281473985564256 0 0 0 0 0 65538 1 0 0 17 1 0 0 0 0 0 187650805132160 187650805137936 187651627896832 281473985568583 281473985568631 281473985568631 281473985568748 0
+40 (sh) S 0 40 40 0 -1 4194560 3432 125789 0 1 0 1 30 12 20 0 1 0 24854426 2396160 342 18446744073709551615 187650510749696 187650510868984 281474337027264 0 0 0 0 0 65536 1 0 0 17 8 0 0 0 0 0 187650510941056 187650510946832 187651187273728 281474337030016 281474337030022 281474337030022 281474337030124 0
+7 (sleep) S 1 1 1 0 -1 4194304 45 0 0 0 0 0 0 0 20 0 1 0 24854289 2293760 237 18446744073709551615 187650032664576 187650032695376 281474974998976 0 0 0 0 0 0 1 0 0 17 1 0 0 0 0 0 187650032794768 187650032796280 187650886512640 281474975002482 281474975002493 281474975002493 281474975002601 0
+
+--dd47e02ccc131f691cab6dff71f3de7f end processes.stat status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin processes.status kind=cmd tool=sh limit=4194304
+1 0 1408 1
+1696 0 728 1
+1697 0 792 1
+1698 0 664 1
+1699 0 728 1
+1700 0 1064 1
+1701 0 1396 1
+1702 0 1124 1
+1703 0 1404 1
+40 0 1528 1
+7 0 1104 1
+
+--dd47e02ccc131f691cab6dff71f3de7f end processes.status status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin processes.cmdline kind=cmd tool=sh limit=4194304
+1 sh -c while :; do sleep 3600; done 
+1711 sh -s 
+1712 sh -s 
+1713 sh -s 
+1714 sh -s 
+1715 awk length(s) < 400 { s = s " " $0 } END { s = substr(s, 2, 400)         gsub(/[^ -~]/, "?", s); print s } 
+1716 head -c 4194305 
+1717 timeout 60 sh -c          for p in /proc/[0-9]*; do             [ -r "$p/cmdline" ] || continue             printf "%s " "${p#/proc/}"             head -c 512 "$p/cmdline" 2>/dev/null | tr "\000\n" "  "             echo         done | awk "$1" sh  {     for (i = 2; i <= NF; i++) {         low = tolower($i)         if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)=/)             $i = substr($i, 1, index($i, "=")) "***"         else if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?
+1718 sh -c          for p in /proc/[0-9]*; do             [ -r "$p/cmdline" ] || continue             printf "%s " "${p#/proc/}"             head -c 512 "$p/cmdline" 2>/dev/null | tr "\000\n" "  "             echo         done | awk "$1" sh  {     for (i = 2; i <= NF; i++) {         low = tolower($i)         if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)=/)             $i = substr($i, 1, index($i, "=")) "***"         else if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)$/ && i
+1719 sh -c          for p in /proc/[0-9]*; do             [ -r "$p/cmdline" ] || continue             printf "%s " "${p#/proc/}"             head -c 512 "$p/cmdline" 2>/dev/null | tr "\000\n" "  "             echo         done | awk "$1" sh  {     for (i = 2; i <= NF; i++) {         low = tolower($i)         if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)=/)             $i = substr($i, 1, index($i, "=")) "***"         else if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)$/ && i
+1720 awk  {     for (i = 2; i <= NF; i++) {         low = tolower($i)         if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)=/)             $i = substr($i, 1, index($i, "=")) "***"         else if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)$/ && i < NF)             $(++i) = "***"     }     print } 
+40 sh -s 
+7 sleep 3600 
+
+--dd47e02ccc131f691cab6dff71f3de7f end processes.cmdline status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin processes.uptime kind=file path=/proc/uptime limit=4194304
+248544.63 2936784.64
+
+--dd47e02ccc131f691cab6dff71f3de7f end processes.uptime status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin processes.clk_tck kind=cmd tool=getconf limit=4194304
+100
+
+--dd47e02ccc131f691cab6dff71f3de7f end processes.clk_tck status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin load.uptime_1 kind=file path=/proc/uptime limit=4194304
+248544.63 2936784.69
+
+--dd47e02ccc131f691cab6dff71f3de7f end load.uptime_1 status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin load.stat_1 kind=file path=/proc/stat limit=4194304
+cpu  2536598 0 1159834 293678472 40589 0 284975 0 0 0
+cpu0 1050090 0 329520 23175084 7911 0 115233 0 0 0
+cpu1 136885 0 75287 24583887 4424 0 70000 0 0 0
+cpu2 146282 0 78233 24575661 3259 0 29295 0 0 0
+cpu3 140522 0 75667 24585250 3256 0 16162 0 0 0
+cpu4 135493 0 75475 24590729 3401 0 11633 0 0 0
+cpu5 134356 0 74847 24593016 3000 0 8892 0 0 0
+cpu6 132870 0 74966 24595403 2593 0 7166 0 0 0
+cpu7 133019 0 74802 24595126 2579 0 6269 0 0 0
+cpu8 129783 0 75896 24597401 2693 0 5639 0 0 0
+cpu9 132641 0 74688 24595726 2535 0 5323 0 0 0
+cpu10 131005 0 74980 24597328 2455 0 4679 0 0 0
+cpu11 133649 0 75469 24593855 2479 0 4679 0 0 0
+intr 847282976 0 5568079 290043934 0 0 0 1782 0 0 0 0 207813592 0 0 9436147 13824 2585962 650 330008474 1 20976 1 1 21 1785475 4057 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ctxt 1831299468
+btime 1791881577
+processes 5292559
+procs_running 1
+procs_blocked 0
+softirq 127732813 0 14276828 13328 18650301 2511786 0 200 34977758 0 57302612
+
+--dd47e02ccc131f691cab6dff71f3de7f end load.stat_1 status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin load.diskstats_1 kind=file path=/proc/diskstats limit=4194304
+   1       0 ram0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1       1 ram1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1       2 ram2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1       3 ram3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1       4 ram4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1       5 ram5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1       6 ram6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1       7 ram7 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1       8 ram8 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1       9 ram9 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1      10 ram10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1      11 ram11 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1      12 ram12 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1      13 ram13 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1      14 ram14 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1      15 ram15 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   7       0 loop0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   7       1 loop1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   7       2 loop2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   7       3 loop3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   7       4 loop4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   7       5 loop5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   7       6 loop6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   7       7 loop7 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43       0 nbd0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43      32 nbd1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43      64 nbd2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43      96 nbd3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     128 nbd4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     160 nbd5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     192 nbd6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     224 nbd7 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     256 nbd8 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     288 nbd9 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     320 nbd10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     352 nbd11 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     384 nbd12 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     416 nbd13 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     448 nbd14 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     480 nbd15 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 254       0 vda 492476 234089 12514746 58891 1451983 2410435 113317696 2531401 0 218855 2742527 1378428 0 4794011568 80456 372149 71778
+ 254       1 vda1 492405 234089 12512386 58881 1451983 2410435 113317696 2531401 0 264221 2670739 1378428 0 4794011568 80456 0 0
+ 254      16 vdb 792 1 698112 180 0 0 0 0 0 89 180 0 0 0 0 0 0
+
+--dd47e02ccc131f691cab6dff71f3de7f end load.diskstats_1 status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin load.uptime_2 kind=file path=/proc/uptime limit=4194304
+248545.65 2936796.81
+
+--dd47e02ccc131f691cab6dff71f3de7f end load.uptime_2 status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin load.stat_2 kind=file path=/proc/stat limit=4194304
+cpu  2536599 0 1159836 293679687 40589 0 284976 0 0 0
+cpu0 1050090 0 329520 23175185 7911 0 115233 0 0 0
+cpu1 136885 0 75287 24583989 4424 0 70000 0 0 0
+cpu2 146282 0 78233 24575762 3259 0 29295 0 0 0
+cpu3 140522 0 75667 24585351 3256 0 16162 0 0 0
+cpu4 135493 0 75475 24590830 3401 0 11633 0 0 0
+cpu5 134356 0 74847 24593117 3000 0 8892 0 0 0
+cpu6 132870 0 74966 24595504 2593 0 7166 0 0 0
+cpu7 133019 0 74802 24595227 2579 0 6269 0 0 0
+cpu8 129783 0 75896 24597502 2693 0 5639 0 0 0
+cpu9 132641 0 74688 24595828 2535 0 5323 0 0 0
+cpu10 131005 0 74980 24597429 2455 0 4679 0 0 0
+cpu11 133649 0 75469 24593956 2479 0 4679 0 0 0
+intr 847283745 0 5568122 290044266 0 0 0 1782 0 0 0 0 207813965 0 0 9436168 13824 2585962 650 330008474 1 20976 1 1 21 1785475 4057 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ctxt 1831300368
+btime 1791881577
+processes 5292602
+procs_running 1
+procs_blocked 0
+softirq 127733154 0 14276868 13328 18650344 2511786 0 200 34977869 0 57302759
+
+--dd47e02ccc131f691cab6dff71f3de7f end load.stat_2 status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin load.diskstats_2 kind=file path=/proc/diskstats limit=4194304
+   1       0 ram0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1       1 ram1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1       2 ram2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1       3 ram3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1       4 ram4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1       5 ram5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1       6 ram6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1       7 ram7 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1       8 ram8 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1       9 ram9 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1      10 ram10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1      11 ram11 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1      12 ram12 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1      13 ram13 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1      14 ram14 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   1      15 ram15 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   7       0 loop0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   7       1 loop1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   7       2 loop2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   7       3 loop3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   7       4 loop4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   7       5 loop5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   7       6 loop6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   7       7 loop7 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43       0 nbd0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43      32 nbd1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43      64 nbd2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43      96 nbd3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     128 nbd4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     160 nbd5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     192 nbd6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     224 nbd7 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     256 nbd8 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     288 nbd9 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     320 nbd10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     352 nbd11 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     384 nbd12 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     416 nbd13 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     448 nbd14 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  43     480 nbd15 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 254       0 vda 492476 234089 12514746 58891 1451983 2410435 113317696 2531401 0 218855 2742527 1378428 0 4794011568 80456 372149 71778
+ 254       1 vda1 492405 234089 12512386 58881 1451983 2410435 113317696 2531401 0 264221 2670739 1378428 0 4794011568 80456 0 0
+ 254      16 vdb 792 1 698112 180 0 0 0 0 0 89 180 0 0 0 0 0 0
+
+--dd47e02ccc131f691cab6dff71f3de7f end load.diskstats_2 status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin load.meminfo kind=file path=/proc/meminfo limit=4194304
+MemTotal:        8124256 kB
+MemFree:         1375336 kB
+MemAvailable:    6632228 kB
+Buffers:          703268 kB
+Cached:          4117948 kB
+SwapCached:            0 kB
+Active:          1626268 kB
+Inactive:        3921980 kB
+Active(anon):     661268 kB
+Inactive(anon):   111456 kB
+Active(file):     965000 kB
+Inactive(file):  3810524 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:       1048572 kB
+SwapFree:        1048572 kB
+Zswap:                 0 kB
+Zswapped:              0 kB
+Dirty:               752 kB
+Writeback:             0 kB
+AnonPages:        662572 kB
+Mapped:           395300 kB
+Shmem:             45720 kB
+KReclaimable:     684736 kB
+Slab:             811280 kB
+SReclaimable:     684736 kB
+SUnreclaim:       126544 kB
+KernelStack:        7528 kB
+PageTables:        11196 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     5110700 kB
+Committed_AS:    3009260 kB
+VmallocTotal:   135288315904 kB
+VmallocUsed:       16048 kB
+VmallocChunk:          0 kB
+Percpu:            12048 kB
+AnonHugePages:    405504 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:     24576 kB
+FilePmdMapped:         0 kB
+Balloon:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+
+--dd47e02ccc131f691cab6dff71f3de7f end load.meminfo status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin load.loadavg kind=file path=/proc/loadavg limit=4194304
+0.58 0.63 0.41 2/471 1887
+
+--dd47e02ccc131f691cab6dff71f3de7f end load.loadavg status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin load.file_nr kind=file path=/proc/sys/fs/file-nr limit=4194304
+722	0	811705
+
+--dd47e02ccc131f691cab6dff71f3de7f end load.file_nr status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin load.inode_nr kind=file path=/proc/sys/fs/inode-nr limit=4194304
+281344	31520
+
+--dd47e02ccc131f691cab6dff71f3de7f end load.inode_nr status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin sessions.who kind=cmd tool=who limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end sessions.who status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin sessions.utmpdump_utmp kind=cmd tool=utmpdump path=/run/utmp limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end sessions.utmpdump_utmp status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note sessions.utmpdump_utmp not found: /run/utmp
+--dd47e02ccc131f691cab6dff71f3de7f begin sessions.utmpdump_wtmp kind=cmd tool=utmpdump limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end sessions.utmpdump_wtmp status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f note sessions.utmpdump_wtmp Utmp dump of /var/log/wtmp
+--dd47e02ccc131f691cab6dff71f3de7f begin sessions.utmpdump_btmp kind=cmd tool=utmpdump limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end sessions.utmpdump_btmp status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f note sessions.utmpdump_btmp Utmp dump of /var/log/btmp
+--dd47e02ccc131f691cab6dff71f3de7f begin sessions.wtmpdb kind=cmd tool=wtmpdb limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end sessions.wtmpdb status=missing rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note sessions.wtmpdb tool not found: wtmpdb
+--dd47e02ccc131f691cab6dff71f3de7f begin sessions.lastlog2 kind=cmd tool=lastlog2 limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end sessions.lastlog2 status=missing rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note sessions.lastlog2 tool not found: lastlog2
+--dd47e02ccc131f691cab6dff71f3de7f begin sessions.last kind=cmd tool=last limit=4194304
+
+wtmp begins Thu Oct 15 14:57:26 2026
+
+--dd47e02ccc131f691cab6dff71f3de7f end sessions.last status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin sessions.lastb kind=cmd tool=lastb limit=4194304
+
+btmp begins Thu Oct 15 14:57:26 2026
+
+--dd47e02ccc131f691cab6dff71f3de7f end sessions.lastb status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin sessions.journal_sshd kind=cmd tool=journalctl limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end sessions.journal_sshd status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note sessions.journal_sshd systemd is not running
+--dd47e02ccc131f691cab6dff71f3de7f begin sessions.log_auth_log kind=cmd tool=tail path=/var/log/auth.log limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end sessions.log_auth_log status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note sessions.log_auth_log not found: /var/log/auth.log
+--dd47e02ccc131f691cab6dff71f3de7f begin sessions.log_secure kind=cmd tool=tail path=/var/log/secure limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end sessions.log_secure status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note sessions.log_secure not found: /var/log/secure
+--dd47e02ccc131f691cab6dff71f3de7f begin sessions.log_messages kind=cmd tool=tail path=/var/log/messages limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end sessions.log_messages status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note sessions.log_messages not found: /var/log/messages
+--dd47e02ccc131f691cab6dff71f3de7f begin carving.etc_ips kind=cmd tool=sh limit=4194304
+/etc/cron.daily/apt-compat|36|c::||l|l|
+/etc/resolv.conf|5|192.168.65.7||w||
+/etc/security/access.conf|85|192.168.200.1||k|w|c
+/etc/security/access.conf|85|192.168.200.4||w|w|c
+/etc/security/access.conf|85|192.168.200.9||w||c
+/etc/security/access.conf|86|127.0.0.1||k||c
+/etc/security/access.conf|91|192.168.201.0|24|w|s|c
+/etc/security/access.conf|91|192.168.201.0|255|w|s|c
+/etc/security/access.conf|91|255.255.255.0||s||c
+/etc/security/access.conf|107|127.0.0.0|24|k|s|c
+/etc/security/access.conf|110|127.0.0.0|127|k|s|c
+/etc/security/access.conf|110|:::ffff:127||l|p|c
+/etc/apt/apt.conf.d/docker-clean|13|e::||l|l|
+/etc/apt/apt.conf.d/docker-clean|15|::Cac||l|l|
+/etc/apt/apt.conf.d/docker-clean|15|e::||l|l|
+/etc/apt/apt.conf.d/docker-clean|16|::Cac||l|l|
+/etc/apt/apt.conf.d/docker-clean|16|e::||l|l|
+/etc/apt/apt.conf.d/docker-autoremove-suggests|16|::A||l|l|
+/etc/apt/apt.conf.d/docker-autoremove-suggests|16|e::||l|l|
+/etc/apt/apt.conf.d/docker-gzip-indexes|10|e::||l|l|
+/etc/apt/apt.conf.d/docker-no-languages|5|e::||l|l|
+/etc/gai.conf|22|::1|128|w|s|c
+/etc/gai.conf|24|2002::|16|w|s|c
+/etc/gai.conf|26|::ffff:0:0|96|w|s|c
+/etc/gai.conf|27|fec0::|10|w|s|c
+/etc/gai.conf|28|fc00::|7|w|s|c
+/etc/gai.conf|29|2001:0::|32|w|s|c
+/etc/gai.conf|46|::1|128|w|s|c
+/etc/gai.conf|48|2002::|16|w|s|c
+/etc/gai.conf|50|::ffff:0:0|96|w|s|c
+/etc/gai.conf|54|::ffff:0:0|96|w|s|c
+/etc/gai.conf|63|169.254.0.0|112|k|s|c
+/etc/gai.conf|63|::ffff:169||w|p|c
+/etc/gai.conf|64|127.0.0.0|104|k|s|c
+/etc/gai.conf|64|::ffff:127||w|p|c
+/etc/gai.conf|65|0.0.0.0|96|k|s|c
+/etc/gai.conf|65|::ffff:0||w|p|c
+/etc/hosts|1|127.0.0.1|||w|
+/etc/hosts|2|::1|||w|
+/etc/hosts|3|fe00::|||w|
+/etc/hosts|4|ff00::|||w|
+/etc/hosts|5|ff02::1|||w|
+/etc/hosts|6|ff02::2|||w|
+/etc/networks|1|0.0.0.0||w||
+/etc/networks|2|127.0.0.0||w||
+/etc/networks|3|169.254.0.0||w||
+
+--dd47e02ccc131f691cab6dff71f3de7f end carving.etc_ips status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin carving.log_ips kind=cmd tool=sh limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end carving.log_ips status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin carving.etc_names kind=cmd tool=sh limit=4194304
+/etc/ld.so.conf|ld.so.conf.d
+/etc/cron.daily/apt-compat|apt.systemd.daily
+/etc/apt/sources.list.d/debian.sources|deb.debian.org
+/etc/dpkg/origins/debian|www.debian.org
+/etc/dpkg/origins/debian|bugs.debian.org
+/etc/mime.types|emergencycalldata.ecall.msd
+/etc/mime.types|vnd.3gpp.bsf
+/etc/mime.types|vnd.3gpp.gmop
+/etc/mime.types|vnd.3gpp.gtpc
+/etc/mime.types|vnd.3gpp.lpp
+/etc/mime.types|vnd.3gpp.ngap
+/etc/mime.types|vnd.3gpp.pfcp
+/etc/mime.types|vnd.3gpp.sms
+/etc/mime.types|vnd.3gpp.ussd
+/etc/mime.types|vnd.3gpp2.bcmcsinfo
+/etc/mime.types|vnd.3gpp2.sms
+/etc/mime.types|vnd.3gpp2.tcap
+/etc/mime.types|vnd.3lightssoftware.imagescal
+/etc/mime.types|vnd.accpac.simply.aso
+/etc/mime.types|vnd.accpac.simply.imp
+/etc/mime.types|vnd.adobe.flash.movie
+/etc/mime.types|vnd.adobe.formscentral.fcdt
+/etc/mime.types|vnd.adobe.fxp
+/etc/mime.types|vnd.adobe.xdp
+/etc/mime.types|vnd.aether.imp
+/etc/mime.types|vnd.afpc.afplinedata
+/etc/mime.types|vnd.afpc.modca
+/etc/mime.types|vnd.ahead.space
+/etc/mime.types|vnd.airzip.filesecure.azf
+/etc/mime.types|vnd.airzip.filesecure.azs
+/etc/mime.types|vnd.americandynamics.acc
+/etc/mime.types|vnd.amiga.ami
+/etc/mime.types|vnd.amundsen.maze
+/etc/mime.types|vnd.android.ota
+/etc/mime.types|vnd.apache.arrow.file
+/etc/mime.types|vnd.apache.arrow.stream
+/etc/mime.types|vnd.apache.thrift.binary
+/etc/mime.types|vnd.apache.thrift.compact
+/etc/mime.types|vnd.apache.thrift.json
+/etc/mime.types|vnd.aplextor.warrp
+/etc/mime.types|vnd.apothekende.reservation
+/etc/mime.types|vnd.apple.installer
+/etc/mime.types|vnd.apple.keynote
+/etc/mime.types|vnd.apple.mpegurl
+/etc/mime.types|vnd.apple.numbers
+/etc/mime.types|vnd.apple.pages
+/etc/mime.types|vnd.aristanetworks.swi
+/etc/mime.types|vnd.astraea-software.iota
+/etc/mime.types|vnd.balsamiq.bmml
+/etc/mime.types|vnd.balsamiq.bmpr
+/etc/mime.types|vnd.bbf.usp.error
+/etc/mime.types|vnd.bbf.usp.msg
+/etc/mime.types|vnd.belightsoft.lhzd
+/etc/mime.types|vnd.belightsoft.lhzl
+/etc/mime.types|vnd.biopax.rdf
+/etc/mime.types|vnd.blueice.multipass
+/etc/mime.types|vnd.bluetooth.ep.oob
+/etc/mime.types|vnd.bluetooth.le.oob
+/etc/mime.types|vnd.byu.uapi
+/etc/mime.types|vnd.cendio.thinlinc.clientconf
+/etc/mime.types|vnd.century-systems.tcp
+/etc/mime.types|vnd.citationstyles.style
+/etc/mime.types|vnd.cncf.helm.chart.content.v1.tar
+/etc/mime.types|vnd.cncf.helm.chart.provenance.v1.prov
+/etc/mime.types|vnd.collabio.xodocuments.document
+/etc/mime.types|vnd.collabio.xodocuments.presentation
+/etc/mime.types|vnd.collabio.xodocuments.spreadsheet
+/etc/mime.types|vnd.collection.doc
+/etc/mime.types|vnd.collection.next
+/etc/mime.types|vnd.contact.cmsg
+/etc/mime.types|vnd.coreos.ignition
+/etc/mime.types|vnd.crick.clicker
+/etc/mime.types|vnd.crick.clicker.keyboard
+/etc/mime.types|vnd.crick.clicker.palette
+/etc/mime.types|vnd.crick.clicker.template
+/etc/mime.types|vnd.crick.clicker.wordbank
+/etc/mime.types|vnd.criticaltools.wbs
+/etc/mime.types|vnd.cryptii.pipe
+/etc/mime.types|vnd.cryptomator.encrypted
+/etc/mime.types|vnd.cryptomator.vault
+/etc/mime.types|vnd.ctct.ws
+/etc/mime.types|vnd.cyan.dean.root
+/etc/mime.types|vnd.data-vision.rdz
+/etc/mime.types|vnd.dece.data
+/etc/mime.types|vnd.dece.ttml
+/etc/mime.types|vnd.dece.unspecified
+/etc/mime.types|vnd.dece.zip
+/etc/mime.types|vnd.desmume.movie
+/etc/mime.types|vnd.dm.delegation
+/etc/mime.types|vnd.dtg.local
+/etc/mime.types|vnd.dtg.local.flash
+/etc/mime.types|vnd.dtg.local.html
+/etc/mime.types|vnd.dvb.ait
+/etc/mime.types|vnd.dvb.dvbisl
+/etc/mime.types|vnd.dvb.dvbj
+/etc/mime.types|vnd.dvb.esgcontainer
+/etc/mime.types|vnd.dvb.ipdcdftnotifaccess
+/etc/mime.types|vnd.dvb.ipdcesgaccess
+/etc/mime.types|vnd.dvb.ipdcesgpdd
+/etc/mime.types|vnd.dvb.ipdcroaming
+/etc/mime.types|vnd.dvb.pfr
+/etc/mime.types|vnd.dvb.service
+/etc/mime.types|vnd.easykaraoke.cdgdownload
+/etc/mime.types|vnd.ecip.rlp
+/etc/mime.types|vnd.eclipse.ditto
+/etc/mime.types|vnd.ecowin.chart
+/etc/mime.types|vnd.ecowin.filerequest
+/etc/mime.types|vnd.ecowin.fileupdate
+/etc/mime.types|vnd.ecowin.series
+/etc/mime.types|vnd.ecowin.seriesrequest
+/etc/mime.types|vnd.ecowin.seriesupdate
+/etc/mime.types|vnd.efi.img
+/etc/mime.types|vnd.efi.iso
+/etc/mime.types|vnd.emclient.accessrequest
+/etc/mime.types|vnd.enphase.envoy
+/etc/mime.types|vnd.eprints.data
+/etc/mime.types|vnd.epson.esf
+/etc/mime.types|vnd.epson.msf
+/etc/mime.types|vnd.epson.quickanime
+/etc/mime.types|vnd.epson.salt
+/etc/mime.types|vnd.epson.ssf
+/etc/mime.types|vnd.ericsson.quickcall
+/etc/mime.types|vnd.etsi.aoc
+/etc/mime.types|vnd.etsi.cug
+/etc/mime.types|vnd.etsi.iptvcommand
+/etc/mime.types|vnd.etsi.iptvdiscovery
+/etc/mime.types|vnd.etsi.iptvprofile
+/etc/mime.types|vnd.etsi.iptvservice
+/etc/mime.types|vnd.etsi.iptvsync
+/etc/mime.types|vnd.etsi.iptvueprofile
+/etc/mime.types|vnd.etsi.mcid
+/etc/mime.types|vnd.etsi.pstn
+/etc/mime.types|vnd.etsi.sci
+/etc/mime.types|vnd.etsi.simservs
+/etc/mime.types|vnd.etsi.tsl
+/etc/mime.types|vnd.etsi.tsl.der
+/etc/mime.types|vnd.eu.kasparian.car
+/etc/mime.types|vnd.eudora.data
+/etc/mime.types|vnd.evolv.ecig.profile
+/etc/mime.types|vnd.evolv.ecig.settings
+/etc/mime.types|vnd.evolv.ecig.theme
+/etc/mime.types|vnd.f-secure.mobile
+/etc/mime.types|vnd.familysearch.gedcom
+/etc/mime.types|vnd.fdsn.mseed
+/etc/mime.types|vnd.fdsn.seed
+/etc/mime.types|vnd.ficlab.flb
+/etc/mime.types|vnd.filmit.zfc
+/etc/mime.types|vnd.firemonkeys.cloudcell
+/etc/mime.types|vnd.fluxtime.clip
+/etc/mime.types|vnd.fsc.weblaunch
+/etc/mime.types|vnd.fujifilm.fb.docuworks
+/etc/mime.types|vnd.fujifilm.fb.docuworks.binder
+/etc/mime.types|vnd.fujifilm.fb.docuworks.container
+/etc/mime.types|vnd.fujifilm.fb.jfi
+/etc/mime.types|vnd.fujitsu.oasys
+/etc/mime.types|vnd.fujitsu.oasysgp
+/etc/mime.types|vnd.fujitsu.oasysprs
+/etc/mime.types|vnd.fujixerox.ddd
+/etc/mime.types|vnd.fujixerox.docuworks
+/etc/mime.types|vnd.fujixerox.docuworks.binder
+/etc/mime.types|vnd.fujixerox.docuworks.container
+/etc/mime.types|vnd.fujixerox.hbpl
+/etc/mime.types|vnd.genomatix.tuxedo
+/etc/mime.types|vnd.gentics.grd
+/etc/mime.types|vnd.gentoo.catmetadata
+/etc/mime.types|vnd.gentoo.ebuild
+/etc/mime.types|vnd.gentoo.eclass
+/etc/mime.types|vnd.gentoo.gpkg
+/etc/mime.types|vnd.gentoo.manifest
+/etc/mime.types|vnd.gentoo.pkgmetadata
+/etc/mime.types|vnd.gentoo.xpak
+/etc/mime.types|vnd.geogebra.file
+/etc/mime.types|vnd.geogebra.slides
+/etc/mime.types|vnd.geogebra.tool
+/etc/mime.types|vnd.gnu.taler.exchange
+/etc/mime.types|vnd.gnu.taler.merchant
+/etc/mime.types|vnd.google-earth.kml
+/etc/mime.types|vnd.google-earth.kmz
+/etc/mime.types|vnd.gov.sk.xmldatacontainer
+/etc/mime.types|vnd.gpxsee.map
+/etc/mime.types|vnd.ibm.minipay
+/etc/mime.types|vnd.imagemeter.folder
+/etc/mime.types|vnd.imagemeter.image
+/etc/mime.types|vnd.ims.lis.v2.result
+/etc/mime.types|vnd.ims.lti.v2.toolconsumerprofile
+/etc/mime.types|vnd.ims.lti.v2.toolproxy
+/etc/mime.types|vnd.ims.lti.v2.toolproxy.id
+/etc/mime.types|vnd.ims.lti.v2.toolsettings
+/etc/mime.types|vnd.ims.lti.v2.toolsettings.simple
+/etc/mime.types|vnd.informedcontrol.rms
+/etc/mime.types|vnd.infotech.project
+/etc/mime.types|vnd.innopath.wamp.notification
+/etc/mime.types|vnd.insors.igm
+/etc/mime.types|vnd.intercon.formnet
+/etc/mime.types|vnd.intertrust.digibox
+/etc/mime.types|vnd.intertrust.nncp
+/etc/mime.types|vnd.intu.qbo
+/etc/mime.types|vnd.intu.qfx
+/etc/mime.types|vnd.ipld.car
+/etc/mime.types|vnd.ipld.raw
+/etc/mime.types|vnd.iptc.g2.catalogitem
+/etc/mime.types|vnd.iptc.g2.conceptitem
+/etc/mime.types|vnd.iptc.g2.knowledgeitem
+/etc/mime.types|vnd.iptc.g2.newsitem
+/etc/mime.types|vnd.iptc.g2.newsmessage
+/etc/mime.types|vnd.iptc.g2.packageitem
+/etc/mime.types|vnd.iptc.g2.planningitem
+/etc/mime.types|vnd.ipunplugged.rcprofile
+/etc/mime.types|vnd.irepository.package
+/etc/mime.types|vnd.isac.fcs
+/etc/mime.types|vnd.kde.karbon
+/etc/mime.types|vnd.kde.kchart
+/etc/mime.types|vnd.kde.kformula
+/etc/mime.types|vnd.kde.kivio
+/etc/mime.types|vnd.kde.kontour
+/etc/mime.types|vnd.kde.kpresenter
+/etc/mime.types|vnd.kde.kspread
+/etc/mime.types|vnd.kde.kword
+/etc/mime.types|vnd.las.las
+/etc/mime.types|vnd.llamagraphics.life-balance.desktop
+/etc/mime.types|vnd.llamagraphics.life-balance.exchange
+/etc/mime.types|vnd.logipipe.circuit
+/etc/mime.types|vnd.macports.portpkg
+/etc/mime.types|vnd.marlin.drm.actiontoken
+/etc/mime.types|vnd.marlin.drm.conftoken
+/etc/mime.types|vnd.marlin.drm.license
+/etc/mime.types|vnd.marlin.drm.mdcf
+/etc/mime.types|vnd.mediastation.cdkey
+/etc/mime.types|vnd.medicalholodeck.recordxr
+/etc/mime.types|vnd.micrografx.flo
+/etc/mime.types|vnd.micrografx.igx
+/etc/mime.types|vnd.mitsubishi.misty-guard.trustweb
+/etc/mime.types|vnd.mobius.daf
+/etc/mime.types|vnd.mobius.dis
+/etc/mime.types|vnd.mobius.mbk
+/etc/mime.types|vnd.mobius.mqy
+/etc/mime.types|vnd.mobius.msl
+/etc/mime.types|vnd.mobius.plc
+/etc/mime.types|vnd.mobius.txf
+/etc/mime.types|vnd.mophun.application
+/etc/mime.types|vnd.mophun.certificate
+/etc/mime.types|vnd.motorola.flexsuite
+/etc/mime.types|vnd.motorola.flexsuite.adsi
+/etc/mime.types|vnd.motorola.flexsuite.fis
+/etc/mime.types|vnd.motorola.flexsuite.gotap
+/etc/mime.types|vnd.motorola.flexsuite.kmr
+/etc/mime.types|vnd.motorola.flexsuite.ttc
+/etc/mime.types|vnd.motorola.flexsuite.wem
+/etc/mime.types|vnd.motorola.iprm
+/etc/mime.types|vnd.mozilla.xul
+/etc/mime.types|vnd.ms-office.activex
+/etc/mime.types|vnd.ms-pki.seccat
+/etc/mime.types|vnd.ms-playready.initiator
+/etc/mime.types|vnd.ms-windows.devicepairing
+/etc/mime.types|vnd.ms-windows.nwprinting.oob
+/etc/mime.types|vnd.ms-windows.printerpairing
+/etc/mime.types|vnd.ms-windows.wsd.oob
+/etc/mime.types|vnd.multiad.creator
+/etc/mime.types|vnd.multiad.creator.cif
+/etc/mime.types|vnd.muvee.style
+/etc/mime.types|vnd.nacamar.ybrid
+/etc/mime.types|vnd.ncd.control
+/etc/mime.types|vnd.ncd.reference
+/etc/mime.types|vnd.nearst.inv
+/etc/mime.types|vnd.nebumind.line
+/etc/mime.types|vnd.neurolanguage.nlu
+/etc/mime.types|vnd.nintendo.nitro.rom
+/etc/mime.types|vnd.nintendo.snes.rom
+/etc/mime.types|vnd.nokia.catalogs
+/etc/mime.types|vnd.nokia.conml
+/etc/mime.types|vnd.nokia.iptv.config
+/etc/mime.types|vnd.nokia.landmark
+/etc/mime.types|vnd.nokia.landmarkcollection
+/etc/mime.types|vnd.nokia.n-gage.ac
+/etc/mime.types|vnd.nokia.n-gage.data
+/etc/mime.types|vnd.nokia.ncd
+/etc/mime.types|vnd.nokia.pcd
+/etc/mime.types|vnd.novadigm.edm
+/etc/mime.types|vnd.novadigm.edx
+/etc/mime.types|vnd.novadigm.ext
+/etc/mime.types|vnd.ntt-local.ogw
+/etc/mime.types|vnd.oasis.opendocument.base
+/etc/mime.types|vnd.oasis.opendocument.chart
+/etc/mime.types|vnd.oasis.opendocument.formula
+/etc/mime.types|vnd.oasis.opendocument.graphics
+/etc/mime.types|vnd.oasis.opendocument.image
+/etc/mime.types|vnd.oasis.opendocument.presentation
+/etc/mime.types|vnd.oasis.opendocument.spreadsheet
+/etc/mime.types|vnd.oasis.opendocument.text
+/etc/mime.types|vnd.oipf.contentaccessdownload
+/etc/mime.types|vnd.oipf.contentaccessstreaming
+/etc/mime.types|vnd.oipf.dae.svg
+/etc/mime.types|vnd.oipf.dae.xhtml
+/etc/mime.types|vnd.oipf.mippvcontrolmessage
+/etc/mime.types|vnd.oipf.pae.gem
+/etc/mime.types|vnd.oipf.spdiscovery
+/etc/mime.types|vnd.oipf.spdlist
+/etc/mime.types|vnd.oipf.ueprofile
+/etc/mime.types|vnd.oipf.userprofile
+/etc/mime.types|vnd.oma.bcast.imd
+/etc/mime.types|vnd.oma.bcast.ltkm
+/etc/mime.types|vnd.oma.bcast.notification
+/etc/mime.types|vnd.oma.bcast.provisioningtrigger
+/etc/mime.types|vnd.oma.bcast.sgboot
+/etc/mime.types|vnd.oma.bcast.sgdd
+/etc/mime.types|vnd.oma.bcast.sgdu
+/etc/mime.types|vnd.oma.bcast.sprov
+/etc/mime.types|vnd.oma.bcast.stkm
+/etc/mime.types|vnd.oma.dcd
+/etc/mime.types|vnd.oma.dcdc
+/etc/mime.types|vnd.oma.drm.risd
+/etc/mime.types|vnd.oma.pal
+/etc/mime.types|vnd.oma.poc.groups
+/etc/mime.types|vnd.oma.push
+/etc/mime.types|vnd.oma.scidm.messages
+/etc/mime.types|vnd.onvif.metadata
+/etc/mime.types|vnd.openblox.game
+/etc/mime.types|vnd.openeye.oeb
+/etc/mime.types|vnd.openofficeorg.extension
+/etc/mime.types|vnd.openstreetmap.data
+/etc/mime.types|vnd.opentimestamps.ots
+/etc/mime.types|vnd.openxmlformats-officedocument.customxmlproperties
+/etc/mime.types|vnd.openxmlformats-officedocument.drawing
+/etc/mime.types|vnd.openxmlformats-officedocument.drawingml.chart
+/etc/mime.types|vnd.openxmlformats-officedocument.drawingml.chartshapes
+/etc/mime.types|vnd.openxmlformats-officedocument.drawingml.diagramcolors
+/etc/mime.types|vnd.openxmlformats-officedocument.drawingml.diagramdata
+/etc/mime.types|vnd.openxmlformats-officedocument.drawingml.diagramlayout
+/etc/mime.types|vnd.openxmlformats-officedocument.drawingml.diagramstyle
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.commentauthors
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.comments
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.handoutmaster
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.notesmaster
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.notesslide
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.presentation
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.presentation.main
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.presprops
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.slide
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.slidelayout
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.slidemaster
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.slideshow
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.slideshow.main
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.slideupdateinfo
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.tablestyles
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.tags
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.template
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.template.main
+/etc/mime.types|vnd.openxmlformats-officedocument.presentationml.viewprops
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.calcchain
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.chartsheet
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.comments
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.connections
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.dialogsheet
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.externallink
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.pivotcachedefinition
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.pivotcacherecords
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.pivottable
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.querytable
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.revisionheaders
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.revisionlog
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.sharedstrings
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.sheet
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.sheet.main
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.sheetmetadata
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.styles
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.table
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.tablesinglecells
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.template
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.template.main
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.usernames
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.volatiledependencies
+/etc/mime.types|vnd.openxmlformats-officedocument.spreadsheetml.worksheet
+/etc/mime.types|vnd.openxmlformats-officedocument.theme
+/etc/mime.types|vnd.openxmlformats-officedocument.themeoverride
+/etc/mime.types|vnd.openxmlformats-officedocument.vmldrawing
+/etc/mime.types|vnd.openxmlformats-officedocument.wordprocessingml.comments
+/etc/mime.types|vnd.openxmlformats-officedocument.wordprocessingml.document
+/etc/mime.types|vnd.openxmlformats-officedocument.wordprocessingml.document.glossary
+/etc/mime.types|vnd.openxmlformats-officedocument.wordprocessingml.document.main
+/etc/mime.types|vnd.openxmlformats-officedocument.wordprocessingml.endnotes
+/etc/mime.types|vnd.openxmlformats-officedocument.wordprocessingml.fonttable
+/etc/mime.types|vnd.openxmlformats-officedocument.wordprocessingml.footer
+/etc/mime.types|vnd.openxmlformats-officedocument.wordprocessingml.footnotes
+/etc/mime.types|vnd.openxmlformats-officedocument.wordprocessingml.numbering
+/etc/mime.types|vnd.openxmlformats-officedocument.wordprocessingml.settings
+/etc/mime.types|vnd.openxmlformats-officedocument.wordprocessingml.styles
+/etc/mime.types|vnd.openxmlformats-officedocument.wordprocessingml.template
+/etc/mime.types|vnd.openxmlformats-officedocument.wordprocessingml.template.main
+/etc/mime.types|vnd.openxmlformats-officedocument.wordprocessingml.websettings
+/etc/mime.types|vnd.openxmlformats-package.relationships
+/etc/mime.types|vnd.oracle.resource
+/etc/mime.types|vnd.orange.indata
+/etc/mime.types|vnd.osa.netdeploy
+/etc/mime.types|vnd.osgeo.mapguide.package
+/etc/mime.types|vnd.osgi.bundle
+/etc/mime.types|vnd.osgi.dp
+/etc/mime.types|vnd.osgi.subsystem
+/etc/mime.types|vnd.oxli.countgraph
+/etc/mime.types|vnd.paos.xml
+/etc/mime.types|vnd.pg.format
+/etc/mime.types|vnd.pg.osasli
+/etc/mime.types|vnd.pmi.widget
+/etc/mime.types|vnd.previewsystems.box
+/etc/mime.types|vnd.proteus.magazine
+/etc/mime.types|vnd.quark.quarkxpress
+/etc/mime.types|vnd.radisys.moml
+/etc/mime.types|vnd.radisys.msml
+/etc/mime.types|vnd.rainstor.data
+/etc/mime.types|vnd.realvnc.bed
+/etc/mime.types|vnd.recordare.musicxml
+/etc/mime.types|vnd.renlearn.rlprint
+/etc/mime.types|vnd.resilient.logic
+/etc/mime.types|vnd.rig.cryptonote
+/etc/mime.types|vnd.rim.cod
+/etc/mime.types|vnd.ruckus.download
+/etc/mime.types|vnd.sailingtracker.track
+/etc/mime.types|vnd.sbm.cid
+/etc/mime.types|vnd.sealed.csf
+/etc/mime.types|vnd.sealed.doc
+/etc/mime.types|vnd.sealed.eml
+/etc/mime.types|vnd.sealed.mht
+/etc/mime.types|vnd.sealed.net
+/etc/mime.types|vnd.sealed.ppt
+/etc/mime.types|vnd.sealed.tiff
+/etc/mime.types|vnd.sealed.xls
+/etc/mime.types|vnd.sealedmedia.softseal.html
+/etc/mime.types|vnd.sealedmedia.softseal.pdf
+/etc/mime.types|vnd.shana.informed.formdata
+/etc/mime.types|vnd.shana.informed.formtemplate
+/etc/mime.types|vnd.shana.informed.interchange
+/etc/mime.types|vnd.shana.informed.package
+/etc/mime.types|vnd.sigrok.session
+/etc/mime.types|vnd.smart.notebook
+/etc/mime.types|vnd.smart.teacher
+/etc/mime.types|vnd.software602.filler.form
+/etc/mime.types|vnd.solent.sdkm
+/etc/mime.types|vnd.spotfire.dxp
+/etc/mime.types|vnd.spotfire.sfs
+/etc/mime.types|vnd.stardivision.calc
+/etc/mime.types|vnd.stardivision.chart
+/etc/mime.types|vnd.stardivision.draw
+/etc/mime.types|vnd.stardivision.impress
+/etc/mime.types|vnd.stardivision.math
+/etc/mime.types|vnd.stardivision.writer
+/etc/mime.types|vnd.stepmania.package
+/etc/mime.types|vnd.stepmania.stepchart
+/etc/mime.types|vnd.sun.wadl
+/etc/mime.types|vnd.sun.xml.calc
+/etc/mime.types|vnd.sun.xml.calc.template
+/etc/mime.types|vnd.sun.xml.draw
+/etc/mime.types|vnd.sun.xml.draw.template
+/etc/mime.types|vnd.sun.xml.impress
+/etc/mime.types|vnd.sun.xml.impress.template
+/etc/mime.types|vnd.sun.xml.math
+/etc/mime.types|vnd.sun.xml.writer
+/etc/mime.types|vnd.sun.xml.writer.global
+/etc/mime.types|vnd.sun.xml.writer.template
+/etc/mime.types|vnd.symbian.install
+/etc/mime.types|vnd.syncml.dm
+/etc/mime.types|vnd.syncml.dm.notification
+/etc/mime.types|vnd.syncml.dmddf
+/etc/mime.types|vnd.syncml.dmtnds
+/etc/mime.types|vnd.syncml.ds.notification
+/etc/mime.types|vnd.tcpdump.pcap
+/etc/mime.types|vnd.think-cell.ppttc
+/etc/mime.types|vnd.tmd.mediaflex.api
+/etc/mime.types|vnd.tri.onesource
+/etc/mime.types|vnd.trid.tpt
+/etc/mime.types|vnd.triscape.mxs
+/etc/mime.types|vnd.ubisoft.webplayer
+/etc/mime.types|vnd.uiq.theme
+/etc/mime.types|vnd.uplanet.alert
+/etc/mime.types|vnd.uplanet.cacheop
+/etc/mime.types|vnd.uplanet.channel
+/etc/mime.types|vnd.uplanet.list
+/etc/mime.types|vnd.uplanet.listcmd
+/etc/mime.types|vnd.uplanet.signal
+/etc/mime.types|vnd.valve.source.material
+/etc/mime.types|vnd.verimatrix.vcas
+/etc/mime.types|vnd.veritone.aion
+/etc/mime.types|vnd.veryant.thin
+/etc/mime.types|vnd.ves.encrypted
+/etc/mime.types|vnd.vidsoft.vidconference
+/etc/mime.types|vnd.vividence.scriptfile
+/etc/mime.types|vnd.wap.sic
+/etc/mime.types|vnd.wap.slc
+/etc/mime.types|vnd.wap.wbxml
+/etc/mime.types|vnd.wap.wmlc
+/etc/mime.types|vnd.wap.wmlscriptc
+/etc/mime.types|vnd.wasmflow.wafl
+/etc/mime.types|vnd.wfa.dpp
+/etc/mime.types|vnd.wfa.wsc
+/etc/mime.types|vnd.windows.devicepairing
+/etc/mime.types|vnd.wmf.bootstrap
+/etc/mime.types|vnd.wolfram.mathematica
+/etc/mime.types|vnd.wolfram.mathematica.package
+/etc/mime.types|vnd.wolfram.player
+/etc/mime.types|vnd.wt.stf
+/etc/mime.types|vnd.wv.csp
+/etc/mime.types|vnd.wv.ssp
+/etc/mime.types|vnd.xfdl.webform
+/etc/mime.types|vnd.xmpie.cpkg
+/etc/mime.types|vnd.xmpie.dpkg
+/etc/mime.types|vnd.xmpie.plan
+/etc/mime.types|vnd.xmpie.ppkg
+/etc/mime.types|vnd.xmpie.xlim
+/etc/mime.types|vnd.yamaha.openscoreformat
+/etc/mime.types|vnd.yamaha.openscoreformat.osfpvg
+/etc/mime.types|vnd.zzazz.deck
+/etc/mime.types|vnd.3gpp.iufp
+/etc/mime.types|vnd.cisco.nse
+/etc/mime.types|vnd.dece.audio
+/etc/mime.types|vnd.dlna.adts
+/etc/mime.types|vnd.dolby.mlp
+/etc/mime.types|vnd.dolby.mps
+/etc/mime.types|vnd.dts.hd
+/etc/mime.types|vnd.dts.uhd
+/etc/mime.types|vnd.dvb.file
+/etc/mime.types|vnd.everad.plj
+/etc/mime.types|vnd.hns.audio
+/etc/mime.types|vnd.lucent.voice
+/etc/mime.types|vnd.ms-playready.media.pya
+/etc/mime.types|vnd.nortel.vbk
+/etc/mime.types|vnd.octel.sbc
+/etc/mime.types|vnd.presonus.multitrack
+/etc/mime.types|vnd.sealedmedia.softseal.mpeg
+/etc/mime.types|vnd.vmx.cvsd
+/etc/mime.types|vnd.adobe.photoshop
+/etc/mime.types|vnd.airzip.accelerator.azv
+/etc/mime.types|vnd.dece.graphic
+/etc/mime.types|vnd.dvb.subtitle
+/etc/mime.types|vnd.globalgraphics.pgb
+/etc/mime.types|vnd.microsoft.icon
+/etc/mime.types|vnd.sealed.png
+/etc/mime.types|vnd.sealedmedia.softseal.gif
+/etc/mime.types|vnd.sealedmedia.softseal.jpg
+/etc/mime.types|vnd.tencent.tap
+/etc/mime.types|vnd.valve.source.texture
+/etc/mime.types|vnd.wap.wbmp
+/etc/mime.types|vnd.zbrush.pcx
+/etc/mime.types|vnd.parasolid.transmit.binary
+/etc/mime.types|vnd.parasolid.transmit.text
+/etc/mime.types|vnd.pytha.pyox
+/etc/mime.types|vnd.sap.vds
+/etc/mime.types|prs.fallenstein.rst
+/etc/mime.types|prs.lines.tag
+/etc/mime.types|prs.prop.logic
+/etc/mime.types|vnd.debian.copyright
+/etc/mime.types|vnd.ficlab.flt
+/etc/mime.types|vnd.fmi.flexstor
+/etc/mime.types|vnd.in3d.spot
+/etc/mime.types|vnd.iptc.newsml
+/etc/mime.types|vnd.iptc.nitf
+/etc/mime.types|vnd.motorola.reflex
+/etc/mime.types|vnd.net2phone.commcenter.command
+/etc/mime.types|vnd.senx.warpscript
+/etc/mime.types|vnd.trolltech.linguist
+/etc/mime.types|vnd.wap.si
+/etc/mime.types|vnd.wap.sl
+/etc/mime.types|vnd.wap.wml
+/etc/mime.types|vnd.wap.wmlscript
+/etc/mime.types|vnd.dece.hd
+/etc/mime.types|vnd.dece.mobile
+/etc/mime.types|vnd.dece.pd
+/etc/mime.types|vnd.dece.sd
+/etc/mime.types|vnd.dece.video
+/etc/mime.types|vnd.directv.mpeg
+/etc/mime.types|vnd.hns.video
+/etc/mime.types|vnd.iptvforum.ttsavc
+/etc/mime.types|vnd.motorola.video
+/etc/mime.types|vnd.motorola.videop
+/etc/mime.types|vnd.ms-playready.media.pyv
+/etc/mime.types|vnd.nokia.videovoip
+/etc/mime.types|vnd.radgamettools.bink
+/etc/mime.types|vnd.radgamettools.smacker
+/etc/mime.types|vnd.sealed.swf
+/etc/mime.types|vnd.sealedmedia.softseal.mov
+/etc/mime.types|vnd.youtube.yt
+
+--dd47e02ccc131f691cab6dff71f3de7f end carving.etc_names status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin carving.journal_ips kind=cmd tool=journalctl limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end carving.journal_ips status=na rc=-
+--dd47e02ccc131f691cab6dff71f3de7f note carving.journal_ips systemd is not running
+--dd47e02ccc131f691cab6dff71f3de7f begin neighbours.proc_arp kind=file path=/proc/net/arp limit=4194304
+IP address       HW type     Flags       HW address            Mask     Device
+
+--dd47e02ccc131f691cab6dff71f3de7f end neighbours.proc_arp status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f begin neighbours.ip_neigh kind=cmd tool=ip limit=4194304
+
+--dd47e02ccc131f691cab6dff71f3de7f end neighbours.ip_neigh status=ok rc=0
+--dd47e02ccc131f691cab6dff71f3de7f close sections=134

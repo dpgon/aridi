@@ -1,0 +1,14 @@
+# Direct dependencies of the central component (src/aridi_central).
+# The core (src/aridi) has no dependencies and must never appear here.
+#
+# central.txt is generated from this file, with hashes, inside a disposable container:
+#
+#   docker run --rm -v "$PWD/requirements":/req -w /req python:3.12-slim \
+#     sh -c 'pip install -q pip-tools && pip-compile -q --generate-hashes \
+#            --allow-unsafe --strip-extras -o central.txt central.in'
+#
+# pip-tools is only used to generate the file; it is not part of the product.
+# After regenerating, check that central.txt contains only Django, asgiref, sqlparse,
+# gunicorn and packaging (TODO.md, phase 0.3).
+Django~=5.2.0
+gunicorn~=23.0

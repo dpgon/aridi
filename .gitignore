@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+build/
+dist/
+
+# Output files of the 2019 aridi (removed in phase 4; tests/parity/ keeps its reports)
+aridi.log
+aridi.badfiles
+network.dot
+network.dot.*
+report.txt
+!tests/parity/*/report.txt
+
+# Raw bundles produced by the collector, except the test corpus and the parity references
+*.aridi
+!tests/corpus/**/*.aridi
+!tests/parity/*/bundle.aridi
+
+# Central component data, and the secrets of its alert channels (compose.yaml)
+/data/
+/alerts.env
+*.sqlite3
+*.db
+
+# Lima VMs
+.lima/
+tests/corpus/.lima-*.log
+
+# Local state of the user's tooling (decision of 2026-10-15)
+.m-terminal/

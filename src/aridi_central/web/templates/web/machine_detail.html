@@ -1,0 +1,80 @@
+{% extends "web/base.html" %}
+{% block title %}{{ machine.name }}{% endblock %}
+{% block content %}
+<h1>{{ machine.name }}</h1>
+<p class="muted">{% if machine.ssh_target %}{{ machine.ssh_target }} port {{ machine.ssh_port }}{% if machine.proxy_jump %} via {{ machine.proxy_jump }}{% endif %} · {{ machine.get_privilege_display }}{% else %}import only (no SSH target){% endif %}
+{% if machine.machine_id %} · machine id {{ machine.machine_id }}{% endif %}</p>
+<p>
+  <a href="{% url 'machine-history' machine.pk %}">History</a> ·
+  <a href="{% url 'machine-gaps' machine.pk %}">Gaps</a> ·
+  <a href="{% url 'machine-compare' machine.pk %}">Compare</a> ·
+  <a href="{% url 'machine-map' machine.pk %}">Relation map</a> ·
+  <a href="{% url 'alert-list' %}?state=open&amp;machine={{ machine.pk }}">Alerts{% if open_alerts %} ({{ open_alerts }} open){% endif %}</a>
+  {% if perms.inventory.change_machine %} · <a href="{% url 'machine-edit' machine.pk %}">Edit</a>{% endif %}
+</p>
+{% if perms.collection.add_job and machine.ssh_target %}
+<form method="post" action="{% url 'collect' %}">{% csrf_token %}
+  <input type="hidden" name="machine" value="{{ machine.pk }}">
+  <input type="hidden" name="next" value="{{ request.path }}">
+  <button type="submit">Collect now</button>
+</form>
+{% endif %}
+
+{% if last_failure and snapshot and last_failure.collected_at > snapshot.collected_at or last_failure and not snapshot %}
+<p class="failed">Last collection failed at {{ last_failure.collected_at|date:"Y-m-d H:i" }} UTC: {{ last_failure.failure_reason }}</p>
+{% endif %}
+
+{% if snapshot %}
+<h2>Snapshot of {{ snapshot.collected_at|date:"Y-m-d H:i:s" }} UTC</h2>
+<p><span class="{{ snapshot.result }}">{{ snapshot.get_result_display }}</span> ·
+  {{ snapshot.get_origin_display }} · collector {{ snapshot.collector_version }}
+  {% if detail %}· <a href="?">summary</a>{% else %}· <a href="?detail=1">detail</a>{% endif %}</p>
+{% if snapshot.collector_outdated %}<p class="gaps">The script installed on this machine differs from the central's copy: update /usr/local/libexec/aridi-collect.sh.</p>{% endif %}
+{% if snapshot.result == "failed" %}<p class="failed">{{ snapshot.failure_reason }}</p>{% endif %}
+
+{% if gaps %}
+<h3>What could not be seen</h3>
+<div class="table-wrap"><table>
+  <tr><th>Area</th><th>Item</th><th>Status</th><th>Reason</th></tr>
+  {% for gap in gaps %}<tr><td>{{ gap.area }}</td><td>{{ gap.item }}</td><td>{{ gap.status }}</td><td>{{ gap.reason }}</td></tr>{% endfor %}
+</table></div>
+{% endif %}
+
+{% for title, volatile, lines in areas %}
+<details{% if forloop.first %} open{% endif %}>
+  <summary>{{ title }}{% if volatile %} <span class="muted">(volatile)</span>{% endif %}</summary>
+  <pre>{% for line in lines %}{{ line }}
+{% endfor %}</pre>
+</details>
+{% endfor %}
+
+{% if nodes %}
+<details>
+  <summary>Infrastructure ({{ nodes|length }} addresses)</summary>
+  <div class="table-wrap"><table>
+    <tr><th>Address</th><th>Roles</th></tr>
+    {% for node in nodes %}
+    <tr><td>{{ node.ip }}{% if node.local %} <span class="muted">(local)</span>{% endif %}</td>
+      <td>{% for role, source, info in node.roles %}{{ role.value }} <span class="muted">({{ source }}{% if info %}, {{ info }}{% endif %})</span><br>{% endfor %}</td></tr>
+    {% endfor %}
+  </table></div>
+</details>
+{% endif %}
+{% else %}
+<p class="muted">No snapshot yet.</p>
+{% endif %}
+
+{% if scanned %}
+<h3>Open ports found by scanning</h3>
+<p class="muted">From the central, in authorized networks; the machine's own view of its sockets is under Network.</p>
+<table>
+  <tr><th>Address</th><th>Port</th><th>Service</th><th>Network</th><th>Scanned (UTC)</th></tr>
+  {% for r in scanned %}<tr><td>{{ r.ip }}</td><td>{{ r.protocol }}/{{ r.port }}</td><td>{{ r.service }}</td><td><a href="{% url 'network-detail' r.network.pk %}">{{ r.network.cidr }}</a></td><td>{{ r.scanned_at|date:"Y-m-d H:i" }}</td></tr>{% endfor %}
+</table>
+{% endif %}
+
+{% if jobs %}
+<h3>Recent jobs</h3>
+<table>{% for job in jobs %}<tr><td>{{ job.created_at|date:"Y-m-d H:i" }}</td><td class="{{ job.state }}">{{ job.state }}</td><td>{{ job.get_origin_display }}</td><td>{{ job.reason }}</td></tr>{% endfor %}</table>
+{% endif %}
+{% endblock %}

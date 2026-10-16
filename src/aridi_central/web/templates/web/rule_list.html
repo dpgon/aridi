@@ -1,0 +1,28 @@
+{% extends "web/base.html" %}
+{% block title %}Rules{% endblock %}
+{% block content %}
+<h1>Alert rules</h1>
+<div class="table-wrap"><table>
+  <tr><th>Rule</th><th>Severity</th><th>Threshold</th><th>What raises it</th></tr>
+  {% for rule in rules %}
+  <tr><td>{{ rule.title }}<br><span class="muted">{{ rule.code }}</span></td>
+    <td class="sev-{{ rule.severity }}">{{ rule.severity }}</td>
+    <td>{% if rule.threshold is not None %}{{ rule.threshold }} {{ rule.threshold_label }}{% else %}<span class="muted">none</span>{% endif %}</td>
+    <td>{{ rule.description }}</td></tr>
+  {% endfor %}
+</table></div>
+<h2>Overrides</h2>
+<p class="muted">The machine's override wins over its groups'. If several groups of a machine disagree, the one that alerts most wins.</p>
+{% if perms.changes.add_ruleoverride %}<p><a href="{% url 'override-create' %}">New override</a></p>{% endif %}
+<div class="table-wrap"><table>
+  <tr><th>Rule</th><th>For</th><th>Silenced</th><th>Severity</th><th>Threshold</th><th></th></tr>
+  {% for o in overrides %}
+  <tr><td>{% if perms.changes.change_ruleoverride %}<a href="{% url 'override-edit' o.pk %}">{{ o.get_rule_display }}</a>{% else %}{{ o.get_rule_display }}{% endif %}</td>
+    <td>{% if o.machine %}machine {{ o.machine.name }}{% else %}group {{ o.group.name }}{% endif %}</td>
+    <td>{{ o.silenced|yesno }}</td><td>{{ o.severity|default:"(rule's)" }}</td>
+    <td>{{ o.threshold|default_if_none:"(rule's)" }}</td>
+    <td>{% if perms.changes.delete_ruleoverride %}<form class="inline" method="post" action="{% url 'override-delete' o.pk %}">{% csrf_token %}<button type="submit">Delete</button></form>{% endif %}</td></tr>
+  {% empty %}<tr><td colspan="6" class="muted">No overrides: every rule applies as above.</td></tr>
+  {% endfor %}
+</table></div>
+{% endblock %}

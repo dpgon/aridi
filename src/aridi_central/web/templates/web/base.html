@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}aridi{% endblock %} · aridi</title>
+<style>
+  :root { --fg: #1d1d1f; --muted: #666; --line: #ddd; --bg: #fff; --accent: #0b5cad;
+          --warn: #9a5b00; --bad: #a11; --ok: #276227; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fg: #e8e8e8; --muted: #aaa; --line: #444; --bg: #161616; --accent: #6aa9ec;
+            --warn: #e0a84a; --bad: #ef7d7d; --ok: #7cc47c; }
+  }
+  body { font: 15px/1.45 system-ui, sans-serif; color: var(--fg); background: var(--bg);
+         margin: 0 auto; max-width: 1100px; padding: 0 16px 48px; }
+  nav { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; padding: 12px 0;
+        border-bottom: 1px solid var(--line); margin-bottom: 16px; }
+  nav .brand { font-weight: 700; margin-right: auto; }
+  a { color: var(--accent); }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0 16px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line);
+           vertical-align: top; }
+  pre { white-space: pre-wrap; word-break: break-word; margin: 0; font-size: 13px; }
+  .muted { color: var(--muted); }
+  .complete, .done { color: var(--ok); } .gaps, .queued, .running { color: var(--warn); }
+  .failed { color: var(--bad); }
+  .messages li { margin: 4px 0; } .errorlist { color: var(--bad); }
+  details { border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px;
+            margin: 6px 0; }
+  summary { cursor: pointer; font-weight: 600; }
+  form.inline { display: inline; }
+  .table-wrap { overflow-x: auto; }
+  .sev-high, .change-removed { color: var(--bad); font-weight: 600; }
+  .sev-medium, .change-changed { color: var(--warn); }
+  .sev-low { color: var(--muted); } .change-added { color: var(--ok); }
+  svg.map { font: 12px ui-monospace, monospace; max-width: none; }
+  svg.map rect { fill: none; stroke: var(--line); stroke-width: 1.5; }
+  svg.map rect.machine { stroke: var(--accent); }
+  svg.map line { stroke: var(--muted); stroke-dasharray: 4 3; }
+  svg.map text { fill: var(--fg); } svg.map text.title { font-weight: 700; }
+  svg.map text.gateway { fill: var(--warn); } svg.map text.muted { fill: var(--muted); }
+</style>
+</head>
+<body>
+<nav>
+  <span class="brand">aridi</span>
+  {% if user.is_authenticated %}
+    <a href="{% url 'machine-list' %}">Machines</a>
+    <a href="{% url 'group-list' %}">Groups</a>
+    <a href="{% url 'job-list' %}">Jobs</a>
+    <a href="{% url 'search' %}">Search</a>
+    <a href="{% url 'alert-list' %}">Alerts</a>
+    <a href="{% url 'rule-list' %}">Rules</a>
+    <a href="{% url 'channel-list' %}">Channels</a>
+    <a href="{% url 'network-list' %}">Networks</a>
+    {% if perms.inventory.add_snapshot %}<a href="{% url 'import' %}">Import</a>{% endif %}
+    <form class="inline" method="post" action="{% url 'logout' %}">{% csrf_token %}
+      <button type="submit">Log out {{ user.username }}</button></form>
+  {% endif %}
+</nav>
+{% if messages %}<ul class="messages">{% for m in messages %}<li>{{ m }}</li>{% endfor %}</ul>{% endif %}
+{% block content %}{% endblock %}
+</body>
+</html>

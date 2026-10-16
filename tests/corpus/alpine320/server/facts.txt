@@ -1,0 +1,330 @@
+### os_release
+NAME="Alpine Linux"
+ID=alpine
+VERSION_ID=3.20.10
+PRETTY_NAME="Alpine Linux v3.20"
+HOME_URL="https://alpinelinux.org/"
+BUG_REPORT_URL="https://gitlab.alpinelinux.org/alpine/aports/-/issues"
+### kernel
+Linux corpus-alpine320 7.0.14-linuxkit #1 SMP PREEMPT Sun Sep 20 16:14:09 UTC 2026 aarch64 Linux
+### libc
+musl libc (aarch64)
+/lib/ld-musl-aarch64.so.1
+### arch
+aarch64
+### cpu_count
+12
+### meminfo
+MemTotal:        8124256 kB
+MemFree:         1314716 kB
+MemAvailable:    6579552 kB
+### packages
+agetty-2.40.1-r1
+agetty-openrc-0.54-r1
+alpine-baselayout-3.6.5-r0
+alpine-baselayout-data-3.6.5-r0
+alpine-keys-2.4-r1
+apk-tools-2.14.4-r1
+blkid-2.40.1-r1
+busybox-1.36.1-r31
+busybox-binsh-1.36.1-r31
+ca-certificates-bundle-20260413-r0
+cfdisk-2.40.1-r1
+dmesg-2.40.1-r1
+findmnt-2.40.1-r1
+flock-2.40.1-r1
+fstrim-2.40.1-r1
+gmp-6.3.0-r1
+hexdump-2.40.1-r1
+ifupdown-ng-0.12.1-r5
+ifupdown-ng-iproute2-0.12.1-r5
+iproute2-6.9.0-r0
+iproute2-minimal-6.9.0-r0
+iproute2-ss-6.9.0-r0
+iproute2-tc-6.9.0-r0
+iptables-1.8.10-r3
+iptables-openrc-1.8.10-r3
+jansson-2.14-r4
+libblkid-2.40.1-r1
+libcap-ng-0.8.5-r0
+libcap2-2.78-r0
+libcrypto3-3.3.7-r0
+libeconf-0.6.3-r0
+libelf-0.191-r0
+libfdisk-2.40.1-r1
+libintl-0.22.5-r0
+libmnl-1.0.5-r2
+libmount-2.40.1-r1
+libncursesw-6.4_p20240420-r2
+libnftnl-1.2.6-r0
+libproc2-4.0.4-r0
+libsmartcols-2.40.1-r1
+libssl3-3.3.7-r0
+libuuid-2.40.1-r1
+libxtables-1.8.10-r3
+linux-pam-1.6.0-r0
+logger-2.40.1-r1
+losetup-2.40.1-r1
+lsblk-2.40.1-r1
+mcookie-2.40.1-r1
+mount-2.40.1-r1
+musl-1.2.5-r3
+musl-utils-1.2.5-r3
+ncurses-terminfo-base-6.4_p20240420-r2
+nftables-1.0.9-r2
+nftables-openrc-1.0.9-r2
+openrc-0.54-r1
+partx-2.40.1-r1
+procps-ng-4.0.4-r0
+readline-8.2.10-r0
+runuser-2.40.1-r1
+scanelf-1.3.7-r2
+setarch-2.40.1-r1
+setpriv-2.40.1-r1
+sfdisk-2.40.1-r1
+skalibs-2.14.1.1-r0
+socat-1.8.0.0-r0
+sqlite-libs-3.45.3-r3
+ssl_client-1.36.1-r31
+umount-2.40.1-r1
+util-linux-2.40.1-r1
+util-linux-misc-2.40.1-r1
+util-linux-openrc-2.40.1-r1
+utmps-libs-0.1.2.2-r1
+uuidgen-2.40.1-r1
+wipefs-2.40.1-r1
+zlib-1.3.2-r0
+zstd-libs-1.5.6-r0
+### packages_count
+76
+### passwd
+root:x:0:0:root:/root:/bin/sh
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/mail:/sbin/nologin
+news:x:9:13:news:/usr/lib/news:/sbin/nologin
+uucp:x:10:14:uucp:/var/spool/uucppublic:/sbin/nologin
+cron:x:16:16:cron:/var/spool/cron:/sbin/nologin
+ftp:x:21:21::/var/lib/ftp:/sbin/nologin
+sshd:x:22:22:sshd:/dev/null:/sbin/nologin
+games:x:35:35:games:/usr/games:/sbin/nologin
+ntp:x:123:123:NTP:/var/empty:/sbin/nologin
+guest:x:405:100:guest:/dev/null:/sbin/nologin
+nobody:x:65534:65534:nobody:/:/sbin/nologin
+alice:x:2001:2001:Linux User,,,:/home/alice:/bin/sh
+bob:x:2002:2002:Linux User,,,:/home/bob:/bin/sh
+### group
+root:x:0:root
+bin:x:1:root,bin,daemon
+daemon:x:2:root,bin,daemon
+sys:x:3:root,bin
+adm:x:4:root,daemon
+tty:x:5:
+disk:x:6:root
+lp:x:7:lp
+kmem:x:9:
+wheel:x:10:root
+floppy:x:11:root
+mail:x:12:mail
+news:x:13:news
+uucp:x:14:uucp
+cron:x:16:cron
+audio:x:18:
+cdrom:x:19:
+dialout:x:20:root
+ftp:x:21:
+sshd:x:22:
+input:x:23:
+tape:x:26:root
+video:x:27:root
+netdev:x:28:
+kvm:x:34:kvm
+games:x:35:
+shadow:x:42:
+www-data:x:82:
+users:x:100:games
+ntp:x:123:
+abuild:x:300:
+utmp:x:406:
+ping:x:999:
+nogroup:x:65533:
+nobody:x:65534:
+alice:x:2001:
+bob:x:2002:
+ghostgrp:x:4300:ghostuser,alice
+### shadow_prefixes
+root:*
+bin:!
+daemon:!
+lp:!
+sync:!
+shutdown:!
+halt:!
+mail:!
+news:!
+uucp:!
+cron:!
+ftp:!
+sshd:!
+games:!
+ntp:!
+guest:!
+nobody:!
+alice:$6$
+bob:!
+### listening
+Netid State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess                       
+udp   UNCONN 0      0            0.0.0.0:5514      0.0.0.0:*    users:(("socat",pid=46,fd=5))
+tcp   LISTEN 0      5          127.0.0.1:8081      0.0.0.0:*    users:(("socat",pid=40,fd=5))
+tcp   LISTEN 0      5                  *:8080            *:*    users:(("socat",pid=34,fd=5))
+### listening_netstat
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 127.0.0.1:8081          0.0.0.0:*               LISTEN      40/socat
+tcp        0      0 :::8080                 :::*                    LISTEN      34/socat
+udp        0      0 0.0.0.0:5514            0.0.0.0:*                           46/socat
+### proc_net_tcp6_listen
+00000000000000000000000000000000:1F90
+### proc_net_udp_unconnected
+00000000:158A
+### links_ip
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000\    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: tunl0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/ipip 0.0.0.0 brd 0.0.0.0
+3: gre0@NONE: <NOARP> mtu 1476 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/gre 0.0.0.0 brd 0.0.0.0
+4: gretap0@NONE: <BROADCAST,MULTICAST> mtu 1462 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/ether 00:00:00:00:00:00 brd ff:ff:ff:ff:ff:ff
+5: erspan0@NONE: <BROADCAST,MULTICAST> mtu 1450 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/ether 00:00:00:00:00:00 brd ff:ff:ff:ff:ff:ff
+6: ip_vti0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/ipip 0.0.0.0 brd 0.0.0.0
+7: ip6_vti0@NONE: <NOARP> mtu 1428 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/tunnel6 :: brd :: permaddr a61c:61b3:b1a6::
+8: sit0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/sit 0.0.0.0 brd 0.0.0.0
+9: ip6tnl0@NONE: <NOARP> mtu 1452 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/tunnel6 :: brd :: permaddr 6ad7:d9c:2fc8::
+10: ip6gre0@NONE: <NOARP> mtu 1448 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/gre6 :: brd :: permaddr 2a3d:45b0:b43::
+### interfaces_ip
+1: lo    inet 127.0.0.1/8 scope host lo\       valid_lft forever preferred_lft forever
+1: lo    inet6 ::1/128 scope host proto kernel_lo \       valid_lft forever preferred_lft forever
+### interfaces_sys
+bonding_masters 
+erspan0 00:00:00:00:00:00
+gre0 00:00:00:00
+gretap0 00:00:00:00:00:00
+ip6_vti0 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00
+ip6gre0 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00
+ip6tnl0 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00
+ip_vti0 00:00:00:00
+lo 00:00:00:00:00:00
+sit0 00:00:00:00
+tunl0 00:00:00:00
+### mountinfo
+312 177 0:63 / / rw,relatime - overlay overlay rw,lowerdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/32280/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/31306/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/29966/fs,upperdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/32281/fs,workdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/32281/work,nouserxattr
+314 312 0:87 / /proc rw,nosuid,nodev,noexec,relatime - proc proc rw
+315 312 0:88 / /dev rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
+316 315 0:91 / /dev/pts rw,nosuid,noexec,relatime - devpts devpts rw,gid=5,mode=620,ptmxmode=666
+317 312 0:93 / /sys ro,nosuid,nodev,noexec,relatime - sysfs sysfs ro
+318 317 0:41 / /sys/fs/cgroup ro,nosuid,nodev,noexec,relatime - cgroup2 cgroup rw
+319 315 0:85 / /dev/mqueue rw,nosuid,nodev,noexec,relatime - mqueue mqueue rw
+320 315 0:94 / /dev/shm rw,nosuid,nodev,noexec,relatime - tmpfs shm rw,size=65536k
+321 312 254:1 /docker/containers/30d8010a5e91fa419ad773e29b034fd05b9c41b674d0461618cf22c7d8f6cb68/hostname /etc/hostname rw,relatime - ext4 /dev/vda1 rw,discard
+322 312 254:1 /docker/containers/30d8010a5e91fa419ad773e29b034fd05b9c41b674d0461618cf22c7d8f6cb68/hosts /etc/hosts rw,relatime - ext4 /dev/vda1 rw,discard
+324 312 254:1 /docker/containers/30d8010a5e91fa419ad773e29b034fd05b9c41b674d0461618cf22c7d8f6cb68/resolv.conf /etc/resolv.conf rw,relatime - ext4 /dev/vda1 rw,discard
+325 312 254:1 /docker/volumes/aridi-corpus-bind/_data /srv/bind ro,relatime master:1 - ext4 /dev/vda1 rw,discard
+326 312 0:95 / /srv/scratch rw,nosuid,nodev,noexec,relatime - tmpfs tmpfs rw
+179 314 0:87 /bus /proc/bus ro,nosuid,nodev,noexec,relatime - proc proc rw
+180 314 0:87 /fs /proc/fs ro,nosuid,nodev,noexec,relatime - proc proc rw
+182 314 0:87 /irq /proc/irq ro,nosuid,nodev,noexec,relatime - proc proc rw
+183 314 0:87 /sys /proc/sys ro,nosuid,nodev,noexec,relatime - proc proc rw
+191 314 0:87 /sysrq-trigger /proc/sysrq-trigger ro,nosuid,nodev,noexec,relatime - proc proc rw
+214 314 0:88 /null /proc/interrupts rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
+215 314 0:88 /null /proc/kcore rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
+216 314 0:88 /null /proc/keys rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
+217 314 0:96 / /proc/scsi ro,relatime - tmpfs tmpfs ro,size=4k,nr_inodes=1
+218 314 0:88 /null /proc/timer_list rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
+219 317 0:96 / /sys/firmware ro,relatime - tmpfs tmpfs ro,size=4k,nr_inodes=1
+### df
+Filesystem           1024-blocks    Used Available Capacity Mounted on
+overlay              1916745208  82349004 1736957128   5% /
+tmpfs                    65536         0     65536   0% /dev
+shm                      65536         0     65536   0% /dev/shm
+/dev/vda1            1916745208  82349004 1736957128   5% /etc/hostname
+/dev/vda1            1916745208  82349004 1736957128   5% /etc/hosts
+/dev/vda1            1916745208  82349004 1736957128   5% /etc/resolv.conf
+/dev/vda1            1916745208  82349004 1736957128   5% /srv/bind
+tmpfs                  4062128         0   4062128   0% /srv/scratch
+tmpfs                    65536         0     65536   0% /proc/interrupts
+tmpfs                    65536         0     65536   0% /proc/kcore
+tmpfs                    65536         0     65536   0% /proc/keys
+tmpfs                        4         0         4   0% /proc/scsi
+tmpfs                    65536         0     65536   0% /proc/timer_list
+tmpfs                        4         0         4   0% /sys/firmware
+### suid_files
+/bin/mount
+/bin/umount
+/usr/local/bin/aridi-suid-test
+### sgid_files
+/sbin/unix_chkpwd
+/usr/bin/wall
+### world_writable_dirs_no_sticky
+/srv/world-writable
+### account_file_modes
+ls: /etc/gshadow: No such file or directory
+-rw-r--r--    1 0        0              568 Oct 16 05:58 /etc/group
+-rw-r--r--    1 0        0              802 Oct 16 05:58 /etc/passwd
+-rw-r-----    1 0        42             417 Oct 16 05:58 /etc/shadow
+### processes
+    PID   UID STAT COMMAND
+      1     0 Ss   sh
+      6     0 S    sleep
+     34     0 Ss   socat
+     40     0 Ss   socat
+     46     0 Ss   socat
+     52  4242 Ss   sleep
+     97     0 S    sleep
+    277     0 S    sleep
+    324     0 S    sleep
+   2313     0 Ss   sh
+   2366     0 R    ps
+### process_count
+13
+### hostname
+corpus-alpine320
+### resolv_conf
+# Generated by Docker Engine.
+# This file can be edited; Docker Engine will not make further changes once it
+# has been modified.
+
+nameserver 192.168.65.7
+
+# Based on host file: '/etc/resolv.conf' (legacy)
+# Overrides: []
+nameserver 2001:db8::53
+### hosts
+127.0.0.1	localhost
+::1	localhost ip6-localhost ip6-loopback
+fe00::	ip6-localnet
+ff00::	ip6-mcastprefix
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+10.20.30.40 corpus-db.example.internal
+2001:db8::40 corpus-db6.example.internal
+### systemd
+not running
+### services_systemctl
+(missing: systemctl)
+### services_openrc
+Runlevel: sysinit
+Runlevel: nonetwork
+Runlevel: default
+Runlevel: boot
+Runlevel: shutdown
+Dynamic Runlevel: hotplugged
+Dynamic Runlevel: needed/wanted
+Dynamic Runlevel: manual
+### services_chkconfig
+(missing: chkconfig)
+### nft
+Operation not permitted (you must be root)
+netlink: Error: cache initialization failed: Operation not permitted
+### iptables
+iptables-save v1.8.10 (nf_tables): Could not fetch rule set generation id: Permission denied (you must be root)

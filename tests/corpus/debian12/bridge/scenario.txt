@@ -1,0 +1,12 @@
+ok user alice with password (default algorithm)
+ok user bob locked (usermod -L)
+ok group ghostgrp with member without account (ghostuser)
+ok suid file /usr/local/bin/aridi-suid-test (copy of /bin/true)
+ok world-writable dir without sticky bit /srv/world-writable
+ok banner /etc/issue.net with ANSI and <script>
+ok hosts entries v4/v6 and IPv6 nameserver
+ok carving data /etc/aridi-corpus.conf and /var/log/aridi-corpus.log
+ok listener tcp6-any 8080
+ok listener tcp4-local 8081
+ok listener udp4-any 5514
+ok process with uid 4242 without account (sleep)

@@ -1,0 +1,13 @@
+{% extends "web/base.html" %}
+{% block title %}{{ machine.name }}: gaps{% endblock %}
+{% block content %}
+<h1><a href="{% url 'machine-detail' machine.pk %}">{{ machine.name }}</a>: what could not be seen</h1>
+<div class="table-wrap"><table>
+  <tr><th>Area</th><th>Item</th><th>Status</th><th>Reason</th><th>Since</th></tr>
+  {% for row in rows %}
+  <tr><td>{{ row.gap.area }}</td><td>{{ row.gap.item }}</td><td>{{ row.gap.status }}</td><td>{{ row.gap.reason }}</td>
+    <td><a href="{% url 'snapshot-detail' row.since.pk %}">{{ row.since.collected_at|date:"Y-m-d H:i" }}</a></td></tr>
+  {% empty %}<tr><td colspan="5" class="muted">Nothing: the latest snapshot saw everything.</td></tr>
+  {% endfor %}
+</table></div>
+{% endblock %}

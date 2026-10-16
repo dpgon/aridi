@@ -1,0 +1,86 @@
+# aridi central component (TODO.md 5.8). TLS is terminated by a reverse proxy in front of
+# "web"; gunicorn only listens on 127.0.0.1:8000 of the host.
+#
+# Required in the environment (or an .env file next to this one):
+#   ARIDI_SECRET_KEY         long random value
+#   ARIDI_ALLOWED_HOSTS      host names of the proxy, comma separated (e.g. aridi.example.org)
+#   ARIDI_CSRF_TRUSTED_ORIGINS  e.g. https://aridi.example.org
+#   ARIDI_SSH_AUTH_SOCK      socket of an ssh-agent holding aridi's key. ssh-agent only
+#                            answers its own uid: the agent must run as uid 10001, the
+#                            uid of the containers (README.md, "Preparing the central")
+#   ARIDI_KNOWN_HOSTS_FILE   known_hosts of the machines (strict checking, read-only)
+# Optional: ARIDI_SSH_CONFIG_FILE (ssh_config, read-only), ARIDI_MAX_SSH,
+# ARIDI_RAW_RETENTION, ARIDI_HSTS_SECONDS. See README.md.
+# Alert channels (phase 6): in alerts.env next to this file, if it exists (it holds the
+# SMTP password and the webhook URLs, which are never stored in the database):
+#   ARIDI_BASE_URL, ARIDI_EMAIL_HOST, ARIDI_EMAIL_PORT, ARIDI_EMAIL_USER,
+#   ARIDI_EMAIL_PASSWORD, ARIDI_EMAIL_SECURITY, ARIDI_EMAIL_FROM, ARIDI_WEBHOOK_URL_<NAME>
+# Network scanning (phase 7), off by default: ARIDI_SCAN_ENABLED=1, ARIDI_SCAN_RATE,
+# ARIDI_SCAN_THREADS, ARIDI_SCAN_TIMEOUT_MS, ARIDI_SCAN_MAX_PREFIX_V4/V6. The worker scans
+# from its container: it must be able to reach the authorized networks.
+
+name: aridi
+
+x-central: &central
+  build: .
+  image: aridi-central:latest
+  restart: unless-stopped
+  env_file:
+    - path: ./alerts.env
+      required: false
+  environment: &environment
+    ARIDI_SECRET_KEY: ${ARIDI_SECRET_KEY:?set ARIDI_SECRET_KEY}
+    ARIDI_ALLOWED_HOSTS: ${ARIDI_ALLOWED_HOSTS:?set ARIDI_ALLOWED_HOSTS}
+    ARIDI_CSRF_TRUSTED_ORIGINS: ${ARIDI_CSRF_TRUSTED_ORIGINS:-}
+    ARIDI_MAX_SSH: ${ARIDI_MAX_SSH:-4}
+    ARIDI_RAW_RETENTION: ${ARIDI_RAW_RETENTION:-10}
+    ARIDI_HSTS_SECONDS: ${ARIDI_HSTS_SECONDS:-31536000}
+    ARIDI_SCAN_ENABLED: ${ARIDI_SCAN_ENABLED:-0}
+    ARIDI_SCAN_RATE: ${ARIDI_SCAN_RATE:-100}
+    ARIDI_SCAN_THREADS: ${ARIDI_SCAN_THREADS:-32}
+    ARIDI_SCAN_TIMEOUT_MS: ${ARIDI_SCAN_TIMEOUT_MS:-1000}
+    ARIDI_SCAN_MAX_PREFIX_V4: ${ARIDI_SCAN_MAX_PREFIX_V4:-16}
+    ARIDI_SCAN_MAX_PREFIX_V6: ${ARIDI_SCAN_MAX_PREFIX_V6:-112}
+    ARIDI_KNOWN_HOSTS: /etc/aridi/known_hosts
+    ARIDI_SSH_CONFIG: /etc/aridi/ssh_config
+    SSH_AUTH_SOCK: /run/aridi/ssh-agent.sock
+  volumes:
+    - aridi-data:/data
+    - ${ARIDI_SSH_AUTH_SOCK:?set ARIDI_SSH_AUTH_SOCK}:/run/aridi/ssh-agent.sock
+    - ${ARIDI_KNOWN_HOSTS_FILE:?set ARIDI_KNOWN_HOSTS_FILE}:/etc/aridi/known_hosts:ro
+    - ${ARIDI_SSH_CONFIG_FILE:-/dev/null}:/etc/aridi/ssh_config:ro
+
+services:
+  web:
+    <<: *central
+    command: ["sh", "-c", "python -m aridi_central.manage migrate --noinput && exec gunicorn --bind 0.0.0.0:8000 --workers 3 --access-logfile - aridi_central.wsgi"]
+    ports:
+      - "127.0.0.1:8000:8000"
+    healthcheck:
+      # /healthz with the first allowed host name (Django refuses other Host headers).
+      test: ["CMD", "python", "-c", "import os, urllib.request; host = os.environ['ARIDI_ALLOWED_HOSTS'].split(',')[0].strip(); urllib.request.urlopen(urllib.request.Request('http://127.0.0.1:8000/healthz', headers={'Host': host}), timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      start_period: 30s
+      retries: 3
+
+  worker:
+    <<: *central
+    command: ["python", "-m", "aridi_central.manage", "aridi_worker"]
+    environment:
+      <<: *environment
+      ARIDI_WORKER_HEARTBEAT: /tmp/aridi-worker-heartbeat
+    depends_on:
+      web:
+        condition: service_healthy
+    stop_grace_period: 60s
+    healthcheck:
+      # The worker loop touches the heartbeat every few seconds.
+      test: ["CMD", "python", "-c", "import os, sys, time; sys.exit(time.time() - os.path.getmtime('/tmp/aridi-worker-heartbeat') > 120)"]
+      interval: 30s
+      timeout: 10s
+      start_period: 30s
+      retries: 3
+
+volumes:
+  aridi-data:

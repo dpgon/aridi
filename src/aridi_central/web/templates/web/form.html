@@ -1,0 +1,9 @@
+{% extends "web/base.html" %}
+{% block title %}{% if instance %}Edit {{ instance }}{% else %}New{% endif %}{% endblock %}
+{% block content %}
+<h1>{% if instance %}Edit {{ instance }}{% else %}New{% endif %}</h1>
+<form method="post">{% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save</button>
+</form>
+{% endblock %}

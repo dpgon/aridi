@@ -1,0 +1,29 @@
+{% extends "web/base.html" %}
+{% block title %}{{ machine.name }}: relation map{% endblock %}
+{% block content %}
+<h1><a href="{% url 'machine-detail' machine.pk %}">{{ machine.name }}</a>: relation map</h1>
+{% if not snapshot %}
+<p class="muted">No snapshot yet.</p>
+{% else %}
+<p class="muted">From the snapshot of {{ snapshot.collected_at|date:"Y-m-d H:i:s" }} UTC: {{ map.total }} remote address{{ map.total|pluralize:"es" }}{% if map.drawn < map.total %}, {{ map.drawn }} drawn (all are in the table){% endif %}.</p>
+<div class="table-wrap">
+<svg class="map" viewBox="0 0 {{ map.width }} {{ map.height }}" width="{{ map.width }}" height="{{ map.height }}" role="img" aria-label="Relation map of {{ machine.name }}">
+  {% for l in map.shapes.lines %}<line x1="{{ l.x1 }}" y1="{{ l.y1 }}" x2="{{ l.x2 }}" y2="{{ l.y2 }}"/>{% endfor %}
+  {% for r in map.shapes.rects %}<rect x="{{ r.x }}" y="{{ r.y }}" width="{{ r.w }}" height="{{ r.h }}" rx="6" class="{{ r.cls }}"/>{% endfor %}
+  {% for t in map.shapes.texts %}<text x="{{ t.x }}" y="{{ t.y }}" class="{{ t.cls }}">{{ t.text }}</text>{% endfor %}
+</svg>
+</div>
+<h2>Addresses</h2>
+<div class="table-wrap"><table>
+  <tr><th>Address</th><th>Roles</th></tr>
+  {% for node in page %}
+  <tr><td>{{ node.ip }}{% if node.local %} <span class="muted">(local)</span>{% endif %}</td>
+    <td>{% for role, source, info in node.roles %}{{ role.value }} <span class="muted">({{ source }}{% if info %}, {{ info }}{% endif %})</span><br>{% endfor %}</td></tr>
+  {% endfor %}
+</table></div>
+{% if page.has_other_pages %}<p>
+  {% if page.has_previous %}<a href="?page={{ page.previous_page_number }}">previous</a>{% endif %}
+  page {{ page.number }} of {{ page.paginator.num_pages }}
+  {% if page.has_next %}<a href="?page={{ page.next_page_number }}">next</a>{% endif %}</p>{% endif %}
+{% endif %}
+{% endblock %}

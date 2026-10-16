@@ -1,0 +1,26 @@
+{% extends "web/base.html" %}
+{% block title %}Groups and schedules{% endblock %}
+{% block content %}
+<h1>Groups</h1>
+{% if perms.inventory.add_group %}<p><a href="{% url 'group-create' %}">New group</a></p>{% endif %}
+<table>
+  <tr><th>Group</th><th>Machines</th><th></th></tr>
+  {% for group in groups %}
+  <tr><td>{% if perms.inventory.change_group %}<a href="{% url 'group-edit' group.pk %}">{{ group.name }}</a>{% else %}{{ group.name }}{% endif %}</td>
+    <td>{{ group.machines.all|length }}</td>
+    <td>{% if perms.collection.add_job %}<form class="inline" method="post" action="{% url 'collect' %}">{% csrf_token %}<input type="hidden" name="group" value="{{ group.pk }}"><button type="submit">Collect group now</button></form>{% endif %}</td></tr>
+  {% empty %}<tr><td colspan="3" class="muted">No groups.</td></tr>
+  {% endfor %}
+</table>
+<h1>Schedules</h1>
+{% if perms.collection.add_schedule %}<p><a href="{% url 'schedule-create' %}">New schedule</a></p>{% endif %}
+<table>
+  <tr><th>Schedule</th><th>Active</th><th>Next run (UTC)</th><th></th></tr>
+  {% for s in schedules %}
+  <tr><td>{% if perms.collection.change_schedule %}<a href="{% url 'schedule-edit' s.pk %}">{{ s }}</a>{% else %}{{ s }}{% endif %}</td>
+    <td>{{ s.active|yesno }}</td><td>{{ s.next_run_at|date:"Y-m-d H:i"|default:"at the next worker check" }}</td>
+    <td>{% if perms.collection.delete_schedule %}<form class="inline" method="post" action="{% url 'schedule-delete' s.pk %}">{% csrf_token %}<button type="submit">Delete</button></form>{% endif %}</td></tr>
+  {% empty %}<tr><td colspan="4" class="muted">No schedules.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

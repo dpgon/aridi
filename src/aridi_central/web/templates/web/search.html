@@ -1,0 +1,22 @@
+{% extends "web/base.html" %}
+{% block title %}Search{% endblock %}
+{% block content %}
+<h1>Search the fleet</h1>
+<p class="muted">Over the latest snapshot of every machine.</p>
+<form method="get">{{ form.as_p }}<button type="submit">Search</button></form>
+{% if rows is not None %}
+<div class="table-wrap"><table>
+  <tr><th>Machine</th><th>Snapshot (UTC)</th><th>Match</th></tr>
+  {% for row in rows %}
+  <tr><td><a href="{% url 'machine-detail' row.snapshot.machine.pk %}">{{ row.snapshot.machine.name }}</a></td>
+    <td><a href="{% url 'snapshot-detail' row.snapshot.pk %}">{{ row.snapshot.collected_at|date:"Y-m-d H:i" }}</a></td>
+    <td>{% if kind == "package" %}{{ row.name }} {{ row.version }} {{ row.arch }} ({{ row.manager }})
+      {% elif kind == "port" %}{{ row.proto }} {{ row.address }}:{{ row.port }} {{ row.process }}
+      {% elif kind == "user" %}{{ row.name }} uid {{ row.uid }} {{ row.shell }}{% if row.password_algo %} ({{ row.password_algo }}){% endif %}
+      {% elif kind == "service" %}{{ row.name }} ({{ row.manager }}) {{ row.state }} {{ row.enabled }}
+      {% else %}{{ row.ip }} {{ row.role }} ({{ row.source }}{% if row.detail %}, {{ row.detail }}{% endif %}){% endif %}</td></tr>
+  {% empty %}<tr><td colspan="3" class="muted">No machine matches.</td></tr>
+  {% endfor %}
+</table></div>
+{% endif %}
+{% endblock %}
