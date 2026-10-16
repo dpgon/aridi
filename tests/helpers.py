@@ -56,12 +56,12 @@ def sample_name(sample_dir):
     return f"{sample_dir.parent.name}/{sample_dir.name}"
 
 
-def legacy_report(distro):
-    """Full report of the 2019 aridi for DISTRO (tests/legacy/reference.sh)."""
-    path = REPO / "tests" / "legacy" / "reference" / distro / "report.txt"
+def legacy_report(distro, variant="plain"):
+    """Full report of the 2019 aridi for DISTRO (tests/parity/, phase 4.1)."""
+    path = REPO / "tests" / "parity" / f"{distro}-{variant}" / "report.txt"
     return path.read_text(encoding="utf-8")
 
 
-def legacy_bundle(distro):
-    """Path of the bundle collected right after the 2019 report (tests/legacy/reference.sh)."""
-    return REPO / "tests" / "legacy" / "reference" / distro / "bundle.aridi"
+def legacy_bundle(distro, variant="plain"):
+    """Path of the bundle collected right after the 2019 report (tests/parity/)."""
+    return REPO / "tests" / "parity" / f"{distro}-{variant}" / "bundle.aridi"

@@ -48,6 +48,11 @@ class TextTest(unittest.TestCase):
         self.assertEqual(text.clean(None), "")
         self.assertEqual(text.clean("ñandú"), "ñandú")
 
+    def test_human_duration(self):
+        self.assertEqual(text.human_duration(247016), "2 days, 20:36:56")
+        self.assertEqual(text.human_duration(86400 + 59), "1 day, 00:00:59")
+        self.assertEqual(text.human_duration(3599.9), "00:59:59")
+
     def test_renderer_used_for_ok_areas(self):
         parsed = bundle.parse(make_bundle([("system.os_release", b"ID=debian\n")]))
         snapshot = interpret(parsed, parsers={"system": lambda s: AreaResult({"id": "x"})})

@@ -700,9 +700,8 @@ collect_sessions() {
 # awk program that extracts IP addresses from "PATH:LINE:TEXT" lines (grep -Hn). It prints
 # "PATH|LINE|IP|PREFIX|BEFORE|AFTER|FLAGS" per address and never the text of the line,
 # which may hold secrets. BEFORE and AFTER classify the neighbour characters (d digit,
-# l letter, p dot, s slash, k colon, w blank, x other, empty at the line edge); FLAGS has
-# "c" for a commented line and
-# "v" when "version" precedes the address. IPv6 candidates must look like an address:
+# l letter, p dot, s slash, k colon, h hyphen, w blank, x other, empty at the line edge);
+# FLAGS has "c" for a commented line and "v" when "version" precedes the address. IPv6 candidates must look like an address:
 # "::" or 7 colons, groups of at most 4 hex digits, at least one digit, and no single ":"
 # at either end. That leaves out times, MAC addresses and "uid:gid::" of /etc/passwd.
 _IP_AWK='
@@ -713,6 +712,7 @@ function cls(c) {
     if (c == ".") return "p"
     if (c == "/") return "s"
     if (c == ":") return "k"
+    if (c == "-") return "h"
     if (c ~ /[ \t]/) return "w"
     return "x"
 }

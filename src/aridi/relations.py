@@ -1,6 +1,6 @@
 """Relation map of a snapshot: every IP with all its roles, from every area (TODO.md 3.18).
 
-Equivalent to the infrastructure view of 2019 (legacy -oi), with IPv4 and IPv6 sorted
+Equivalent to the infrastructure view of 2019 (-oi), with IPv4 and IPv6 sorted
 together (mixing them, or a null key, broke -oi in 2019).
 """
 

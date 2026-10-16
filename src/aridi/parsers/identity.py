@@ -1,6 +1,6 @@
 """Area "identity": hostname, domain, hostid and banners (TODO.md 3.6).
 
-The domain is the DNS domain of the host, never its hostname (legacy/gathering2.py:35
+The domain is the DNS domain of the host, never its hostname (2019 gathering2.py:35
 printed the hostname as domain). Banners are untrusted text: kept as received, the views
 neutralize them.
 """

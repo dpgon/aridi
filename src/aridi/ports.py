@@ -1,4 +1,4 @@
-"""Port names from src/aridi/data/services.csv (copied unchanged from legacy/services.csv,
+"""Port names from src/aridi/data/services.csv (copied unchanged from the services.csv of 2019,
 format "name|port|description"; to be regenerated in TODO.md 7.1)."""
 
 import functools

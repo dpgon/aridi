@@ -103,7 +103,7 @@ def parse(sections):
                 by_name[member]["groups"].append(name)
             else:
                 # A member without local account (LDAP, removed user...): recorded, never
-                # an error (in 2019 it broke legacy/gathering2.py:112).
+                # an error (it broke gathering2.py:112 in 2019).
                 orphans.append({"group": name, "member": member})
     for user in users:
         primary = gid_names.get(user["gid"])

@@ -2,7 +2,7 @@
 (TODO.md 3.16).
 
 The collector sends only the address, the file, the line number and the context marks
-(never the text of the line). The filters of legacy/gathering4.py:36-55 are applied here:
+(never the text of the line). The filters of 2019 gathering4.py:36-55 are applied here:
 commented lines, "version" before the address, an address glued to other digits or dots,
 network prefixes, 169.254/16, multicast and reserved ranges, 0.x and .0 addresses. IPv6
 gets the equivalent ones. Names are kept unresolved.
@@ -29,10 +29,13 @@ REVERSED = frozenset({"org", "com", "net", "io", "de", "fr", "uk", "eu", "edu", 
 
 
 def exclusion(address, prefix, before, after, flags):
-    """Why ADDRESS is not a real mention (legacy filters), or None if it is."""
+    """Why ADDRESS is not a real mention (filters of 2019), or None if it is."""
     if "c" in flags:
         return "commented line"
     if "v" in flags:
+        return "version number"
+    # "anaconda 21.48.22.159-1": 2019 gathering4.py:173 dropped an IPv4 followed by "-".
+    if address.version == 4 and after == "h":
         return "version number"
     glued = {"d", "p"} if address.version == 4 else {"d", "l", "k", "p"}
     if before in glued or after in glued:

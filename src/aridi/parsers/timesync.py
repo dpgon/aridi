@@ -1,6 +1,6 @@
 """Area "timesync": time synchronization service and servers (TODO.md 3.11).
 
-Recovered from legacy/gathering2.py:260. Server names are kept as text, never resolved;
+Recovered from 2019 gathering2.py:260. Server names are kept as text, never resolved;
 only IP literals become ntp_server relations.
 """
 

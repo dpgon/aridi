@@ -11,7 +11,7 @@ import unittest
 from tests.helpers import CORPUS, REPO
 
 FILES = sorted(list(CORPUS.glob("*/*/*")) +
-               list((REPO / "tests" / "legacy" / "reference").glob("*/*")))
+               list((REPO / "tests" / "parity").glob("*/*")))
 
 HOST_TRACES = re.compile(rb"/Users/|/var/folders/|/private/var/|/host_mnt/| - (virtiofs|9p) ")
 FULL_HASH = re.compile(rb"\$(1|2[aby]|5|6|7|y|gy)\$[./0-9A-Za-z$]{8,}")

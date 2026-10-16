@@ -91,6 +91,7 @@ class LoadTest(unittest.TestCase):
                 self.assertGreaterEqual(data["interval_seconds"], 0.9)
                 self.assertLess(data["interval_seconds"], 5)
                 self.assertIsNotNone(data["cpu"]["last_second"])
+                self.assertGreater(data["uptime_seconds"], 0)
 
     def test_memory_like_legacy(self):
         """Debian 12 reference: 7934 MB, 18% used, 63% buffers/cache, 20% free (±5)."""
@@ -200,6 +201,15 @@ class SessionsTest(unittest.TestCase):
         self.assertEqual([(s["user"], s["host"]) for s in data["active"]],
                          [("alice", "192.0.2.30")])
         self.assertEqual([e["user"] for e in data["logins"]], ["alice"])
+
+    def test_wtmpdb_is_preferred_to_last(self):
+        """Synthetic: no corpus image ships wtmpdb (TODO.md 3.14 (d))."""
+        line = ("{u}    pts/0        192.0.2.31       Thu Oct 15 16:26:03 2026   still "
+                "logged in\n")
+        data = sessions.parse(sections(("sessions.wtmpdb", line.format(u="bob").encode()),
+                                       ("sessions.last", line.format(u="alice").encode()))).data
+        self.assertIn("wtmpdb", data["sources"])
+        self.assertEqual([e["user"] for e in data["logins"]], ["bob"])
 
 
 class ConnectionsTest(unittest.TestCase):

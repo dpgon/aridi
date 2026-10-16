@@ -90,12 +90,13 @@ class CarvingSyntheticTest(unittest.TestCase):
                 "/etc/a|10|2001:db8::5|64|w|s|\n"   # IPv6 network
                 "/etc/a|11|1::||d|l|\n"             # "1::sysinit"
                 "/etc/a|12|::1||w||\n"              # loopback: kept
+                "/etc/a|13|21.48.22.159||w|h|\n"    # "anaconda 21.48.22.159-1"
                 "garbage\n")
         result = carving.parse(sections(("carving.etc_ips", rows.encode()),
                                         ("carving.log_ips", b"")))
         self.assertEqual([i["ip"] for i in result.data["addresses"]],
                          ["10.0.0.5", "10.0.0.7", "::1"])
-        self.assertEqual(sum(result.data["excluded"].values()), 9)
+        self.assertEqual(sum(result.data["excluded"].values()), 10)
         self.assertEqual({r.role for r in result.relations}, {Role.NAMED_IN_FILE})
         self.assertEqual(result.relations[0].detail, "/etc/a:1")
 

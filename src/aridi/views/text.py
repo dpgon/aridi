@@ -65,7 +65,7 @@ def _area_lines(area, section, detail):
 
 
 def _infrastructure(snapshot):
-    """The relation map (legacy -oi): local machine first, then remote addresses."""
+    """The relation map (-oi of 2019): local machine first, then remote addresses."""
     lines = _title("Infrastructure")
     nodes = consolidate(snapshot.relations)
     if not nodes:
@@ -148,6 +148,15 @@ def _system(data, detail):
         for name, line in sorted((data.get("release_files") or {}).items()):
             lines.append(f"{name}: {line}")
     return lines
+
+
+def human_duration(seconds):
+    """"2 days, 20:56:56" (the uptime format of 2019)."""
+    days, rest = divmod(int(seconds), 86400)
+    clock = f"{rest // 3600:02d}:{rest % 3600 // 60:02d}:{rest % 60:02d}"
+    if not days:
+        return clock
+    return f"{days} day{'s' if days != 1 else ''}, {clock}"
 
 
 def human_bytes(value):
@@ -497,6 +506,8 @@ def _load(data, detail):
                      f"{human_bytes(mem['free'])} free of {human_bytes(mem['total'])}")
         lines.append(f"Swap:   {human_bytes(mem.get('swap_used'))} used of "
                      f"{human_bytes(mem.get('swap_total'))}")
+    if data.get("uptime_seconds") is not None:
+        lines.append(f"Uptime: {human_duration(data['uptime_seconds'])}")
     load = data.get("load")
     if load:
         lines.append(f"Load:   {load['1']} {load['5']} {load['15']} (1, 5, 15 min)")

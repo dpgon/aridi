@@ -30,7 +30,7 @@ def parse_stat(line):
 
 
 def cpu_percent(proc, uptime, clk_tck):
-    """%CPU since the process started (formula of legacy/gathering3.py:66-75)."""
+    """%CPU since the process started (formula of 2019 gathering3.py:66-75)."""
     seconds = uptime - proc["starttime"] / clk_tck
     if seconds <= 0:
         return 0.0

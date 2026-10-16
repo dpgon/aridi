@@ -74,7 +74,7 @@ class SyntheticTest(unittest.TestCase):
         self.assertEqual({g.item: g.status for g in result.gaps}["dns domain"], Status.MISSING)
 
     def test_domain_is_not_the_hostname(self):
-        """legacy/gathering2.py:35 showed the hostname as the domain."""
+        """2019 gathering2.py:35 showed the hostname as the domain."""
         data = parse(("identity.kernel_hostname", b"web1\n"),
                      ("identity.dnsdomainname", b"example.org\n")).data
         self.assertEqual((data["hostname"], data["dns_domain"]), ("web1", "example.org"))

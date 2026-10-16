@@ -167,7 +167,8 @@ central tendrá que identificar las máquinas sin `machine_id` por su destino SS
 - **Variables de entorno de los procesos** (`/proc/*/environ`).
 - **El texto de las líneas donde aparecen IPs** (*carving*): de `/etc` y `/var/log` solo
   salen la ruta, el número de línea, la dirección, su prefijo y marcas de contexto
-  (comentario, «version», clase del carácter anterior y posterior). Del journal, solo
+  (comentario, «version», clase del carácter anterior y posterior: dígito, letra, punto,
+  barra, dos puntos, guion, blanco u otro). Del journal, solo
   recuentos por dirección. En `/etc` solo se abren los ficheros legibles por cualquier
   usuario (`find -perm -0004`), así que `shadow`, `gshadow` y las claves privadas nunca se
   leen ahí.

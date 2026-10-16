@@ -50,7 +50,7 @@ static() {
         skip "user bob"
     fi
 
-    # A group whose member has no local account (broke legacy/gathering2.py:112).
+    # A group whose member has no local account (broke 2019 gathering2.py:112).
     echo "ghostgrp:x:4300:ghostuser,alice" >> /etc/group
     [ -f /etc/gshadow ] && echo "ghostgrp:!::ghostuser,alice" >> /etc/gshadow
     ok "group ghostgrp with member without account (ghostuser)"

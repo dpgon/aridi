@@ -113,6 +113,8 @@ def parse(sections):
 
     seconds = None
     up_1, up_2 = _uptime(sections, "load.uptime_1"), _uptime(sections, "load.uptime_2")
+    if up_1 is None:
+        gaps.append(gap(sections, "uptime", ["load.uptime_1"], "no /proc/uptime"))
     if up_1 is not None and up_2 is not None and up_2 > up_1:
         seconds = up_2 - up_1
     disks_1, disks_2 = text(sections, "load.diskstats_1"), text(sections, "load.diskstats_2")
@@ -134,6 +136,8 @@ def parse(sections):
         count, free = (int(v) for v in inode_nr.split()[:2])
         inodes = {"count": count, "free": free}
 
-    data = {"memory": mem, "load": load, "cpu": cpu, "interval_seconds": seconds,
+    data = {"memory": mem, "load": load, "cpu": cpu,
+            "uptime_seconds": int(up_1) if up_1 is not None else None,
+            "interval_seconds": seconds,
             "disks": disks, "files": files, "inodes": inodes}
     return AreaResult(data, gaps=gaps)

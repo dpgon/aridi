@@ -73,10 +73,11 @@ class CorpusTest(unittest.TestCase):
 class LegacyRegressionTest(unittest.TestCase):
 
     def test_suid_count_against_legacy(self):
-        """2019 walked every mounted filesystem; -xdev keeps to the root filesystem.
+        """2019 followed symbolic links: /usr/bin/sg -> newgrp counted as a second file.
 
-        In the reference container of Debian 12, 2019 found 9 SUID files; one of them was
-        on another mount, so the new search finds 8 (TODO.md 3.5 (e)).
+        In the reference container of Debian 12, 2019 found 9 SUID files and the new search
+        finds 8. The phase 3 note blamed another mount; the file by file comparison of phase
+        4 (tests/test_parity.py) showed it is the link.
         """
         legacy = {}
         for distro in ("debian12", "centos7"):

@@ -6,18 +6,18 @@ __pycache__/
 build/
 dist/
 
-# Output files of the 2019 aridi (legacy/)
+# Output files of the 2019 aridi (removed in phase 4; tests/parity/ keeps its reports)
 aridi.log
 aridi.badfiles
 network.dot
 network.dot.*
 report.txt
+!tests/parity/*/report.txt
 
-# Raw bundles produced by the collector, except the test corpus
+# Raw bundles produced by the collector, except the test corpus and the parity references
 *.aridi
 !tests/corpus/**/*.aridi
-!tests/legacy/reference/*/bundle.aridi
-!tests/legacy/reference/*/report.txt
+!tests/parity/*/bundle.aridi
 
 # Central component data
 /data/
