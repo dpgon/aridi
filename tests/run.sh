@@ -2,12 +2,11 @@
 # Runs the aridi test suites. Everything runs in Docker, so the host only needs a POSIX
 # shell and Docker (the host Python is never used).
 #
-# Usage: tests/run.sh [unit|collector|central|legacy|all|golden]    (default: all)
+# Usage: tests/run.sh [unit|collector|central|all|golden]    (default: all)
 #
 #   unit       core unit tests (python -m unittest) in python:3.12-slim
 #   collector  tests of collector/aridi-collect.sh in every corpus image
 #   central    tests of the central component (phase 5)
-#   legacy     regression of the 2019 aridi against tests/legacy/baseline/
 #   all        all of the above; exit code is non-zero if any part fails
 #   golden     regenerate the golden report of tests/test_core/test_text.py (review the diff)
 
@@ -41,24 +40,16 @@ run_central() {
     echo "central: no tests yet (TODO.md, phase 5)"
 }
 
-run_legacy() {
-    if [ -d "$repo/legacy" ]; then
-        "$here/legacy/baseline.sh" compare
-    else
-        echo "legacy: legacy/ no longer exists, skipped"
-    fi
-}
-
 suite=${1:-all}
 case $suite in
-    unit|collector|central|legacy|golden)
+    unit|collector|central|golden)
         shift
         "run_$suite" "$@"
         exit $?
         ;;
     all)
         failed=""
-        for part in unit collector central legacy; do
+        for part in unit collector central; do
             echo "==> $part"
             if ! "run_$part"; then
                 failed="$failed $part"
@@ -69,10 +60,10 @@ case $suite in
             echo "FAILED:$failed"
             exit 1
         fi
-        echo "ALL PASSED: unit collector central legacy"
+        echo "ALL PASSED: unit collector central"
         ;;
     *)
-        echo "usage: $0 [unit|collector|central|legacy|all|golden]" >&2
+        echo "usage: $0 [unit|collector|central|all|golden]" >&2
         exit 2
         ;;
 esac

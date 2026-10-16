@@ -2,128 +2,130 @@
 
 Linux information gathering and infrastructure scanner
 
-aridi is a command-line tool that profiles a Linux machine from the inside. You run it
-locally, as root, and it prints a text report covering the hardware, distribution,
-kernel, installed packages, disks, users and groups, services, network configuration,
-firewall rules, processes, open connections and login history. It also finds the IP
-addresses and host names mentioned in `/etc` and `/var/log`, and builds an
-**infrastructure map** that lists, for each IP, how it relates to the machine (DNS
-server, login source, connected peer, firewall rule…). As an option, it can sweep the
-local network with ARP and scan TCP ports.
+aridi profiles a Linux machine from the inside. A POSIX `sh` script collects raw data
+from the machine, and a Python core turns it into a snapshot and a readable report:
+hardware, distribution and kernel, installed packages, storage, dangerous permissions,
+identity and banners, users and groups, services, network, firewall, time
+synchronisation, processes, load, sessions, connections, the IP addresses and host names
+mentioned in `/etc`, `/var/log` and the journal, and the neighbour table. It also builds
+a **relation map**: for each IPv4 or IPv6 address, how it relates to the machine (DNS
+server, login source, connected peer, firewall rule, named in a file…).
 
-It uses only the Python standard library, plus the tools that the distribution already
-ships. The only exception is the optional network graph (`--graph`), which needs
-`graphviz`.
+What it could not see is never left out: every area and every missing piece says why
+(`denied`, `missing`, `na`, `timeout` or `error`).
 
-**Who it is for:** system administrators, security teams and auditors who want a quick,
-readable snapshot of a single Linux machine.
+**Who it is for:** system administrators, security teams and auditors who want a
+readable, complete snapshot of a Linux machine.
 
 ## Project status
 
-> **Read this before using it.** aridi was written in March–April 2019 and was left as a
-> *beta*. In October 2026 it was run unmodified in disposable containers (Debian 12,
-> Ubuntu 24.04, Rocky 9, Fedora 44, Alpine 3.20, CentOS 7). It starts and finishes on
-> Python 3.6 through 3.14, but on current systems **several sections disappear or report
-> wrong data without any warning**. Some examples:
->
-> - yescrypt password hashes are reported as "no password";
-> - IPv6 listeners are invisible;
-> - the disk section breaks with current `lsblk`;
-> - all network information is lost when an interface is named like `eth0@if5`;
-> - packages are missing on Fedora and Alpine.
->
-> The measured, feature-by-feature status is in [`docs/MVP.md`](docs/MVP.md).
+aridi was written in 2019 as a single Python program, and is being rewritten
+([`docs/CAMBIO.md`](docs/CAMBIO.md), plan in [`TODO.md`](TODO.md)). The rewrite has
+reached **feature parity with the 2019 program for local use**, and the 2019 code has
+been removed (it stays in the git history).
 
-**A full rewrite is in progress.** The goals are:
+What exists today is the **local mode**: collect on the machine, interpret anywhere.
+What is planned and **does not exist yet**: running the collector over SSH, a central
+inventory with history, change alerts and network discovery from the central component.
 
-- a dependency-free collector: a POSIX `sh` script plus a Python 3.12 interpreter;
-- remote execution over SSH;
-- a central inventory with history, change detection and alerts.
-
-The decision and its trade-offs are in [`docs/CAMBIO.md`](docs/CAMBIO.md), and the work
-plan is in [`TODO.md`](TODO.md). Until the rewrite reaches feature parity, the 2019
-program described below lives, unmodified, in [`legacy/`](legacy/). Nothing from the
-rewrite is finished yet. What exists is the local mode: `collector/aridi-collect.sh`
-collects the 17 areas into a raw bundle, and `aridi validate|interpret|report` turn it
-into a snapshot and a text report. It is tested on the sample corpus only; there is no
-remote execution, central inventory or alerting yet.
+The measured, feature-by-feature status is in [`docs/MVP.md`](docs/MVP.md).
 
 ## Requirements
 
-- Linux.
-- Python 3.6 or later. It was observed working on 3.6.8 to 3.14.8; no minimum version is
-  declared. Python 3.12+ prints about 30 `SyntaxWarning` messages, which are harmless.
-- Root privileges for the full report. It also runs as a regular user, with less
-  information.
-- Optional system tools, used when present: `lsusb`, `lsblk`, `findmnt`, `df`, `ip`,
-  `iptables`, `systemctl` or `chkconfig`, `utmpdump`, `nslookup` or `dig`, and your
-  package manager (`dpkg-query`, `apt`, `yum`, `zypper` or `pacman`). When a tool is
-  missing, its section is skipped.
-- Optional, only for `--graph`: `pip install graphviz` and the Graphviz `neato` binary.
+- **On the inspected machine:** Linux and a POSIX `sh` (dash, bash, busybox ash).
+  Nothing else to install: no Python, no third-party packages. It uses the tools the
+  distribution already ships when they are present (`ip`, `ss`, `lsblk`, `rpm`,
+  `systemctl`…) and reads `/proc` and `/sys` otherwise. Root gives the full picture; as
+  a regular user, what cannot be read is marked `denied`.
+- **Where the bundle is interpreted:** Python 3.12 or later, standard library only. It
+  can be the same machine or any other.
+
+Tested on Debian 12 and 13, Ubuntu 24.04, Rocky 9, Fedora 44, Alpine 3.20, Arch,
+openSUSE Leap 15.6, CentOS 7 and CentOS 6 (containers), plus Debian 12 (arm64 and amd64)
+and Rocky 9 (arm64) VMs.
 
 ## Installation
 
-There is no package and nothing to build. Copy the repository to the machine; the 2019
-program is in `legacy/`:
-
 ```sh
 git clone https://github.com/dpgon/aridi.git
+cd aridi
 ```
+
+Nothing else is needed. The collector is the single file `collector/aridi-collect.sh`;
+copy it to the machine you want to inspect. The core runs from the repository with
+`PYTHONPATH=src python3 -m aridi.cli …`, without installing anything.
+
+Optionally, `pip install .` installs the `aridi` command. The core has no dependencies,
+but **pip downloads `setuptools` from PyPI to build the package** (`[build-system]` in
+`pyproject.toml`). If you want to avoid any third-party download, use the `PYTHONPATH`
+form.
 
 ## Usage
 
-Run it **from inside the `legacy/` directory**. `services.csv` is loaded from the current
-directory; otherwise port names cannot be loaded and the scan is disabled. All output
-files are also written to the current directory.
+Two steps:
 
 ```sh
-cd aridi/legacy
-sudo python3 aridi.py                     # general information, summarized report
-sudo python3 aridi.py -a -od report.txt   # everything, detailed report to a file
-sudo python3 aridi.py -s -oi              # specific information, infrastructure map only
+# 1. On the machine to inspect (as root for the full picture)
+sh aridi-collect.sh > host.aridi
+
+# 2. Anywhere with Python 3.12, from the repository
+export PYTHONPATH=src                # not needed after "pip install ."
+python3 -m aridi.cli report host.aridi                # summary report
+python3 -m aridi.cli report --detail host.aridi       # detailed report
+python3 -m aridi.cli interpret host.aridi -o host.json   # snapshot as JSON
+python3 -m aridi.cli validate host.aridi              # check the bundle format only
 ```
 
-| Option | Meaning |
-|---|---|
-| `-g` | General information: hardware, OS, packages, disks, permission sweep (default) |
-| `-s` | Specific information: identity, users, services, network, iptables (implies `-g`) |
-| `-v` | Volatile information: processes, memory, CPU, disk load, sessions, connections |
-| `-c` | Carving: IPs and host names in `/etc` and `/var/log` |
-| `-a` | All of the above |
-| `--scan` | ARP sweep of local subnets (root only) and TCP port scan of the IPs you choose |
-| `--graph` | Draw the network graph (`network.dot`), requires `graphviz` |
-| `-os` / `-od` / `-of` / `-oi` | Summarized (default) / detailed / full / infrastructure report |
-| `-V LEVEL` | Log verbosity, from -1 to 3 (default 2) |
-| `FILE` | Save the report to `FILE` instead of printing it |
+After `pip install .`, `aridi report host.aridi` is the same as
+`python3 -m aridi.cli report host.aridi`.
 
-**aridi is interactive.** It asks up to seven `(y/N)` questions while it runs, for
-example before the filesystem permission sweep, the DNS lookups and the scan. Without a
-terminal those sections are lost, and a non-root run aborts.
+The script can also be fed through a pipe, for example `ssh host sh -s <
+aridi-collect.sh > host.aridi`. aridi itself does not run SSH yet.
 
-**Files it writes in the current directory:** `aridi.log`, `aridi.badfiles` (when the
-permission sweep runs), `network.dot` (with `--graph`) and `FILE`. They are created with
-fixed names and default permissions, and the report contains sensitive information. Do
-not run it in a shared directory such as `/tmp`.
+**Exit codes of `aridi`:** 0, everything was seen; 1, the snapshot has gaps (listed under
+"What could not be seen"); 2, the bundle could not be read.
 
-**About `--scan`:** the port scan can target any IP in the infrastructure map, including
-third-party addresses found only in log files. Only scan networks you are authorized to
-scan.
+**What the script does not do:** it never writes to disk (everything goes to stdout), it
+asks no questions, it changes nothing on the machine, and it does not scan the network.
+It filters secrets at the source: password hashes are reduced to their algorithm, process
+command lines are truncated and values that look like secrets are masked, and the IP
+search sends file, line and address, never the text of the line. The details and the
+known limits are in [`docs/FORMATO.md`](docs/FORMATO.md).
+
+**The bundle and the report are sensitive:** they describe the machine in depth. Keep them
+like any other security inventory. `aridi interpret -o` creates its file with mode 0600
+and never overwrites an existing file.
+
+## What changed from the 2019 program
+
+The 2019 command line (`aridi.py -g -s -v -c -a --scan --graph -os -od -of -oi`) and its
+report format are gone. In particular:
+
+- the ARP sweep and the port scan from the machine are dropped: the collector is passive.
+  Scanning is planned for the central component, limited to authorised networks;
+- the `--graph` network graph is dropped; the snapshot carries the relations to draw it;
+- host names found in files are listed, not resolved with DNS;
+- reading the report needs Python 3.12 on some computer; the machine itself only needs
+  `sh`.
+
+The full list is in [`docs/CAMBIO.md`](docs/CAMBIO.md) (*Qué se pierde*), and the
+feature-by-feature comparison with 2019, with the tests that prove it, is in
+[`tests/parity.md`](tests/parity.md).
 
 ## Tests
 
 All tests run in Docker; the host only needs a POSIX shell and Docker:
 
 ```sh
-tests/run.sh all        # or: unit | collector | central | legacy
+tests/run.sh all        # or: unit | collector | central | golden
 ```
 
-- **`unit`** runs the core unit tests in `python:3.12-slim`.
-- **`legacy`** runs the 2019 program in disposable Debian 12 and CentOS 7 containers
-  without network, and checks that its behaviour matches the recorded baseline in
-  `tests/legacy/baseline/`.
-
-The status of the 2019 program was measured by hand in the same way; see
-[`docs/MVP.md`](docs/MVP.md#cómo-se-ha-medido).
+- **`unit`:** the core tests in `python:3.12-slim`, against the sample corpus in
+  `tests/corpus/` (10 distributions in three variants, plus three VMs) and the 2019
+  comparison in `tests/parity/`.
+- **`collector`:** the script in every corpus image, with every shell available, as root
+  and as an unprivileged user: it must end with 0 and leave no trace on the machine.
+- **`golden`:** regenerates the reference report of the unit tests (review the diff).
 
 ## Documentation
 
@@ -131,16 +133,17 @@ The project documentation lives in [`docs/`](docs/) and is written in **Spanish*
 
 | Document | Contents |
 |---|---|
-| [`docs/ESTUDIO.md`](docs/ESTUDIO.md) | Code study: what the program does, how, its state and its known issues |
+| [`docs/ESTUDIO.md`](docs/ESTUDIO.md) | Study of the 2019 code: what it did, how, and its known issues |
 | [`docs/IDEA.md`](docs/IDEA.md) | Product idea: purpose, users, capabilities, principles, non-goals, glossary |
-| [`docs/MVP.md`](docs/MVP.md) | What works today, measured feature by feature, and what is half-done or abandoned |
-| [`docs/FUTURE.md`](docs/FUTURE.md) | Planned stages: reliable collector, central inventory, change alerts, scoped network discovery |
-| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Current architecture, data model, interfaces, decision log, technical debt |
-| [`docs/CAMBIO.md`](docs/CAMBIO.md) | The rewrite: what is kept, rewritten or dropped, target architecture, what is lost, alternatives, stages, risks |
-| [`docs/FORMATO.md`](docs/FORMATO.md) | Contract of the rewrite: raw bundle v1, snapshot v1, versioning policy, core CLI |
+| [`docs/MVP.md`](docs/MVP.md) | What works today, measured feature by feature with the automated tests |
+| [`docs/FUTURE.md`](docs/FUTURE.md) | Planned stages: central inventory, change alerts, scoped network discovery |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Architecture of the collector and the core, decision log, technical debt |
+| [`docs/CAMBIO.md`](docs/CAMBIO.md) | The rewrite: what is kept, rewritten or dropped, target architecture, what is lost |
+| [`docs/FORMATO.md`](docs/FORMATO.md) | Contract: raw bundle v1, snapshot v1, versioning policy, core CLI |
 
-The work plan of the rewrite is [`TODO.md`](TODO.md). Contributor and AI-agent working
-rules are in [`CLAUDE.md`](CLAUDE.md). Both are in Spanish.
+The work plan is [`TODO.md`](TODO.md), and the parity check against 2019 is
+[`tests/parity.md`](tests/parity.md). Contributor and AI-agent working rules are in
+[`CLAUDE.md`](CLAUDE.md). All of them are in Spanish.
 
 ## License
 

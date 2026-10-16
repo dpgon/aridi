@@ -1,9 +1,15 @@
 # aridi: la idea
 
 > Cada afirmación lleva una marca de procedencia:
-> **[observado]** es algo que el proyecto ya hace hoy, y se cita el archivo que lo demuestra;
+> **[observado]** es algo que el proyecto ya hace, y se cita el archivo que lo demuestra;
 > **[decidido]** es una intención nueva, acordada con el usuario el 2026-10-15.
 > El detalle técnico de lo observado está en [`ESTUDIO.md`](ESTUDIO.md).
+>
+> **Revisado en la fase 4 de [`TODO.md`](../TODO.md)** (2026-10-16), al retirar el código
+> de 2019. Las citas a `aridi.py`, `gathering*.py`, `reporting.py`, `scan.py` y
+> `graph.py` son de ese código: describen lo observado el 2026-10-15 y ya no están en el
+> árbol, solo en la historia de git (commit `4ab279e`, ficheros en la raíz). Las citas a
+> `collector/`, `src/aridi/` y `tests/` son del código actual.
 
 ---
 
@@ -50,9 +56,11 @@ usuario ha fijado y que descartan los enfoques habituales:
   conexiones entrantes y salientes, IPs mencionadas en la configuración y los registros
   [observado: `reporting.py:99`]. Pocas herramientas de inventario ofrecen esta vista.
 
-**El contexto del proyecto.** aridi existe desde 2019 como herramienta local e
-interactiva que produce un informe de texto en el momento [observado: `aridi.py:34`].
-No guarda nada entre ejecuciones ni compara una con otra [observado: `ESTUDIO.md` §6].
+**El contexto del proyecto.** aridi nació en 2019 como herramienta local e interactiva
+que producía un informe de texto en el momento [observado: `aridi.py:34`]. En la fase 4
+de `TODO.md` ese código se sustituyó por el colector de dos pasos (*Funcionalidad
+principal*, 1), que sigue siendo local: todavía no guarda nada entre ejecuciones ni
+compara una con otra [observado: `ESTUDIO.md` §6 y `src/aridi/cli.py`].
 Este documento recoge la evolución hacia un sistema centralizado que observa en el
 tiempo [decidido].
 
@@ -78,20 +86,32 @@ Dentro de una instalación hay dos roles [decidido]:
 
 ### 1. Recogida del perfil de una máquina
 
-Obtiene, de una sola vez, todo lo que se puede saber de la máquina. Hoy ya cubre
-[observado: `ESTUDIO.md` §2]:
+Obtiene, de una sola vez, todo lo que se puede saber de la máquina, en **dos pasos**
+[decidido en `CAMBIO.md`; observado desde la fase 4 de `TODO.md`]:
 
-| Área | Qué se obtiene | Dónde está hoy |
+1. **Recogida en bruto en la máquina:** un script POSIX `sh` sin dependencias
+   (`collector/aridi-collect.sh`) ejecuta lecturas y comandos del sistema y escribe por
+   la salida estándar un **paquete en bruto** (`docs/FORMATO.md`). No interpreta nada,
+   no escribe en disco y filtra en origen lo sensible (hashes de contraseñas, texto de
+   las líneas donde aparecen IPs, secretos en las líneas de órdenes).
+2. **Interpretación aparte:** el **núcleo** en Python 3.12, solo con la librería
+   estándar (`src/aridi/`), lee el paquete en cualquier equipo y produce la
+   **fotografía** (JSON versionado) y el informe legible.
+
+Cubre 17 áreas, agrupadas como en 2019 [observado: `src/aridi/parsers/`,
+`tests/parity.md`]:
+
+| Grupo | Qué se obtiene | Áreas |
 |---|---|---|
-| **General** | Hardware (CPU, memoria, USB), kernel, distribución y versión, librería del sistema, paquetes instalados con versión, discos y particiones con ocupación, y búsqueda opcional de permisos peligrosos en el sistema de ficheros (directorios escribibles por todos sin protección, ficheros escribibles por todos, binarios con privilegios elevados). | `gathering1.py` |
-| **Específica** | Identidad (nombre, dominio, identificador, banners), usuarios y grupos con el tipo de protección de su contraseña, servicios (en marcha, fallidos, otros estados), interfaces, direcciones, rutas, DNS, NTP y reglas de cortafuegos. | `gathering2.py` |
-| **Volátil** | Procesos (estado, mayores consumidores, zombis), memoria, carga y uso de CPU, carga de disco, sesiones activas, últimos accesos y accesos fallidos con su origen, conexiones de red con el proceso que las abrió. | `gathering3.py` |
-| **Carving** | Direcciones y nombres de máquina mencionados en la configuración (`/etc`) y en los registros (`/var/log`), con resolución opcional. | `gathering4.py` |
+| **General** | Hardware (CPU, memoria, USB), kernel, distribución y versión, librería del sistema, paquetes instalados con versión, discos, montajes y ocupación, y permisos peligrosos en el sistema de ficheros raíz (directorios escribibles por todos sin protección, ficheros escribibles por todos, binarios con privilegios elevados, permisos de los ficheros de cuentas). | `system`, `hardware`, `packages`, `storage`, `permissions` |
+| **Específica** | Identidad (nombre, dominio, identificador, banners), usuarios y grupos con el estado y el algoritmo de su contraseña, servicios (en marcha, fallidos, otros estados), interfaces, direcciones IPv4 e IPv6, rutas, DNS, sincronización de hora y reglas de cortafuegos. | `identity`, `users`, `services`, `network`, `firewall`, `timesync` |
+| **Volátil** | Procesos (estado, mayores consumidores, zombis), memoria, carga, uso de CPU y *uptime*, carga de disco, sesiones activas, últimos accesos y accesos fallidos con su origen, conexiones de red con el proceso que las abrió. | `processes`, `load`, `sessions`, `connections` |
+| **Carving y vecinos** | Direcciones y nombres de máquina mencionados en la configuración (`/etc`), los registros (`/var/log`) y el journal, y la tabla de vecinos de la red local. Los nombres se listan, no se resuelven. | `carving`, `neighbours` |
 
-Lo que cambia ahora [decidido]:
+Lo que cambió respecto a 2019 [decidido; observado en las pruebas de `tests/parity.md`]:
 
-- **Ninguna pregunta durante la ejecución.** Hoy hace siete preguntas por consola
-  [observado: `ESTUDIO.md` §5]. Pasa a funcionar sin nadie delante.
+- **Ninguna pregunta durante la ejecución.** El programa de 2019 hacía siete preguntas
+  por consola [observado: `ESTUDIO.md` §5]. El script funciona sin nadie delante.
 - **Cobertura moderna y antigua.** Cubre las familias principales con soporte vigente
   (Debian/Ubuntu, RHEL y derivadas, Fedora, SUSE/openSUSE, Arch, Alpine), distribuciones
   antiguas sin soporte (RHEL/CentOS 6 y 7) y contenedores en ejecución, en máquinas
@@ -100,12 +120,14 @@ Lo que cambia ahora [decidido]:
   el sistema. Si algo falta (una herramienta, un permiso, un intérprete), busca otra vía
   o renuncia a ese dato.
 - **Declarar lo que no se ha podido ver.** Cada recogida dice explícitamente qué datos
-  faltan y por qué: sin permisos, sin herramienta, no aplica, error. Hoy, cuando un
-  apartado falla, simplemente desaparece del informe [observado: `ESTUDIO.md` §8].
-- **Datos correctos.** Los defectos que hoy producen datos erróneos sin avisar se
+  faltan y por qué: sin permisos, sin herramienta, no aplica, error. Cuando un
+  apartado fallaba en 2019, simplemente desaparecía del informe [observado: `ESTUDIO.md`
+  §8]. Ahora cada área y cada parte de un área lleva su estado (**hueco**, ver
+  *Glosario*).
+- **Datos correctos.** Los defectos que en 2019 producían datos erróneos sin avisar se
   consideran fallos del producto, no limitaciones aceptadas. Por ejemplo, contraseñas
   modernas tratadas como "sin contraseña" o servicios en IPv6 invisibles
-  [observado: `ESTUDIO.md` §8].
+  [observado: `ESTUDIO.md` §8; corregidos y probados, `tests/parity.md` n.º 12 y 16].
 
 ### 2. Mapa de relaciones (infraestructura)
 
@@ -115,16 +137,24 @@ cortafuegos, conectada hacia o desde la máquina, mencionada en un fichero
 [observado: `reporting.py:99`, alimentado desde todos los módulos]. En el componente
 central, ese mapa forma parte del inventario y de su histórico [decidido].
 
-### 3. Descubrimiento de red y escaneo de puertos (opcional)
+### 3. Descubrimiento de red y escaneo de puertos
 
-Hoy aridi puede barrer la red local y escanear puertos de las IPs que descubre, incluidas
-algunas que solo aparecen en registros [observado: `scan.py`]. A partir de ahora
-[decidido]:
+El aridi de 2019 barría la red local con ARP y escaneaba puertos desde la propia máquina,
+incluidas IPs que solo aparecían en registros [observado: `scan.py`]. Eso se separa en
+dos partes [decidido en `CAMBIO.md`]:
 
-- está **desactivado por defecto**;
-- solo actúa sobre **redes que el administrador haya autorizado expresamente**;
-- **nunca** toca una IP que esté fuera de ese perímetro, por muy presente que esté en el
-  inventario.
+- **En la máquina, solo descubrimiento pasivo:** el colector no envía nada a la red. Lee
+  la tabla de vecinos que el sistema ya tiene (área `neighbours`) y las relaciones del
+  resto de áreas [observado: `src/aridi/parsers/neighbours.py`]. Los equipos de la red
+  local que nunca hayan hablado con la máquina ya no se descubren.
+- **Escaneo activo, desde el componente central** (fase 7 de `TODO.md`; **todavía no
+  existe**):
+  - estará **desactivado por defecto**;
+  - solo actuará sobre **redes que el administrador haya autorizado expresamente**;
+  - **nunca** tocará una IP que esté fuera de ese perímetro, por muy presente que esté
+    en el inventario o en los registros;
+  - verá la red desde la posición del central, no desde la máquina: un cortafuegos puede
+    hacer que vea algo distinto.
 
 ### 4. Ejecución remota
 
@@ -133,14 +163,21 @@ se trae el resultado por el mismo canal, sin dejar nada instalado [decidido]. La
 recogidas se pueden **programar** por máquina o por grupo (por ejemplo, cada noche) y
 **lanzar a demanda** [decidido].
 
-### 5. Modo local autónomo
+### 5. Modo local
 
-aridi sigue pudiendo ejecutarse a mano en una sola máquina, sin componente central
-[observado: es el único modo actual], y produce allí mismo un **informe legible**
-[observado: vistas resumida, detallada, completa y de infraestructura,
-`reporting.py:132-244`]. Además genera un **resultado que se puede importar después** al
-componente central [decidido]. Esto sirve para el auditor y para máquinas a las que no se
-llega por SSH.
+aridi sigue pudiendo usarse a mano, sin componente central [observado: es el único modo
+que existe hoy], en **dos pasos** [decidido en `CAMBIO.md`; observado]:
+
+1. En la máquina: `sh aridi-collect.sh > maquina.aridi`. Solo hace falta un `sh` POSIX.
+2. En cualquier equipo con **Python 3.12 o posterior** (la misma máquina, si lo tiene):
+   `aridi report maquina.aridi` para el **informe legible** (resumen o `--detail`, con
+   la vista de infraestructura y lo que no se pudo ver) y `aridi interpret` para la
+   fotografía JSON [observado: `src/aridi/cli.py`].
+
+**Lo que se pierde:** en una máquina sin Python 3.12, el informe no se puede leer allí
+mismo. El paquete en bruto es el **resultado que se podrá importar después** al
+componente central [decidido; la importación es de la fase 5 y **todavía no existe**].
+Esto sirve para el auditor y para máquinas a las que no se llega por SSH.
 
 ### 6. Inventario central
 
@@ -209,11 +246,13 @@ autorizadas [decidido].
 
 ### D. (Secundario) Auditoría de una máquina aislada
 
-1. El auditor ejecuta aridi a mano en la máquina, que no tiene acceso SSH desde el
-   componente central.
-2. Obtiene allí mismo el informe legible y, además, el resultado exportable.
-3. Si lo desea, lo importa después en la instalación de ese cliente, donde queda como una
-   fotografía más.
+1. El auditor ejecuta el script de recogida a mano en la máquina, que no tiene acceso
+   SSH desde el componente central, y se lleva el paquete en bruto. En la máquina no
+   queda nada.
+2. En su propio equipo (o en la máquina, si tiene Python 3.12) lo interpreta con
+   `aridi report` y obtiene el informe legible, con lo que no se ha podido ver.
+3. Si lo desea, importa después el paquete en la instalación de ese cliente, donde queda
+   como una fotografía más (cuando exista el componente central).
 
 ---
 
@@ -221,9 +260,15 @@ autorizadas [decidido].
 
 **Lo que el proyecto ya defiende** (se ve en sus decisiones):
 
-- **Cero dependencias ajenas.** Se limita a lo que trae el propio lenguaje para no abrir
-  la puerta a ataques de cadena de suministro [observado: `ESTUDIO.md` §3; la única
-  excepción es el dibujo opcional del grafo de red, `graph.py:6`].
+- **Cero dependencias ajenas en el colector.** Se limita a lo que trae el propio sistema
+  para no abrir la puerta a ataques de cadena de suministro [observado en 2019:
+  `ESTUDIO.md` §3; la única excepción era el dibujo opcional del grafo, `graph.py:6`,
+  que desaparece]. Desde la reescritura [decidido en `CAMBIO.md`] el principio se
+  **acota al colector**: el script solo usa `sh` y las herramientas del sistema, y el
+  núcleo solo la librería estándar de Python [observado:
+  `tests/test_core_isolation.py`]. El componente central, cuando exista, sí tendrá
+  dependencias de terceros (Django y pocas más), **fijadas por hash** en
+  `requirements/central.txt` e instaladas con `--require-hashes`.
 - **Adaptarse a la máquina, no exigirle nada.** Detecta la distribución, el gestor de
   paquetes y el sistema de servicios, y usa lo que encuentra [observado:
   `gathering1.py:155-222,477-491`, `gathering2.py:402-464`].
@@ -284,41 +329,62 @@ autorizadas [decidido].
 
 ## Glosario del dominio
 
-Los términos se toman de los nombres que usa el propio código.
+Los términos se toman de los nombres que usa el propio código. Los marcados *(2019)*
+son del código retirado en la fase 4.
 
 - **Recogida (gathering):** una ejecución de aridi en una máquina que obtiene su perfil.
-  Los módulos `gathering0` a `gathering4` contienen sus fases.
+  En 2019, los módulos `gathering0` a `gathering4` contenían sus fases; hoy es una
+  ejecución de `collector/aridi-collect.sh`.
 - **Fotografía:** el resultado de una recogida en un momento dado. El inventario guarda
   la sucesión de fotografías de cada máquina. Es un término nuevo, sin equivalente en el
   código.
-- **Precheck:** la comprobación previa del contexto (con qué permisos se ejecuta, qué
+- **Precheck** *(2019)*: la comprobación previa del contexto (con qué permisos se ejecuta, qué
   ficheros se pueden leer, qué herramientas hay disponibles). `gathering0.py:8`.
-- **Información general:** hardware, sistema operativo, paquetes, discos y permisos del
-  sistema de ficheros (opción `-g`). `gathering1.py`.
-- **Información específica:** identidad, usuarios, servicios, red y cortafuegos
-  (opción `-s`). `gathering2.py`.
-- **Información volátil:** el estado en el momento de la recogida: procesos, memoria,
-  CPU, disco, sesiones y conexiones (opción `-v`). `gathering3.py`.
-- **Carving:** extraer direcciones y nombres de máquina mencionados en `/etc` y
-  `/var/log` (opción `-c`). `gathering4.py`.
-- **Infraestructura:** el mapa que asocia cada IP con los papeles que tiene respecto a la
-  máquina. `reporting.py:99`.
-- **Local machine:** el papel de las IPs que pertenecen a la propia máquina inventariada.
-- **Scan:** el descubrimiento de red y el escaneo de puertos (opción `--scan`).
+- **Información general, específica y volátil; carving:** los cuatro grupos de áreas,
+  heredados de las fases de 2019 (opciones `-g`, `-s`, `-v` y `-c`, módulos
+  `gathering1.py` a `gathering4.py`). Hoy agrupan las 17 áreas de la fotografía
+  (*Funcionalidad principal*, 1); el grupo de carving incluye además los vecinos de red.
+  La información volátil es el estado en el momento de la recogida.
+- **Carving:** extraer direcciones y nombres de máquina mencionados en `/etc`,
+  `/var/log` y el journal (área `carving`).
+- **Infraestructura (mapa de relaciones):** el mapa que asocia cada IP con los papeles
+  que tiene respecto a la máquina (en 2019, `reporting.py:99`; hoy
+  `src/aridi/relations.py`). Los papeles son códigos enumerados (`docs/FORMATO.md`).
+- **Local machine:** el papel de las IPs que pertenecen a la propia máquina inventariada
+  (código `local`).
+- **Scan** *(2019)*: el descubrimiento de red y el escaneo de puertos (opción `--scan`).
   `scan.py`.
-- **Informe resumido / detallado / completo / de infraestructura:** las cuatro vistas
-  legibles de una recogida (`-os`, `-od`, `-of`, `-oi`). `reporting.py`.
-- **Badfiles:** la lista de ficheros y directorios con permisos peligrosos.
+- **Informe resumido / detallado / completo / de infraestructura** *(2019)*: las cuatro
+  vistas legibles de una recogida (`-os`, `-od`, `-of`, `-oi`). `reporting.py`. Hoy
+  `aridi report` da el resumen o el detalle (`--detail`), siempre con la
+  infraestructura.
+- **Badfiles** *(2019)*: la lista de ficheros y directorios con permisos peligrosos.
   `gathering1.py:588`.
+- **Paquete en bruto (bundle):** la salida del script de recogida: un texto con una
+  sección por fuente (comando o fichero), cada una con su estado, su código de salida y
+  una nota. Su formato es un contrato versionado (`docs/FORMATO.md`).
+- **Núcleo:** la librería y la CLI `aridi` en Python 3.12, solo con la librería
+  estándar (`src/aridi/`). Lee paquetes, los interpreta y produce fotografías e
+  informes. Nunca importa nada del componente central.
+- **Intérprete:** la parte del núcleo que convierte un paquete en bruto en una
+  fotografía, con un analizador por área (`src/aridi/interpret.py` y
+  `src/aridi/parsers/`).
 - **Hueco (dato no recogido):** un dato que aridi no ha podido obtener, junto con el
-  motivo. Es un término nuevo [decidido].
+  motivo [decidido]. Cada sección del paquete y cada área de la fotografía llevan un
+  estado: `ok`, `denied` (sin permiso), `missing` (falta la herramienta), `na` (no
+  aplica a esta máquina), `timeout` o `error`. Es hueco todo lo que no sea `ok` ni
+  `na`. Un área que se ha visto puede tener además **huecos parciales**: partes
+  concretas que faltan, con su estado y su motivo (`docs/FORMATO.md`).
 - **Cambio significativo:** una diferencia entre dos fotografías que el criterio de
   alertas considera relevante, con una gravedad. Es un término nuevo [decidido].
-- **Componente central:** la parte que lanza las recogidas remotas, guarda el inventario
-  y su histórico, compara las fotografías y alerta. Es un término nuevo [decidido].
-- **Modo local:** una ejecución manual en una sola máquina, sin componente central.
-- **Red autorizada:** una red que el administrador permite explorar expresamente con el
-  scan [decidido].
+- **Componente central:** la parte que lanzará las recogidas remotas, guardará el
+  inventario y su histórico, comparará las fotografías y alertará. Es un término nuevo
+  [decidido]; todavía no existe (fases 5 a 7 de `TODO.md`).
+- **Modo local:** el uso manual sin componente central, en dos pasos: recoger con el
+  script en la máquina e interpretar con `aridi` en cualquier equipo con Python 3.12.
+- **Red autorizada:** una red que el administrador permitirá explorar expresamente con el
+  escaneo activo. Se dará de alta en el componente central (fase 7 de `TODO.md`), que es
+  el único que escaneará [decidido]; todavía no existe.
 
 ---
 

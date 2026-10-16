@@ -463,6 +463,9 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
   - busybox (Alpine).
 - [x] (e) Regresión: las entradas SUID de `legacy/` en Debian 12 (9, incluida una de otro
   montaje) quedan en 8 por `-xdev`. Documentar la diferencia en la prueba.
+  **Corregido en la fase 4:** la entrada de más no venía de otro montaje, sino del enlace
+  simbólico `/usr/bin/sg` → `newgrp`, que 2019 seguía. Se vio al comparar fichero a
+  fichero (`tests/test_parity.py`).
 
 ### Específica
 
@@ -658,7 +661,9 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
 - [x] (d) Pruebas: VMs con inicios reales y fallidos; un sistema con `wtmpdb`, si alguna
   imagen del corpus lo usa (Debian 13 u openSUSE; anotar cuál); fechas en otro idioma en
   datos sintéticos. **Ninguna imagen del corpus trae `wtmpdb`** (Debian 13 y openSUSE
-  15.6 en contenedor dan `missing`): solo hay datos sintéticos del formato de `last -F`.
+  15.6 en contenedor dan `missing`): solo hay datos sintéticos del formato de `last -F`,
+  y la vía `wtmpdb` tiene su prueba sintética desde la fase 4
+  (`test_volatile:SessionsTest.test_wtmpdb_is_preferred_to_last`).
   **Las sesiones del escenario necesitan `ssh -tt`:** sshd solo las registra en
   utmp/wtmp cuando tienen terminal.
 - [x] (e) Regresión: no hay base útil en `legacy/`.
@@ -745,42 +750,54 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
 
 ### 4.1 Comprobación de paridad
 
-- [ ] Crear `tests/parity.md`: una tabla con **cada funcionalidad numerada de
+- [x] Crear `tests/parity.md`: una tabla con **cada funcionalidad numerada de
   `docs/MVP.md`** (1-10 entregadas, 11-21 a medias, las «implementadas, sin verificar» y
   las «abandonadas») y, para cada una, el área del colector nuevo que la cubre, la prueba
   que lo demuestra o la indicación de que se abandona según `docs/CAMBIO.md` (grafo,
   barrido ARP activo, escaneo desde la máquina, resolución DNS de FQDN, vista
   `view_vulns`).
-- [ ] Verificar uno por uno los puntos de `tests/parity.md` ejecutando las pruebas
-  indicadas. **No se marca nada por lectura de código.**
-- [ ] **Regresión final:** ejecutar `legacy/` y el colector nuevo sobre las mismas
+- [x] Verificar uno por uno los puntos de `tests/parity.md` ejecutando las pruebas
+  indicadas. **No se marca nada por lectura de código.** `tests/test_parity_doc.py`
+  comprueba que la tabla cubre las 21 funcionalidades numeradas y las de 2019 sin verificar
+  y abandonadas, y que cada prueba nombrada existe; `tests/run.sh all` las ejecuta todas
+  (235 unitarias en verde el 2026-10-16).
+- [x] **Regresión final:** ejecutar `legacy/` y el colector nuevo sobre las mismas
   muestras (Debian 12 y CentOS 7, red *bridge* y sin red) y comprobar que todo lo que
   `legacy/` daba bien lo da también el nuevo, con los mismos valores.
+  **Hecho** con `tests/parity/` (variantes `plain`, `none` y `bridge`) y
+  `tests/test_parity.py`. Desviaciones y hallazgos, en `tests/parity.md`:
+  - se quitó el `nameserver` IPv6 del escenario porque aborta todo el informe de 2019;
+  - 2019 contaba enlaces simbólicos como SUID (la nota de 3.5 (e) estaba equivocada);
+  - el nuevo no mostraba el *uptime* (añadido a `load`) y tomaba por IP una versión
+    seguida de `-` (nueva clase `h` en el script); se recapturó todo el corpus.
 
 ### 4.2 Recuperar lo que `legacy/` aporta y retirarlo
 
-- [ ] Comprobar que `src/aridi/data/services.csv` (copiado en 3.15) es idéntico a
-  `legacy/services.csv` (`cmp`) antes de borrar `legacy/`.
-- [ ] Comprobar con `grep -r legacy src tests collector` que nada fuera de `legacy/`
-  depende de él, salvo `tests/legacy/`.
-- [ ] `git rm -r legacy/ tests/legacy/` y quitar el subcomando `legacy` de
+- [x] Comprobar que `src/aridi/data/services.csv` (copiado en 3.15) es idéntico a
+  `legacy/services.csv` (`cmp`) antes de borrar `legacy/`. **Idénticos.**
+- [x] Comprobar con `grep -r legacy src tests collector` que nada fuera de `legacy/`
+  depende de él, salvo `tests/legacy/`. Solo había comentarios con rutas
+  (`legacy/gathering2.py:35`…), que ahora dicen «2019 gathering2.py:35», y las pruebas
+  que leían `tests/legacy/reference/`, que pasan a `tests/parity/` (datos congelados).
+  La última comparación con la línea base (`tests/run.sh legacy`) salió idéntica.
+- [x] `git rm -r legacy/ tests/legacy/` y quitar el subcomando `legacy` de
   `tests/run.sh`.
-- [ ] Ejecutar `tests/run.sh all`.
+- [x] Ejecutar `tests/run.sh all`. **Pasa** (unit, collector; central sin pruebas aún).
 
 ### 4.3 Documentación (lo que deja de ser cierto al retirar `legacy/`)
 
-- [ ] `docs/MVP.md`: reescribirlo para el colector nuevo con las mismas categorías
+- [x] `docs/MVP.md`: reescribirlo para el colector nuevo con las mismas categorías
   (entregada, entregada con limitaciones, a medias, implementada sin verificar,
   abandonada). *Cómo se ha medido* pasa a ser las pruebas automáticas sobre el corpus
   (`tests/run.sh`). Sección «Fuera de lo entregado» actualizada: el central todavía no
   existe.
-- [ ] `docs/ARCHITECTURE.md`:
+- [x] `docs/ARCHITECTURE.md`:
   - la parte del colector pasa a describir el script, el núcleo, el formato
     (`docs/FORMATO.md`), las pruebas y el corpus;
   - lo de 2019 queda en una sección histórica breve;
   - registro de decisiones ampliado con las de `docs/CAMBIO.md` y las de planificación
     de este `TODO.md`.
-- [ ] `docs/IDEA.md`:
+- [x] `docs/IDEA.md`:
   - *Funcionalidad principal* 1 (recogida en bruto más interpretación), 3 (pasivo en la
     máquina y escaneo desde el central) y 5 (modo local en dos pasos, con Python 3.12 en
     algún equipo);
@@ -788,14 +805,14 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
   - recorrido D en dos pasos;
   - *Glosario*: paquete en bruto, intérprete, núcleo, hueco con sus estados, red
     autorizada.
-- [ ] `docs/FUTURE.md`:
+- [x] `docs/FUTURE.md`:
   - renumerar según las fases de este `TODO.md`;
   - 1.2-1.5 y 1.10 hechas;
   - 1.6 precisada (RHEL 6 y contenedores sin Python, con el script);
   - 4.1 reescrita (pasivo y escaneo desde el central);
   - añadir a las ideas aparcadas «guardar el paquete en bruto para reinterpretarlo» (si
     5.0 no lo adopta) y «resolución DNS de FQDN».
-- [ ] `README.md` (en inglés):
+- [x] `README.md` (en inglés):
   - instalación y uso del modo local en dos pasos (`sh aridi-collect.sh > host.aridi`;
     `pip install .` y `aridi report host.aridi`);
   - requisitos (POSIX `sh` en la máquina; Python 3.12 donde se interpreta);
@@ -803,7 +820,7 @@ Fija el formato del paquete en bruto y de la fotografía antes de escribir ningu
   - qué se ha perdido respecto a 2019 (`docs/CAMBIO.md`, *Qué se pierde*);
   - quitar las referencias a `legacy/`;
   - conservar el título y la frase original del autor.
-- [ ] `CLAUDE.md`:
+- [x] `CLAUDE.md`:
   - quitar todo lo de `legacy/` y la regla de Python 3.6;
   - reglas nuevas: el script es POSIX `sh` (sin *bashisms*), nunca escribe en disco y
     filtra lo sensible en origen;

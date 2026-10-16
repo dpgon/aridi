@@ -6,94 +6,68 @@ pregunta antes de actuar.
 
 ## Qué es
 
-aridi es una herramienta de inventario de máquinas Linux que **se está reescribiendo**.
+aridi es una herramienta de inventario de máquinas Linux. Tiene dos piezas:
 
-- **El aridi de 2019** (consola en Python 3, estado *beta*) está en `legacy/`, sin
-  modificar. Perfila la máquina en la que se ejecuta y produce un informe de texto:
-  hardware, distribución, paquetes, discos, usuarios, servicios, red, cortafuegos,
-  procesos, sesiones, un mapa de las IPs con las que se relaciona y, de forma opcional,
-  un barrido ARP y un escaneo de puertos. **Su estado real está medido en
-  `docs/MVP.md`: léelo antes de dar nada por funcionando.**
-- **La reescritura** está decidida en `docs/CAMBIO.md` y se ejecuta por fases según
-  `TODO.md`. Tiene dos piezas:
-  - un colector sin dependencias: un script POSIX `sh` que recoge en bruto, más un núcleo
-    en Python 3.12 que lo interpreta;
-  - un componente central en Django 5.2 con SQLite, ejecución por SSH, histórico y
-    alertas.
+- **El colector, que ya existe:**
+  - un script POSIX `sh` sin dependencias que recoge en bruto, en la máquina, 17 áreas;
+  - un núcleo en Python 3.12, solo con la librería estándar, que interpreta ese paquete
+    en cualquier equipo y produce una fotografía JSON y un informe de texto.
 
-  **Sigue `TODO.md` en orden y marca las tareas al terminarlas.**
+  Es el **modo local en dos pasos**.
+- **El componente central, previsto y todavía inexistente:** Django 5.2 con SQLite,
+  ejecución por SSH, histórico y alertas (fases 5 a 7 de `TODO.md`).
+
+**Su estado real está medido en `docs/MVP.md`:** léelo antes de dar nada por
+funcionando. La reescritura se decidió en `docs/CAMBIO.md` y se ejecuta por fases según
+`TODO.md`. **Sigue `TODO.md` en orden y marca las tareas al terminarlas.**
+
+El aridi de 2019 (un único programa en Python) se retiró en la fase 4, al alcanzar la
+paridad (`tests/parity.md`). Su código queda en la historia de git: en la raíz hasta el
+commit `4ab279e`, y en `legacy/` desde `6f749d6` hasta su retirada. Las referencias del
+código del tipo «2019 gathering2.py:35» se refieren a esos ficheros (las líneas no
+cambiaron al moverlos).
 
 ## Arquitectura en breve
 
-Versión completa: `docs/ARCHITECTURE.md` (describe todavía el sistema de 2019). La de
-destino está en `docs/CAMBIO.md`.
+Versión completa: `docs/ARCHITECTURE.md`. Contrato de datos: `docs/FORMATO.md`.
 
 | Ruta | Qué es |
 |---|---|
-| `legacy/` | El aridi de 2019, intacto. Se borra al alcanzar la paridad (fase 4). Ver `legacy/README.md`. |
-| `collector/aridi-collect.sh` | Script POSIX de recogida en bruto: las 17 áreas, con filtrado en origen de lo sensible (`docs/FORMATO.md`) |
-| `src/aridi/` | Núcleo: solo librería estándar; interpreta paquetes en bruto (CLI `aridi`) |
+| `collector/aridi-collect.sh` | Script POSIX de recogida en bruto: 17 áreas, con filtrado en origen de lo sensible |
+| `src/aridi/` | Núcleo, solo con la librería estándar: `bundle.py` (lector del paquete), `model.py` (fotografía, estados, huecos y papeles de relación), `interpret.py` (registro de áreas), `parsers/` (un analizador por área), `relations.py`, `views/text.py` y `cli.py` (`aridi validate\|interpret\|report`) |
+| `src/aridi/data/services.csv` | Nombres de puertos (`nombre\|puerto\|descripción`), copiado sin cambios de 2019 |
 | `src/aridi_central/` | Central Django (desde la fase 5; todavía no existe) |
-| `tests/` | `run.sh` (punto de entrada), pruebas `unittest`, `collector/` (script en todas las imágenes), `corpus/` (muestras), `lima/` (VMs) y `legacy/` (línea base de 2019) |
+| `tests/` | `run.sh` (punto de entrada), pruebas `unittest`, `collector/` (script en todas las imágenes), `corpus/` (muestras), `lima/` (VMs), `parity/` y `parity.md` (regresión frente a 2019) |
 | `requirements/` | `central.in` y `central.txt`: dependencias del central, fijadas con hashes |
-| `docs/` | Estudio, idea, alcance medido, futuro, arquitectura, cambio y formato (`FORMATO.md`, el contrato del paquete y de la fotografía), en español |
+| `docs/` | Estudio, idea, alcance medido, futuro, arquitectura, cambio y formato, en español |
 | `pyproject.toml` | Distribución `aridi`: núcleo sin dependencias; extra `central` |
-
-**El aridi de 2019** (`legacy/`):
-
-| Fichero | Qué hace |
-|---|---|
-| `aridi.py` | Arranque: CLI (`argparse`), precheck, invoca las fases y escribe las salidas |
-| `gathering0.py` | `Precheck`: uid, ficheros legibles, búsqueda de binarios, DNS, carga de `services.csv` |
-| `gathering1.py` | Fase general (`-g`): hardware, SO, paquetes, discos, permisos |
-| `gathering2.py` | Fase específica (`-s`): identidad, usuarios, servicios, red, iptables |
-| `gathering3.py` | Fase volátil (`-v`): procesos, RAM, CPU, disco, sesiones, sockets |
-| `gathering4.py` | Fase de carving (`-c`): IPs y FQDN en `/etc` y `/var/log` |
-| `scan.py` | `--scan`: ARP con sockets crudos y TCP *connect* con hilos |
-| `graph.py` | `--graph`: grafo con `graphviz` (opcional) |
-| `reporting.py` | `Reporting`: almacén del informe, mapa de infraestructura, log y vistas |
-| `utils.py` | Cabeceras de texto, IPs en hexadecimal, barra de progreso |
-| `services.csv` | `nombre\|puerto\|descripción`: nombres de puertos y lista de escaneo |
-
-Funcionamiento interno de `legacy/`:
-
-- **Estado compartido** en `report` (`Reporting`), `precheck` (`Precheck`) y varios
-  globales de módulo.
-- **Fases:** cada una expone `get*info(report, precheck)`.
-- **Funciones privadas:** las `_get*()` devuelven `(summ, detail)` como texto ya
-  formateado, que se añade con `report.summarized(kind, …)` y `report.detailed(kind, …)`
-  (`kind`: 0 ejecución, 1 general, 2 específica, 3 volátil, 4 carving, 5 escaneo).
 
 ## Estándares de código
 
-**En `legacy/`** no se escribe código nuevo: solo se toca si una tarea de `TODO.md` lo
-pide. Si hay que tocarlo, se respeta su estilo:
-
-- nombres en minúsculas sin separar palabras (`getgeneralinfo`), funciones internas con
-  `_`;
-- `str.format()`;
-- **compatible con Python 3.6.**
-
-**En el código nuevo** (`src/`, `collector/`, `tests/`):
-
-- **Formato:** 4 espacios, sin tabuladores; líneas de hasta unos 100 caracteres, como en
-  el código original.
+- **Formato:** 4 espacios, sin tabuladores; líneas de hasta unos 100 caracteres.
 - **Linter y formateador:** ninguno configurado. No reformatees ficheros enteros.
-- **Nombres:** PEP 8. Funciones y variables en `snake_case` (`build_parser`,
-  `imported_modules`), clases en `CamelCase` y funciones internas con prefijo `_`.
-- **Python:** 3.12 o superior en `src/` (f-strings, `dataclasses` y `pathlib` permitidos).
+- **Nombres:** PEP 8. Funciones y variables en `snake_case` (`build_parser`), clases en
+  `CamelCase` y funciones internas con prefijo `_`.
+- **Python:** 3.12 o superior (f-strings, `dataclasses` y `pathlib` permitidos).
   Expresiones regulares siempre en *raw string*.
-- **`sh`:** solo POSIX, sin *bashisms*. Tiene que funcionar con `dash`, `bash`, busybox
-  `ash` y el `sh` de CentOS 6.
+- **`sh`:** solo POSIX, sin *bashisms*. Tiene que funcionar con `dash`, `bash` (incluido
+  el 4.1 de CentOS 6) y busybox `ash`.
 - **Documentación:** docstring breve por módulo; comentarios y mensajes en inglés.
 - **Errores:** nunca se omiten en silencio. Lo que no se pueda recoger o interpretar se
-  declara como hueco con estado y motivo (`docs/CAMBIO.md`). Nada de `except:` desnudos.
+  declara como hueco con estado y motivo (`docs/FORMATO.md`). Nada de `except:` desnudos.
 - **Logging:** el módulo `logging` hacia stderr. Nada de `print` para diagnóstico.
+- **Un área nueva, o un cambio en una, sigue el patrón de la fase 3 de `TODO.md`:**
+  - **(a)** secciones en el script, con varias fuentes ordenadas (primero `/proc`,
+    `/sys` o `/etc`; si no, binarios);
+  - **(b)** analizador en `src/aridi/parsers/<área>.py`;
+  - **(c)** vista en `src/aridi/views/text.py`;
+  - **(d)** recaptura del corpus y pruebas contrastadas con `facts.txt`;
+  - **(e)** regresión: ningún valor de `tests/parity/` empeora.
 
 ## Pruebas
 
 - **El único punto de entrada es `tests/run.sh`:** `tests/run.sh all` o una parte
-  concreta (`unit`, `collector`, `central`, `legacy`). Todo corre en Docker, así que el
+  concreta (`unit`, `collector`, `central`, `golden`). Todo corre en Docker, así que el
   Python del anfitrión (3.9 en macOS) no se usa nunca.
 - **`unit`:** `python -m unittest discover -s tests -t .` en `python:3.12-slim`, con el
   repositorio montado en solo lectura. Las pruebas van en `tests/`, en ficheros
@@ -105,31 +79,30 @@ pide. Si hay que tocarlo, se respeta su estilo:
 - **`golden`:** `tests/run.sh golden` regenera el informe de referencia de
   `tests/test_core/test_text.py`. Hay que hacerlo tras recapturar el corpus o cambiar el
   informe, **revisando el diff**.
-- **`legacy`:** `tests/legacy/baseline.sh compare` ejecuta el aridi de 2019 en Debian 12 y
-  CentOS 7, sin red, y comprueba que sus errores, sus secciones y su código de salida no
-  cambian respecto a `tests/legacy/baseline/`. Si una tarea toca `legacy/` a propósito,
-  vuelve a grabar la línea base con `record` **y explícalo**.
-- **`tests/test_core_isolation.py`** falla si `src/aridi` importa algo que no sea de la
-  librería estándar.
+- **Corpus:** `tests/corpus/capture.sh all` (contenedores) y `tests/lima/capture-vm.sh
+  all` (VMs) recapturan las muestras. Hay que hacerlo **cada vez que cambia el script**.
+- **Paridad:** `tests/test_parity.py` compara con lo que el aridi de 2019 vio en las
+  mismas máquinas (`tests/parity/`, datos congelados). `tests/parity.md` asocia cada
+  funcionalidad de 2019 a sus pruebas, y `tests/test_parity_doc.py` comprueba que esas
+  pruebas existen.
 - **Toda tarea que cambie comportamiento incluye sus pruebas** (`TODO.md`). No digas que
   algo funciona sin haberlo visto pasar en `tests/run.sh`.
 
 ## Compilar y ejecutar
 
 - No hay nada que compilar.
-- **Núcleo:** `PYTHONPATH=src python3.12 -m aridi.cli …` o, tras `pip install .`,
-  `aridi validate|interpret|report <paquete>`. Modo local: `sh collector/aridi-collect.sh
-  > m.aridi` (solo en máquinas desechables, regla 2) y `aridi report m.aridi`.
+- **Núcleo:** `PYTHONPATH=src python3.12 -m aridi.cli validate|interpret|report <paquete>`
+  o, tras `pip install .`, `aridi …`. `pip install .` descarga `setuptools` de PyPI para
+  construir; la forma con `PYTHONPATH` no descarga nada.
+- **Modo local:** `sh collector/aridi-collect.sh > m.aridi` (solo en máquinas
+  desechables, regla 2) y `aridi report m.aridi`.
 - **Dependencias del central:** `pip install --require-hashes -r requirements/central.txt`.
   Para regenerarlo, sigue el comando de `requirements/central.in`.
-- **aridi de 2019:** `cd legacy && sudo python3 aridi.py [-a|-g|-s|-v|-c] [--scan]
-  [--graph] [-V N] [-os|-od|-of|-oi] [FILE]`, **solo en contenedores** (ver reglas).
 
 ## Flujo de git
 
-- **Lo que muestra el historial:** 45 commits de una sola persona, todos directos a
-  `master`, sin ramas, etiquetas ni PR. Mensajes cortos en inglés ("Minor fixes", "zypper
-  support", "First beta").
+- **Lo que muestra el historial hasta 2019:** 45 commits de una sola persona, todos
+  directos a `master`, sin ramas, etiquetas ni PR, con mensajes cortos en inglés.
 - **A partir de ahora:**
   - no hagas commits ni push si no te lo piden;
   - cuando te lo pidan, escribe mensajes en inglés, breves y **descriptivos** (qué cambia
@@ -137,7 +110,8 @@ pide. Si hay que tocarlo, se respeta su estilo:
   - un cambio lógico por commit;
   - usa `git mv` para mover ficheros y conservar la historia.
 - **Hay `.gitignore`.** Aun así, antes de hacer `git add` comprueba que no entran
-  informes, paquetes `*.aridi` fuera de `tests/corpus/` ni bases de datos.
+  informes, paquetes `*.aridi` fuera de `tests/corpus/` y `tests/parity/`, ni bases de
+  datos.
 
 ## Reglas de este proyecto fáciles de incumplir
 
@@ -145,41 +119,43 @@ pide. Si hay que tocarlo, se respeta su estilo:
    *Por qué:* el principio fundador es evitar ataques de cadena de suministro. El central
    solo puede usar lo que hay en `requirements/central.txt` (Django, asgiref, sqlparse,
    gunicorn, packaging). Cualquier paquete más necesita la decisión del usuario y su hash.
-2. **No ejecutes ningún aridi en tu máquina ni en ninguna máquina real. Usa contenedores
-   desechables con `--network none`.**
-   *Por qué:* el de 2019 lee `/etc/shadow` y todo `/etc` y `/var/log`, escribe ficheros
-   con nombre fijo siguiendo enlaces simbólicos, recorre todo `/` y, con `--scan`, lanza
-   miles de conexiones. El script nuevo también lee datos sensibles.
-3. **Nunca lances `--scan` con red real ni contra IPs que no sean de la propia máquina de
-   prueba.**
-   *Por qué:* las categorías `a` y `x` incluyen IPs de terceros sacadas de los registros, y
-   escanearlas puede ser ilegal (`docs/ESTUDIO.md` §8).
-4. **aridi es de solo lectura: ningún cambio puede modificar el sistema inspeccionado.**
+2. **No ejecutes el script en tu máquina ni en ninguna máquina real. Usa contenedores
+   desechables con `--network none` o las VMs de `tests/lima/`.**
+   *Por qué:* lee datos sensibles de todo el sistema (cuentas, procesos, registros,
+   cortafuegos). Solo se ejecuta donde lo que lea no importe.
+3. **aridi es de solo lectura: ningún cambio puede modificar el sistema inspeccionado.**
    *Por qué:* es un principio del producto (`docs/IDEA.md`), y es lo que permite darle
-   root en todo un parque. El script nuevo, además, no escribe nada en disco.
-5. **No añadas llamadas a `input()` ni preguntas interactivas.**
-   *Por qué:* sin terminal provocan `EOFError` y se pierden apartados (`docs/MVP.md`
-   n.º 21). El producto nuevo es desatendido.
-6. **`legacy/` debe seguir siendo compatible con Python 3.6.**
-   *Por qué:* CentOS 7 (Python 3.6.8) está en la línea base de regresión. Fuera de
-   `legacy/`, el mínimo es Python 3.12.
-7. **En `legacy/`, los textos que se pasan a `report.infrastructure(ip, texto)` son un
-   contrato, no mensajes.**
-   *Por qué:* `legacy/scan.py:155-169` clasifica las IPs por el prefijo de esos textos. En
-   el código nuevo, los papeles de relación son **códigos enumerados**, nunca frases.
-8. **En `legacy/`, si tocas `_getnetinfo`, `_getusers` o `_getdisks`, revisa también
-   `gathering3.py` y `scan.py`.**
-   *Por qué:* se importan desde fuera de su módulo y escriben en `report` como efecto
-   secundario.
-9. **En `legacy/`, comprueba el orden de los parámetros antes de llamar a una función
-   privada.**
-   *Por qué:* hay funciones `(report, precheck)` y funciones `(precheck, report)`. El
-   intérprete no avisa del cruce.
+   root en todo un parque. Cuidado con las herramientas que escriben al leer (`rpm` como
+   root) o que cargan módulos del kernel (`nft`, `iptables`): `docs/FORMATO.md` explica
+   cómo se evitan, y `tests/run.sh collector` lo vigila con `find -newer`.
+4. **El script nunca escribe en disco.**
+   *Por qué:* todo sale por stdout, sin ficheros temporales. Un fichero temporal en una
+   máquina ajena es un rastro y un riesgo (enlaces simbólicos, permisos).
+5. **El script filtra lo sensible en origen.**
+   *Por qué:* lo que sale de la máquina se copia, se guarda y se transmite. Nunca salen
+   hashes de contraseñas (solo su algoritmo), claves privadas, variables de entorno de
+   procesos ni el texto de las líneas donde aparecen IPs; las líneas de órdenes salen
+   recortadas y con los valores con aspecto de secreto ocultos. Lista completa en
+   `docs/FORMATO.md`, y `tests/test_corpus_hygiene.py` lo comprueba en todo el corpus.
+6. **No añadas llamadas a `input()` ni preguntas interactivas.**
+   *Por qué:* el producto es desatendido. En 2019, sin terminal se perdían apartados
+   enteros (`tests/parity.md`, n.º 21).
+7. **El formato es un contrato versionado.**
+   *Por qué:* el paquete en bruto y la fotografía (`docs/FORMATO.md`) los leerán también el
+   central y las versiones futuras del núcleo. Un cambio incompatible exige subir la
+   versión y seguir la política de versiones de ese documento.
+8. **Los papeles de relación son códigos enumerados (`Role` en `model.py`), nunca
+   frases.**
+   *Por qué:* en 2019, el escaneo clasificaba las IPs por el prefijo de un texto libre, y
+   cambiar una frase rompía esa clasificación.
+9. **El núcleo (`src/aridi`) nunca importa Django, `aridi_central` ni nada ajeno a la
+   librería estándar.**
+   *Por qué:* es la frontera de `docs/CAMBIO.md`. El central usa el núcleo como librería,
+   nunca al revés, y `tests/test_core_isolation.py` lo vigila.
 10. **No supongas que los datos del sistema son completos o tienen un formato fijo.**
     *Por qué:* en 2019, un uid sin usuario, un miembro de grupo sin usuario, una interfaz
     `eth0@if5`, menos de 10 procesos o un `lsblk` moderno anulaban apartados enteros
-    (`docs/MVP.md` n.º 12-17). Cada uno de esos casos tiene que tener su prueba en el
-    código nuevo.
+    (`tests/parity.md`, n.º 12-17). Cada caso así tiene su prueba.
 11. **Lo que no se pueda recoger se declara; no se omite.**
     *Por qué:* es un principio decidido (`docs/IDEA.md`). Un apartado que desaparece en
     silencio hace que el informe mienta por omisión.
@@ -187,9 +163,11 @@ pide. Si hay que tocarlo, se respeta su estilo:
     *Por qué:* es el criterio de `docs/MVP.md`. Si no puedes interpretar algo con
     seguridad (por ejemplo, un tipo de hash desconocido), dilo como «desconocido», no lo
     encajes en otra categoría.
-13. **El aridi de 2019 se lanza desde `legacy/`.**
-    *Por qué:* `services.csv` se carga como `./services.csv` (`legacy/aridi.py:101`). Desde
-    otro directorio se desactiva el escaneo sin aviso visible.
+13. **El corpus es la única forma de verificar.**
+    *Por qué:* nada se da por bueno leyendo código. Un dato se contrasta con `facts.txt`
+    (lo que dicen las herramientas del sistema en la misma muestra) o con `tests/parity/`.
+    Si un caso no está en el corpus, se añade al escenario (`tests/corpus/scenario.sh`) o
+    se prueba con datos sintéticos, y se dice cuál de las dos cosas es.
 14. **En los documentos de `docs/`, separa lo observado, lo deducido y la suposición.**
     *Por qué:* es la convención de todos ellos. Nunca marques algo como «entregado» sin
     haberlo visto funcionar.
@@ -197,6 +175,8 @@ pide. Si hay que tocarlo, se respeta su estilo:
     *Por qué:* `docs/IDEA.md`, `docs/FUTURE.md` y `docs/CAMBIO.md` describen lo previsto
     (SSH, componente central, alertas…). Hasta que una fase de `TODO.md` lo entregue, ni el
     código ni la documentación deben dar a entender que existe.
-16. **El núcleo (`src/aridi`) nunca importa Django ni `aridi_central`.**
-    *Por qué:* es la frontera de `docs/CAMBIO.md`. El central usa el núcleo como librería,
-    nunca al revés, y `tests/test_core_isolation.py` lo vigila.
+16. **El corpus no puede llevar datos del anfitrión.**
+    *Por qué:* en la fase 3, las VMs de Lima montaban el directorio personal del
+    anfitrión y creaban un usuario con su nombre. Las capturas usan `--mount-none`,
+    volúmenes de Docker en vez de directorios del anfitrión y `docker cp`, y
+    `tests/test_corpus_hygiene.py` lo comprueba.

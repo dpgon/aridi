@@ -1,460 +1,489 @@
 # aridi: arquitectura actual
 
-> Este documento describe la arquitectura **que existe** en el commit `4ab279e` (2019-04-12),
-> no la que debería existir. La futura está pendiente y parte de [`IDEA.md`](IDEA.md) y
-> [`FUTURE.md`](FUTURE.md). Los hechos vienen de leer el código ([`ESTUDIO.md`](ESTUDIO.md)),
-> de ejecutarlo en contenedores ([`MVP.md`](MVP.md)) y de la historia de git. Las
-> referencias van en la forma `archivo:línea`; lo que no se puede probar va marcado como
-> **suposición**.
+> Este documento describe la arquitectura **que existe** en la rama `rewrite` al cerrar la
+> fase 4 de [`TODO.md`](../TODO.md) (2026-10-16): el colector nuevo, que ya funciona en
+> modo local. La arquitectura de destino, con el componente central, está decidida en
+> [`CAMBIO.md`](CAMBIO.md) y **todavía no existe**. El contrato de datos está en
+> [`FORMATO.md`](FORMATO.md). Los hechos vienen de leer el código y de ejecutar
+> `tests/run.sh`; las referencias van en la forma `archivo:línea` o con el nombre de la
+> función. Lo que no se puede probar va marcado como **suposición**.
 
 ---
 
 ## Visión general
 
-aridi es **un solo proceso de consola, de corta vida, que se ejecuta en la propia máquina
-que analiza**. No tiene servidor, base de datos, red propia ni estado entre ejecuciones.
-Contado como un diagrama:
+aridi es hoy **un colector en dos pasos que se usa en modo local**:
+
+1. **Recoger:** un script POSIX `sh` (`collector/aridi-collect.sh`) se ejecuta en la
+   máquina inventariada, lee lo que puede y escribe un **paquete en bruto** por la salida
+   estándar. No escribe nada en disco.
+2. **Interpretar:** el **núcleo** en Python 3.12 (`src/aridi/`), sin dependencias
+   ajenas, lee ese paquete en cualquier equipo y produce una **fotografía** (JSON) o un
+   informe de texto.
 
 ```
-            usuario (terminal)
-                 │  argumentos CLI + respuestas a 7 preguntas input()
-                 ▼
-   aridi.py ── main() ──────────────────────────────────────────────┐
-     │ crea                                                          │
-     ▼                                                               │
-  Reporting  ◄──── objeto compartido: informe + log + estado ────┐   │
-     ▲                                                           │   │
-     │ escriben (summarized / detailed / infrastructure / attrs) │   │
-     │                                                           │   │
-  Precheck (gathering0) ── uid, ficheros legibles, binarios, DNS, services.csv
-     │ se pasa a todas las fases                                 │   │
-     ▼                                                           │   │
-  gathering1 → gathering2 → gathering3 → gathering4 → scan → graph   │
-     │            ▲   ▲          │ (llama a _getusers/_getnetinfo)   │
-     │            └───┴──────────┘                                   │
-     ▼                                                               │
-  Fuentes: /proc, /sys, /etc, /var/log  +  ~15 binarios (subprocess) │
-           + sockets crudos AF_PACKET (ARP) + TCP connect (scan)     │
-                                                                     ▼
-  Salidas en el directorio actual: stdout | FILE, aridi.log, aridi.badfiles, network.dot
+ Máquina inventariada                         Cualquier equipo con Python 3.12
+ ┌──────────────────────────────┐             ┌─────────────────────────────────────┐
+ │ sh aridi-collect.sh          │  paquete    │ aridi validate|interpret|report     │
+ │  17 grupos collect_*         │  en bruto   │  bundle.read()   → Bundle           │
+ │  → 134 secciones con estado, │ ──────────► │  interpret()     → Snapshot         │
+ │    rc y nota                 │  (fichero   │    parsers/<área>.py (17)           │
+ │  filtra lo sensible en origen│   o stdout) │    relations.consolidate()          │
+ │  nada en disco               │             │  views/text.render() | to_json()    │
+ └──────────────────────────────┘             └─────────────────────────────────────┘
 ```
 
 **Cómo se comunican las piezas:**
 
-- **Llamadas directas a funciones.** `main()` invoca una función de entrada por fase
-  (`aridi.py:129-191`).
-- **Estado compartido** en dos objetos que se pasan a todas las funciones: `report`
-  (`reporting.Reporting`) y `precheck` (`gathering0.Precheck`).
-- **Globales de módulo:** `process` y `uptime` (`gathering3.py:16-17`); `waiting`,
-  `ipmac` y `ports` (`scan.py:12-14`); y `Precheck.portnames`, que es un atributo de clase
-  (`gathering0.py:10`).
-- **Con el sistema operativo:** lectura de ficheros y ejecución de binarios con
-  `subprocess.check_output`.
-- **Con la red:** solo en la fase de escaneo y en la resolución DNS.
+- **Script → núcleo:** solo a través del paquete en bruto (`FORMATO.md`). El script no
+  sabe nada de Python y el núcleo no ejecuta nada en la máquina inventariada.
+- **Dentro del núcleo:** llamadas a funciones. Los analizadores se registran con el
+  decorador `register` y `interpret()` los invoca uno por área.
+- **Con el sistema inventariado:** solo lectura de ficheros y ejecución de herramientas
+  del propio sistema, desde el script.
+- **Red:** ninguna. El script no abre conexiones; el núcleo tampoco.
+
+**Lo que no existe todavía** (regla 15 de `CLAUDE.md`): la ejecución por SSH, el
+componente central (inventario, histórico, comparación, alertas, web) y la exploración de
+red desde el central. Están previstos en las fases 5 a 7 de `TODO.md` y descritos en
+`CAMBIO.md`, *La arquitectura de destino*.
 
 ---
 
 ## Stack tecnológico
 
-**No hay manifiesto.** No existe `requirements.txt`, `pyproject.toml`, `setup.py` ni
-`Pipfile`. Las versiones que aparecen aquí vienen de leer el código o de observarlo en
-ejecución, no de un manifiesto.
-
 | Pieza | Versión | Para qué | Fuente |
 |---|---|---|---|
-| Python 3 (CPython) | **No declarada.** Mínimo deducido: 3.3 (`subprocess.DEVNULL`, `ipaddress`). Observada funcionando entre 3.6.8 y 3.14.8. | Todo el programa | `#!/usr/bin/env python3` (`aridi.py:1`); `MVP.md` *Cómo se ha medido* |
-| Librería estándar | La del intérprete | `argparse` (CLI), `subprocess` (binarios), `os`, `re`, `socket`, `struct` y `binascii` (ARP), `threading` (escaneo), `ipaddress`, `platform` (libc), `resource` (límite de descriptores), `locale`, `datetime`, `traceback` | imports de cada módulo |
-| `graphviz` (PyPI) | **No declarada**, sin fijar | Generar `network.dot` y renderizarlo (`--graph`). Se importa de forma perezosa y es opcional. | `graph.py:5-10` |
-| Graphviz, binario `neato` | No declarada | Motor de dibujo que usa la librería anterior | `graph.py:23` |
-| Binarios del sistema | Los de cada distribución | `lsusb`, `lsblk`, `findmnt`, `df`, `yum`, `dpkg-query`, `zypper`, `apt`, `pacman`, `hostname`, `dnsdomainname`, `hostid`, `ip`, `iptables`, `runlevel`, `systemctl`, `chkconfig`, `utmpdump`, `nslookup`/`dig` | `ESTUDIO.md` §3, con líneas |
-| `services.csv` | Sin versión ni origen documentado | Nombres de puertos y lista de puertos a escanear (5.877 líneas `nombre\|puerto\|descripción`) | `gathering0.py:82-98` |
+| POSIX `sh` | Probado con `dash`, `bash` (incluido el 4.1 de CentOS 6) y busybox `ash` | El script de recogida | `tests/collector/test_script.sh` |
+| Herramientas del sistema | Las de cada distribución; ninguna obligatoria | `awk`, `find`, `stat`, `grep`, `head` y, si existen, `ip`, `ss`, `lsblk`, `rpm`, `dpkg-query`, `nft`, `journalctl`… Si falta una, la sección queda en `missing`. | `collector/aridi-collect.sh` |
+| Python | ≥ 3.12 (`requires-python`) | El núcleo | `pyproject.toml` |
+| Librería estándar | La del intérprete | Todo el núcleo. `tests/test_core_isolation.py` falla si `src/aridi` importa otra cosa. | `src/aridi/` |
+| `setuptools` | ≥ 77, solo para construir | Empaquetado (`pip install .`), con `services.csv` como `package-data` | `pyproject.toml` |
+| Django, gunicorn | Django ~5.2, gunicorn ~23, fijados con hashes | **Previsto** para el central; ningún código lo usa todavía | `requirements/central.in`, `requirements/central.txt` |
+| Docker | El del anfitrión | Ejecutar todas las pruebas y capturar el corpus | `tests/run.sh` |
+| Lima | 2.x | VMs desechables para el corpus (systemd, sesiones, x86_64) | `tests/lima/` |
 
 ---
 
 ## Estructura del proyecto
 
-Todo está en la raíz, sin subdirectorios de código. El repositorio contiene 14 ficheros
-versionados y `docs/`.
+| Ruta | Qué es |
+|---|---|
+| `collector/aridi-collect.sh` | El script de recogida (unas 840 líneas) |
+| `src/aridi/` | El núcleo (librería estándar), con la CLI `aridi` |
+| `src/aridi/data/services.csv` | Nombres de puertos (`nombre\|puerto\|descripción`), copia sin cambios del de 2019 |
+| `tests/` | Pruebas, corpus y referencias de 2019 (ver *Estrategia de pruebas*) |
+| `requirements/` | Dependencias del central, fijadas con hashes |
+| `docs/` | Documentación del proyecto, en español |
+| `pyproject.toml` | Distribución `aridi`: núcleo sin dependencias y extra `central` |
 
-| Fichero | Líneas | Responsabilidad | Depende de |
-|---|---|---|---|
-| `aridi.py` | 244 | **Arranque y orquestación:** CLI (`argparse`), precheck, invocación de fases dentro de su propio `try`, elección de la vista y escritura de salidas | todos los demás |
-| `gathering0.py` | 208 | **Contexto:** clase `Precheck` (uid y grupos, legibilidad de ~60 ficheros, `checkcommand`, `nslookup`, `loadports`) | — |
-| `gathering1.py` | 616 | Fase **general** (`getgeneralinfo`): hardware, sistema operativo, libc, paquetes, discos y recorrido de permisos | `utils` |
-| `gathering2.py` | 570 | Fase **específica** (`getspecificinfo`): identidad, usuarios, servicios, red e iptables | `utils` |
-| `gathering3.py` | 861 | Fase **volátil** (`getvolatileinfo`): procesos, RAM, CPU, disco, sesiones y sockets | `utils`, **funciones privadas** de `gathering1` y `gathering2` |
-| `gathering4.py` | 282 | Fase **carving** (`getotherinfo`): IPs y FQDN en `/etc` y `/var/log` | `utils` |
-| `scan.py` | 278 | **Escaneo:** barrido ARP con sockets crudos y escaneo TCP *connect* con hilos | `utils`, función privada `gathering2._getnetinfo` |
-| `graph.py` | 76 | **Grafo** con `graphviz` | `graphviz` (opcional) |
-| `reporting.py` | 273 | Clase `Reporting`: almacenes del informe, mapa de infraestructura, log y vistas | `utils` |
-| `utils.py` | 49 | Cabeceras de texto, conversión de IPs hexadecimales y barra de progreso | — |
-| `__init__.py` | 5 | Solo metadatos. **No hace que el directorio funcione como paquete:** los imports son de primer nivel (`import reporting`). | — |
-| `services.csv` | 5.877 | Datos de puertos | — |
-| `LICENSE`, `README.md` | — | GPL v3; una línea de descripción | — |
+### El script: `collector/aridi-collect.sh`
 
-**Convenciones internas:**
+**Flujo.** `main()` llama a `bundle_begin` (cabecera `ARIDI-BUNDLE 1 <versión>` y
+frontera aleatoria), después a 17 grupos de recogida en el orden del aridi de 2019, y
+cierra con `close sections=N`:
 
-- Cada fase expone una función pública `get*info(report, precheck)` y funciones privadas
-  `_get*()` que devuelven un par `(summ, detail)` de cadenas.
-- El orden de los parámetros no es uniforme. Algunas reciben `(report, precheck)`, como
-  `_gethostnames` y `_getusers`; otras `(precheck, report)`, como `_getrunningservices`,
-  `_getdisk` y `_getuserdata`.
-- **Suposición:** es una incoherencia accidental, sin motivo.
+`collect_meta`, `collect_system`, `collect_hardware`, `collect_packages`,
+`collect_storage`, `collect_permissions`, `collect_identity`, `collect_users`,
+`collect_services`, `collect_network`, `collect_firewall`, `collect_timesync`,
+`collect_processes`, `collect_load`, `collect_sessions`, `collect_carving` y
+`collect_neighbours`.
+
+En las muestras de `tests/parity/` el paquete tiene 134 secciones (observado). Con
+`ARIDI_COLLECT_LIB=1` el script solo define las funciones; lo usan las pruebas.
+
+**Primitivas de sección.** Cada sección lleva nombre, estado, código de salida y, como
+mucho, una nota:
+
+| Función | Qué hace |
+|---|---|
+| `section NOMBRE HERRAMIENTA …` | Salida de un comando. Si la herramienta no existe, sección `missing` sin ejecutar nada. |
+| `section_rc NOMBRE CÓDIGOS HERRAMIENTA …` | Como `section`, pero los códigos de `CÓDIGOS` son un resultado normal (por ejemplo, `ldd --version` sale con 1 en musl). Se conserva el `rc` real. |
+| `section_file NOMBRE RUTA` | Contenido de un fichero: `na` si no existe, `denied` si no se puede leer. |
+| `section_text NOMBRE TEXTO` | Un valor calculado por el propio script (`meta.env`). |
+| `_empty NOMBRE CAMPOS ESTADO NOTA` | Una sección que no se ejecutó, con su motivo. |
+| `_password_file NOMBRE RUTA` | `passwd`, `shadow`, `group` y `gshadow` con el campo de contraseña reducido a su forma (`_PASSWORD_PREFIX_AWK`). |
+
+`_run` ejecuta el comando con `</dev/null`, envía como mucho `límite + 1` bytes de
+contenido por el descriptor 3, captura el código de salida y la primera línea de stderr,
+y `_status_of` traduce el código a estado (`ok`, `denied`, `missing`, `timeout`, `error`).
+
+**Garantías de ejecución** (observadas en `tests/run.sh collector`):
+
+- **No escribe en disco:** sin ficheros temporales, `umask 077`. La prueba lo comprueba
+  con `find / -xdev -newer` en cada imagen.
+- **Cada comando lee de `/dev/null`:** el script puede llegar por stdin (`sh -s`), y un
+  comando que leyera stdin se comería el resto.
+- **`PATH` fijo**, con los directorios del sistema primero
+  (`/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/sbin:/usr/local/bin`), y `LC_ALL=C`.
+- **Límites por sección:** 4 MiB (`ARIDI_SECTION_LIMIT`) y 60 s (`ARIDI_SECTION_TIMEOUT`).
+  El tiempo lo impone el `timeout` de coreutils si existe; si no, un vigilante propio en
+  `sh` (`_watch`). El `timeout` de busybox no se usa (ver *Registro de decisiones*).
+- **Sin privilegios** termina igual, con 0, y marca `denied` lo que no puede leer.
+
+**Filtrado en origen** (detalle en `FORMATO.md`, *Qué no sale nunca de la máquina*):
+
+- **Contraseñas:** solo sale la forma del campo (`$y$`, `!`, `*`, `des`…), nunca el hash.
+- **Líneas de órdenes de los procesos:** cortadas a 512 bytes, con los valores de
+  opciones con aspecto de secreto sustituidos por `***` (`_SECRET_AWK`). No cubre todas
+  las formas (por ejemplo, `mysql -pSECRETO`).
+- ***Carving*:** de `/etc` y `/var/log` solo salen la ruta, el número de línea, la
+  dirección, su prefijo y marcas de contexto (`_IP_AWK`), nunca el texto de la línea. En
+  `/etc` solo se abren ficheros legibles por cualquier usuario (`-perm -0004`). Del
+  journal, solo recuentos por dirección.
+- **Variables de entorno de los procesos:** no se leen.
+
+**Herramientas que podrían modificar el sistema:**
+
+- `rpm -qa` como root se ejecuta como uid 65534 mediante `chroot --userspec`, porque como
+  root escribe en `/var/lib/rpm` (`collect_packages`).
+- `nft` e `iptables` solo se consultan si el motor ya está en el kernel
+  (`/sys/module/nf_tables`, `nft_do_chain` en `/proc/kallsyms`,
+  `/proc/net/ip_tables_names`); firewalld, solo si `firewall-cmd --state` responde
+  (`collect_firewall`).
+
+### El núcleo: `src/aridi/`
+
+| Módulo | Responsabilidad |
+|---|---|
+| `__init__.py` | `__version__` (`2.0.0.dev0`) y `BUNDLE_FORMAT_VERSION` (1) |
+| `bundle.py` | Lector del paquete en bruto: `parse()` y `read()` devuelven un `Bundle` con sus `RawSection` (nombre, estado, `rc`, nota, contenido, truncado). Errores propios: `BundleError`, `UnsupportedVersion`, `TruncatedBundle`. |
+| `model.py` | La fotografía v1 (`SCHEMA_VERSION = 1`): `Snapshot`, `Machine`, `Section`, `Gap`, `Relation`, y los enumerados `Status`, `Role` y `Outcome`. Serialización a JSON y lectura con validación. |
+| `interpret.py` | `AREAS` (las 17 áreas, con grupo y marca de volátil), `register(área, uses=(), needs_own=True)` y `interpret(bundle)`. |
+| `parsers/` | Un analizador por área (`system.py`… `neighbours.py`) y utilidades comunes (`_common.py`: `text`, `first_line`, `gap`, `user_names`). |
+| `relations.py` | `consolidate()`: une las relaciones de todas las áreas por IP, ordena IPv4 e IPv6 juntas y pone primero la máquina local. |
+| `ports.py` | Nombre de un puerto a partir de `data/services.csv`, leído con `importlib.resources`. |
+| `views/text.py` | Informe de texto: una vista por área (`@renderer`), la de infraestructura y «What could not be seen». `clean()` neutraliza los caracteres de control de todo texto que viene de la máquina. |
+| `cli.py` | `aridi validate|interpret|report`, con `-v` para el log por stderr. |
+
+**Cómo se interpreta un paquete** (`interpret.py`):
+
+- **Todas las áreas aparecen siempre** en la fotografía. Si no hay analizador, el área
+  queda en `no_parser`; si el paquete no trae secciones suyas, en `not_collected`; si el
+  analizador lanza una excepción, en `error` con el motivo, y las demás siguen.
+- **Cada analizador recibe solo sus secciones** (`<área>.*`), más las de los prefijos que
+  declara en `uses`. Hoy: `processes` usa `users`; `sessions` usa `meta`; `connections`
+  usa `network` y `users`, y no tiene secciones propias (`needs_own=False`).
+- **El analizador devuelve un `AreaResult`:** datos, relaciones, estado, motivo y
+  **huecos parciales** (`Gap(item, status, reason)`), es decir, lo que no se pudo ver
+  dentro de un área que por lo demás sí se vio. `na` no cuenta como hueco.
+- **El resultado global** (`Outcome`) es `complete` o `gaps`, y de él sale el código de
+  salida de la CLI: 0 completa, 1 con huecos, 2 si el paquete no es válido o no se puede
+  escribir la salida.
+
+**Áreas** (en el orden de 2019):
+
+| Grupo | Áreas |
+|---|---|
+| General | `system`, `hardware`, `packages`, `storage`, `permissions` |
+| Específica | `identity`, `users`, `services`, `network`, `firewall`, `timesync` |
+| Volátil | `processes`, `load`, `sessions`, `connections` |
+| *Carving* y vecinos | `carving`, `neighbours` |
+
+Son volátiles `processes`, `load`, `connections` y `neighbours`. `sessions` no lo es como
+área (ver *Registro de decisiones*).
 
 ---
 
 ## Modelo de datos
 
-**No hay almacenamiento persistente, ni motor, ni esquema, ni migraciones.** Todo vive en
-memoria durante una ejecución y se pierde al terminar, salvo el texto que se escribe en
-ficheros.
+**No hay almacenamiento persistente.** El núcleo trabaja en memoria; lo único que se
+escribe es lo que pide el usuario (`aridi interpret -o FICHERO`, en modo 0600, sin
+sobrescribir ni seguir enlaces simbólicos).
 
-**Entidades en memoria** (todas son listas y diccionarios sin tipos declarados):
+**Hay dos formatos versionados**, especificados en `FORMATO.md`:
 
-| Entidad | Dónde | Forma real |
-|---|---|---|
-| Secciones del informe | `Reporting.summarized_data`, `Reporting.detailed_data` (`reporting.py:12-13`) | Dos listas de 6 listas de cadenas, indexadas por un entero "kind": 0 = ejecución, 1 = general, 2 = específica, 3 = volátil, 4 = otra (carving), 5 = escaneo (`reporting.py:68-94`) |
-| Mapa de infraestructura | `Reporting.infrastructure_data` (`reporting.py:14,99-112`) | `dict[IPv4Address \| None, list[str]]`. Cada cadena es un papel en texto libre ("Local machine", "DNS Server", "Port TCP 22 (ssh) with service sshd"…), truncada a 120 caracteres. La clasificación posterior se hace por prefijo de texto (`scan.py:155-169`). |
-| Usuarios | `Reporting.users` (`reporting.py:51`, rellenado en `gathering2.py:76`) | `dict[nombre, [tipo_hash, uid(str), gid(str), gecos, home, shell, [grupos]]]` |
-| UID → nombre | `Reporting.pidusers` (`gathering2.py:77`) | `dict[int, str]`. El nombre sugiere PID, pero las claves son **UID**. |
-| Grupos | `Reporting.groups` | `dict[nombre, ["?", gid, [miembros]]]` |
-| Interfaces | `Reporting.ifaces` (`gathering2.py:178-194`) | `dict[iface, [mac] \| [mac, "ip/prefijo"]]`. Solo guarda la última dirección IPv4. |
-| Rutas | `Reporting.routes` | `list[[destino, prefijo, gateway, iface]]` |
-| Discos | `Reporting.disks`, `mounted`, `unmounted` | Listas posicionales; `mounted` = `[nombre, tamaño, punto, fstype, opciones, usado]` |
-| Procesos | global `gathering3.process` | `dict[pid, [comm, estado, euid, usuario, rss_kB, nice, %cpu, cmdline]]` |
-| Paquetes | `precheck.packages` (`gathering1.py:478-490`) | `list[[nombre, versión]]`. **Se guardan en `Precheck`, no en `Reporting`:** `Reporting.packages` existe (`reporting.py:40`) y queda vacío. |
-| Puertos conocidos | `Precheck.portnames` (atributo de clase) | `dict[int, [nombre, descripción]]` |
-| ARP | global `scan.ipmac` | `dict[IPv4Address, "MAC"]` |
-| Log | `Reporting.log_data` | `list[[fecha, nivel, texto]]` |
+- **Paquete en bruto v1:** texto con cabecera, frontera aleatoria por ejecución y
+  secciones `begin` / contenido / `end status= rc=` / `note`, cerradas con
+  `close sections=N`. Lo escribe el script y lo lee `bundle.py`.
+- **Fotografía v1:** el JSON de `Snapshot.to_json()`, con `schema_version`, la identidad
+  de la máquina (`machine_id`, `hostname`), `collected_at`, la versión del colector, una
+  entrada por área (`status`, `reason`, `data`, `volatile`, `gaps`) y la lista de
+  relaciones.
 
-**Relaciones:** la única clave transversal es la **IP** del mapa de infraestructura, que
-vincula interfaces, DNS, conexiones, accesos, reglas de cortafuegos, IPs halladas en
-ficheros y puertos abiertos. Ningún objeto tiene identificador de máquina o de ejecución.
+**Relaciones.** La clave transversal sigue siendo la IP, como en 2019, pero ahora es un
+objeto `ipaddress` (IPv4 o IPv6) y su papel es un código del enumerado `Role` (`local`,
+`dns_server`, `ntp_server`, `login_source`, `failed_login_source`, `fw_allowed_in`,
+`fw_allowed_out`, `peer_in`, `peer_out`, `named_in_file`, `neighbour`, `scan_open_port`),
+nunca una frase. `scan_open_port` está reservado para el escáner del central (fase 7) y
+solo se prueba con datos sintéticos.
 
-**Atributos creados sobre la marcha:** fuera de `__init__` se añaden atributos como
-`report.total` (`gathering1.py:429`) y `precheck.packages`. Si ninguna rama los crea, el
-acceso falla: en Alpine se observó `'Precheck' object has no attribute 'packages'`
-(`MVP.md` n.º 14).
+**El modelo de datos del central** (máquinas, grupos, fotografías, alertas en SQLite)
+está previsto en `CAMBIO.md`, *Modelo de datos*, y **no existe todavía**.
 
 ---
 
 ## Interfaces y contratos
 
-**Línea de comandos** (`aridi.py:43-71`). Es la única interfaz externa:
+**Script:**
 
 ```
-python3 aridi.py [-a] [-g] [-s] [-v] [-c] [--scan] [--graph] [-V NIVEL]
-                 [-of | -os | -od | -oi] [FILE]
+sh aridi-collect.sh > maquina.aridi
+ssh host sh -s < aridi-collect.sh > maquina.aridi     (forma prevista para el central)
 ```
 
-- **Fases:**
-  - `-a` activa todas;
-  - `-s` implica `-g`;
-  - sin `-v` ni `-c` se fuerza `-g` (`aridi.py:80-89`).
-- **Vistas:** `-of`, `-os` (por defecto), `-od` y `-oi` son mutuamente excluyentes.
-- **`FILE`:** escribe ahí el informe en lugar de en stdout.
-- **Códigos de salida:**
-  - `0` al terminar, aunque se hayan perdido apartados;
-  - `1` si se aborta, porque `sys.exit(<mensaje>)` lo devuelve así (`aridi.py:26,39,92,126,232`);
-  - `0` también si el usuario sin root responde «no» (`aridi.py:120`).
-- **Entrada interactiva:** 7 llamadas a `input()` que leen una línea de stdin
-  (`ESTUDIO.md` §5). Sin terminal provocan `EOFError`.
+- Sin argumentos ni preguntas. Variables opcionales: `ARIDI_SECTION_LIMIT` y
+  `ARIDI_SECTION_TIMEOUT`.
+- Termina con 0 aunque haya secciones en `denied`, `missing` o `error`: el estado va en
+  cada sección.
 
-**Contrato entre `main()` y las fases:**
+**Núcleo (CLI `aridi`, `src/aridi/cli.py`):**
 
-- Cada `get*info(report, precheck)` no devuelve nada y escribe en `report`.
-- `main()` envuelve cada fase en `try/except Exception` y registra el error.
-- Las fases envuelven cada subapartado de la misma manera.
+```
+aridi [-v|-vv] validate  PAQUETE
+aridi [-v|-vv] interpret PAQUETE [-o FICHERO]
+aridi [-v|-vv] report    PAQUETE [--detail]
+```
 
-**Contrato de los subapartados:** devuelven `(summ, detail)`, que la fase añade con
-`report.summarized(kind, …)` y `report.detailed(kind, …)`. Hay excepciones que rompen el
-contrato:
+- Códigos de salida: 0 completa, 1 con huecos, 2 paquete inválido o error de salida.
+- El log va por stderr con el módulo `logging`.
 
-- `_gethardware` devuelve 4 valores (`gathering1.py:143`).
-- `_getusb` devuelve 3 (`gathering1.py:46`).
-- `_getdisks` devuelve listas, no texto (`gathering1.py:284`).
-- `_getram` devuelve `None` si no puede leer `/proc/meminfo` (`gathering3.py:541-615`).
+**Fronteras** (vigiladas por pruebas):
 
-**Fronteras rotas entre módulos:**
-
-- `gathering3` importa funciones privadas de otras fases:
-  - `_getdisks` (`gathering3.py:5`);
-  - `_getusers` y `_getnetinfo` (`gathering3.py:6`).
-- `scan` importa `_getnetinfo` (`scan.py:9`).
-- Esas funciones se reinvocan si faltan datos, y escriben en `report` como efecto
-  secundario.
-
-**Contrato con el sistema operativo:**
-
-- **Salida de los binarios:** se decodifica como UTF-8 y se analiza **por posición de
-  columnas** separadas por espacios (por ejemplo, `lsblk -l` en `gathering1.py:243-247` y
-  `systemctl list-units` en `gathering2.py:433-442`). No se usan formatos estables como
-  `--json`, `-o`, `--output=` o `--plain`. El cambio de formato de `lsblk` ya rompe el
-  apartado de discos (`MVP.md` n.º 13).
-- **`/proc/net/tcp` y `udp`:** se leen en hexadecimal *little-endian*, solo IPv4
-  (`utils.py:31-46`).
-
-**Formatos de salida:**
-
-- Texto en árbol ASCII de 80 columnas (`utils.py:4-28`).
-- `aridi.log`: líneas `fecha - NIVEL - texto` (`reporting.py:263-271`).
-- `aridi.badfiles`: una frase por fichero (`gathering1.py:589-605`).
-- `network.dot`: formato DOT de Graphviz.
-- **No hay ningún formato estructurado** (JSON, CSV…).
-
-**Red:**
-
-- **DNS:** a través de `nslookup` o `dig` (`gathering0.py:132-171`).
-- **ARP:**
-  - tramas Ethernet construidas a mano y enviadas por `AF_PACKET`/`SOCK_RAW` en cada
-    interfaz con prefijo mayor que /22 (`scan.py:47-71,245-249`);
-  - las respuestas se leen con otro socket crudo (`scan.py:17-44`).
-- **TCP connect** con un timeout de 1 s a cada puerto de `services.csv` (`scan.py:108-117`).
-- **No escucha ningún puerto.**
+- El núcleo solo importa la librería estándar (`tests/test_core_isolation.py`).
+- El núcleo nunca importa Django ni `aridi_central` (regla 16 de `CLAUDE.md`).
+- Los papeles de relación son códigos enumerados; un papel desconocido es un error de
+  validación (`tests/test_core/test_model.py`).
 
 ---
 
 ## Aspectos transversales
 
-**Configuración.** No hay fichero de configuración ni variables de entorno propias. Solo
-existen:
-
-- los argumentos de la CLI;
-- `$PATH`, que se lee como `os.environ["PATH"]` sin valor por defecto
-  (`gathering0.py:107`);
-- el directorio actual, del que dependen `./services.csv` (`aridi.py:101`) y todas las
-  salidas;
-- `-V` (de -1 a 3; 2 por defecto), que solo regula qué llega a `aridi.log`.
+**Configuración.** No hay ficheros de configuración. El script solo admite las dos
+variables de límites; el núcleo, los argumentos de la CLI.
 
 **Gestión de errores.**
 
-- **Patrón uniforme:** cada fase y cada subapartado van en su propio
-  `try/except Exception`, que registra `ERROR` y la traza en `DEBUG`, y continúa.
-- **Efecto:** el programa casi nunca se cae, pero un error borra el apartado entero del
-  informe sin dejar rastro en él (`MVP.md` n.º 21 y *Fuera de lo entregado*).
-- **Además:**
-  - hay `except:` desnudos que se tragan cualquier error: `gathering0.py:97`,
-    `gathering2.py:36`, `gathering3.py:122,664,672,674`, `gathering4.py:68,97,189,222`,
-    `scan.py:116`, entre otros;
-  - un error al crear `aridi.badfiles` provoca a su vez un `UnboundLocalError` en el
-    `finally` (`gathering1.py:610-611`).
+- **Nada se omite en silencio.** Lo que no se puede recoger queda como sección con su
+  estado (`denied`, `missing`, `na`, `timeout`, `error`) y su nota; lo que no se puede
+  interpretar, como área con estado o como hueco parcial con motivo.
+- **Un analizador que falla no tumba a los demás** (`_area_section` en `interpret.py`);
+  el error se registra con `log.exception`.
+- **Un dato dudoso se declara desconocido**, no se encaja en otra categoría (por ejemplo,
+  algoritmos de contraseña que no se reconocen).
 
-**Logging y observabilidad.**
+**Logging.** Módulo `logging` hacia stderr, con `-v` (INFO) y `-vv` (DEBUG). El script no
+tiene log: su diagnóstico son el estado y la nota de cada sección, y `meta.env` (shell,
+tipo de límite de tiempo, origen de la frontera, `PATH`).
 
-- **Logger propio en memoria:** `Reporting.log`, `reporting.py:114-130`. No usa el módulo
-  `logging`.
-- **Solo se escribe al final,** desde `finish()` (`aridi.py:23-26`). Si el proceso muere
-  antes (Ctrl-C, una excepción fuera de los `try`, `kill`), **no queda log**.
-- **`ERROR` también se imprime por stdout,** mezclado con el informe (`reporting.py:122-123`).
-- **No hay** métricas, trazas ni tiempos por fase.
+**Concurrencia.** Ninguna en el núcleo. En el script, solo el vigilante de tiempo
+(`_watch`) corre en segundo plano junto a cada comando cuando no hay `timeout` de
+coreutils.
 
-**Concurrencia y trabajos en segundo plano.** Solo existen en `scan.py`:
-
-- **ARP:** un hilo por cada IP de la subred, cada uno con su propio socket crudo que no se
-  cierra (`scan.py:84-91,51`), y un hilo receptor. La coordinación es una espera activa
-  sobre `threading.active_count()` y una variable global `waiting` (`scan.py:94-105`).
-- **Escaneo TCP:** un hilo por puerto (5.877 por IP), limitado por
-  `RLIMIT_NOFILE - 100` mediante espera activa (`scan.py:129-136`), y resultados en una
-  lista global `ports`.
-- **Fuera del escaneo** no hay trabajos en segundo plano. Las esperas de medición son
-  `sleep(1)` (`gathering3.py:400,509`).
-
-**Internacionalización.**
-
-- **No hay.** Los mensajes están en inglés, con alguna palabra en español: "vía" en las
-  rutas (`gathering2.py:226,230`). Los mensajes llaman al programa "aridy.py".
-- **`setlocale(LC_TIME, '')`** (`gathering3.py:784`) adopta la configuración regional del
-  sistema para interpretar fechas con `%b`, que depende del idioma.
-- **Toda la salida de los binarios se decodifica como UTF-8**, sin tratamiento de errores.
+**Texto que no es de fiar.** Todo lo que viene de la máquina (banners, nombres de
+proceso, rutas) se trata como no confiable: `views/text.py` escapa los caracteres de
+control antes de mostrarlo.
 
 ---
 
 ## Seguridad
 
-Esto es una descripción del estado actual; la auditoría es un paso aparte.
+Descripción del estado actual; la auditoría es un paso aparte.
 
-- **Autenticación y autorización.** No hay usuarios ni control de acceso. El único
-  criterio es el uid del proceso: se recomienda ejecutar como root
-  (`aridi.py:110-120`), y `iptables` y el barrido ARP solo se intentan como root
-  (`gathering2.py:290`, `scan.py:219`).
-- **Secretos.** aridi no maneja credenciales propias, pero **lee secretos del sistema**:
-  `/etc/shadow`, del que solo extrae el tipo de hash (`gathering2.py:87-107`), y las líneas
-  completas de todos los ficheros de `/etc` y `/var/log`, que copia en el informe cuando
-  contienen una IP o un FQDN (`gathering4.py:64-66,185-187`).
-- **Validación de entradas.**
-  - Los ficheros del sistema y la salida de los binarios se tratan como confiables:
-    cualquier formato inesperado provoca una excepción y se pierde el apartado.
-  - El contenido controlable por usuarios locales (banners, líneas de registro, nombres
-    de proceso) se copia literalmente en el informe.
-- **Riesgos concretos de hoy** (detalle en `ESTUDIO.md` §8 y `MVP.md`):
-  - **Ficheros de salida con nombre fijo en el directorio actual:**
-    - `aridi.log` (`aridi.py:24`), `aridi.badfiles` (`gathering1.py:588`) y
-      `network.dot` (`graph.py:23`) se abren siguiendo enlaces simbólicos;
-    - ejecutado como root en un directorio compartido, eso permite sobrescribir ficheros
-      arbitrarios;
-    - se crean `-rw-r--r--` (observado).
-  - **Escaneo sin perímetro:** puede dirigir 5.877 conexiones por IP a direcciones de
-    terceros que solo aparecen en los registros (`scan.py:155-209`).
-  - **Resolución de binarios ambigua:**
-    - `checkcommand` mira primero el directorio actual (`gathering0.py:103-104`), pero la
-      ejecución usa el nombre a secas a través de `$PATH`;
-    - lo comprobado y lo ejecutado pueden ser ficheros distintos, y la ejecución hereda
-      el `$PATH` del llamante.
-  - **Lectura completa de ficheros** de `/etc` y `/var/log` en memoria con `readlines()`
-    (`gathering4.py:30-31,83-84,149-151,204-205`), sin límite de tamaño.
-  - **Cadena de suministro.** Como única dependencia de terceros está `graphviz`, opcional
-    y sin versión fijada (`graph.py:6`). El resto de lo que se ejecuta son binarios de la
-    distribución.
+- **Solo lectura.** El script no escribe en disco y evita las herramientas que escriben
+  al leer (`rpm` como root) o que cargan módulos (`nft`, `iptables`). Las pruebas lo
+  comprueban en cada imagen del corpus.
+- **Secretos.** El filtrado en origen descrito arriba. `tests/test_corpus_hygiene.py`
+  comprueba que ninguna muestra del corpus ni de `tests/parity/` lleva hashes de
+  contraseñas ni rutas del anfitrión que la capturó.
+- **Cadena de suministro.** El script y el núcleo no tienen dependencias ajenas. Las del
+  central previsto están fijadas con hashes en `requirements/central.txt`.
+- **Entradas.** El núcleo trata el paquete como no confiable: valida su estructura
+  (`bundle.py`) y declara como hueco lo que no puede interpretar.
+- **Ficheros de salida.** `aridi interpret -o` crea el fichero con `O_EXCL | O_NOFOLLOW`
+  y modo 0600.
+- **Lo que queda abierto:**
+  - la redacción de las líneas de órdenes no cubre todas las formas de pasar un secreto;
+  - la escalada de privilegios para la recogida remota está sin decidir
+    (`TODO.md` 5.0).
 
 ---
 
 ## Estrategia de pruebas
 
-**No hay ninguna.** No hay directorio de pruebas, `unittest`, `pytest`, fixtures, datos de
-ejemplo ni CI.
+**Punto de entrada único:** `tests/run.sh`. Todo corre en Docker; el Python del
+anfitrión no se usa.
 
-- **Comando de pruebas del proyecto:** no existe.
-- **Cobertura:** 0 %.
-- **Lo único reproducible** es la medición manual de `MVP.md`: el programa sin modificar,
-  en contenedores Docker desechables, con respuestas inyectadas por stdin
-  (`printf 'y\nn\nn\nn\nm\n' | python3 aridi.py -a --scan -V 3 -of report.txt`). Los
-  scripts de esa medición no forman parte del repositorio.
-- **Sin cubrir por ningún medio:** barrido ARP, systemd en marcha, sesiones reales,
-  `iptables` con reglas, zypper, pacman, x86_64, RHEL/CentOS 6 y el grafo con `graphviz`
-  (`MVP.md` *Implementadas, sin verificar*).
+| Parte | Qué hace |
+|---|---|
+| `unit` | `python -m unittest discover -s tests -t .` en `python:3.12-slim`, con el repositorio en solo lectura y sin red |
+| `collector` | `tests/collector/test_script.sh`: el script en las 10 imágenes, con cada shell disponible, como root y como uid 65534; comprueba código 0, que no deja rastro, que los datos tras el script en stdin no se ejecutan y los estados esperados; valida los paquetes con `tests/collector/check_bundles.py` |
+| `golden` | Regenera el informe de referencia de `tests/test_core/test_text.py` (revisando el diff) |
+| `central` | Sin pruebas todavía (fase 5) |
+
+**Pruebas de `unittest`:**
+
+- `tests/test_parsers/`: una por área (o por grupo de áreas), contrastadas con
+  `facts.txt` de cada muestra, con los casos de `docs/MVP.md` y con entradas sintéticas
+  (`tests/helpers.py`: `make_bundle`).
+- `tests/test_core/`: lector, modelo, `interpret`, mapa de relaciones, vista de texto y
+  CLI.
+- `tests/test_core_isolation.py`: solo librería estándar en el núcleo.
+- `tests/test_corpus_hygiene.py`: sin rastros del anfitrión ni hashes en los datos de
+  prueba.
+- `tests/test_parity.py` y `tests/test_parity_doc.py`: la regresión final contra 2019
+  (ver abajo).
+
+**El corpus** (`tests/corpus/`, detalle en su `README.md`):
+
+- `capture.sh` captura una muestra en un contenedor desechable: aplica `scenario.sh`
+  (usuarios, grupos, ficheros, banners, *listeners*, un proceso con un uid sin cuenta),
+  ejecuta el script por `sh -s` como root y después `facts.sh`, que obtiene la «verdad de
+  referencia» con las herramientas del propio sistema.
+- **10 imágenes** fijadas por *digest* (`images.txt`): Debian 12 y 13, Ubuntu 24.04,
+  Rocky 9, Fedora 44, Alpine 3.20, openSUSE Leap 15.6, Arch, CentOS 7 y CentOS 6 (Arch y
+  CentOS 6 en amd64 emulado). Cada una en tres variantes: `minimal` (la imagen tal cual,
+  sin red), `server` (con herramientas de red y de sistema, sin red) y `bridge` (la
+  anterior en una red *bridge* interna, con interfaces `eth0@ifN`).
+- **3 VMs de Lima** (`tests/lima/`: Debian 12 arm64 y amd64, Rocky 9 arm64) para lo que no
+  dan los contenedores: systemd, sesiones SSH reales, cortafuegos con reglas y x86_64.
+  `capture-vm.sh` las arranca con `--mount-none` y aborta si ve un montaje del anfitrión.
+
+**Regresión final contra 2019** (`tests/parity/`, `tests/parity.md`):
+
+- `tests/parity/<distro>-<variante>/` guarda el informe del aridi de 2019, su
+  `aridi.badfiles` y el paquete del script nuevo, tomados uno detrás de otro en el mismo
+  contenedor: Debian 12 y CentOS 7, en las variantes `plain`, `none` y `bridge`. Los generó
+  `tests/legacy/reference.sh`.
+- `tests/test_parity.py` comprueba que todo valor que 2019 daba bien sale igual en el
+  nuevo, y que donde 2019 se equivocaba el nuevo da el valor correcto.
+- `tests/parity.md` relaciona cada funcionalidad de `docs/MVP.md` con las pruebas que la
+  cubren o con el motivo por el que se abandona; `tests/test_parity_doc.py` comprueba que
+  la tabla está completa y que las pruebas que nombra existen.
 
 ---
 
 ## Compilación, CI y despliegue
 
-- **Compilación:** no hay. Son fuentes Python interpretadas, y Python solo genera
-  `__pycache__` en tiempo de ejecución.
-- **Distribución:** no hay paquete, binario, imagen ni versión publicada. La única copia
-  es el repositorio `git@github.com:dpgon/aridi.git` (rama `master`, sin etiquetas).
-- **Despliegue:** **sin despliegue.** No está en uso en ningún sitio (decisión confirmada
-  por el usuario el 2026-10-15). El modo de uso previsto es copiar el directorio a la
-  máquina y ejecutar `sudo python3 aridi.py …` desde dentro de él.
-- **CI:** no hay.
-- **Actualización:** no hay mecanismo; habría que volver a copiar el directorio.
+- **Compilación:** no hay. `pip install .` instala el núcleo y la orden `aridi`.
+- **CI:** no hay CI remota (decisión de planificación de `TODO.md`): todo se verifica en
+  local con `tests/run.sh`.
+- **Distribución:** ninguna publicada. La versión es `2.0.0.dev0`.
+- **Despliegue:** sin despliegue. El modo de uso es el local en dos pasos. El contenedor
+  del central (`docker compose`) está previsto en la fase 5.
 
 ---
 
 ## Objetivos de rendimiento
 
-**El proyecto no declara ninguno.** Sí hay medidas:
+**No hay objetivos declarados**, salvo el límite de 60 s por sección del script. Medido
+en el corpus (`collector_seconds` de cada `meta.txt`; `tests/corpus/README.md`):
 
-- **Duración observada** de una ejecución completa (`-a --scan`, escaneo solo de la
-  propia máquina, sin red), en contenedores (`MVP.md`):
-  - entre 3 y 4 s en Debian 12, Ubuntu 24.04, Rocky 9, Fedora 44 y CentOS 7;
-  - 9 s en Alpine 3.20.
-- **Escaneo de una IP local** (5.877 puertos): 1 s.
-- **Esperas fijas:** al menos 2 s por ejecución con `-v`, por los `sleep(1)` de CPU y
-  disco (`gathering3.py:400,509`), y 5 s por cada interfaz en el barrido ARP
-  (`scan.py:98`).
-- **Sin medir, y con riesgo de crecer mucho en máquinas reales:**
-  - el recorrido completo de `/` (`gathering1.py:299`), que atraviesa todos los montajes;
-  - el carving, que lee todo `/var/log` en memoria;
-  - el cruce de sockets con descriptores, `O(procesos × fds × conexiones)`
-    (`gathering3.py:654-675`);
-  - el escaneo remoto, que con timeout de 1 s puede tardar segundos o minutos por IP.
+- de 1 a 2 s en las imágenes arm64 nativas y en las VMs arm64;
+- de 1 a 7 s en Alpine;
+- de 13 a 21 s en las imágenes amd64 emuladas (CentOS 6 y Arch);
+- 14 s en la VM x86_64.
+
+**Sin medir:** máquinas reales con muchos registros, muchos procesos o sistemas de
+ficheros grandes. El *carving* y el recorrido de permisos están acotados (`-xdev`,
+ficheros de menos de 1 MiB, como mucho 20.000 líneas por sección), pero su duración en
+una máquina grande es una **suposición**.
+
+---
+
+## Historia: el aridi de 2019
+
+- **Qué era:** un único proceso de consola en Python 3, interactivo (7 preguntas
+  `input()`), que se ejecutaba como root en la propia máquina y producía un informe de
+  texto. Fases `gathering0` (precheck) a `gathering4` (*carving*), más `scan.py` (barrido
+  ARP y escaneo TCP) y `graph.py` (grafo con `graphviz`). Estado compartido en un objeto
+  `Reporting`, papeles de relación como frases en inglés y análisis de la salida de los
+  binarios por columnas.
+- **Su estado medido** está en `docs/MVP.md` y su estudio en `docs/ESTUDIO.md`.
+- **Dónde está el código:** en la historia de git. En la raíz del repositorio hasta el
+  commit `4ab279e` (2019-04-12); en `legacy/`, sin modificar, de `6f749d6` a `037284e`.
+  Se retira del árbol en la fase 4.2 de `TODO.md`, una vez comprobada la paridad
+  (`tests/parity.md`).
+- **Lo que se conserva de él:** `services.csv` (copiado sin cambios), su conocimiento de
+  cada área como especificación, y sus resultados en `tests/parity/` como referencia
+  congelada.
 
 ---
 
 ## Registro de decisiones
 
-Fuentes, de mayor a menor peso: **documentado** (un texto del autor: commit, README o
-comentario), **deducido** (del código o de la historia), **usuario** (contado por el
-usuario en esta revisión).
+Fuentes: **documentado** (`CAMBIO.md`, `TODO.md`, `FORMATO.md`, un commit), **usuario**
+(decidido por el usuario), **deducido** (del código o de la historia).
+
+### Del aridi de 2019 (se mantienen)
 
 | Decisión | Motivo | Cómo se sabe |
 |---|---|---|
-| Solo librería estándar de Python | Evitar ataques de cadena de suministro | **Usuario** (`IDEA.md`). El código es coherente con ello. |
-| Descartar scapy y construir ARP con sockets crudos | Motivo no documentado; coherente con la decisión anterior | **Deducido:** `checkscapy()` en el primer commit (`dfe9502`, 2019-03-21), retirado en `765ee3d` "First alpha release" (2019-04-07) con `scan.py` ya escrito con sockets crudos |
-| Usar binarios del sistema en vez de leer siempre `/proc` y `/sys` | Motivo no documentado | **Deducido.** Mezcla incoherente: CPU, memoria, rutas y sockets por `/proc`; discos, interfaces, USB y servicios por binario. |
-| Analizar la salida de los binarios como texto por columnas | Motivo no documentado | **Deducido** (`gathering1.py:243-247`, `gathering2.py:433-442`). Los ajustes "Little modification for RH 6" (2019-03-23) son de este tipo. |
-| Adaptarse a cada distribución detectando ficheros de release y binarios | Funcionar en distribuciones distintas | **Usuario** y **deducido** (`gathering1.py:155-222,477-491`); commits "pacman support" (`00d0012`) y "zypper support" (`ce28b2b`, `2d26797`) |
-| Prioridad de gestores: yum > dpkg-query > zypper > apt > pacman | Motivo no documentado | **Deducido** (`gathering1.py:477-491`) |
-| Aislar cada fase y subapartado en `try/except` y seguir | Sacar todo lo posible aunque algo falle | **Deducido** (patrón en todos los módulos); **usuario** («obtiene toda la información que puede») |
-| Un único objeto `Reporting` como informe, log y estado | Motivo no documentado | **Deducido** (`reporting.py:5-66`) |
-| Salida solo en texto, con dos niveles (resumen y detalle) | Motivo no documentado | **Deducido** (`reporting.py:132-204`) |
-| Ejecución interactiva con preguntas `(y/N)` para las tareas lentas o intrusivas | Advertir de que pueden tardar | **Documentado** en los propios mensajes: "it could be very slow" (`gathering1.py:547-549`), "it could take some time" (`gathering4.py:101-103`, `scan.py:232-234`) |
-| Retirar el informe de vulnerabilidades con gravedades y sustituirlo por `aridi.badfiles` | Motivo no documentado | **Deducido:** `d8ef315` "minor fixes" (2019-04-05) elimina las llamadas a `report.vulns(...)` y a `dangerousperm()`; `4c08b12` "First beta" (2019-04-09) elimina `vulns_data`. Quedan restos (`reporting.py:96-97`, `gathering0.py:193-208`). |
-| Añadir `graphviz` como dependencia opcional | Motivo no documentado; es la única excepción a la librería estándar | **Deducido:** `6919f87` "Added graphviz to make graphs" (2019-04-08) |
-| `services.csv` como base de puertos y como lista de escaneo | Motivo y origen no documentados | **Deducido:** añadido en `765ee3d` (2019-04-07) |
-| Licencia GPL v3 | Motivo no documentado | **Documentado:** `LICENSE` (2019-04-12, desde la web de GitHub) |
+| Sin dependencias ajenas en lo que llega a la máquina | Evitar ataques de cadena de suministro | **Usuario** (`IDEA.md`). En 2019, solo la librería estándar; hoy, `sh` y el núcleo sin dependencias. |
+| Aislar cada parte y seguir aunque otra falle | Sacar todo lo posible | **Deducido** del código de 2019. Hoy se mantiene, pero declarando el fallo en lugar de omitirlo. |
+| Licencia GPL v3 | No documentado | **Documentado:** `LICENSE` |
 
-**Decisiones que ya se sabe que van a cambiar** (por decisión del usuario; ver
-`IDEA.md` y `FUTURE.md`):
+### De `CAMBIO.md` (2026-10-15)
 
-- la ejecución interactiva, que pasa a no hacer preguntas;
-- la salida solo en texto, que tendrá además un resultado estructurado;
-- el silencio ante los apartados perdidos, que pasarán a declararse;
-- el escaneo sin perímetro, que se limitará a redes autorizadas;
-- `graphviz` en el colector, que se retira y pasa a la web;
-- la ausencia de componente central, de ejecución remota y de histórico.
+| Decisión | Motivo | Alternativas descartadas |
+|---|---|---|
+| Reescribir el colector, usando el de 2019 como especificación | Adaptarlo costaba lo mismo o más y dejaba la mezcla de datos y texto | Adaptarlo por pasos; mixto |
+| Script POSIX `sh` más intérprete en Python 3.12 | Cubrir RHEL/CentOS 6 y contenedores sin Python | Colector entero en Python ≥ 3.6; binario en Go |
+| Recoger en bruto e interpretar fuera | Que la máquina solo lea y que los datos puedan reinterpretarse con un núcleo mejor | — |
+| Huecos declarados con estado y motivo | Que el informe no mienta por omisión | — |
+| Fotografía JSON versionada desde el primer día | Es el contrato con los datos que guarde el central | — |
+| Central en Django 5.2 LTS con SQLite (WAL), cola en la base de datos, credenciales en el `ssh-agent`, contenedor con `docker compose` | Pocas dependencias fijadas por hash; un único servicio que operar; el central no guarda claves | `http.server` a mano; FastAPI + React; PostgreSQL; Celery + Redis; claves en la base de datos; wheel + systemd (**el usuario eligió el contenedor**) |
+| Volátiles guardados, sin alertas | Conservar lo que se ve hoy sin generar ruido | Eliminarlos; alertas por umbral |
+| Descubrimiento pasivo en la máquina y escaneo activo desde el central, acotado a redes autorizadas | No generar tráfico desde máquinas que solo deben leerse; no escanear a terceros | Escaneo desde la máquina con `nmap`/`arping`; abandonar el escaneo activo |
+| Código de 2019 en `legacy/` hasta la paridad | No dejar un hueco sin herramienta | Dejarlo en la raíz; borrarlo al empezar |
+
+### De planificación (`TODO.md`)
+
+| Decisión | Motivo |
+|---|---|
+| Sin CI remota: todo con `tests/run.sh` en Docker | macOS solo tiene Python 3.9; las pruebas usan `python:3.12-slim` |
+| Las áreas se construyen en el orden de 2019 | Seguir la especificación tal como está |
+| Muestras de VM con Lima 2.x | systemd, sesiones reales y x86_64 no se obtienen en contenedores |
+| Una tarea que cambia comportamiento incluye sus pruebas | No dar nada por hecho sin verlo pasar |
+
+### De la fase 2 (`FORMATO.md`, *Decisiones tomadas en la fase 2*)
+
+| Decisión | Motivo |
+|---|---|
+| El tamaño de cada sección lo calcula el lector, no el script | Contar bytes en `sh` sin ficheros temporales no es fiable; el truncado se detecta con el byte de más |
+| Las secciones `meta.*` son la identidad de la ejecución, no un área | Separar la cabecera de la fotografía de los datos |
+| `neighbours` es volátil | La tabla ARP cambia continuamente |
+| `sessions` no es volátil como área | El historial de accesos debe poder alertar |
+| `denied` se deduce del texto de stderr en `LC_ALL=C` | Es lo único que distingue un fallo de permisos con el mismo código de salida |
+
+### De la fase 3
+
+| Decisión | Motivo | Cómo se vio |
+|---|---|---|
+| Huecos parciales (`Gap`) dentro de cada área | Un área con parte de los datos no debe marcarse entera como fallida ni callar lo que falta | Al empezar la fase 3 |
+| Papeles de relación como códigos enumerados (`Role`) | En 2019 eran frases que luego se clasificaban por prefijo de texto | `CLAUDE.md`, regla 7 |
+| `rpm` como uid 65534 (`chroot --userspec`) | Como root, `rpm -qa` crea o actualiza ficheros en `/var/lib/rpm` | Prueba `find -newer` en CentOS 6 y 7 y Rocky 9 |
+| `nft` e `iptables` solo si el motor ya está en el kernel; firewalld solo si responde | Consultarlos puede cargar módulos del kernel | Lectura de su comportamiento; principio de solo lectura |
+| JSON de `nft` solo si `nft --help` lo ofrece; si no, `missing` | El `nft` 0.8 de CentOS 7 no admite `-j` | Corpus de CentOS 7 |
+| *Carving* sin el texto de las líneas, y en `/etc` solo ficheros legibles por todos | Las líneas pueden contener secretos; un primer diseño podía leer `/etc/shadow` | Detectado en pruebas locales antes de llegar a ninguna muestra |
+| Vigilante de tiempo propio en lugar del `timeout` de busybox | El de busybox mantenía la tubería abierta hasta un segundo por sección | Alpine pasó de 93 s a 7 s |
+| VMs de Lima con `--mount-none` y comprobación de montajes | Lima 2 añade los montajes de la plantilla base (el directorio personal del anfitrión) aunque el YAML diga `mounts: []` | Un montaje del anfitrión apareció en las muestras de VM |
+
+### De la fase 4
+
+| Decisión | Motivo |
+|---|---|
+| Regresión final con referencias congeladas en `tests/parity/` (2019 y el script nuevo en el mismo contenedor) | Comparar valor a valor, y conservar la referencia cuando `legacy/` ya no exista |
+| En las referencias con escenario se quita el `nameserver` IPv6 antes de ejecutar los dos programas | Con él, el aridi de 2019 no escribe ningún informe (clave `None` en su mapa) |
+| Una IPv4 seguida de `-` se trata como número de versión (`anaconda 21.48.22.159-1`) | Es el criterio de 2019; el script clasifica ahora el guion como carácter vecino propio |
 
 ---
 
 ## Deuda y riesgos
 
-**Acoplamiento y diseño**
-
-- **El estado compartido es mutable y sin forma.** `Reporting` y `Precheck` reciben
-  atributos sobre la marcha (`gathering1.py:429,478`) y hay globales de módulo
-  (`gathering3.py:16-17`, `scan.py:12-14`). Cualquier cambio de orden entre fases puede
-  romper otra. Separar recogida, modelo y presentación es caro, porque cada subapartado
-  produce el texto final a la vez que extrae los datos.
-- **Se importan funciones privadas entre fases** (`gathering3.py:5-6`, `scan.py:9`), que
-  escriben en `report` como efecto secundario.
-- **La presentación está mezclada con los datos.** El mapa de infraestructura guarda los
-  papeles como frases en inglés y luego se clasifican por prefijo de texto
-  (`scan.py:155-169`). Cambiar un mensaje cambia el comportamiento.
-- **Datos en listas posicionales** (`mounted[part][5]`, `process[pid][7]`), sin tipos ni
-  nombres.
-- **Funciones casi idénticas duplicadas:** `_getetc` y `_getlog`, `_getetcfqdn` y
-  `_getlogfqdn` (`gathering4.py`); ramas INPUT y OUTPUT de iptables (`gathering2.py:304-377`).
-
-**Fragilidad frente a los sistemas actuales** (observado en `MVP.md`)
-
-- **El análisis por columnas de la salida de los binarios** ya está roto con el `lsblk`
-  actual (`gathering1.py:243-247`) y con `yum` en Fedora 44 (`gathering1.py:361-363`).
-- **Las suposiciones sobre los datos del sistema** anulan apartados enteros:
-  - nombre de interfaz igual en `ip link` y en `ip addr` (`gathering2.py:183,192`);
-  - todo uid o miembro de grupo está en `passwd` (`gathering2.py:112`,
-    `gathering3.py:638,652`);
-  - al menos 10 procesos con CPU (`gathering3.py:136-152`).
-- **Solo IPv4,** en todos los módulos.
-- **30 secuencias de escape inválidas** en expresiones regulares, que dan `SyntaxWarning`
-  en Python 3.12 o superior: `gathering0.py`, `gathering2.py`, `gathering3.py` y
-  `gathering4.py`.
-
-**Sin red de seguridad**
-
-- **No hay pruebas, CI ni manifiesto.** Cualquier corrección se verifica solo a mano.
-- **El log solo se escribe al final** (`aridi.py:23-26`). Un fallo fuera de los `try`, o un
-  Ctrl-C, no deja rastro.
-- **Los `except:` desnudos** ocultan los errores reales (lista en *Gestión de errores*).
-
-**Recursos y concurrencia**
-
-- **Esperas activas** que consumen CPU (`scan.py:94-103,131-136`).
-- **Sockets que no se cierran** (`scan.py:19,51,109`) y un hilo receptor que puede no
-  terminar si no llegan paquetes (`scan.py:21-22`).
-- **Lectura sin límite** de ficheros completos (`gathering4.py`) y **recorrido de `/`
-  atravesando montajes** (`gathering1.py:299`).
-
-**Dependencias y versiones**
-
-- **`graphviz` sin versión fijada** ni declarada (`graph.py:6`).
-- **Ninguna versión de Python declarada.** Se ha observado funcionando de 3.6.8 a 3.14.8.
-  RHEL/CentOS 6 (Python 2.6) queda fuera sin decirlo en ningún sitio.
-- **`services.csv`** no tiene origen, fecha ni columna de protocolo.
-
-**Código muerto** (detalle en `MVP.md` *Abandonadas*)
-
-- `Reporting.vulns()` (`reporting.py:96-97`).
-- `Precheck.dangerousperm()` y `_perm()` (`gathering0.py:193-208`).
-- La lectura de NTP, inalcanzable (`gathering2.py:260`).
-- Las categorías de `interesting_files` (`gathering0.py:12-71`).
-- `Reporting.filename`, `Reporting.packages` y `Reporting.usb` (`reporting.py:9,40,23`).
-- `report.total` (`gathering1.py:429`).
+- **El componente central no existe.** Sin él no hay ejecución remota, histórico ni
+  alertas, que son el objetivo del cambio (`IDEA.md`).
+- **La redacción de secretos en las líneas de órdenes es incompleta** (`mysql -pSECRETO`).
+  La alternativa segura, no enviar la línea de órdenes, está documentada en `FORMATO.md`.
+- **La deducción de `denied` depende del texto de stderr.** Un comando que falle por
+  permisos con otro mensaje queda en `error` hasta que su analizador lo corrija.
+- **El corpus depende del colector:** cada cambio del script obliga a recapturar las 30
+  muestras de contenedor y las 3 VMs, y la VM amd64 es lenta (emulación QEMU).
+- **Artefacto de la emulación amd64:** en Arch y CentOS 6, leer `/proc/PID/cmdline` crea y
+  borra un fichero en `/tmp`. Lo provoca la emulación, no el script; la prueba del
+  colector lo acepta solo cuando lo demuestra (`tests/collector/test_script.sh`).
+- **`services.csv`** sigue sin origen, fecha ni columna de protocolo. Su regeneración está
+  prevista en `TODO.md` 7.1.
+- **Sin medir en máquinas reales grandes** (ver *Objetivos de rendimiento*).
+- **x86_64 nativo:** solo se ha probado con emulación (la VM amd64 y las imágenes de Arch
+  y CentOS 6).
