@@ -16,6 +16,7 @@ from django.core.paginator import Paginator
 from django.db.models import OuterRef, Subquery
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 
@@ -28,14 +29,17 @@ from aridi_central.changes.diff import compare
 from aridi_central.changes.models import Alert, Channel, Delivery, RuleOverride
 from aridi_central.changes.rules import BY_CODE, RULES
 from aridi_central.collection.models import Job, Schedule
-from aridi_central.collection.worker import enqueue
+from aridi_central.collection.worker import enqueue, enqueue_scan
+from aridi_central.discovery.models import AuthorizedNetwork
+from aridi_central.discovery.scanning import latest_results
 from aridi_central.inventory.importing import ImportRefused, NeedsConfirmation, import_bundle
 from aridi_central.inventory.models import (Group, Machine, Relation, Snapshot,
                                             SnapshotPackage, SnapshotPort, SnapshotService,
                                             SnapshotUser)
-from aridi_central.web.forms import (AlertFilterForm, AlertStateForm, ChannelForm,
-                                     GroupForm, ImportForm, MachineForm, RuleOverrideForm,
-                                     ScheduleForm, SearchForm)
+from aridi_central.web.forms import (AlertFilterForm, AlertStateForm,
+                                     AuthorizedNetworkForm, ChannelForm, GroupForm,
+                                     ImportForm, MachineForm, RuleOverrideForm, ScheduleForm,
+                                     SearchForm)
 from aridi_central.web.relation_map import build as build_map
 
 
@@ -95,7 +99,21 @@ def _snapshot_page(request, machine, snapshot):
                                .order_by("-collected_at").first())
     context["jobs"] = machine.jobs.all()[:5]
     context["open_alerts"] = machine.alerts.exclude(state=Alert.State.RESOLVED).count()
+    context["scanned"] = latest_results(machine_ips(machine, snapshot))
     return render(request, "web/machine_detail.html", context)
+
+
+def machine_ips(machine, snapshot):
+    """The machine's own addresses: local relations of SNAPSHOT and an SSH target address."""
+    found = set()
+    if snapshot is not None:
+        found |= set(snapshot.relations.filter(role="local").values_list("ip", flat=True))
+    host = machine.ssh_target.rpartition("@")[2].strip("[]")
+    try:
+        found.add(str(ipaddress.ip_address(host)))
+    except ValueError:
+        pass
+    return found
 
 
 @permission("inventory.view_machine")
@@ -226,7 +244,7 @@ def collect(request):
 @permission("collection.view_job")
 def job_list(request):
     return render(request, "web/job_list.html",
-                  {"jobs": Job.objects.select_related("machine")[:200]})
+                  {"jobs": Job.objects.select_related("machine", "network")[:200]})
 
 
 @permission("inventory.add_snapshot")
@@ -456,10 +474,83 @@ def machine_map(request, pk):
     snapshot = machine.latest_snapshot()
     context = {"machine": machine, "snapshot": snapshot}
     if snapshot is not None:
-        relation_map = build_map(snapshot.data, snapshot.data["machine"].get("hostname"))
+        # The open ports found by scanning (phase 7) join the relations of the snapshot.
+        data = dict(snapshot.data, relations=snapshot.data.get("relations", []) + [
+            {"ip": r.ip, "role": r.role, "source": r.source, "detail": r.detail}
+            for r in snapshot.relations.filter(source="scan")])
+        relation_map = build_map(data, snapshot.data["machine"].get("hostname"))
         rows = (relation_map.local
                 + [node for subnet in relation_map.subnets for node in subnet.nodes]
                 + relation_map.outside)
         context.update(map=relation_map,
                        page=Paginator(rows, MAP_PAGE).get_page(request.GET.get("page")))
     return render(request, "web/machine_map.html", context)
+
+
+# Network discovery (TODO.md 7.2 and 7.3)
+
+@permission("discovery.view_authorizednetwork")
+def network_list(request):
+    return render(request, "web/network_list.html", {
+        "networks": AuthorizedNetwork.objects.select_related("authorized_by"),
+        "enabled": settings.ARIDI_SCAN_ENABLED,
+        "max_v4": settings.ARIDI_SCAN_MAX_PREFIX_V4,
+        "max_v6": settings.ARIDI_SCAN_MAX_PREFIX_V6})
+
+
+@permission("discovery.add_authorizednetwork")
+def network_create(request):
+    form = AuthorizedNetworkForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        network = form.save(commit=False)
+        network.authorized_by = request.user
+        network.save()
+        messages.success(request, f"Network {network} authorized.")
+        return redirect("network-list")
+    return render(request, "web/form.html", {"form": form, "instance": None})
+
+
+@permission("discovery.change_authorizednetwork")
+def network_edit(request, pk):
+    network = get_object_or_404(AuthorizedNetwork, pk=pk)
+    form = AuthorizedNetworkForm(request.POST or None, instance=network)
+    if request.method == "POST" and form.is_valid():
+        changed = form.save(commit=False)
+        # Changing a network is authorizing it again.
+        changed.authorized_by, changed.authorized_at = request.user, timezone.now()
+        changed.save()
+        messages.success(request, f"Saved {changed}.")
+        return redirect("network-list")
+    return render(request, "web/form.html", {"form": form, "instance": network})
+
+
+@require_POST
+@permission("discovery.delete_authorizednetwork")
+def network_delete(request, pk):
+    get_object_or_404(AuthorizedNetwork, pk=pk).delete()
+    messages.success(request, "Network removed: it will not be scanned any more.")
+    return redirect("network-list")
+
+
+@permission("discovery.view_scanresult")
+def network_detail(request, pk):
+    network = get_object_or_404(AuthorizedNetwork, pk=pk)
+    last = network.results.order_by("-scanned_at").values_list("scanned_at", flat=True).first()
+    results = network.results.filter(scanned_at=last) if last else []
+    return render(request, "web/network_detail.html", {
+        "network": network, "last": last, "results": results,
+        "jobs": network.jobs.all()[:20], "enabled": settings.ARIDI_SCAN_ENABLED})
+
+
+@require_POST
+@permission("collection.add_job")
+def network_scan(request, pk):
+    network = get_object_or_404(AuthorizedNetwork, pk=pk)
+    if not settings.ARIDI_SCAN_ENABLED:
+        messages.error(request, "Scanning is disabled in this central (ARIDI_SCAN_ENABLED).")
+    elif enqueue_scan(network, user=request.user) is None:
+        messages.info(request, "Not queued: the network is inactive or already has a scan "
+                               "pending.")
+    else:
+        messages.info(request, f"Scan of {network} queued.")
+    return redirect("network-detail", pk=network.pk)

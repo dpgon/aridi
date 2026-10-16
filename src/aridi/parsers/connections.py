@@ -72,7 +72,7 @@ def parse(sections):
         incoming = conn["local_port"] in listening
         conn["direction"] = "in" if incoming else "out"
         service_port = conn["local_port"] if incoming else conn["remote_port"]
-        conn["service"] = ports.name(service_port)
+        conn["service"] = ports.name(service_port, conn["proto"])
         remote = ipaddress.ip_address(conn["remote"])
         if remote.is_loopback or conn["remote"] == conn["local"]:
             continue

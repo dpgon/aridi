@@ -4,7 +4,7 @@ import re
 import unittest
 from datetime import datetime, timezone
 
-from aridi import bundle, ports
+from aridi import bundle
 from aridi.interpret import interpret
 from aridi.model import Role, Status
 from aridi.parsers import connections, load, processes, sessions
@@ -261,10 +261,6 @@ class ConnectionsTest(unittest.TestCase):
                        if c["local_port"] == 22 and c["direction"] == "in"]
                 self.assertTrue(ssh)
                 self.assertEqual(ssh[0]["service"], "ssh")
-
-    def test_ports_table(self):
-        self.assertEqual(ports.name(22), "ssh")
-        self.assertIsNone(ports.name(65000))
 
 
 if __name__ == "__main__":

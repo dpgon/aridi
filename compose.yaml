@@ -15,6 +15,9 @@
 # SMTP password and the webhook URLs, which are never stored in the database):
 #   ARIDI_BASE_URL, ARIDI_EMAIL_HOST, ARIDI_EMAIL_PORT, ARIDI_EMAIL_USER,
 #   ARIDI_EMAIL_PASSWORD, ARIDI_EMAIL_SECURITY, ARIDI_EMAIL_FROM, ARIDI_WEBHOOK_URL_<NAME>
+# Network scanning (phase 7), off by default: ARIDI_SCAN_ENABLED=1, ARIDI_SCAN_RATE,
+# ARIDI_SCAN_THREADS, ARIDI_SCAN_TIMEOUT_MS, ARIDI_SCAN_MAX_PREFIX_V4/V6. The worker scans
+# from its container: it must be able to reach the authorized networks.
 
 name: aridi
 
@@ -32,6 +35,12 @@ x-central: &central
     ARIDI_MAX_SSH: ${ARIDI_MAX_SSH:-4}
     ARIDI_RAW_RETENTION: ${ARIDI_RAW_RETENTION:-10}
     ARIDI_HSTS_SECONDS: ${ARIDI_HSTS_SECONDS:-31536000}
+    ARIDI_SCAN_ENABLED: ${ARIDI_SCAN_ENABLED:-0}
+    ARIDI_SCAN_RATE: ${ARIDI_SCAN_RATE:-100}
+    ARIDI_SCAN_THREADS: ${ARIDI_SCAN_THREADS:-32}
+    ARIDI_SCAN_TIMEOUT_MS: ${ARIDI_SCAN_TIMEOUT_MS:-1000}
+    ARIDI_SCAN_MAX_PREFIX_V4: ${ARIDI_SCAN_MAX_PREFIX_V4:-16}
+    ARIDI_SCAN_MAX_PREFIX_V6: ${ARIDI_SCAN_MAX_PREFIX_V6:-112}
     ARIDI_KNOWN_HOSTS: /etc/aridi/known_hosts
     ARIDI_SSH_CONFIG: /etc/aridi/ssh_config
     SSH_AUTH_SOCK: /run/aridi/ssh-agent.sock

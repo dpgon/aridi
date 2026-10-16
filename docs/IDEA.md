@@ -9,7 +9,9 @@
 > de 2019. Las citas a `aridi.py`, `gathering*.py`, `reporting.py`, `scan.py` y
 > `graph.py` son de ese código: describen lo observado el 2026-10-15 y ya no están en el
 > árbol, solo en la historia de git (commit `4ab279e`, ficheros en la raíz). Las citas a
-> `collector/`, `src/aridi/` y `tests/` son del código actual.
+> `collector/`, `src/aridi/` y `tests/` son del código actual. **Revisado de nuevo al
+> cerrar la fase 7** (2026-10-16): lo que aquí era intención ya existe, y se marca
+> **[observado]** con el código que lo hace.
 
 ---
 
@@ -59,10 +61,10 @@ usuario ha fijado y que descartan los enfoques habituales:
 **El contexto del proyecto.** aridi nació en 2019 como herramienta local e interactiva
 que producía un informe de texto en el momento [observado: `aridi.py:34`]. En la fase 4
 de `TODO.md` ese código se sustituyó por el colector de dos pasos (*Funcionalidad
-principal*, 1), que sigue siendo local: todavía no guarda nada entre ejecuciones ni
-compara una con otra [observado: `ESTUDIO.md` §6 y `src/aridi/cli.py`].
-Este documento recoge la evolución hacia un sistema centralizado que observa en el
-tiempo [decidido].
+principal*, 1). Las fases 5 a 7 añadieron el componente central, que guarda el histórico,
+compara las ejecuciones, alerta y explora las redes autorizadas [observado:
+`src/aridi_central/`]. Este documento recoge esa evolución hacia un sistema centralizado
+que observa en el tiempo [decidido; entregado y medido en `MVP.md`].
 
 ---
 
@@ -147,14 +149,16 @@ dos partes [decidido en `CAMBIO.md`]:
   la tabla de vecinos que el sistema ya tiene (área `neighbours`) y las relaciones del
   resto de áreas [observado: `src/aridi/parsers/neighbours.py`]. Los equipos de la red
   local que nunca hayan hablado con la máquina ya no se descubren.
-- **Escaneo activo, desde el componente central** (fase 7 de `TODO.md`; **todavía no
-  existe**):
-  - estará **desactivado por defecto**;
-  - solo actuará sobre **redes que el administrador haya autorizado expresamente**;
-  - **nunca** tocará una IP que esté fuera de ese perímetro, por muy presente que esté
-    en el inventario o en los registros;
-  - verá la red desde la posición del central, no desde la máquina: un cortafuegos puede
-    hacer que vea algo distinto.
+- **Escaneo activo, desde el componente central** [observado:
+  `src/aridi_central/discovery/`]:
+  - está **desactivado por defecto** (`ARIDI_SCAN_ENABLED`);
+  - solo actúa sobre **redes que el administrador ha autorizado expresamente**, con un
+    tamaño máximo;
+  - **nunca** toca una IP que esté fuera de ese perímetro, por muy presente que esté en
+    el inventario o en los registros: lo comprueba antes de cada conexión;
+  - ve la red desde la posición del central, no desde la máquina: un cortafuegos puede
+    hacer que vea algo distinto. Los puertos abiertos se añaden a la ficha de la máquina
+    a la que pertenece la IP.
 
 ### 4. Ejecución remota
 
@@ -165,8 +169,8 @@ recogidas se pueden **programar** por máquina o por grupo (por ejemplo, cada no
 
 ### 5. Modo local
 
-aridi sigue pudiendo usarse a mano, sin componente central [observado: es el único modo
-que existe hoy], en **dos pasos** [decidido en `CAMBIO.md`; observado]:
+aridi sigue pudiendo usarse a mano, sin componente central [observado], en **dos
+pasos** [decidido en `CAMBIO.md`; observado]:
 
 1. En la máquina: `sh aridi-collect.sh > maquina.aridi`. Solo hace falta un `sh` POSIX.
 2. En cualquier equipo con **Python 3.12 o posterior** (la misma máquina, si lo tiene):
@@ -176,7 +180,8 @@ que existe hoy], en **dos pasos** [decidido en `CAMBIO.md`; observado]:
 
 **Lo que se pierde:** en una máquina sin Python 3.12, el informe no se puede leer allí
 mismo. El paquete en bruto es el **resultado que se podrá importar después** al
-componente central [decidido; la importación es de la fase 5 y **todavía no existe**].
+componente central [observado: `inventory/importing.py`, desde la web o con
+`manage.py aridi_import`].
 Esto sirve para el auditor y para máquinas a las que no se llega por SSH.
 
 ### 6. Inventario central
@@ -378,14 +383,15 @@ son del código retirado en la fase 4.
   concretas que faltan, con su estado y su motivo (`docs/FORMATO.md`).
 - **Cambio significativo:** una diferencia entre dos fotografías que el criterio de
   alertas considera relevante, con una gravedad. Es un término nuevo [decidido].
-- **Componente central:** la parte que lanzará las recogidas remotas, guardará el
-  inventario y su histórico, comparará las fotografías y alertará. Es un término nuevo
-  [decidido]; todavía no existe (fases 5 a 7 de `TODO.md`).
+- **Componente central:** la parte que lanza las recogidas remotas, guarda el inventario
+  y su histórico, compara las fotografías, alerta y escanea las redes autorizadas. Es un
+  término nuevo [decidido]; existe desde las fases 5 a 7 de `TODO.md` [observado:
+  `src/aridi_central/`].
 - **Modo local:** el uso manual sin componente central, en dos pasos: recoger con el
   script en la máquina e interpretar con `aridi` en cualquier equipo con Python 3.12.
-- **Red autorizada:** una red que el administrador permitirá explorar expresamente con el
-  escaneo activo. Se dará de alta en el componente central (fase 7 de `TODO.md`), que es
-  el único que escaneará [decidido]; todavía no existe.
+- **Red autorizada:** una red que el administrador permite explorar expresamente con el
+  escaneo activo. Se da de alta en el componente central, que es el único que escanea
+  [decidido; observado: `discovery/models.py`, `AuthorizedNetwork`].
 
 ---
 

@@ -12,7 +12,7 @@ from tests.helpers import REPO
 
 PARITY = REPO / "tests" / "parity.md"
 # First column of the "Implementadas, sin verificar" and "Abandonadas" tables of the 2019
-# measurement (docs/MVP.md up to commit 037284e; the file now measures the new collector).
+# measurement (docs/MVP.md up to commit b155e0a; the file now measures the new collector).
 MVP_2019 = {
     "Implementadas, sin verificar": [
         "Barrido ARP de la red local", "Servicios con systemd en marcha o con SysV",

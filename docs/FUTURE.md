@@ -5,7 +5,7 @@
 > decisiones están en [`CAMBIO.md`](CAMBIO.md) y el trabajo, en [`TODO.md`](../TODO.md).
 >
 > **Revisado en la fase 4 de `TODO.md`** (2026-10-16), al retirar el código de 2019, y
-> en las fases 5 y 6, al entregar las etapas 2 y 3.
+> en las fases 5 a 7, al entregar las etapas 2 a 4.
 > Donde una entrada dice «en 2019», se refiere a la medición de ese código (`MVP.md` de
 > 2026-10-15, commit `4ab279e`); sus ficheros (`gathering*.py`, `scan.py`,
 > `reporting.py`…) solo siguen en la historia de git.
@@ -37,8 +37,12 @@ la etapa 0. Cada etapa se entrega en unas fases concretas de `TODO.md`:
 | 0. Base y corpus | 0 y 1 | **Hecha** |
 | 1. Un colector fiable | 2, 3 y 4 | **Hecha** salvo lo que se indica en cada entrada |
 | 2. Inventario central | 5 | **Hecha** (2026-10-16), salvo lo que se indica en cada entrada |
-| 3. Cambios y alertas | 6 | Prevista: **no existe nada** |
-| 4. Exploración de red acotada | 3.17 (parte pasiva, adelantada) y 7 | Parte pasiva hecha; el escaneo activo, previsto |
+| 3. Cambios y alertas | 6 | **Hecha** (2026-10-16), salvo lo que se indica en cada entrada |
+| 4. Exploración de red acotada | 3.17 (parte pasiva, adelantada) y 7 | **Hecha** (2026-10-16) |
+
+**Todas las etapas de `CAMBIO.md` están entregadas.** Lo que queda en este documento es
+futuro real: las entradas que no dicen **hecha** (o que dicen qué les falta) y las
+*Ideas aparcadas*.
 
 Una entrada se da por **hecha** solo si las pruebas que se citan pasan en
 `tests/run.sh all`. La correspondencia completa con las funcionalidades de 2019 está en
@@ -341,8 +345,8 @@ central` (pruebas de Django, recogida SSH real contra un contenedor y prueba de 
     instalación.
 - **Cómo se cumple:** grupos `administration` y `read-only` (`test_web:WebTest`,
   `test_alerts_web:AlertWebTest`). Los ajustes de reglas y los canales llegaron con la
-  fase 6; las redes autorizadas llegarán con la 7. Los accesos (usuarios) se gestionan
-  todavía desde la línea de órdenes de Django, no desde la web.
+  fase 6 y las redes autorizadas con la 7. Los accesos (usuarios) se gestionan todavía
+  desde la línea de órdenes de Django, no desde la web: es lo que falta.
 
 ### 2.7 Mapa de relaciones en la web — [usuario], a partir de [deducido] — **hecha**
 
@@ -396,7 +400,7 @@ web, en sustitución del grafo de 2019 (1.10). En `TODO.md` está en la fase 6 (
 
 ---
 
-## Etapa 4: exploración de red acotada — 3.17 y fase 7
+## Etapa 4: exploración de red acotada — 3.17 y fase 7 — **hecha**
 
 **Tema:** conservar la capacidad de descubrir la red sin que sea ofensiva.
 
@@ -414,7 +418,8 @@ de los registros (`scan.py`; `MVP.md` n.º 8). `CAMBIO.md` lo divide en dos part
   - **se pierde** el descubrimiento de equipos de la red local que nunca hayan hablado
     con la máquina, y el escaneo visto desde la propia máquina (`CAMBIO.md`, *Qué se
     pierde*).
-- **Escaneo activo, desde el componente central** — previsto (fase 7); **no existe**:
+- **Escaneo activo, desde el componente central** — **hecho** (fase 7; `MVP.md`
+  n.º 30 y 31):
   - **Criterios de aceptación:**
     - Está desactivado por defecto.
     - Solo actúa sobre redes que el administrador ha autorizado de forma explícita.
@@ -424,6 +429,11 @@ de los registros (`scan.py`; `MVP.md` n.º 8). `CAMBIO.md` lo divide en dos part
       distinto de lo que se ve desde la máquina, y el resultado lo indica como tal.
     - El resultado se integra en el inventario y en el mapa de relaciones (el papel
       `scan_open_port` ya está reservado en la fotografía, `docs/FORMATO.md`).
+  - **Cómo se cumple:** `ARIDI_SCAN_ENABLED`, `AuthorizedNetwork` con tamaño máximo,
+    comprobación del perímetro antes de cada conexión, y los puertos abiertos como
+    relaciones `scan_open_port` en la ficha, la búsqueda por IP y el mapa.
+  - **Queda como futuro:** UDP, la detección de versiones y escanear desde otra posición
+    de red que no sea la del central.
   - La categoría `(f) IPTables allowed` de 2019, ofrecida y sin efecto (`scan.py:171`),
     desaparece con el código de 2019; si se quiere escanear lo que el cortafuegos
     permite, será una regla más de las redes autorizadas.
@@ -432,7 +442,8 @@ de los registros (`scan.py`; `MVP.md` n.º 8). `CAMBIO.md` lo divide en dos part
 
 ## Ideas aparcadas
 
-Merecen recordarse, pero todavía no tienen sitio:
+Merecen recordarse, pero todavía no tienen sitio. Con todas las etapas entregadas, son
+el futuro real del proyecto, junto con lo que falta en cada entrada de arriba:
 
 - **Registro de vulnerabilidades** — [deducido] de `Reporting.vulns()` de 2019
   (`reporting.py:96-97`), que estaba roto y no se usaba. El autor pensó en clasificar

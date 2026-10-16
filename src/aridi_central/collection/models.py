@@ -26,7 +26,11 @@ class Job(models.Model):
         FAILED = "failed", "failed"
 
     kind = models.CharField(max_length=8, choices=Kind.choices, default=Kind.COLLECT)
-    machine = models.ForeignKey(Machine, on_delete=models.CASCADE, related_name="jobs")
+    # A collection is for a machine; a scan (phase 7) for an authorized network.
+    machine = models.ForeignKey(Machine, null=True, blank=True, on_delete=models.CASCADE,
+                                related_name="jobs")
+    network = models.ForeignKey("discovery.AuthorizedNetwork", null=True, blank=True,
+                                on_delete=models.CASCADE, related_name="jobs")
     origin = models.CharField(max_length=12, choices=Snapshot.Origin.choices,
                               default=Snapshot.Origin.ON_DEMAND)
     state = models.CharField(max_length=8, choices=State.choices, default=State.QUEUED,
@@ -47,13 +51,20 @@ class Job(models.Model):
 
     class Meta:
         ordering = ["-created_at", "-id"]
+        constraints = [
+            models.CheckConstraint(
+                condition=(Q(kind="collect", machine__isnull=False, network__isnull=True)
+                           | Q(kind="scan", machine__isnull=True, network__isnull=False)),
+                name="job_collects_a_machine_or_scans_a_network"),
+        ]
 
     def __str__(self):
-        return f"{self.kind} {self.machine} {self.state}"
+        return f"{self.kind} {self.machine or self.network} {self.state}"
 
 
 class Schedule(models.Model):
-    """Periodic collection of one machine or of a group (its default schedule).
+    """Periodic collection of one machine or of a group (its default schedule), or
+    periodic scan of an authorized network (phase 7).
 
     A machine with its own active schedule is left out of its groups' schedules.
     """
@@ -66,6 +77,9 @@ class Schedule(models.Model):
                                 related_name="schedules")
     group = models.ForeignKey(Group, null=True, blank=True, on_delete=models.CASCADE,
                               related_name="schedules")
+    network = models.ForeignKey("discovery.AuthorizedNetwork", null=True, blank=True,
+                                on_delete=models.CASCADE, related_name="schedules",
+                                help_text="Scan this network (only with ARIDI_SCAN_ENABLED)")
     kind = models.CharField(max_length=8, choices=Kind.choices, default=Kind.DAILY)
     every_hours = models.PositiveIntegerField(null=True, blank=True)
     daily_at = models.TimeField(null=True, blank=True, help_text="UTC")
@@ -75,20 +89,23 @@ class Schedule(models.Model):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                condition=(Q(machine__isnull=False, group__isnull=True)
-                           | Q(machine__isnull=True, group__isnull=False)),
-                name="schedule_machine_xor_group"),
+                condition=(Q(machine__isnull=False, group__isnull=True, network__isnull=True)
+                           | Q(machine__isnull=True, group__isnull=False, network__isnull=True)
+                           | Q(machine__isnull=True, group__isnull=True,
+                               network__isnull=False)),
+                name="schedule_one_target"),
         ]
 
     def __str__(self):
-        target = self.machine or self.group
+        target = self.machine or self.group or (f"scan {self.network}" if self.network_id
+                                                else None)
         when = (f"every {self.every_hours} h" if self.kind == self.Kind.INTERVAL
                 else f"daily at {self.daily_at:%H:%M} UTC" if self.daily_at else "daily")
         return f"{target}: {when}"
 
     def clean(self):
-        if (self.machine is None) == (self.group is None):
-            raise ValidationError("A schedule is for one machine or for one group.")
+        if sum(x is not None for x in (self.machine_id, self.group_id, self.network_id)) != 1:
+            raise ValidationError("A schedule is for one machine, one group or one network.")
         if self.kind == self.Kind.INTERVAL and not self.every_hours:
             raise ValidationError({"every_hours": "Required for an interval schedule."})
         if self.kind == self.Kind.DAILY and self.daily_at is None:

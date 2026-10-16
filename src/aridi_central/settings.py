@@ -165,6 +165,18 @@ EMAIL_USE_SSL = _email_security == "tls"
 EMAIL_TIMEOUT = 20
 DEFAULT_FROM_EMAIL = os.environ.get("ARIDI_EMAIL_FROM", "aridi@localhost")
 
+# Network scanning from the central (discovery/, TODO.md 7.2-7.3). Off unless enabled, and
+# only towards active authorized networks no larger than these prefixes.
+ARIDI_SCAN_ENABLED = os.environ.get("ARIDI_SCAN_ENABLED", "") == "1"
+ARIDI_SCAN_MAX_PREFIX_V4 = _env_int("ARIDI_SCAN_MAX_PREFIX_V4", 16)
+ARIDI_SCAN_MAX_PREFIX_V6 = _env_int("ARIDI_SCAN_MAX_PREFIX_V6", 112)
+ARIDI_SCAN_RATE = _env_int("ARIDI_SCAN_RATE", 100)          # connection attempts per second
+ARIDI_SCAN_THREADS = _env_int("ARIDI_SCAN_THREADS", 32)
+ARIDI_SCAN_TIMEOUT = _env_int("ARIDI_SCAN_TIMEOUT_MS", 1000) / 1000
+if min(ARIDI_SCAN_RATE, ARIDI_SCAN_THREADS, ARIDI_SCAN_TIMEOUT) <= 0:
+    raise ImproperlyConfigured("ARIDI_SCAN_RATE, ARIDI_SCAN_THREADS and "
+                               "ARIDI_SCAN_TIMEOUT_MS must be positive")
+
 # File the worker touches on every loop, for the container healthcheck ("" = none).
 ARIDI_WORKER_HEARTBEAT = os.environ.get("ARIDI_WORKER_HEARTBEAT", "")
 

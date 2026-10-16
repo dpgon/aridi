@@ -6,7 +6,7 @@
   <tr><th>Created (UTC)</th><th>Machine</th><th>Origin</th><th>State</th><th>Attempts</th><th>Reason</th></tr>
   {% for job in jobs %}
   <tr><td>{{ job.created_at|date:"Y-m-d H:i:s" }}</td>
-    <td><a href="{% url 'machine-detail' job.machine.pk %}">{{ job.machine.name }}</a></td>
+    <td>{% if job.machine %}<a href="{% url 'machine-detail' job.machine.pk %}">{{ job.machine.name }}</a>{% else %}scan of <a href="{% url 'network-detail' job.network.pk %}">{{ job.network.cidr }}</a>{% endif %}</td>
     <td>{{ job.get_origin_display }}</td><td class="{{ job.state }}">{{ job.state }}</td>
     <td>{{ job.attempts }}/{{ job.max_attempts }}</td><td>{{ job.reason }}</td></tr>
   {% empty %}<tr><td colspan="6" class="muted">No jobs.</td></tr>

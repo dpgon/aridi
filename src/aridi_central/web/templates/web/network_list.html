@@ -1,0 +1,20 @@
+{% extends "web/base.html" %}
+{% block title %}Authorized networks{% endblock %}
+{% block content %}
+<h1>Authorized networks</h1>
+<p>Scanning from this central is <strong>{% if enabled %}enabled{% else %}disabled{% endif %}</strong>{% if not enabled %} (ARIDI_SCAN_ENABLED){% endif %}.
+  Only these networks are ever scanned, with TCP connections from the worker; addresses found in logs or files are never scanned.
+  Scan only networks you own or have permission to scan.</p>
+<p class="muted">Largest network allowed: /{{ max_v4 }} for IPv4, /{{ max_v6 }} for IPv6.</p>
+{% if perms.discovery.add_authorizednetwork %}<p><a href="{% url 'network-create' %}">Authorize a network</a></p>{% endif %}
+<div class="table-wrap"><table>
+  <tr><th>Network</th><th>Ports</th><th>Active</th><th>Authorized by</th><th>Description</th><th></th></tr>
+  {% for n in networks %}
+  <tr><td><a href="{% url 'network-detail' n.pk %}">{{ n.cidr }}</a></td><td>{{ n.get_ports_display }}</td><td>{{ n.active|yesno }}</td>
+    <td>{{ n.authorized_by.username|default:"(removed user)" }}, {{ n.authorized_at|date:"Y-m-d" }}</td><td>{{ n.description }}</td>
+    <td>{% if perms.discovery.change_authorizednetwork %}<a href="{% url 'network-edit' n.pk %}">Edit</a>{% endif %}
+      {% if perms.discovery.delete_authorizednetwork %}<form class="inline" method="post" action="{% url 'network-delete' n.pk %}">{% csrf_token %}<button type="submit">Remove</button></form>{% endif %}</td></tr>
+  {% empty %}<tr><td colspan="6" class="muted">No authorized networks: nothing is scanned.</td></tr>
+  {% endfor %}
+</table></div>
+{% endblock %}

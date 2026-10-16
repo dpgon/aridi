@@ -1,5 +1,6 @@
 """The worker: takes queued jobs, runs them with bounded concurrency, creates the scheduled
-ones (TODO.md 5.5). Standard library threads and Django only.
+ones (TODO.md 5.5), evaluates silent machines and sends alerts (phase 6), and runs the
+scans of authorized networks (phase 7). Standard library threads and Django only.
 """
 
 import logging
@@ -18,6 +19,7 @@ from aridi_central.changes.channels import process_deliveries
 from aridi_central.changes.evaluate import check_silent_machines
 from aridi_central.collection import ssh
 from aridi_central.collection.models import Job, Schedule
+from aridi_central.discovery.scanning import run_scan
 from aridi_central.inventory.importing import ImportRefused, parse, store, store_failure
 from aridi_central.inventory.models import Machine, Snapshot
 
@@ -39,6 +41,19 @@ def enqueue(machines, origin=Snapshot.Origin.ON_DEMAND, user=None):
             jobs.append(Job.objects.create(machine=machine, origin=origin, requested_by=user,
                                            max_attempts=settings.ARIDI_JOB_ATTEMPTS))
     return jobs
+
+
+def enqueue_scan(network, origin=Snapshot.Origin.ON_DEMAND, user=None):
+    """Queue a scan of NETWORK unless one is pending. Returns the job or None."""
+    if not network.active:
+        return None
+    with transaction.atomic():
+        if Job.objects.filter(network=network, kind=Job.Kind.SCAN,
+                              state__in=PENDING).exists():
+            return None
+        # A scan is not retried: a failure says why (disabled, inactive network…).
+        return Job.objects.create(kind=Job.Kind.SCAN, network=network, origin=origin,
+                                  requested_by=user, max_attempts=1)
 
 
 def backoff(attempts):
@@ -87,8 +102,24 @@ class Worker:
                     taken.append(Job.objects.get(id=job_id))
         return taken
 
+    def run_scan_job(self, job):
+        outcome = run_scan(job, stop=self.stop)
+        if not outcome.ok and self.stop.is_set():
+            Job.objects.filter(id=job.id, state=Job.State.RUNNING).update(
+                state=Job.State.QUEUED, attempts=F("attempts") - 1, worker="",
+                reason="interrupted by the worker shutdown")
+            return
+        state = Job.State.DONE if outcome.ok else Job.State.FAILED
+        reason = outcome.reason or f"{outcome.found} open port(s)"
+        Job.objects.filter(id=job.id).update(state=state, finished_at=timezone.now(),
+                                             reason=reason)
+        (log.info if outcome.ok else log.error)("job %s: scan of %s: %s", job.id,
+                                                 job.network, reason)
+
     def run_job(self, job):
         """Collect, store, and mark JOB done, retriable or failed."""
+        if job.kind == Job.Kind.SCAN:
+            return self.run_scan_job(job)
         machine = job.machine
         result = self.collect(machine)
         if self.stop.is_set() and not result.ok:
@@ -179,6 +210,10 @@ class Worker:
                                             next_run_at=schedule.next_run_at).update(
                 next_run_at=following)
             if not moved:
+                continue
+            if schedule.network_id:
+                job = enqueue_scan(schedule.network, origin=Snapshot.Origin.SSH)
+                created += [job] if job else []
                 continue
             created += enqueue(self.targets(schedule), origin=Snapshot.Origin.SSH)
         return created

@@ -42,7 +42,7 @@ class AlertWebTest(TestCase):
 
     def test_roles_match_the_migrations(self):
         granted = {}
-        for name in ("0001_roles", "0002_alert_roles"):
+        for name in ("0001_roles", "0002_alert_roles", "0003_network_roles"):
             module = importlib.import_module(f"aridi_central.web.migrations.{name}")
             for role, codes in module.ROLES.items():
                 granted.setdefault(role, set()).update(codes)

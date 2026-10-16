@@ -18,8 +18,9 @@ aridi es una herramienta de inventario de máquinas Linux. Tiene dos piezas:
   `docker compose`. Recoge por SSH (a demanda o programado), importa recogidas locales,
   guarda el histórico y los huecos, y busca en el parque, con una web de dos roles.
   Desde la fase 6 compara fotografías, alerta con 9 reglas de serie ajustables, avisa por
-  correo o webhook y dibuja el mapa de relaciones. **Sigue previsto y sin existir** el
-  descubrimiento y escaneo desde el central (fase 7).
+  correo o webhook y dibuja el mapa de relaciones. Desde la fase 7 escanea por TCP las
+  redes autorizadas, con el escaneo desactivado por defecto. **El cambio de
+  `docs/CAMBIO.md` está completo**; lo siguiente está en `docs/FUTURE.md`.
 
 **Su estado real está medido en `docs/MVP.md`:** léelo antes de dar nada por
 funcionando. La reescritura se decidió en `docs/CAMBIO.md` y se ejecuta por fases según
@@ -39,8 +40,8 @@ Versión completa: `docs/ARCHITECTURE.md`. Contrato de datos: `docs/FORMATO.md`.
 |---|---|
 | `collector/aridi-collect.sh` | Script POSIX de recogida en bruto: 17 áreas, con filtrado en origen de lo sensible |
 | `src/aridi/` | Núcleo, solo con la librería estándar: `bundle.py` (lector del paquete), `model.py` (fotografía, estados, huecos y papeles de relación), `interpret.py` (registro de áreas), `parsers/` (un analizador por área), `relations.py`, `views/text.py` y `cli.py` (`aridi validate\|interpret\|report`) |
-| `src/aridi/data/services.csv` | Nombres de puertos (`nombre\|puerto\|descripción`), copiado sin cambios de 2019 |
-| `src/aridi_central/` | Central Django: `settings.py` (todo por variables `ARIDI_*`), `inventory/` (máquinas, fotografías, huecos, índices, importación), `collection/` (`ssh.py`, cola `Job`, `Schedule`, `worker.py`), `changes/` (`diff.py`, `rules.py`, `evaluate.py`, `channels.py`: comparación, reglas, alertas y avisos), `web/` (vistas, roles, mapa SVG y plantillas), `discovery/` vacía |
+| `src/aridi/data/services.csv` | Nombres de puertos (`nombre\|puerto\|protocolo\|descripción`), generado desde IANA con `tools/build_services.py` |
+| `src/aridi_central/` | Central Django: `settings.py` (todo por variables `ARIDI_*`), `inventory/` (máquinas, fotografías, huecos, índices, importación), `collection/` (`ssh.py`, cola `Job`, `Schedule`, `worker.py`), `changes/` (`diff.py`, `rules.py`, `evaluate.py`, `channels.py`: comparación, reglas, alertas y avisos), `discovery/` (redes autorizadas, `scanner.py`, `scanning.py`), `web/` (vistas, roles, mapa SVG y plantillas) |
 | `Dockerfile`, `compose.yaml` | Imagen del central (base fijada por *digest*) y despliegue: `web` (gunicorn), `worker` y el volumen `aridi-data` |
 | `tests/` | `run.sh` (punto de entrada), pruebas `unittest`, `collector/` (script en todas las imágenes), `corpus/` (muestras), `lima/` (VMs), `parity/` y `parity.md` (regresión frente a 2019) |
 | `requirements/` | `central.in` y `central.txt`: dependencias del central, fijadas con hashes |
@@ -187,9 +188,9 @@ Versión completa: `docs/ARCHITECTURE.md`. Contrato de datos: `docs/FORMATO.md`.
     *Por qué:* es la convención de todos ellos. Nunca marques algo como «entregado» sin
     haberlo visto funcionar.
 15. **No escribas el futuro en el presente.**
-    *Por qué:* `docs/IDEA.md`, `docs/FUTURE.md` y `docs/CAMBIO.md` describen lo previsto
-    (cambios y alertas, descubrimiento y escaneo desde el central…). Hasta que una fase de `TODO.md` lo entregue, ni el
-    código ni la documentación deben dar a entender que existe.
+    *Por qué:* `docs/FUTURE.md` describe lo que podría venir (UDP en el escaneo,
+    reinterpretar paquetes guardados, usuarios desde la web…). Hasta que algo esté hecho
+    y probado, ni el código ni la documentación deben dar a entender que existe.
 16. **El corpus no puede llevar datos del anfitrión.**
     *Por qué:* en la fase 3, las VMs de Lima montaban el directorio personal del
     anfitrión y creaban un usuario con su nombre. Las capturas usan `--mount-none`,
@@ -218,3 +219,10 @@ Versión completa: `docs/ARCHITECTURE.md`. Contrato de datos: `docs/FORMATO.md`.
     enterrarían las alertas reales. Cada regla de `changes/rules.py` tiene en
     `test_rules.py` un par de fotografías que la dispara y otro que no, y no salta entre
     dos fotografías iguales.
+22. **El escaneo solo toca redes autorizadas, y las pruebas nunca salen de la máquina.**
+    *Por qué:* escanear redes ajenas puede ser ilegal (regla de producto de `IDEA.md`).
+    Una IP que solo aparece en relaciones (registros, *carving*) nunca es objetivo, y
+    `scanner.py` comprueba el perímetro antes de cada conexión: no quites esa
+    comprobación ni la hagas solo al empezar. En las pruebas, usa el `connect` falso que
+    registra los intentos, `127.0.0.1` o el contenedor SSH de prueba; nunca IPs de
+    terceros.

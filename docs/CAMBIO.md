@@ -1,5 +1,10 @@
 # aridi: cambio de rumbo
 
+> **Cambio completado el 2026-10-16.** Las fases 0 a 7 de [`TODO.md`](../TODO.md)
+> entregaron todo lo que aquí se decidió; lo medido está en [`MVP.md`](MVP.md) y lo que
+> queda, en [`FUTURE.md`](FUTURE.md). Este documento se conserva como registro de las
+> decisiones.
+
 > Decidido con el usuario el 2026-10-15. Parte de [`ESTUDIO.md`](ESTUDIO.md),
 > [`IDEA.md`](IDEA.md), [`MVP.md`](MVP.md), [`FUTURE.md`](FUTURE.md) y
 > [`ARCHITECTURE.md`](ARCHITECTURE.md), que describen el proyecto **tal como es hoy**.
@@ -79,9 +84,9 @@ aprovecha es el conocimiento, los datos y la licencia.
 | `graph.py` | **Abandonar** | Decidido: sale del colector y el mapa pasa a la web | Lee `report.routes` e `infrastructure_data` |
 | `reporting.py` | **Reescribir** | Pasa a ser el modelo de datos más sus vistas de texto. **Se conservan** el concepto de mapa de infraestructura y los dos niveles de lectura. | Todos los módulos escriben en él |
 | `utils.py` | **Abandonar** | Las cabeceras pasan a las vistas; la conversión de IPs se reescribe con IPv6 | Todas las fases |
-| `services.csv` | **Adaptar** | Se regenera desde el registro de IANA con fecha y columna de protocolo. Pasa a ser un dato del central. | `loadports`: nombres de puertos y lista de escaneo |
+| `services.csv` | **Adaptar** | Se regenera desde el registro de IANA con fecha y columna de protocolo. Pasa a ser un dato del central. **Hecho** (`tools/build_services.py`, TODO.md 7.1); se quedó en el núcleo (`src/aridi/data/`), porque también lo usa el modo local. | `loadports`: nombres de puertos y lista de escaneo |
 | `__init__.py` | **Abandonar** | Lo sustituye un empaquetado real (`pyproject.toml`) | Nada |
-| `LICENSE` (GPL v3) | **Conservar** | Sin cambio de licencia. Antes de publicar, confirmar la autoría (`ESTUDIO.md` §10). | Todo el repositorio |
+| `LICENSE` (GPL v3) | **Conservar** | Sin cambio de licencia. Antes de publicar, confirmar la autoría (`ESTUDIO.md` §10). **Confirmado por el usuario el 2026-10-16:** es el autor del código de 2019 y se mantiene GPL-3.0-only. | Todo el repositorio |
 | `README.md` | **Adaptar** | Se describe el sistema nuevo. Se conservan la frase original del autor y el inglés. | — |
 | `CLAUDE.md` | **Adaptar** | Reglas nuevas (dos paquetes, corpus, contrato de formato); `legacy/` en lugar de la raíz | — |
 | `docs/*.md` | **Adaptar** | Ver *Qué documentos hay que reescribir* | — |
@@ -383,7 +388,8 @@ hueco sin herramienta**.
 - **Estimaciones.** Son suposiciones. La etapa 1 es la que más puede crecer, porque cada
   distribución nueva del corpus descubre casos nuevos.
 - **Autoría y licencia.** Antes de publicar el sistema nuevo, confirmar quién tiene los
-  derechos (`ESTUDIO.md` §10).
+  derechos (`ESTUDIO.md` §10). **Resuelto el 2026-10-16:** el usuario es el autor y se
+  mantiene GPL-3.0-only (`TODO.md` 7.4).
 
 ## Qué documentos hay que reescribir
 

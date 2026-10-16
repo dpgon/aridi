@@ -38,4 +38,10 @@ urlpatterns = [
     path("channels/new/", views.channel_create, name="channel-create"),
     path("channels/<int:pk>/edit/", views.channel_edit, name="channel-edit"),
     path("channels/<int:pk>/delete/", views.channel_delete, name="channel-delete"),
+    path("networks/", views.network_list, name="network-list"),
+    path("networks/new/", views.network_create, name="network-create"),
+    path("networks/<int:pk>/", views.network_detail, name="network-detail"),
+    path("networks/<int:pk>/edit/", views.network_edit, name="network-edit"),
+    path("networks/<int:pk>/delete/", views.network_delete, name="network-delete"),
+    path("networks/<int:pk>/scan/", views.network_scan, name="network-scan"),
 ]

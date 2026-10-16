@@ -31,11 +31,12 @@ What exists today:
   SSH on demand or on a schedule, imports local collections, keeps the history of
   snapshots and what could not be seen, and searches the fleet. It compares snapshots,
   raises **alerts** on significant changes (shown in the web, sent by email or webhook)
-  and draws the relation map of each machine. A web interface with two roles,
+  and draws the relation map of each machine. It can scan, by TCP and only when enabled,
+  the networks an administrator authorises. A web interface with two roles,
   administration and read-only.
 
-What is planned and **does not exist yet**: network discovery and scanning from the
-central component.
+The rewrite planned in `docs/CAMBIO.md` is complete; what could come next is in
+[`docs/FUTURE.md`](docs/FUTURE.md).
 
 The measured, feature-by-feature status is in [`docs/MVP.md`](docs/MVP.md).
 
@@ -214,6 +215,31 @@ and `alert` (id, url, machine, rule, severity, title, detail, snapshots). Redire
 treated as failures. Compatibility with Slack and Mattermost has **not** been tested
 against those services.
 
+### Network scanning
+
+The central component can scan networks for open TCP ports. It is **off by default**:
+
+- set `ARIDI_SCAN_ENABLED=1` (in the environment of `docker compose`);
+- authorise each network on the **Networks** page (administration). The largest network
+  is a /16 in IPv4 and a /112 in IPv6 (`ARIDI_SCAN_MAX_PREFIX_V4`, `_V6`), and the form
+  asks you to confirm that you may scan it;
+- scan it now from its page, or add a schedule for the network (Groups and schedules).
+
+Each network scans the 98 most common TCP ports or all of them. The worker makes plain
+TCP connections from its container, at most `ARIDI_SCAN_RATE` per second (100) with
+`ARIDI_SCAN_THREADS` threads (32) and a `ARIDI_SCAN_TIMEOUT_MS` timeout (1000). **The
+container must be able to reach the networks**: it sees them from the central's
+position, and a firewall in between may show something different from what the machine
+itself sees (its own listening sockets are in its snapshot).
+
+Before **every** connection the address is checked against the active authorised
+networks: addresses found in logs or files are never scanned, and deactivating a network
+stops its scan. Open ports are listed on the network page and, when the address belongs
+to an inventoried machine, on its page, in the search by IP and in its relation map.
+
+**Scan only networks you own or have the owner's permission to scan.** Scanning other
+networks may be illegal; aridi asks for that permission but cannot verify it.
+
 ### Backups
 
 The database is a single SQLite file in the `aridi-data` volume. Copy it consistently,
@@ -257,7 +283,8 @@ The 2019 command line (`aridi.py -g -s -v -c -a --scan --graph -os -od -of -oi`)
 report format are gone. In particular:
 
 - the ARP sweep and the port scan from the machine are dropped: the collector is passive.
-  Scanning is planned for the central component, limited to authorised networks;
+  Scanning moved to the central component, limited to authorised networks, and it never
+  scans addresses just because they appear in logs;
 - the `--graph` network graph is replaced by the relation map of each machine in the web
   of the central component (an SVG drawn by the server);
 - host names found in files are listed, not resolved with DNS;
@@ -299,7 +326,7 @@ The project documentation lives in [`docs/`](docs/) and is written in **Spanish*
 | [`docs/ESTUDIO.md`](docs/ESTUDIO.md) | Study of the 2019 code: what it did, how, and its known issues |
 | [`docs/IDEA.md`](docs/IDEA.md) | Product idea: purpose, users, capabilities, principles, non-goals, glossary |
 | [`docs/MVP.md`](docs/MVP.md) | What works today, measured feature by feature with the automated tests |
-| [`docs/FUTURE.md`](docs/FUTURE.md) | Planned stages: central inventory, change alerts, scoped network discovery |
+| [`docs/FUTURE.md`](docs/FUTURE.md) | The stages of the rewrite (all delivered) and what could come next |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Architecture of the collector and the core, decision log, technical debt |
 | [`docs/CAMBIO.md`](docs/CAMBIO.md) | The rewrite: what is kept, rewritten or dropped, target architecture, what is lost |
 | [`docs/FORMATO.md`](docs/FORMATO.md) | Contract: raw bundle v1, snapshot v1, versioning policy, core CLI |

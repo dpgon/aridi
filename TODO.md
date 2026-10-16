@@ -1206,26 +1206,32 @@ aceptación de la fase 5 (`inventory`) sigue pasando.
 
 ### 7.1 `services.csv` regenerado
 
-- [ ] `tools/build_services.py` (solo librería estándar): descarga el registro de puertos
+- [x] `tools/build_services.py` (solo librería estándar): descarga el registro de puertos
   de IANA (`service-names-port-numbers.csv`) y genera
   `src/aridi/data/services.csv` con `nombre|puerto|protocolo|descripción`, más una
   cabecera con la fuente y la fecha. Sustituye al fichero heredado de 4.2.
-- [ ] Pruebas: el cargador del núcleo lee el formato nuevo; los nombres de 3.15 siguen
-  resolviéndose.
+  *Hecho:* 11 489 entradas (el primer nombre de IANA por puerto y protocolo; sin rangos
+  ni entradas sin nombre). `aridi.ports.name(puerto, protocolo)` distingue el protocolo,
+  y las conexiones le pasan el suyo.
+- [x] Pruebas: el cargador del núcleo lee el formato nuevo; los nombres de 3.15 siguen
+  resolviéndose (`tests/test_core/test_ports.py`). Comprobado además que ningún nombre de
+  las conexiones del corpus ni de `tests/parity/` cambia.
 
 ### 7.2 Redes autorizadas
 
-- [ ] `discovery/models.py`: `AuthorizedNetwork` (CIDR v4/v6, descripción, quién la
+- [x] `discovery/models.py`: `AuthorizedNetwork` (CIDR v4/v6, descripción, quién la
   autorizó y cuándo, activa) y `ScanResult` (IP, protocolo, puerto, estado, fecha,
-  trabajo).
-- [ ] Gestión en la web (solo administración), con validación del CIDR y un tamaño máximo
-  configurable (por ejemplo, /16 en v4 y /112 en v6).
-- [ ] Pruebas: un CIDR inválido o demasiado grande se rechaza; consulta no puede
-  gestionar redes.
+  trabajo). *Hecho:* también la lista de puertos (comunes o todos) por red; solo se
+  guardan los puertos abiertos.
+- [x] Gestión en la web (solo administración), con validación del CIDR y un tamaño máximo
+  configurable (por ejemplo, /16 en v4 y /112 en v6). *Hecho:* el alta pide confirmar que
+  se tiene permiso para escanear la red; cambiarla es volver a autorizarla.
+- [x] Pruebas: un CIDR inválido o demasiado grande se rechaza; consulta no puede
+  gestionar redes (`discovery/tests/test_discovery.py`).
 
 ### 7.3 Escáner
 
-- [ ] `discovery/scanner.py`:
+- [x] `discovery/scanner.py`:
   - TCP *connect* v4 y v6 con `socket`;
   - grupo de hilos con límite;
   - *timeout* por conexión y límite de conexiones por segundo;
@@ -1235,11 +1241,12 @@ aceptación de la fase 5 (`inventory`) sigue pasando.
   **Comprueba antes de cada conexión que la IP está dentro de una `AuthorizedNetwork`
   activa**, y nunca escanea IPs que vengan solo de relaciones (registros, carving) fuera
   del perímetro.
-- [ ] Trabajo `scan` en `aridi_worker` y en `Schedule`, **desactivado por defecto**.
-- [ ] Integración de los resultados: los puertos abiertos pasan a `Relation` con el papel
+- [x] Trabajo `scan` en `aridi_worker` y en `Schedule`, **desactivado por defecto**
+  (`ARIDI_SCAN_ENABLED`; `Job` y `Schedule` aceptan una red, con restricciones `CHECK`).
+- [x] Integración de los resultados: los puertos abiertos pasan a `Relation` con el papel
   `scan_open_port` y a la vista de la máquina, si la IP corresponde a una máquina
-  inventariada.
-- [ ] Pruebas:
+  inventariada. *Hecho:* también al mapa de relaciones y a la búsqueda por IP.
+- [x] Pruebas:
   - un servidor local en la red autorizada se detecta;
   - **una IP fuera de toda red autorizada no recibe ninguna conexión** (se comprueba con
     un `socket` falso que registra los intentos);
@@ -1248,17 +1255,21 @@ aceptación de la fase 5 (`inventory`) sigue pasando.
 
 ### 7.4 Documentación y cierre del cambio
 
-- [ ] **[decisión]** Antes de publicar (en GitHub o en cualquier sitio) la versión nueva,
+- [x] **[decisión]** Antes de publicar (en GitHub o en cualquier sitio) la versión nueva,
   confirmar la autoría y los derechos (`docs/ESTUDIO.md` §10, `docs/CAMBIO.md`,
-  *Riesgos*).
-- [ ] `docs/IDEA.md`, `docs/MVP.md`, `docs/ARCHITECTURE.md` (app `discovery`) y
+  *Riesgos*). **Decidido por el usuario (2026-10-16): es el autor del código de 2019 y se
+  mantiene GPL-3.0-only.** También decidió reescribir los commits locales que llevaban
+  la ruta de su directorio personal y su nombre en muestras antiguas del corpus. Se
+  sustituyeron por cadenas de la misma longitud, con el árbol final idéntico; los hashes
+  desde `b584ee1` cambiaron.
+- [x] `docs/IDEA.md`, `docs/MVP.md`, `docs/ARCHITECTURE.md` (app `discovery`) y
   `README.md`:
   - el escaneo se hace desde el central;
   - el contenedor necesita alcanzar las redes autorizadas;
   - aviso legal: escanear solo redes autorizadas.
-- [ ] `docs/FUTURE.md`: todas las etapas de `docs/CAMBIO.md` hechas; las ideas aparcadas
+- [x] `docs/FUTURE.md`: todas las etapas de `docs/CAMBIO.md` hechas; las ideas aparcadas
   quedan como futuro real.
-- [ ] `docs/CAMBIO.md`: añadir al principio una nota «Cambio completado el <fecha>» que
+- [x] `docs/CAMBIO.md`: añadir al principio una nota «Cambio completado el <fecha>» que
   enlace a este `TODO.md`.
 
 **Criterio de aceptación de la fase 7:**
@@ -1268,6 +1279,11 @@ aceptación de la fase 5 (`inventory`) sigue pasando.
 - una IP de los registros fuera del perímetro nunca se toca (prueba);
 - `tests/run.sh all` pasa;
 - toda la documentación describe el sistema completo.
+
+**Cumplido el 2026-10-16.** La máquina SSH de prueba es el contenedor desechable de
+`tests/central/ssh-target.sh`: `test_integration:SshIntegrationTest.test_scheduled_scan_finds_port_22_and_shows_it`
+la recoge, autoriza su dirección (/32), lanza el escaneo programado con el trabajador y
+ve `tcp/22 ssh` en su ficha. La IP fuera del perímetro se prueba con un `connect` falso.
 
 ---
 

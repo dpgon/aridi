@@ -26,18 +26,21 @@ central** que lo ejecuta por SSH y guarda el inventario:
 4. **Cambios y alertas** (en el central): compara fotografías, aplica 9 reglas de serie
    ajustables por máquina o grupo, avisa por correo o webhook y dibuja el mapa de
    relaciones de cada máquina.
+5. **Exploración de red** (en el central, desactivada por defecto): escanea por TCP solo
+   las redes que el administrador autoriza y lleva los puertos abiertos a la ficha de la
+   máquina.
 
 Ya le sirve a un administrador o a un auditor que quiera una **fotografía fiable y
 legible de una máquina Linux**, de CentOS 6 a Fedora 44, incluidas Alpine, Arch y
 openSUSE, y también de contenedores sin Python: el script corre allí y el informe se
 genera en otro equipo con Python 3.12.
 
-**No hay** descubrimiento de red ni escaneo desde el central (ver *Fuera de lo
-entregado*).
+Con la fase 7 se completó el cambio de `CAMBIO.md`; lo que no hace está en *Fuera de lo
+entregado*.
 
 **El aridi de 2019 ya no está en el repositorio.** Se retiró en la fase 4, al alcanzar
 la paridad (`tests/parity.md`). Queda en la historia de git: en la raíz hasta el commit
-`4ab279e` y en `legacy/` entre `6f749d6` y `037284e`. Su medición, con las mismas
+`4ab279e` y en `legacy/` entre `6f749d6` y `b155e0a`. Su medición, con las mismas
 categorías que este documento, está en la versión de este fichero de esos commits.
 
 ## Cómo se ha medido
@@ -290,8 +293,11 @@ Las pruebas se citan como `módulo:Clase.método` (fichero `tests/**/módulo.py`
 
 ### 17. Conexiones con su proceso — *entregada*
 
-- **Observado:** dirección (entrante o saliente), servicio por puerto (`services.csv`),
-  IPv6 y la sesión SSH de las VMs como conexión entrante (`test_volatile:ConnectionsTest.*`).
+- **Observado:** dirección (entrante o saliente), servicio por puerto y protocolo
+  (`services.csv`, generado desde IANA), IPv6 y la sesión SSH de las VMs como conexión
+  entrante (`test_volatile:ConnectionsTest.*`, `test_ports:TableTest.*`). Los nombres que
+  usan las conexiones del corpus no cambiaron al pasar de la tabla de 2019 a la de IANA
+  (comprobado con las 33 muestras y `tests/parity/`).
 
 ### 18. IPs y nombres en `/etc`, `/var/log` y el journal (*carving*) — *entregada con limitaciones*
 
@@ -316,8 +322,8 @@ Las pruebas se citan como `módulo:Clase.método` (fichero `tests/**/módulo.py`
 
 - **Observado:** cada papel de relación es un código enumerado; IPv4 e IPv6 se ordenan
   juntas, las locales primero. Todos los papeles salen de alguna muestra, salvo
-  `failed_login_source` (sintético) y `scan_open_port` (reservado para el escaneo del
-  central, que todavía no existe: fase 7)
+  `failed_login_source` (sintético) y `scan_open_port`, que no sale del colector sino del
+  escaneo del central (n.º 31)
   (`test_relations:RelationsTest.test_every_role_comes_from_a_sample_or_is_tested_elsewhere`).
   Cada área declara sus huecos parciales con estado y motivo, y el informe los reúne en
   «What could not be seen».
@@ -505,6 +511,42 @@ Las pruebas se citan como `módulo:Clase.método` (fichero `tests/**/módulo.py`
   dibujadas, el resto en la tabla) (`test_alerts_web:RelationMapTest.*`).
 - **Deducido:** sustituye al `--graph` de 2019, sin Graphviz ni JavaScript.
 
+### 30. Central: redes autorizadas — *entregada*
+
+- **Observado:**
+  - Un CIDR inválido, con bits de máquina, multicast o mayor que el máximo (/16 en IPv4,
+    /112 en IPv6, configurable) se rechaza; se guarda normalizado
+    (`test_discovery:CidrTest.*`).
+  - Solo administración da de alta, cambia o quita redes, y tiene que confirmar que
+    puede escanearlas; consulta las ve y recibe 403 en todo lo demás. Se guarda quién la
+    autorizó y cuándo (`test_discovery:NetworkWebTest.*`).
+
+### 31. Central: escaneo TCP desde el central — *entregada con limitaciones*
+
+- **Observado:**
+  - Desactivado por defecto: sin `ARIDI_SCAN_ENABLED=1`, ni la web encola ni el
+    trabajador conecta (`test_disabled_does_not_run`,
+    `test_scan_now_needs_scanning_enabled`).
+  - **Una IP de los registros fuera del perímetro nunca recibe ninguna conexión:** con
+    un `connect` falso que registra cada intento, solo se tocan las direcciones de la red
+    autorizada (`test_ips_from_relations_outside_the_perimeter_are_never_touched`,
+    `test_outside_the_perimeter_no_connection_at_all`); si la red se desactiva durante el
+    escaneo, este se para (`test_deactivating_stops_the_scan`).
+  - Límite de conexiones por segundo, compartido por los hilos
+    (`ScannerTest.test_rate_limit`).
+  - Un servidor local se detecta, también por un escaneo programado del trabajador
+    (`test_a_real_local_server_is_detected`,
+    `ScheduledScanTest.test_scheduled_scan_through_the_worker`).
+  - **Aceptación:** con la máquina SSH de prueba (un contenedor desechable) en una red
+    autorizada, un escaneo programado encuentra su puerto 22 y la ficha lo muestra
+    (`test_integration:SshIntegrationTest.test_scheduled_scan_finds_port_22_and_shows_it`).
+  - Los puertos abiertos son relaciones `scan_open_port` de la última fotografía de la
+    máquina dueña de la IP: salen en su ficha, en la búsqueda por IP y en su mapa
+    (`test_scan_relations_are_in_the_relation_map`).
+- **Limitaciones:** solo TCP *connect*, sin UDP ni versiones; ve la red desde el
+  contenedor del trabajador; no se ha medido con redes grandes (un /16 con los puertos
+  comunes son unos 6,4 millones de intentos: unas 18 horas a 100 por segundo).
+
 ---
 
 ## Funcionalidades a medias
@@ -558,12 +600,15 @@ que contaba como SUID los enlaces simbólicos). Están en `tests/parity.md`.
 
 ## Fuera de lo entregado
 
-Para que la frontera no admita dudas, aridi **no** hace hoy nada de lo siguiente. Lo
-primero está previsto en la fase 7 de `TODO.md` y **todavía no existe**:
+Para que la frontera no admita dudas, aridi **no** hace hoy nada de lo siguiente. Nada
+de ello está en una fase de `TODO.md`; lo que tiene sitio está en `FUTURE.md`:
 
-- **Descubrimiento de red y escaneo de puertos** desde el central, acotado a redes
-  autorizadas (fase 7). La aplicación `discovery` existe vacía.
+- **Escaneo UDP, detección de versiones o barridos ARP:** el escáner solo prueba
+  conexiones TCP.
 - **Actualización automática** del script instalado en las máquinas.
+- **Gestión de usuarios desde la web:** se hace con los comandos de Django.
+- **Reinterpretar** los paquetes en bruto guardados con un núcleo nuevo: los datos están,
+  la herramienta no.
 
 ## Definición de terminado
 

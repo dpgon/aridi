@@ -64,6 +64,15 @@
 <p class="muted">No snapshot yet.</p>
 {% endif %}
 
+{% if scanned %}
+<h3>Open ports found by scanning</h3>
+<p class="muted">From the central, in authorized networks; the machine's own view of its sockets is under Network.</p>
+<table>
+  <tr><th>Address</th><th>Port</th><th>Service</th><th>Network</th><th>Scanned (UTC)</th></tr>
+  {% for r in scanned %}<tr><td>{{ r.ip }}</td><td>{{ r.protocol }}/{{ r.port }}</td><td>{{ r.service }}</td><td><a href="{% url 'network-detail' r.network.pk %}">{{ r.network.cidr }}</a></td><td>{{ r.scanned_at|date:"Y-m-d H:i" }}</td></tr>{% endfor %}
+</table>
+{% endif %}
+
 {% if jobs %}
 <h3>Recent jobs</h3>
 <table>{% for job in jobs %}<tr><td>{{ job.created_at|date:"Y-m-d H:i" }}</td><td class="{{ job.state }}">{{ job.state }}</td><td>{{ job.get_origin_display }}</td><td>{{ job.reason }}</td></tr>{% endfor %}</table>

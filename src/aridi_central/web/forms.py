@@ -5,6 +5,7 @@ from django import forms
 from aridi_central.changes.models import Alert, Channel, RuleOverride
 from aridi_central.changes.rules import CHOICES, Severity
 from aridi_central.collection.models import Schedule
+from aridi_central.discovery.models import AuthorizedNetwork
 from aridi_central.inventory.models import Group, Machine
 
 
@@ -25,7 +26,7 @@ class GroupForm(forms.ModelForm):
 class ScheduleForm(forms.ModelForm):
     class Meta:
         model = Schedule
-        fields = ["machine", "group", "kind", "every_hours", "daily_at", "active"]
+        fields = ["machine", "group", "network", "kind", "every_hours", "daily_at", "active"]
         widgets = {"daily_at": forms.TimeInput(attrs={"type": "time"})}
 
     def save(self, commit=True):
@@ -82,3 +83,14 @@ class AlertFilterForm(forms.Form):
 class AlertStateForm(forms.Form):
     state = forms.ChoiceField(choices=Alert.State.choices)
     note = forms.CharField(required=False, max_length=2000)
+
+
+# Network discovery (phase 7)
+
+class AuthorizedNetworkForm(forms.ModelForm):
+    confirm = forms.BooleanField(
+        label="I am allowed to scan this network: it belongs to us or its owner agreed")
+
+    class Meta:
+        model = AuthorizedNetwork
+        fields = ["cidr", "description", "ports", "active"]

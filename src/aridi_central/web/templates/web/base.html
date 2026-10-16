@@ -52,6 +52,7 @@
     <a href="{% url 'alert-list' %}">Alerts</a>
     <a href="{% url 'rule-list' %}">Rules</a>
     <a href="{% url 'channel-list' %}">Channels</a>
+    <a href="{% url 'network-list' %}">Networks</a>
     {% if perms.inventory.add_snapshot %}<a href="{% url 'import' %}">Import</a>{% endif %}
     <form class="inline" method="post" action="{% url 'logout' %}">{% csrf_token %}
       <button type="submit">Log out {{ user.username }}</button></form>

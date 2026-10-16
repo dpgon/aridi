@@ -1,12 +1,11 @@
 # aridi: arquitectura actual
 
 > Este documento describe la arquitectura **que existe** en la rama `rewrite` al cerrar
-> la fase 6 de [`TODO.md`](../TODO.md) (2026-10-16): el colector nuevo, que funciona en
-> modo local, y el **componente central** (inventario, recogida por SSH, cola y
-> programación, web, búsqueda, comparación de fotografías, alertas con sus canales y mapa
-> de relaciones). Lo que sigue sin existir de la arquitectura de destino de
-> [`CAMBIO.md`](CAMBIO.md) es el descubrimiento de red y el escaneo desde el central
-> (fase 7). El contrato de datos está en
+> la fase 7 de [`TODO.md`](../TODO.md) (2026-10-16), con el cambio de
+> [`CAMBIO.md`](CAMBIO.md) completo: el colector nuevo, que funciona en modo local, y el
+> **componente central** (inventario, recogida por SSH, cola y programación, web,
+> búsqueda, comparación de fotografías, alertas con sus canales, mapa de relaciones y
+> escaneo de las redes autorizadas). El contrato de datos está en
 > [`FORMATO.md`](FORMATO.md). Los hechos vienen de leer el código y de ejecutar
 > `tests/run.sh`; las referencias van en la forma `archivo:línea` o con el nombre de la
 > función. Lo que no se puede probar va marcado como **suposición**.
@@ -74,8 +73,8 @@ guarda cada fotografía en SQLite y la muestra en una web:
 - **Con el sistema inventariado:** solo lectura de ficheros y ejecución de herramientas
   del propio sistema, desde el script.
 
-**Lo que no existe todavía** (regla 15 de `CLAUDE.md`): el descubrimiento de red y el
-escaneo desde el central (fase 7; la aplicación `discovery` está creada pero vacía).
+**Escaneo:** el trabajador conecta por TCP, desde su contenedor, a las direcciones de las
+redes autorizadas (`discovery/`); nunca a otras.
 
 ---
 
@@ -104,7 +103,8 @@ escaneo desde el central (fase 7; la aplicación `discovery` está creada pero v
 |---|---|
 | `collector/aridi-collect.sh` | El script de recogida (unas 840 líneas) |
 | `src/aridi/` | El núcleo (librería estándar), con la CLI `aridi` |
-| `src/aridi/data/services.csv` | Nombres de puertos (`nombre\|puerto\|descripción`), copia sin cambios del de 2019 |
+| `src/aridi/data/services.csv` | Nombres de puertos (`nombre\|puerto\|protocolo\|descripción`), generado desde el registro de IANA |
+| `tools/build_services.py` | Genera `services.csv` desde IANA (librería estándar; descarga o fichero local) |
 | `src/aridi_central/` | El componente central (Django): ver *El componente central* |
 | `Dockerfile`, `.dockerignore`, `compose.yaml` | Imagen y despliegue del central |
 | `tests/` | Pruebas, corpus y referencias de 2019 (ver *Estrategia de pruebas*) |
@@ -121,7 +121,7 @@ escaneo desde el central (fase 7; la aplicación `discovery` está creada pero v
 | `collection/` | Modelos `Job` y `Schedule`, `ssh.py` (recogida), `worker.py` (cola, programación, ciclo de vida), comando `aridi_worker`. |
 | `web/` | Vistas, formularios, plantillas (`templates/web/`), `roles.py`, el *middleware* de CSP, `relation_map.py` (geometría del mapa SVG) y las migraciones de datos de los roles (`0001` de la fase 5, `0002` de las alertas; las listas de cada una están congeladas en la migración y `_roles.py` tiene las funciones comunes). |
 | `changes/` | `diff.py` (comparación área por área), `rules.py` (las 9 reglas de serie), `models.py` (`RuleOverride`, `Alert`, `Channel`, `Delivery`), `evaluate.py` (de la fotografía a las alertas, ajustes, «no responde»), `channels.py` (correo y webhook, reintentos). |
-| `discovery/` | Vacía: fase 7. |
+| `discovery/` | `models.py` (`AuthorizedNetwork` con su validación de CIDR, `ScanResult`), `scanner.py` (TCP *connect* con hilos, límite de velocidad y comprobación del perímetro antes de cada conexión), `scanning.py` (el trabajo `scan`: resultados e integración en el inventario). |
 | `testing.py` | Rutas del corpus para las pruebas del central. |
 | `*/tests/` | Pruebas de Django (ver *Estrategia de pruebas*). |
 
@@ -140,6 +140,9 @@ escaneo desde el central (fase 7; la aplicación `discovery` está creada pero v
   `ARIDI_DELIVERY_ATTEMPTS` (5) y el SMTP: `ARIDI_EMAIL_HOST`, `ARIDI_EMAIL_PORT` (587),
   `ARIDI_EMAIL_USER`, `ARIDI_EMAIL_PASSWORD`, `ARIDI_EMAIL_SECURITY` (`starttls`, `tls`
   o `none`) y `ARIDI_EMAIL_FROM`. En `compose.yaml` se leen de `alerts.env`.
+- **Escaneo:** `ARIDI_SCAN_ENABLED` (apagado salvo `1`), `ARIDI_SCAN_RATE` (100
+  intentos por segundo), `ARIDI_SCAN_THREADS` (32), `ARIDI_SCAN_TIMEOUT_MS` (1000) y
+  `ARIDI_SCAN_MAX_PREFIX_V4` / `_V6` (16 y 112).
 - **Seguridad:** `ARIDI_SSL_REDIRECT` y `ARIDI_HSTS_SECONDS` (un año por defecto).
 - **Log:** `ARIDI_LOG_LEVEL`.
 
@@ -275,8 +278,8 @@ sobrescribir ni seguir enlaces simbólicos).
 objeto `ipaddress` (IPv4 o IPv6) y su papel es un código del enumerado `Role` (`local`,
 `dns_server`, `ntp_server`, `login_source`, `failed_login_source`, `fw_allowed_in`,
 `fw_allowed_out`, `peer_in`, `peer_out`, `named_in_file`, `neighbour`, `scan_open_port`),
-nunca una frase. `scan_open_port` está reservado para el escáner del central (fase 7) y
-solo se prueba con datos sintéticos.
+nunca una frase. `scan_open_port` no lo produce el colector: lo crea el escáner del
+central como fila `Relation` (origen `scan`) de la última fotografía de la máquina.
 
 **El modelo de datos del central** (SQLite; `inventory/models.py`,
 `collection/models.py`, `changes/models.py`; migraciones `0001` de cada aplicación):
@@ -288,12 +291,14 @@ solo se prueba con datos sintéticos.
 | `Snapshot` | máquina, `collected_at`, `received_at`, `origin` (`ssh`, `on_demand`, `import`), `schema_version`, `collector_version`, `data` (JSON), `result` (`complete`, `gaps`, `failed`), `failure_reason`, `raw_bundle`, `bundle_sha256`, `installed_collector_sha256`, `collector_outdated` | El JSON se guarda entero. El paquete en bruto va comprimido con gzip y solo en las `ARIDI_RAW_RETENTION` fotografías más recientes de cada máquina (`prune_raw_bundles`). Restricción única: el mismo paquete (`bundle_sha256`) no se guarda dos veces para una máquina. Una recogida fallida es una fotografía `failed` sin datos. |
 | `Gap` | fotografía, área, *item*, estado, motivo | Todos los huecos de `Snapshot.gaps()` del núcleo |
 | `SnapshotPackage`, `SnapshotUser`, `SnapshotPort`, `SnapshotService`, `Relation` | nombre, versión…; usuario, uid, algoritmo…; protocolo, familia, dirección, puerto, proceso; gestor, nombre, estado…; IP, papel, origen, detalle | Índices de búsqueda, derivados de la fotografía al guardarla (`indexing.py`). **Solo de las áreas no volátiles:** las relaciones de `processes`, `load`, `connections` y `neighbours` se quedan en el JSON pero no se indexan. |
-| `Job` | tipo (`collect`; `scan` reservado para la fase 7), máquina, origen, estado (`queued`, `running`, `done`, `failed`), intentos, `not_before`, fechas, trabajador, motivo, fotografía, solicitante | La cola del trabajador |
-| `Schedule` | máquina **o** grupo (restricción `CHECK`), tipo (`interval` cada N horas o `daily` a una hora UTC), activa, `next_run_at` | Una máquina con programación propia queda fuera de la de sus grupos |
+| `Job` | tipo (`collect` con máquina, o `scan` con red: restricción `CHECK`), máquina, red, origen, estado (`queued`, `running`, `done`, `failed`), intentos, `not_before`, fechas, trabajador, motivo, fotografía, solicitante | La cola del trabajador |
+| `Schedule` | máquina, grupo **o** red (restricción `CHECK`: exactamente uno), tipo (`interval` cada N horas o `daily` a una hora UTC), activa, `next_run_at` | Una máquina con programación propia queda fuera de la de sus grupos |
 | `RuleOverride` | regla, máquina **o** grupo (`CHECK`), silenciada, gravedad, umbral | Uno por regla y máquina, y uno por regla y grupo. Las reglas son código (`changes/rules.py`), no filas |
 | `Alert` | máquina, regla, gravedad, clave, título, detalle (JSON), fotografía y la anterior, estado (`new`, `seen`, `resolved`), quién la cambió, nota | La clave dice de qué trata dentro de la regla (`mallory:new`, `tcp/0.0.0.0/4444`…): no se crea otra igual mientras la anterior siga abierta |
 | `Channel` | nombre, tipo (`email` o `webhook`), destino, gravedad mínima, grupos, activo | Un webhook guarda el **nombre** de una variable `ARIDI_WEBHOOK_URL_<NOMBRE>`, nunca la URL |
 | `Delivery` | alerta, canal, estado (`pending`, `sent`, `failed`), intentos, `next_try_at`, error | Uno por alerta y canal (restricción única) |
+| `AuthorizedNetwork` | CIDR (único, normalizado), descripción, puertos (`common` o `all`), activa, quién la autorizó y cuándo | Tamaño máximo configurable; cambiarla es volver a autorizarla |
+| `ScanResult` | red, trabajo, IP, protocolo, puerto, estado, servicio, fecha | Solo los puertos abiertos |
 
 Usuarios y roles: `django.contrib.auth`, con los grupos **`administration`** y
 **`read-only`** (ver *Seguridad*).
@@ -342,6 +347,7 @@ aridi [-v|-vv] report    PAQUETE [--detail]
 | `/alerts/`, `/alerts/<id>/`, `POST /alerts/<id>/state/` | Lista filtrable (estado, gravedad, regla, máquina), detalle con la comparación y los envíos, y cambio de estado (administración) |
 | `/rules/`, `/rules/overrides/…` | Reglas con sus valores de serie y ajustes por máquina o grupo |
 | `/channels/`, `/channels/…` | Canales y últimos envíos; muestra los nombres de webhook configurados, nunca sus URL |
+| `/networks/`, `/networks/<id>/`, `POST /networks/<id>/scan/` | Redes autorizadas (alta con confirmación expresa, administración), resultados del último escaneo y escaneo a demanda |
 | `/search/` | Búsqueda por paquete (`nombre` o `nombre=versión`), puerto (`22` o `tcp/22`), usuario, servicio o IP, **sobre la última fotografía con datos de cada máquina** |
 | `manage.py aridi_import FICHERO [--machine NOMBRE \| --create]` | Importación por consola |
 | `manage.py aridi_worker [--poll S] [--max-ssh N]` | El trabajador; para con SIGTERM o SIGINT |
@@ -406,6 +412,24 @@ coreutils. En el central, el trabajador usa hilos (ver *El trabajador*).
   fotografía en dos periodos. Los avisos los envía un hilo propio
   (`deliveries_forever`), que toma cada `Delivery` adelantando su `next_try_at` con un
   `UPDATE` condicional: un canal caído o lento nunca retrasa una recogida.
+
+### Escaneo (`discovery/`)
+
+- **Dos interruptores:** `ARIDI_SCAN_ENABLED=1` en el central y una `AuthorizedNetwork`
+  activa. Sin el primero, la web no encola y el trabajo falla sin conectar.
+- **Objetivos:** solo `network.hosts()` de la red del trabajo. Las IPs de las relaciones
+  (registros, *carving*) nunca son objetivos.
+- **Perímetro:** antes de cada conexión, la IP se comprueba contra las redes activas, que
+  el hilo que reparte el trabajo recarga cada 5 s; si una IP queda fuera (la red se
+  desactivó), el escaneo se para con `OutsidePerimeter`.
+- **Conexión:** `socket.connect_ex` con *timeout*, en un `ThreadPoolExecutor` de
+  `ARIDI_SCAN_THREADS` hilos, con un límite de intentos por segundo compartido.
+- **Puertos:** 98 TCP comunes (`COMMON_PORTS`) o los 65535, según la red.
+- **Trabajo:** `Job` de tipo `scan`, uno pendiente por red, sin reintentos; también por
+  `Schedule` de la red. Los puertos abiertos se guardan en `ScanResult` y, si la IP es de
+  una máquina inventariada (dirección local de su última fotografía o su destino SSH),
+  pasan a `Relation` (`scan_open_port`, origen `scan`) de esa fotografía, sustituyendo
+  las del escaneo anterior.
 
 ### Cambios y alertas (`changes/`)
 
@@ -494,6 +518,11 @@ Descripción del estado actual; la auditoría es un paso aparte.
   datos; la web solo muestra los nombres de los webhooks. Un webhook lo configura quien
   administra el despliegue, así que el central solo envía a destinos que este haya
   puesto.
+- **Central: escaneo.** Apagado por defecto, solo hacia redes autorizadas por
+  administración (con confirmación expresa de permiso y tamaño máximo), y con el
+  perímetro comprobado antes de cada conexión. Ninguna prueba conecta fuera de
+  `127.0.0.1` o del contenedor SSH de prueba. **Aviso legal:** escanear redes sin permiso
+  de su dueño puede ser ilegal; el central no puede comprobar ese permiso, solo pedirlo.
 - **Central: credenciales.** Ni la base de datos ni la imagen guardan claves: `ssh` usa el
   `ssh-agent` montado (`SSH_AUTH_SOCK`) y un `known_hosts` en solo lectura con
   verificación estricta. **Observado:** `ssh-agent` solo atiende a clientes con su mismo
@@ -654,10 +683,11 @@ una máquina grande es una **suposición**.
   binarios por columnas.
 - **Su estado medido** está en `docs/MVP.md` y su estudio en `docs/ESTUDIO.md`.
 - **Dónde está el código:** en la historia de git. En la raíz del repositorio hasta el
-  commit `4ab279e` (2019-04-12); en `legacy/`, sin modificar, de `6f749d6` a `037284e`.
+  commit `4ab279e` (2019-04-12); en `legacy/`, sin modificar, de `6f749d6` a `b155e0a`.
   Se retira del árbol en la fase 4.2 de `TODO.md`, una vez comprobada la paridad
   (`tests/parity.md`).
-- **Lo que se conserva de él:** `services.csv` (copiado sin cambios), su conocimiento de
+- **Lo que se conserva de él:** `services.csv` (copiado sin cambios hasta la fase 7, que
+  lo regeneró desde IANA), su conocimiento de
   cada área como especificación, y sus resultados en `tests/parity/` como referencia
   congelada.
 
@@ -757,6 +787,18 @@ Fuentes: **documentado** (`CAMBIO.md`, `TODO.md`, `FORMATO.md`, un commit), **us
 | Los avisos se envían en un hilo propio del trabajador, con su cola `Delivery` | Un destino caído no puede retrasar las recogidas | **Observado** en `test_channels:NotBlockingTest` |
 | Las listas de permisos de cada migración de roles están congeladas en ella | Una migración antigua no puede depender de permisos de modelos que aún no existen | **Deducido**; `test_alerts_web` comprueba que la suma de las migraciones es `roles.py` |
 
+### De la fase 7
+
+| Decisión | Motivo | Cómo se sabe |
+|---|---|---|
+| El usuario es el autor del código de 2019; se mantiene GPL-3.0-only | Requisito previo para publicar (`ESTUDIO.md` §10) | **Usuario**, 2026-10-16 (`TODO.md` 7.4) |
+| Escaneo con dos interruptores: `ARIDI_SCAN_ENABLED` y la red autorizada activa | «Nada ofensivo por defecto» (`IDEA.md`) | **Deducido** de `TODO.md` 7.3 |
+| El perímetro se comprueba antes de cada conexión, no solo al empezar | Desactivar una red tiene que parar su escaneo | **Deducido**; `test_deactivating_stops_the_scan` |
+| Alta de red con confirmación expresa de permiso | Escanear redes ajenas puede ser ilegal | **Deducido** del aviso legal de `TODO.md` 7.4 |
+| Solo se guardan los puertos abiertos | Cerrados y filtrados de un /16 serían millones de filas | **Deducido** |
+| `services.csv` desde IANA, con protocolo, y se queda en el núcleo | El de 2019 no tenía origen, fecha ni protocolo; el modo local también lo usa | **Observado:** los nombres que usan las conexiones del corpus no cambian |
+| Los resultados del escaneo son relaciones de la última fotografía de la máquina | Reutilizar la búsqueda por IP, la ficha y el mapa | **Deducido** de `TODO.md` 7.3 |
+
 ---
 
 ## Deuda y riesgos
@@ -779,8 +821,8 @@ Fuentes: **documentado** (`CAMBIO.md`, `TODO.md`, `FORMATO.md`, un commit), **us
 - **Artefacto de la emulación amd64:** en Arch y CentOS 6, leer `/proc/PID/cmdline` crea y
   borra un fichero en `/tmp`. Lo provoca la emulación, no el script; la prueba del
   colector lo acepta solo cuando lo demuestra (`tests/collector/test_script.sh`).
-- **`services.csv`** sigue sin origen, fecha ni columna de protocolo. Su regeneración está
-  prevista en `TODO.md` 7.1.
+- **El escaneo ve la red desde el contenedor del trabajador** y no se ha medido con
+  redes grandes: un /16 con los puertos comunes son unos 6,4 millones de intentos.
 - **Sin medir en máquinas reales grandes** (ver *Objetivos de rendimiento*).
 - **x86_64 nativo:** solo se ha probado con emulación (la VM amd64 y las imágenes de Arch
   y CentOS 6).
