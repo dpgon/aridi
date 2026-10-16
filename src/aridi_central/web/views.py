@@ -1,4 +1,4 @@
-"""Views of the web interface (TODO.md 5.6 and 5.7).
+"""Views of the web interface (TODO.md 5.6, 5.7, 6.1, 6.3, 6.5).
 
 Every page needs a logged-in user; changes need the permissions of the administration
 role (roles.py). Text that comes from machines is only ever output through the template
@@ -12,8 +12,9 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
 from django.db.models import OuterRef, Subquery
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
@@ -23,14 +24,19 @@ from aridi.model import Snapshot as CoreSnapshot
 from aridi.relations import consolidate
 from aridi.views.text import area_lines
 
+from aridi_central.changes.diff import compare
+from aridi_central.changes.models import Alert, Channel, Delivery, RuleOverride
+from aridi_central.changes.rules import BY_CODE, RULES
 from aridi_central.collection.models import Job, Schedule
 from aridi_central.collection.worker import enqueue
 from aridi_central.inventory.importing import ImportRefused, NeedsConfirmation, import_bundle
 from aridi_central.inventory.models import (Group, Machine, Relation, Snapshot,
                                             SnapshotPackage, SnapshotPort, SnapshotService,
                                             SnapshotUser)
-from aridi_central.web.forms import (GroupForm, ImportForm, MachineForm, ScheduleForm,
-                                     SearchForm)
+from aridi_central.web.forms import (AlertFilterForm, AlertStateForm, ChannelForm,
+                                     GroupForm, ImportForm, MachineForm, RuleOverrideForm,
+                                     ScheduleForm, SearchForm)
+from aridi_central.web.relation_map import build as build_map
 
 
 def permission(code):
@@ -64,7 +70,8 @@ def machine_list(request):
     for machine in machines.prefetch_related("groups"):
         last = snapshots.get(machine.last_id)
         rows.append({"machine": machine, "last": last,
-                     "gaps": last.gaps.count() if last else None})
+                     "gaps": last.gaps.count() if last else None,
+                     "alerts": machine.alerts.exclude(state=Alert.State.RESOLVED).count()})
     return render(request, "web/machine_list.html", {"rows": rows})
 
 
@@ -87,6 +94,7 @@ def _snapshot_page(request, machine, snapshot):
     context["last_failure"] = (machine.snapshots.filter(result=Snapshot.Result.FAILED)
                                .order_by("-collected_at").first())
     context["jobs"] = machine.jobs.all()[:5]
+    context["open_alerts"] = machine.alerts.exclude(state=Alert.State.RESOLVED).count()
     return render(request, "web/machine_detail.html", context)
 
 
@@ -293,3 +301,165 @@ def search(request):
             form.add_error("query", "This query does not fit the chosen kind.")
     return render(request, "web/search.html", {"form": form, "rows": rows,
                                                "kind": form.data.get("kind")})
+
+
+# Changes and alerts (phase 6)
+
+def _with_data(machine):
+    return machine.snapshots.exclude(result=Snapshot.Result.FAILED).order_by(
+        "-collected_at", "-id")
+
+
+@permission("inventory.view_snapshot")
+def machine_compare(request, pk):
+    """Comparison of two snapshots of a machine (TODO.md 6.1): ?a=older&b=newer."""
+    machine = get_object_or_404(Machine, pk=pk)
+    choices = list(_with_data(machine).only("id", "collected_at", "origin")[:200])
+    volatile = request.GET.get("volatile") == "1"
+    context = {"machine": machine, "choices": choices, "volatile": volatile}
+    ids = [choice.id for choice in choices]
+    try:
+        b_id = int(request.GET.get("b") or (ids[0] if ids else 0))
+        if request.GET.get("a"):
+            a_id = int(request.GET["a"])
+        else:
+            # The snapshot just before B.
+            position = ids.index(b_id) + 1 if b_id in ids else len(ids)
+            a_id = ids[position] if position < len(ids) else 0
+    except ValueError:
+        raise Http404("snapshot ids are numbers") from None
+    if a_id and b_id:
+        a = get_object_or_404(_with_data(machine), pk=a_id)
+        b = get_object_or_404(_with_data(machine), pk=b_id)
+        context.update(a=a, b=b, areas=compare(a.data, b.data, volatile=volatile))
+    return render(request, "web/compare.html", context)
+
+
+ALERT_PAGE = 100
+
+
+@permission("changes.view_alert")
+def alert_list(request):
+    form = AlertFilterForm(request.GET or {"state": "open"})
+    alerts = Alert.objects.select_related("machine")
+    if form.is_valid():
+        data = form.cleaned_data
+        if data["state"] == "open":
+            alerts = alerts.exclude(state=Alert.State.RESOLVED)
+        elif data["state"]:
+            alerts = alerts.filter(state=data["state"])
+        for name in ("severity", "rule", "machine"):
+            if data[name]:
+                alerts = alerts.filter(**{name: data[name]})
+    page = Paginator(alerts, ALERT_PAGE).get_page(request.GET.get("page"))
+    query = request.GET.copy()
+    query.pop("page", None)
+    return render(request, "web/alert_list.html",
+                  {"form": form, "page": page, "query": query.urlencode()})
+
+
+@permission("changes.view_alert")
+def alert_detail(request, pk):
+    alert = get_object_or_404(Alert.objects.select_related("machine", "snapshot", "previous",
+                                                           "changed_by"), pk=pk)
+    areas = None
+    if (alert.previous is not None and alert.snapshot is not None
+            and alert.previous.data is not None and alert.snapshot.data is not None):
+        areas = [area for area in compare(alert.previous.data, alert.snapshot.data)
+                 if area.interesting]
+    return render(request, "web/alert_detail.html", {
+        "alert": alert, "rule": BY_CODE.get(alert.rule), "areas": areas,
+        "deliveries": alert.deliveries.select_related("channel"),
+        "state_form": AlertStateForm(initial={"state": alert.state, "note": alert.note})})
+
+
+@require_POST
+@permission("changes.change_alert")
+def alert_state(request, pk):
+    alert = get_object_or_404(Alert, pk=pk)
+    form = AlertStateForm(request.POST)
+    if form.is_valid():
+        alert.state = form.cleaned_data["state"]
+        alert.note = form.cleaned_data["note"]
+        alert.changed_by = request.user
+        alert.save(update_fields=["state", "note", "changed_by", "updated_at"])
+        messages.success(request, f"Alert marked {alert.state}.")
+    else:
+        messages.error(request, "Invalid state.")
+    return redirect("alert-detail", pk=alert.pk)
+
+
+@permission("changes.view_ruleoverride")
+def rule_list(request):
+    return render(request, "web/rule_list.html", {
+        "rules": RULES,
+        "overrides": RuleOverride.objects.select_related("machine", "group")})
+
+
+@permission("changes.add_ruleoverride")
+def override_create(request):
+    return _edit(request, RuleOverrideForm, None, "web/form.html", "rule-list")
+
+
+@permission("changes.change_ruleoverride")
+def override_edit(request, pk):
+    return _edit(request, RuleOverrideForm, get_object_or_404(RuleOverride, pk=pk),
+                 "web/form.html", "rule-list")
+
+
+@require_POST
+@permission("changes.delete_ruleoverride")
+def override_delete(request, pk):
+    get_object_or_404(RuleOverride, pk=pk).delete()
+    messages.success(request, "Override deleted.")
+    return redirect("rule-list")
+
+
+@permission("changes.view_channel")
+def channel_list(request):
+    return render(request, "web/channel_list.html", {
+        "channels": Channel.objects.prefetch_related("groups"),
+        # Names only: the URLs are secrets of the environment.
+        "webhooks": sorted(settings.ARIDI_WEBHOOKS),
+        "smtp": bool(settings.EMAIL_HOST),
+        "recent": Delivery.objects.select_related("alert__machine", "channel")
+                  .order_by("-id")[:50]})
+
+
+@permission("changes.add_channel")
+def channel_create(request):
+    return _edit(request, ChannelForm, None, "web/form.html", "channel-list")
+
+
+@permission("changes.change_channel")
+def channel_edit(request, pk):
+    return _edit(request, ChannelForm, get_object_or_404(Channel, pk=pk), "web/form.html",
+                 "channel-list")
+
+
+@require_POST
+@permission("changes.delete_channel")
+def channel_delete(request, pk):
+    get_object_or_404(Channel, pk=pk).delete()
+    messages.success(request, "Channel deleted.")
+    return redirect("channel-list")
+
+
+# Relation map (TODO.md 6.5)
+
+MAP_PAGE = 100
+
+
+@permission("inventory.view_snapshot")
+def machine_map(request, pk):
+    machine = get_object_or_404(Machine, pk=pk)
+    snapshot = machine.latest_snapshot()
+    context = {"machine": machine, "snapshot": snapshot}
+    if snapshot is not None:
+        relation_map = build_map(snapshot.data, snapshot.data["machine"].get("hostname"))
+        rows = (relation_map.local
+                + [node for subnet in relation_map.subnets for node in subnet.nodes]
+                + relation_map.outside)
+        context.update(map=relation_map,
+                       page=Paginator(rows, MAP_PAGE).get_page(request.GET.get("page")))
+    return render(request, "web/machine_map.html", context)

@@ -30,6 +30,15 @@
   summary { cursor: pointer; font-weight: 600; }
   form.inline { display: inline; }
   .table-wrap { overflow-x: auto; }
+  .sev-high, .change-removed { color: var(--bad); font-weight: 600; }
+  .sev-medium, .change-changed { color: var(--warn); }
+  .sev-low { color: var(--muted); } .change-added { color: var(--ok); }
+  svg.map { font: 12px ui-monospace, monospace; max-width: none; }
+  svg.map rect { fill: none; stroke: var(--line); stroke-width: 1.5; }
+  svg.map rect.machine { stroke: var(--accent); }
+  svg.map line { stroke: var(--muted); stroke-dasharray: 4 3; }
+  svg.map text { fill: var(--fg); } svg.map text.title { font-weight: 700; }
+  svg.map text.gateway { fill: var(--warn); } svg.map text.muted { fill: var(--muted); }
 </style>
 </head>
 <body>
@@ -40,6 +49,9 @@
     <a href="{% url 'group-list' %}">Groups</a>
     <a href="{% url 'job-list' %}">Jobs</a>
     <a href="{% url 'search' %}">Search</a>
+    <a href="{% url 'alert-list' %}">Alerts</a>
+    <a href="{% url 'rule-list' %}">Rules</a>
+    <a href="{% url 'channel-list' %}">Channels</a>
     {% if perms.inventory.add_snapshot %}<a href="{% url 'import' %}">Import</a>{% endif %}
     <form class="inline" method="post" action="{% url 'logout' %}">{% csrf_token %}
       <button type="submit">Log out {{ user.username }}</button></form>

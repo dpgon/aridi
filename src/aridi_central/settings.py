@@ -142,6 +142,29 @@ ARIDI_SSH_CONNECT_TIMEOUT = _env_int("ARIDI_SSH_CONNECT_TIMEOUT", 15)
 ARIDI_SSH_TIMEOUT = _env_int("ARIDI_SSH_TIMEOUT", 900)
 ARIDI_MAX_SSH = _env_int("ARIDI_MAX_SSH", 4)
 ARIDI_JOB_ATTEMPTS = _env_int("ARIDI_JOB_ATTEMPTS", 3)
+# Alerts (changes/): links in the messages, webhooks and email (TODO.md 6.4). Secrets live
+# here, never in the database: a webhook channel names one ARIDI_WEBHOOK_URL_<NAME>.
+ARIDI_BASE_URL = os.environ.get("ARIDI_BASE_URL", "")
+ARIDI_WEBHOOKS = {}
+for _name, _url in os.environ.items():
+    if _name.startswith("ARIDI_WEBHOOK_URL_") and _url:
+        if not _url.startswith(("https://", "http://")):
+            raise ImproperlyConfigured(f"{_name} must be an http(s) URL")
+        ARIDI_WEBHOOKS[_name.removeprefix("ARIDI_WEBHOOK_URL_").lower()] = _url
+ARIDI_WEBHOOK_TIMEOUT = _env_int("ARIDI_WEBHOOK_TIMEOUT", 10)
+ARIDI_DELIVERY_ATTEMPTS = _env_int("ARIDI_DELIVERY_ATTEMPTS", 5)
+EMAIL_HOST = os.environ.get("ARIDI_EMAIL_HOST", "")
+EMAIL_PORT = _env_int("ARIDI_EMAIL_PORT", 587)
+EMAIL_HOST_USER = os.environ.get("ARIDI_EMAIL_USER", "")
+EMAIL_HOST_PASSWORD = os.environ.get("ARIDI_EMAIL_PASSWORD", "")
+_email_security = os.environ.get("ARIDI_EMAIL_SECURITY", "starttls")
+if _email_security not in ("starttls", "tls", "none"):
+    raise ImproperlyConfigured("ARIDI_EMAIL_SECURITY must be starttls, tls or none")
+EMAIL_USE_TLS = _email_security == "starttls"
+EMAIL_USE_SSL = _email_security == "tls"
+EMAIL_TIMEOUT = 20
+DEFAULT_FROM_EMAIL = os.environ.get("ARIDI_EMAIL_FROM", "aridi@localhost")
+
 # File the worker touches on every loop, for the container healthcheck ("" = none).
 ARIDI_WORKER_HEARTBEAT = os.environ.get("ARIDI_WORKER_HEARTBEAT", "")
 

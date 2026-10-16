@@ -1,0 +1,19 @@
+{% extends "web/base.html" %}
+{% block title %}{{ machine.name }}: compare{% endblock %}
+{% block content %}
+<h1><a href="{% url 'machine-detail' machine.pk %}">{{ machine.name }}</a>: compare snapshots</h1>
+{% if choices|length < 2 %}
+<p class="muted">The machine needs two snapshots with data to compare.</p>
+{% else %}
+<form method="get">
+  <label>Before <select name="a">{% for s in choices %}<option value="{{ s.pk }}"{% if a and s.pk == a.pk %} selected{% endif %}>{{ s.collected_at|date:"Y-m-d H:i:s" }} ({{ s.get_origin_display }})</option>{% endfor %}</select></label>
+  <label>After <select name="b">{% for s in choices %}<option value="{{ s.pk }}"{% if b and s.pk == b.pk %} selected{% endif %}>{{ s.collected_at|date:"Y-m-d H:i:s" }} ({{ s.get_origin_display }})</option>{% endfor %}</select></label>
+  <label><input type="checkbox" name="volatile" value="1"{% if volatile %} checked{% endif %}> volatile areas too</label>
+  <button type="submit">Compare</button>
+</form>
+{% if a and b %}
+<p class="muted">From <a href="{% url 'snapshot-detail' a.pk %}">{{ a.collected_at|date:"Y-m-d H:i:s" }}</a> to <a href="{% url 'snapshot-detail' b.pk %}">{{ b.collected_at|date:"Y-m-d H:i:s" }}</a> UTC. Areas without changes are not shown.</p>
+{% include "web/_diff.html" %}
+{% endif %}
+{% endif %}
+{% endblock %}

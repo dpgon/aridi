@@ -19,6 +19,7 @@ from aridi.interpret import interpret
 
 from aridi_central.inventory.indexing import index_snapshot
 from aridi_central.inventory.models import Machine, Snapshot
+from aridi_central.inventory.signals import collection_failed, snapshot_stored
 
 log = logging.getLogger(__name__)
 
@@ -118,13 +119,17 @@ def store(machine, data, core, origin, installed_sha256=""):
             machine.machine_id = core.machine.machine_id
             machine.save(update_fields=["machine_id"])
     prune_raw_bundles(machine)
+    snapshot_stored.send(sender=Snapshot, snapshot=snapshot)
     return Stored(snapshot, True)
 
 
 def store_failure(machine, origin, reason):
     """A collection that produced no snapshot (TODO.md 5.4)."""
-    return Snapshot.objects.create(machine=machine, collected_at=timezone.now(), origin=origin,
-                                   result=Snapshot.Result.FAILED, failure_reason=reason)
+    failed = Snapshot.objects.create(machine=machine, collected_at=timezone.now(),
+                                     origin=origin, result=Snapshot.Result.FAILED,
+                                     failure_reason=reason)
+    collection_failed.send(sender=Snapshot, snapshot=failed)
+    return failed
 
 
 def import_bundle(data, machine=None, create=False):

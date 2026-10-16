@@ -1,0 +1,43 @@
+{% extends "web/base.html" %}
+{% block title %}Alert {{ alert.pk }}{% endblock %}
+{% block content %}
+<h1>{{ alert.title }}</h1>
+<p><a href="{% url 'machine-detail' alert.machine.pk %}">{{ alert.machine.name }}</a> ·
+  <span class="sev-{{ alert.severity }}">{{ alert.severity }}</span> ·
+  {% if rule %}{{ rule.title }}{% else %}{{ alert.rule }}{% endif %} ·
+  raised {{ alert.created_at|date:"Y-m-d H:i:s" }} UTC · <strong>{{ alert.state }}</strong>
+  {% if alert.changed_by %}<span class="muted">(by {{ alert.changed_by.username }}, {{ alert.updated_at|date:"Y-m-d H:i" }})</span>{% endif %}</p>
+{% if rule %}<p class="muted">{{ rule.description }}</p>{% endif %}
+{% if alert.note %}<p>Note: {{ alert.note }}</p>{% endif %}
+
+{% if alert.detail %}
+<table>{% for name, value in alert.detail.items %}<tr><th>{{ name }}</th><td>{{ value|default_if_none:"(none)" }}</td></tr>{% endfor %}</table>
+{% endif %}
+
+{% if perms.changes.change_alert %}
+<form method="post" action="{% url 'alert-state' alert.pk %}">{% csrf_token %}
+  {{ state_form.as_p }}
+  <button type="submit">Save state</button>
+</form>
+{% endif %}
+
+{% if alert.previous and alert.snapshot %}
+<h2>What changed</h2>
+<p class="muted">From <a href="{% url 'snapshot-detail' alert.previous.pk %}">{{ alert.previous.collected_at|date:"Y-m-d H:i:s" }}</a>
+  to <a href="{% url 'snapshot-detail' alert.snapshot.pk %}">{{ alert.snapshot.collected_at|date:"Y-m-d H:i:s" }}</a> UTC ·
+  <a href="{% url 'machine-compare' alert.machine.pk %}?a={{ alert.previous.pk }}&amp;b={{ alert.snapshot.pk }}">full comparison</a></p>
+{% include "web/_diff.html" %}
+{% elif alert.snapshot %}
+<p class="muted">Raised by <a href="{% url 'snapshot-detail' alert.snapshot.pk %}">the snapshot of {{ alert.snapshot.collected_at|date:"Y-m-d H:i:s" }} UTC</a>{% if not alert.previous %}, without a previous one to compare{% endif %}.</p>
+{% endif %}
+
+<h2>Deliveries</h2>
+<table>
+  <tr><th>Channel</th><th>State</th><th>Attempts</th><th>Sent (UTC)</th><th>Last error</th></tr>
+  {% for d in deliveries %}
+  <tr><td>{{ d.channel.name }}</td><td class="{{ d.state }}">{{ d.state }}</td><td>{{ d.attempts }}</td>
+    <td>{{ d.sent_at|date:"Y-m-d H:i:s" }}</td><td>{{ d.last_error }}</td></tr>
+  {% empty %}<tr><td colspan="5" class="muted">No channel takes this alert.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

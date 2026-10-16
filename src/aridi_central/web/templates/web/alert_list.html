@@ -1,0 +1,21 @@
+{% extends "web/base.html" %}
+{% block title %}Alerts{% endblock %}
+{% block content %}
+<h1>Alerts</h1>
+<form method="get">{{ form.as_p }}<button type="submit">Filter</button></form>
+<div class="table-wrap"><table>
+  <tr><th>Raised (UTC)</th><th>Machine</th><th>Severity</th><th>Alert</th><th>State</th></tr>
+  {% for alert in page %}
+  <tr><td>{{ alert.created_at|date:"Y-m-d H:i" }}</td>
+    <td><a href="{% url 'machine-detail' alert.machine.pk %}">{{ alert.machine.name }}</a></td>
+    <td class="sev-{{ alert.severity }}">{{ alert.severity }}</td>
+    <td><a href="{% url 'alert-detail' alert.pk %}">{{ alert.title }}</a></td>
+    <td>{{ alert.state }}</td></tr>
+  {% empty %}<tr><td colspan="5" class="muted">No alerts.</td></tr>
+  {% endfor %}
+</table></div>
+{% if page.has_other_pages %}<p>
+  {% if page.has_previous %}<a href="?{{ query }}&amp;page={{ page.previous_page_number }}">previous</a>{% endif %}
+  page {{ page.number }} of {{ page.paginator.num_pages }}
+  {% if page.has_next %}<a href="?{{ query }}&amp;page={{ page.next_page_number }}">next</a>{% endif %}</p>{% endif %}
+{% endblock %}

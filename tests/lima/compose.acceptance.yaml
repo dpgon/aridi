@@ -1,6 +1,7 @@
 # Override of compose.yaml for tests/lima/central-acceptance.sh: an ssh-agent sidecar with
 # the test key, running as uid 10001 like the worker (ssh-agent only answers its own uid),
-# and no port published on the host (the client runs inside "web").
+# no port published on the host (the client runs inside "web"), and a test webhook
+# ("hook", tests/lima/webhook_receiver.py) named "test" for the alerts of phase 6.
 services:
   agent:
     image: aridi-central:latest
@@ -10,11 +11,25 @@ services:
     volumes:
       - agent:/run/aridi-agent
       - ${ACCEPTANCE_KEYS:?}:/k:ro
+  hook:
+    image: aridi-central:latest
+    user: "10001"
+    command: ["python", "/t/webhook_receiver.py"]
+    volumes:
+      - ${ACCEPTANCE_TESTS:?}:/t:ro
   web:
     ports: !reset []
+    environment:
+      ARIDI_WEBHOOK_URL_TEST: http://hook:8080/
+      # The web creates the jobs (enqueue), so it decides their attempts.
+      ARIDI_JOB_ATTEMPTS: ${ACCEPTANCE_JOB_ATTEMPTS:-3}
+    volumes:
+      - ${ACCEPTANCE_TESTS:?}:/t:ro
   worker:
     environment:
       SSH_AUTH_SOCK: /run/aridi-agent/sock
+      ARIDI_WEBHOOK_URL_TEST: http://hook:8080/
+      ARIDI_JOB_ATTEMPTS: ${ACCEPTANCE_JOB_ATTEMPTS:-3}
     volumes:
       - agent:/run/aridi-agent
     depends_on:

@@ -1080,18 +1080,23 @@ se simula adelantando `next_run_at`. La VM se alcanza por `host.docker.internal`
 
 ### 6.1 Comparación de fotografías
 
-- [ ] `changes/diff.py`: compara dos fotografías área por área (elementos añadidos,
+- [x] `changes/diff.py`: compara dos fotografías área por área (elementos añadidos,
   quitados y cambiados) con clave estable por área (paquete por nombre y arquitectura,
   puerto por protocolo, dirección y puerto, usuario por nombre…). **Un área que pasa de
   `ok` a otro estado se informa como «dejó de poder verse», no como «todo desapareció».**
   Los volátiles se comparan solo si se pide.
-- [ ] Vista web de comparación entre dos fotografías cualesquiera de una máquina.
-- [ ] Pruebas con pares de fotografías sintéticas por área, más el caso «de `ok` a
-  `denied`».
+  *Hecho:* cada área declara en `SPEC` sus colecciones, su clave y los campos que se
+  comparan. Se dejan fuera los campos que cambian solos (la ocupación de un disco, el
+  subestado de un servicio, las sesiones). Sin `/etc/shadow` en una de las dos
+  fotografías, los estados de contraseña no se comparan y se anota.
+- [x] Vista web de comparación entre dos fotografías cualesquiera de una máquina
+  (`machines/<id>/compare/?a=&b=`, con «comparar con la anterior» en el histórico).
+- [x] Pruebas con pares de fotografías sintéticas por área, más el caso «de `ok` a
+  `denied`» (`changes/tests/test_diff.py`).
 
 ### 6.2 Reglas de serie y ajustes
 
-- [ ] `changes/rules.py` con las reglas de serie de `docs/IDEA.md`, cada una con una
+- [x] `changes/rules.py` con las reglas de serie de `docs/IDEA.md`, cada una con una
   gravedad por defecto:
   - usuario nuevo con shell de acceso, uid 0 o miembro de `sudo`/`wheel`/`admin`;
   - puerto nuevo en escucha;
@@ -1105,48 +1110,77 @@ se simula adelantando `next_run_at`. La VM se alcanza por `host.docker.internal`
 
   La lista exacta está pendiente según `IDEA.md`: **[decisión]** confirmarla con el
   usuario antes de implementar.
-- [ ] `RuleOverride` por máquina o grupo: silenciar, cambiar la gravedad o cambiar el
-  umbral. El ajuste más específico gana.
-- [ ] Pruebas: cada regla, con un par de fotografías que la dispara y otro que no; la
+  **Decidido por el usuario (2026-10-16): las 8 y además «área que deja de verse»**
+  (gravedad baja: un área no volátil que pasa de `ok` a otro estado que no sea `na`).
+  *Desviaciones:*
+  - un usuario existente que **gana** shell de acceso, uid 0 o un grupo privilegiado
+    también alerta;
+  - la regla de `shadow` no usa el `too_open` del núcleo (0400, de 2019), que marca el
+    0640 `root:shadow` de Debian y Ubuntu: alerta si el dueño no es root, si hay algún
+    permiso para otros, si el grupo puede escribir o si puede leer un grupo que no sea
+    root ni `shadow`. Para `passwd` y `group` sí usa el 0644 del núcleo;
+  - el disco no cuenta los sistemas de ficheros de solo lectura, en memoria u `overlay`;
+  - las reglas de estado (disco y permisos) también alertan en la primera fotografía; las
+    de cambio necesitan una anterior.
+- [x] `RuleOverride` por máquina o grupo: silenciar, cambiar la gravedad o cambiar el
+  umbral. El ajuste más específico gana. *Hecho:* si varios grupos de una máquina
+  discrepan, gana el que más alerta (no silenciado, la gravedad más alta, el umbral más
+  bajo).
+- [x] Pruebas: cada regla, con un par de fotografías que la dispara y otro que no; la
   precedencia de los ajustes; los volátiles no disparan nada salvo el disco, que es
-  estable.
+  estable (`changes/tests/test_rules.py` y `test_alerts.py`).
 
 ### 6.3 Alertas
 
-- [ ] `changes/models.py`: `Alert` (máquina, regla, gravedad, detalle, fotografías
+- [x] `changes/models.py`: `Alert` (máquina, regla, gravedad, detalle, fotografías
   implicadas, estado nueva/vista/resuelta). La evaluación se hace al guardar cada
-  fotografía (en el trabajador y en la importación).
-- [ ] Vistas: lista de alertas filtrable y detalle con la comparación; marcar como vista o
+  fotografía (en el trabajador y en la importación). *Hecho:* con dos señales de
+  `inventory/signals.py`, para que el inventario no dependa de `changes`. Solo se evalúa
+  la fotografía más reciente de la máquina: un paquete antiguo importado después no
+  alerta. «No responde» se evalúa al guardar una recogida fallida y, cada minuto, en el
+  trabajador (sin fotografía en dos periodos), y se resuelve sola cuando llega una
+  fotografía.
+- [x] Vistas: lista de alertas filtrable y detalle con la comparación; marcar como vista o
   resuelta (administración).
-- [ ] Pruebas: una recogida con cambios crea las alertas esperadas; la misma alerta no se
+- [x] Pruebas: una recogida con cambios crea las alertas esperadas; la misma alerta no se
   duplica en recogidas sucesivas sin cambio nuevo.
 
 ### 6.4 Canales de aviso
 
-- [ ] **[decisión]** Confirmar con el usuario qué canales se implementan (`IDEA.md` los
+- [x] **[decisión]** Confirmar con el usuario qué canales se implementan (`IDEA.md` los
   deja pendientes). Propuesta: correo y webhook genérico JSON; el chat con un webhook
   entrante compatible con Slack o Mattermost.
-- [ ] `changes/channels.py`:
+  **Decidido por el usuario (2026-10-16): correo y webhook JSON** (el chat, con el campo
+  `text`).
+- [x] `changes/channels.py`:
   - correo con `django.core.mail` (SMTP por variables de entorno);
   - webhook con `urllib.request` (POST JSON, *timeout*, reintentos);
   - filtro por gravedad mínima y por grupo.
-- [ ] Pruebas: correo con el backend `locmem`; webhook contra un `http.server` local en
+
+  *Hecho:* las URL de los webhooks no se guardan en la base de datos (regla 17 de
+  `CLAUDE.md`). Un canal nombra una variable `ARIDI_WEBHOOK_URL_<NOMBRE>`, y en
+  `compose.yaml` van en `alerts.env`. El envío corre en un hilo propio del trabajador,
+  con reintentos (`Delivery`). El campo `text` neutraliza `<`, `>`, `&` y `@`, y el
+  asunto del correo no admite saltos de línea.
+- [x] Pruebas: correo con el backend `locmem`; webhook contra un `http.server` local en
   la prueba (recibe el JSON esperado); fallo del destino con reintento sin bloquear el
-  trabajador.
+  trabajador (`changes/tests/test_channels.py`).
 
 ### 6.5 Mapa de relaciones en la web
 
-- [ ] Vista por máquina con las relaciones de la última fotografía (IP, papeles, detalle),
+- [x] Vista por máquina con las relaciones de la última fotografía (IP, papeles, detalle),
   agrupadas como la vista de infraestructura. Diagrama SVG generado en el servidor con
   plantillas, sin librerías de terceros: máquina, subredes, pasarela, IPs. Sustituye al
-  `--graph` de 2019.
-- [ ] Pruebas: la vista renderiza con v4 y v6 y con más de 200 IPs (con límite y
-  paginación).
+  `--graph` de 2019 (`web/relation_map.py`, `machines/<id>/map/`).
+- [x] Pruebas: la vista renderiza con v4 y v6 y con más de 200 IPs (con límite y
+  paginación) (`web/tests/test_alerts_web.py`).
 
 ### 6.6 Documentación de la fase
 
-- [ ] `docs/MVP.md`, `docs/ARCHITECTURE.md` (app `changes`, reglas y canales),
+- [x] `docs/MVP.md`, `docs/ARCHITECTURE.md` (app `changes`, reglas y canales),
   `README.md` (configuración de avisos) y `docs/FUTURE.md` (etapa de alertas hecha).
+  También `CLAUDE.md` (regla 17 ampliada a los avisos y regla 21 nueva), `CAMBIO.md` e
+  `IDEA.md` (las dos decisiones).
 
 **Criterio de aceptación de la fase 6:**
 
@@ -1155,6 +1189,14 @@ se simula adelantando `next_run_at`. La VM se alcanza por `host.docker.internal`
 - silenciar la regla para esa máquina las evita;
 - apagar la VM genera la alerta de «no responde»;
 - `tests/run.sh all` pasa.
+
+**Cumplido el 2026-10-16** con `tests/lima/central-acceptance.sh alerts`, que además
+comprueba que dos recogidas sin cambios no generan alertas, que la comparación sigue
+mostrando lo silenciado y que no llega nada más al webhook. El webhook de prueba es un
+`http.server` en `docker compose` (`tests/lima/webhook_receiver.py`). Para que la VM
+apagada falle a la primera, la prueba usa `ARIDI_JOB_ATTEMPTS=1`; con el valor de serie
+(3), cada recogida fallida tarda unos 3 minutos en reintentos. `tests/run.sh all` pasa, y la
+aceptación de la fase 5 (`inventory`) sigue pasando.
 
 ---
 

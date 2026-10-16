@@ -14,6 +14,8 @@ from django.db import close_old_connections, connection, transaction
 from django.db.models import F, Q
 from django.utils import timezone
 
+from aridi_central.changes.channels import process_deliveries
+from aridi_central.changes.evaluate import check_silent_machines
 from aridi_central.collection import ssh
 from aridi_central.collection.models import Job, Schedule
 from aridi_central.inventory.importing import ImportRefused, parse, store, store_failure
@@ -46,7 +48,7 @@ def backoff(attempts):
 
 class Worker:
     def __init__(self, max_ssh=None, poll_seconds=5, name=None, collect=ssh.collect,
-                 shutdown_grace=30):
+                 shutdown_grace=30, silence_check_seconds=60):
         self.max_ssh = max_ssh or settings.ARIDI_MAX_SSH
         self.poll_seconds = poll_seconds
         self.name = name or f"{socket.gethostname()}:{os.getpid()}"
@@ -58,6 +60,8 @@ class Worker:
         self.lock = threading.Lock()
         self.running = 0
         self.max_running = 0     # highest concurrency seen (tests)
+        self.silence_check_seconds = silence_check_seconds
+        self.last_silence_check = None
 
     # Queue
 
@@ -195,19 +199,46 @@ class Worker:
         return Job.objects.filter(state=Job.State.RUNNING, started_at__lt=limit).update(
             state=Job.State.QUEUED, worker="", reason="recovered after a worker stopped")
 
+    # Alerts (phase 6)
+
+    def silent_machines(self):
+        """Every silence_check_seconds: machines without a snapshot for two periods."""
+        now = time.monotonic()
+        if (self.last_silence_check is not None
+                and now - self.last_silence_check < self.silence_check_seconds):
+            return []
+        self.last_silence_check = now
+        return check_silent_machines()
+
+    def deliveries_forever(self):
+        """Own thread: a slow or dead channel never delays the collections."""
+        while not self.stop.is_set():
+            close_old_connections()
+            try:
+                process_deliveries()
+            except Exception:
+                log.exception("alert delivery loop failed; retrying")
+            self.stop.wait(self.poll_seconds)
+        connection.close()
+
     def run_forever(self):
         log.info("worker %s started (max %d SSH sessions)", self.name, self.max_ssh)
         self.recover()
+        sender = threading.Thread(target=self.deliveries_forever, name="deliveries",
+                                  daemon=True)
+        sender.start()
         while not self.stop.is_set():
             close_old_connections()
             try:
                 self.due_schedules()
                 self.dispatch()
+                self.silent_machines()
                 self.beat()
             except Exception:
                 log.exception("worker loop failed; retrying")
             self.stop.wait(self.poll_seconds)
         self.shutdown()
+        sender.join(self.shutdown_grace)
 
     @staticmethod
     def beat():

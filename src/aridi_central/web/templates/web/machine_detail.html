@@ -6,7 +6,10 @@
 {% if machine.machine_id %} · machine id {{ machine.machine_id }}{% endif %}</p>
 <p>
   <a href="{% url 'machine-history' machine.pk %}">History</a> ·
-  <a href="{% url 'machine-gaps' machine.pk %}">Gaps</a>
+  <a href="{% url 'machine-gaps' machine.pk %}">Gaps</a> ·
+  <a href="{% url 'machine-compare' machine.pk %}">Compare</a> ·
+  <a href="{% url 'machine-map' machine.pk %}">Relation map</a> ·
+  <a href="{% url 'alert-list' %}?state=open&amp;machine={{ machine.pk }}">Alerts{% if open_alerts %} ({{ open_alerts }} open){% endif %}</a>
   {% if perms.inventory.change_machine %} · <a href="{% url 'machine-edit' machine.pk %}">Edit</a>{% endif %}
 </p>
 {% if perms.collection.add_job and machine.ssh_target %}

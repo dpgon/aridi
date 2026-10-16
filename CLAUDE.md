@@ -17,8 +17,9 @@ aridi es una herramienta de inventario de máquinas Linux. Tiene dos piezas:
 - **El componente central, que existe desde la fase 5:** Django 5.2 con SQLite en
   `docker compose`. Recoge por SSH (a demanda o programado), importa recogidas locales,
   guarda el histórico y los huecos, y busca en el parque, con una web de dos roles.
-  **Siguen previstos y sin existir** los cambios entre ejecuciones y las alertas (fase 6)
-  y el descubrimiento y escaneo desde el central (fase 7).
+  Desde la fase 6 compara fotografías, alerta con 9 reglas de serie ajustables, avisa por
+  correo o webhook y dibuja el mapa de relaciones. **Sigue previsto y sin existir** el
+  descubrimiento y escaneo desde el central (fase 7).
 
 **Su estado real está medido en `docs/MVP.md`:** léelo antes de dar nada por
 funcionando. La reescritura se decidió en `docs/CAMBIO.md` y se ejecuta por fases según
@@ -39,7 +40,7 @@ Versión completa: `docs/ARCHITECTURE.md`. Contrato de datos: `docs/FORMATO.md`.
 | `collector/aridi-collect.sh` | Script POSIX de recogida en bruto: 17 áreas, con filtrado en origen de lo sensible |
 | `src/aridi/` | Núcleo, solo con la librería estándar: `bundle.py` (lector del paquete), `model.py` (fotografía, estados, huecos y papeles de relación), `interpret.py` (registro de áreas), `parsers/` (un analizador por área), `relations.py`, `views/text.py` y `cli.py` (`aridi validate\|interpret\|report`) |
 | `src/aridi/data/services.csv` | Nombres de puertos (`nombre\|puerto\|descripción`), copiado sin cambios de 2019 |
-| `src/aridi_central/` | Central Django: `settings.py` (todo por variables `ARIDI_*`), `inventory/` (máquinas, fotografías, huecos, índices, importación), `collection/` (`ssh.py`, cola `Job`, `Schedule`, `worker.py`), `web/` (vistas, roles y plantillas), `changes/` y `discovery/` vacías |
+| `src/aridi_central/` | Central Django: `settings.py` (todo por variables `ARIDI_*`), `inventory/` (máquinas, fotografías, huecos, índices, importación), `collection/` (`ssh.py`, cola `Job`, `Schedule`, `worker.py`), `changes/` (`diff.py`, `rules.py`, `evaluate.py`, `channels.py`: comparación, reglas, alertas y avisos), `web/` (vistas, roles, mapa SVG y plantillas), `discovery/` vacía |
 | `Dockerfile`, `compose.yaml` | Imagen del central (base fijada por *digest*) y despliegue: `web` (gunicorn), `worker` y el volumen `aridi-data` |
 | `tests/` | `run.sh` (punto de entrada), pruebas `unittest`, `collector/` (script en todas las imágenes), `corpus/` (muestras), `lima/` (VMs), `parity/` y `parity.md` (regresión frente a 2019) |
 | `requirements/` | `central.in` y `central.txt`: dependencias del central, fijadas con hashes |
@@ -85,8 +86,8 @@ Versión completa: `docs/ARCHITECTURE.md`. Contrato de datos: `docs/FORMATO.md`.
   la recogida SSH real contra un contenedor desechable (`tests/central/ssh-target.sh`) y
   la prueba de humo de `docker compose` (`tests/central/smoke.sh`). Las pruebas del central
   van en `src/aridi_central/*/tests/` y usan el corpus.
-- **Aceptación del central:** `tests/lima/central-acceptance.sh`, contra una VM de Lima
-  desechable.
+- **Aceptación del central:** `tests/lima/central-acceptance.sh [inventory|alerts]`,
+  contra una VM de Lima desechable (`alerts`, la de la fase 6, con un webhook de prueba).
 - **`golden`:** `tests/run.sh golden` regenera el informe de referencia de
   `tests/test_core/test_text.py`. Hay que hacerlo tras recapturar el corpus o cambiar el
   informe, **revisando el diff**.
@@ -198,6 +199,8 @@ Versión completa: `docs/ARCHITECTURE.md`. Contrato de datos: `docs/FORMATO.md`.
     *Por qué:* su base de datos describe todo el parque; si además tuviera claves, robarla
     daría acceso a todas las máquinas. SSH usa el `ssh-agent` (socket montado) y
     `known_hosts`, y una máquina solo guarda destino, puerto, salto y modo de privilegio.
+    Lo mismo con los avisos: la contraseña SMTP y las URL de los webhooks van en el
+    entorno (`alerts.env`), y un canal solo guarda el nombre del webhook.
 18. **`ssh` siempre con lista de argumentos, `BatchMode=yes`,
     `StrictHostKeyChecking=yes` y `--` antes del destino, y nunca con `shell=True`.**
     *Por qué:* los campos de una máquina los escribe una persona en la web; un destino
@@ -210,3 +213,8 @@ Versión completa: `docs/ARCHITECTURE.md`. Contrato de datos: `docs/FORMATO.md`.
 20. **La regla de `sudo` de las máquinas solo permite el script instalado.**
     *Por qué:* es la decisión de `TODO.md` 5.0. Nunca propongas `NOPASSWD: /bin/sh` ni
     `ALL`: equivale a root en todo el parque para quien tenga la clave de aridi.
+21. **Una regla de alerta nueva no lee áreas volátiles y trae su par de pruebas.**
+    *Por qué:* procesos, carga, conexiones y vecinos cambian en cada recogida y
+    enterrarían las alertas reales. Cada regla de `changes/rules.py` tiene en
+    `test_rules.py` un par de fotografías que la dispara y otro que no, y no salta entre
+    dos fotografías iguales.

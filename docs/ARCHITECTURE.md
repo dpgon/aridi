@@ -1,11 +1,12 @@
 # aridi: arquitectura actual
 
-> Este documento describe la arquitectura **que existe** en la rama `rewrite` durante la
-> fase 5 de [`TODO.md`](../TODO.md) (2026-10-16): el colector nuevo, que funciona en modo
-> local, y el **componente central** (inventario, recogida por SSH, cola y programación,
-> web y búsqueda). Lo que sigue sin existir de la arquitectura de destino de
-> [`CAMBIO.md`](CAMBIO.md) son los cambios y alertas (fase 6) y el descubrimiento de red
-> y el escaneo desde el central (fase 7). El contrato de datos está en
+> Este documento describe la arquitectura **que existe** en la rama `rewrite` al cerrar
+> la fase 6 de [`TODO.md`](../TODO.md) (2026-10-16): el colector nuevo, que funciona en
+> modo local, y el **componente central** (inventario, recogida por SSH, cola y
+> programación, web, búsqueda, comparación de fotografías, alertas con sus canales y mapa
+> de relaciones). Lo que sigue sin existir de la arquitectura de destino de
+> [`CAMBIO.md`](CAMBIO.md) es el descubrimiento de red y el escaneo desde el central
+> (fase 7). El contrato de datos está en
 > [`FORMATO.md`](FORMATO.md). Los hechos vienen de leer el código y de ejecutar
 > `tests/run.sh`; las referencias van en la forma `archivo:línea` o con el nombre de la
 > función. Lo que no se puede probar va marcado como **suposición**.
@@ -45,7 +46,9 @@ guarda cada fotografía en SQLite y la muestra en una web:
  │ web: gunicorn + Django                worker: aridi_worker       │
  │  inventario, fichas, histórico,        toma trabajos de la cola, │
  │  huecos, búsqueda, importación,        programa los periódicos,  │
- │  recogida a demanda (encola)           lanza ssh (lista de args) │
+ │  recogida a demanda (encola),          lanza ssh (lista de args),│
+ │  comparación, alertas, reglas,         evalúa las alertas; hilo  │
+ │  canales, mapa de relaciones           aparte: envía los avisos ─┼─► correo / webhook
  │            │                                   │                 │
  │            └────── SQLite (WAL) en /data ──────┤                 │
  └────────────────────────────────────────────────┼─────────────────┘
@@ -65,14 +68,14 @@ guarda cada fotografía en SQLite y la muestra en una web:
   nunca importa el central.
 - **Central → máquina:** un proceso `ssh` por recogida, sin shell local, con un comando
   remoto fijo (ver *Recogida por SSH*).
-- **Web ↔ trabajador:** solo a través de la base de datos (tabla `Job`).
+- **Web ↔ trabajador:** solo a través de la base de datos (tablas `Job` y `Delivery`).
+- **Inventario → alertas:** dos señales de `inventory/signals.py` (`snapshot_stored` y
+  `collection_failed`); el inventario no importa `changes`.
 - **Con el sistema inventariado:** solo lectura de ficheros y ejecución de herramientas
   del propio sistema, desde el script.
 
-**Lo que no existe todavía** (regla 15 de `CLAUDE.md`): la comparación entre
-fotografías y las alertas (fase 6 de `TODO.md`; las aplicaciones `changes` y `discovery`
-están creadas pero vacías) y el descubrimiento de red y el escaneo desde el central
-(fase 7).
+**Lo que no existe todavía** (regla 15 de `CLAUDE.md`): el descubrimiento de red y el
+escaneo desde el central (fase 7; la aplicación `discovery` está creada pero vacía).
 
 ---
 
@@ -116,8 +119,9 @@ están creadas pero vacías) y el descubrimiento de red y el escaneo desde el ce
 | `manage.py`, `settings.py`, `urls.py`, `wsgi.py` | Proyecto Django. `manage.py` añade `src/` a la ruta, así que funciona desde el repositorio (`python src/aridi_central/manage.py`) y en la imagen (`python -m aridi_central.manage`). |
 | `inventory/` | Modelos del inventario, `validators.py` (campos SSH), `indexing.py` (de la fotografía a los índices), `importing.py` (validar, interpretar, guardar), comando `aridi_import`. Su `apps.py` fija los `PRAGMA` de SQLite en cada conexión. |
 | `collection/` | Modelos `Job` y `Schedule`, `ssh.py` (recogida), `worker.py` (cola, programación, ciclo de vida), comando `aridi_worker`. |
-| `web/` | Vistas, formularios, plantillas (`templates/web/`), `roles.py`, el *middleware* de CSP y la migración de datos de los roles. |
-| `changes/`, `discovery/` | Vacías: fases 6 y 7. |
+| `web/` | Vistas, formularios, plantillas (`templates/web/`), `roles.py`, el *middleware* de CSP, `relation_map.py` (geometría del mapa SVG) y las migraciones de datos de los roles (`0001` de la fase 5, `0002` de las alertas; las listas de cada una están congeladas en la migración y `_roles.py` tiene las funciones comunes). |
+| `changes/` | `diff.py` (comparación área por área), `rules.py` (las 9 reglas de serie), `models.py` (`RuleOverride`, `Alert`, `Channel`, `Delivery`), `evaluate.py` (de la fotografía a las alertas, ajustes, «no responde»), `channels.py` (correo y webhook, reintentos). |
+| `discovery/` | Vacía: fase 7. |
 | `testing.py` | Rutas del corpus para las pruebas del central. |
 | `*/tests/` | Pruebas de Django (ver *Estrategia de pruebas*). |
 
@@ -131,6 +135,11 @@ están creadas pero vacías) y el descubrimiento de red y el escaneo desde el ce
   `ARIDI_SSH_TIMEOUT` (900 s), `ARIDI_MAX_SSH` (4), `ARIDI_JOB_ATTEMPTS` (3),
   `ARIDI_MAX_BUNDLE_BYTES` (64 MiB), `ARIDI_RAW_RETENTION` (10),
   `ARIDI_COLLECTOR_SCRIPT` y `ARIDI_WORKER_HEARTBEAT`.
+- **Alertas:** `ARIDI_BASE_URL` (enlaces de los avisos), `ARIDI_WEBHOOK_URL_<NOMBRE>`
+  (una por webhook; `settings.ARIDI_WEBHOOKS`), `ARIDI_WEBHOOK_TIMEOUT` (10 s),
+  `ARIDI_DELIVERY_ATTEMPTS` (5) y el SMTP: `ARIDI_EMAIL_HOST`, `ARIDI_EMAIL_PORT` (587),
+  `ARIDI_EMAIL_USER`, `ARIDI_EMAIL_PASSWORD`, `ARIDI_EMAIL_SECURITY` (`starttls`, `tls`
+  o `none`) y `ARIDI_EMAIL_FROM`. En `compose.yaml` se leen de `alerts.env`.
 - **Seguridad:** `ARIDI_SSL_REDIRECT` y `ARIDI_HSTS_SECONDS` (un año por defecto).
 - **Log:** `ARIDI_LOG_LEVEL`.
 
@@ -270,7 +279,7 @@ nunca una frase. `scan_open_port` está reservado para el escáner del central (
 solo se prueba con datos sintéticos.
 
 **El modelo de datos del central** (SQLite; `inventory/models.py`,
-`collection/models.py`; migraciones `0001` de cada aplicación):
+`collection/models.py`, `changes/models.py`; migraciones `0001` de cada aplicación):
 
 | Modelo | Campos clave | Notas |
 |---|---|---|
@@ -281,6 +290,10 @@ solo se prueba con datos sintéticos.
 | `SnapshotPackage`, `SnapshotUser`, `SnapshotPort`, `SnapshotService`, `Relation` | nombre, versión…; usuario, uid, algoritmo…; protocolo, familia, dirección, puerto, proceso; gestor, nombre, estado…; IP, papel, origen, detalle | Índices de búsqueda, derivados de la fotografía al guardarla (`indexing.py`). **Solo de las áreas no volátiles:** las relaciones de `processes`, `load`, `connections` y `neighbours` se quedan en el JSON pero no se indexan. |
 | `Job` | tipo (`collect`; `scan` reservado para la fase 7), máquina, origen, estado (`queued`, `running`, `done`, `failed`), intentos, `not_before`, fechas, trabajador, motivo, fotografía, solicitante | La cola del trabajador |
 | `Schedule` | máquina **o** grupo (restricción `CHECK`), tipo (`interval` cada N horas o `daily` a una hora UTC), activa, `next_run_at` | Una máquina con programación propia queda fuera de la de sus grupos |
+| `RuleOverride` | regla, máquina **o** grupo (`CHECK`), silenciada, gravedad, umbral | Uno por regla y máquina, y uno por regla y grupo. Las reglas son código (`changes/rules.py`), no filas |
+| `Alert` | máquina, regla, gravedad, clave, título, detalle (JSON), fotografía y la anterior, estado (`new`, `seen`, `resolved`), quién la cambió, nota | La clave dice de qué trata dentro de la regla (`mallory:new`, `tcp/0.0.0.0/4444`…): no se crea otra igual mientras la anterior siga abierta |
+| `Channel` | nombre, tipo (`email` o `webhook`), destino, gravedad mínima, grupos, activo | Un webhook guarda el **nombre** de una variable `ARIDI_WEBHOOK_URL_<NOMBRE>`, nunca la URL |
+| `Delivery` | alerta, canal, estado (`pending`, `sent`, `failed`), intentos, `next_try_at`, error | Uno por alerta y canal (restricción única) |
 
 Usuarios y roles: `django.contrib.auth`, con los grupos **`administration`** y
 **`read-only`** (ver *Seguridad*).
@@ -324,6 +337,11 @@ aridi [-v|-vv] report    PAQUETE [--detail]
 | `POST /collect/` | Encola recogidas de máquinas (`machine=`) o de un grupo (`group=`) |
 | `/jobs/` | Trabajos recientes |
 | `/import/` | Subida de un paquete hecho en local (rol de administración) |
+| `/machines/<id>/compare/?a=&b=[&volatile=1]` | Comparación de dos fotografías con datos de la máquina; sin parámetros, la última con la anterior |
+| `/machines/<id>/map/` | Mapa de relaciones de la última fotografía: SVG (máquina, subredes locales con su pasarela, direcciones fuera) y tabla paginada |
+| `/alerts/`, `/alerts/<id>/`, `POST /alerts/<id>/state/` | Lista filtrable (estado, gravedad, regla, máquina), detalle con la comparación y los envíos, y cambio de estado (administración) |
+| `/rules/`, `/rules/overrides/…` | Reglas con sus valores de serie y ajustes por máquina o grupo |
+| `/channels/`, `/channels/…` | Canales y últimos envíos; muestra los nombres de webhook configurados, nunca sus URL |
 | `/search/` | Búsqueda por paquete (`nombre` o `nombre=versión`), puerto (`22` o `tcp/22`), usuario, servicio o IP, **sobre la última fotografía con datos de cada máquina** |
 | `manage.py aridi_import FICHERO [--machine NOMBRE \| --create]` | Importación por consola |
 | `manage.py aridi_worker [--poll S] [--max-ssh N]` | El trabajador; para con SIGTERM o SIGINT |
@@ -384,6 +402,35 @@ coreutils. En el central, el trabajador usa hilos (ver *El trabajador*).
   `ARIDI_SSH_TIMEOUT` vuelven a la cola.
 - **Latido:** con `ARIDI_WORKER_HEARTBEAT`, toca un fichero en cada vuelta; lo usa el
   *healthcheck* del contenedor.
+- **Alertas:** cada 60 s, `check_silent_machines()` busca máquinas programadas sin
+  fotografía en dos periodos. Los avisos los envía un hilo propio
+  (`deliveries_forever`), que toma cada `Delivery` adelantando su `next_try_at` con un
+  `UPDATE` condicional: un canal caído o lento nunca retrasa una recogida.
+
+### Cambios y alertas (`changes/`)
+
+- **Comparación (`diff.py`):** `SPEC` declara por área sus colecciones (ruta en los
+  datos, clave estable y campos comparados) y sus valores sueltos. Resultado por área:
+  `same`, `changed`, `lost` (era `ok` y ya no; sin listar nada como quitado),
+  `regained` o `unavailable`, más los huecos parciales que aparecen o desaparecen. Se
+  dejan fuera los campos que cambian solos (ocupación de discos, subestado de servicios,
+  sesiones abiertas). Sin `/etc/shadow` en una de las dos fotografías, no se comparan los
+  estados de contraseña. Los volátiles, solo si se piden.
+- **Reglas (`rules.py`):** funciones `(anterior, nueva, umbral) → [Finding]` sobre
+  `Snapshot.data`. Las de cambio necesitan una anterior; las de estado (disco, permisos
+  de los ficheros de cuentas) también actúan en la primera fotografía, y después solo
+  cuando el estado empieza. Ninguna lee áreas volátiles.
+- **Evaluación (`evaluate.py`):** al guardar una fotografía con datos, si es la más
+  reciente de la máquina, se compara con la anterior con datos y se aplican las reglas
+  con sus ajustes (`effective`: el de la máquina gana; entre grupos, el que más alerta).
+  Al guardar una recogida fallida se cuentan las fallidas seguidas para «no responde».
+  Una fotografía nueva resuelve sola el «no responde» abierto. Si la evaluación falla, la
+  fotografía ya está guardada y el error queda en el log con su traza.
+- **Canales (`channels.py`):** correo con `django.core.mail` y webhook con
+  `urllib.request` (POST JSON, sin seguir redirecciones, con *timeout*). Reintentos a 1,
+  2, 4… minutos hasta `ARIDI_DELIVERY_ATTEMPTS`. El campo `text` neutraliza `<`, `>`,
+  `&` y `@` (marcado y menciones de Slack o Mattermost) y el asunto del correo es de una
+  línea.
 
 ### Recogida por SSH (`collection/ssh.py`)
 
@@ -430,10 +477,11 @@ Descripción del estado actual; la auditoría es un paso aparte.
 - **Ficheros de salida.** `aridi interpret -o` crea el fichero con `O_EXCL | O_NOFOLLOW`
   y modo 0600.
 - **Central: autenticación y roles.** Todas las páginas salvo `/healthz` exigen sesión.
-  Hay dos grupos de Django, creados por la migración `web/0001_roles.py` con sus permisos
-  (`web/roles.py`): `read-only`, solo permisos `view_*`, y `administration`, que además
-  puede crear y cambiar máquinas, grupos y programaciones, importar (`add_snapshot`) y
-  lanzar recogidas (`add_job`). Sin permiso, la vista responde 403; sin sesión, redirige
+  Hay dos grupos de Django, creados por las migraciones `web/0001_roles.py` y
+  `web/0002_alert_roles.py` con sus permisos (`web/roles.py`): `read-only`, solo permisos
+  `view_*`, y `administration`, que además puede crear y cambiar máquinas, grupos y
+  programaciones, importar (`add_snapshot`), lanzar recogidas (`add_job`), cambiar el
+  estado de las alertas y gestionar ajustes de reglas y canales. Sin permiso, la vista responde 403; sin sesión, redirige
   al inicio de sesión. Contraseñas de 12 caracteres como mínimo.
 - **Central: web.** CSRF en todos los POST; redirecciones solo a la propia web
   (`url_has_allowed_host_and_scheme`); `Content-Security-Policy` sin scripts
@@ -441,6 +489,11 @@ Descripción del estado actual; la auditoría es un paso aparte.
   `Secure` y `HttpOnly`; HSTS de un año; redirección a HTTPS detrás del proxy
   (`X-Forwarded-Proto`). Los datos de las máquinas solo salen por el *autoescape* de las
   plantillas, nunca con `|safe`.
+- **Central: secretos de los avisos.** La contraseña SMTP y las URL de los webhooks
+  (que suelen llevar un *token*) viven en el entorno (`alerts.env`), no en la base de
+  datos; la web solo muestra los nombres de los webhooks. Un webhook lo configura quien
+  administra el despliegue, así que el central solo envía a destinos que este haya
+  puesto.
 - **Central: credenciales.** Ni la base de datos ni la imagen guardan claves: `ssh` usa el
   `ssh-agent` montado (`SSH_AUTH_SOCK`) y un `known_hosts` en solo lectura con
   verificación estricta. **Observado:** `ssh-agent` solo atiende a clientes con su mismo
@@ -496,7 +549,11 @@ anfitrión no se usa.
   migraciones al día), el inventario y la importación (todo el corpus), los índices, la
   recogida con un `ssh` falso (argumentos, inyección, *timeout*, salida excesiva), el
   trabajador (dos trabajadores a la vez, un trabajo por periodo, límite de concurrencia,
-  parada con SIGTERM) y la web por vista y por rol.
+  parada con SIGTERM), la web por vista y por rol, y las alertas
+  (`changes/tests/`): la comparación con pares sintéticos por área, cada regla con un par
+  que la dispara y otro que no, los ajustes, «no responde», el correo con el backend
+  `locmem`, el webhook contra un `http.server` local y un webhook colgado que no retrasa
+  una recogida; el mapa de relaciones con v4, v6 y más de 200 direcciones.
 - **Integración SSH:** `tests/central/ssh-target.sh` arranca un `debian:12` con
   `openssh-server` en una red Docker interna, preparado como dice la documentación
   (cuenta `aridi` con la regla de `sudo`, cuenta `nosudo` sin ella, script instalado); las
@@ -506,10 +563,13 @@ anfitrión no se usa.
   10001), superusuario, inicio de sesión, alta y recogida de la máquina de prueba desde
   la web, copia con `sqlite3 .backup`, comprobación de la copia restaurada y
   `docker compose down`.
-- **Aceptación de la fase 5** (fuera de `tests/run.sh`, porque crea una VM):
+- **Aceptación de las fases 5 y 6** (fuera de `tests/run.sh`, porque crea una VM):
   `tests/lima/central-acceptance.sh` hace lo mismo contra una VM de Lima `debian12-arm64`
   real, más la recogida por programación, la importación de un paquete local, la
-  búsqueda y las negativas del rol de consulta. Observado el 2026-10-16: pasa entera.
+  búsqueda y las negativas del rol de consulta. Con `alerts`, en etapas que cambian la VM
+  entre medias: alertas de usuario y puerto en la web y en un webhook de prueba, reglas
+  silenciadas y «no responde» con la VM apagada. Observado el 2026-10-16: las dos pasan
+  enteras.
 
 **El corpus** (`tests/corpus/`, detalle en su `README.md`):
 
@@ -683,12 +743,29 @@ Fuentes: **documentado** (`CAMBIO.md`, `TODO.md`, `FORMATO.md`, un commit), **us
 | Una importación del mismo fichero devuelve la fotografía ya guardada, antes de buscar la máquina | Las muestras sin `machine_id` no se podían reconocer por máquina | **Observado** en las pruebas de importación |
 | Un nombre de *host* que coincide nunca basta para asociar una importación: hay que confirmar la máquina | Dos máquinas pueden llamarse igual; un dato mal asociado es peor que uno que falta | **Deducido** de la regla 12 de `CLAUDE.md` |
 
+### De la fase 6
+
+| Decisión | Motivo | Cómo se sabe |
+|---|---|---|
+| Nueve reglas de serie: las ocho de `IDEA.md` más «área que deja de verse» | Enterarse también de que se pierde visibilidad | **Usuario**, 2026-10-16 (`TODO.md` 6.2) |
+| Canales: correo y webhook JSON; el chat, por el campo `text` | Cubrir correo, chat y automatizaciones sin dependencias nuevas | **Usuario**, 2026-10-16 (`TODO.md` 6.4) |
+| Las URL de los webhooks y la contraseña SMTP, en el entorno; un canal guarda el nombre del webhook | Regla 17 de `CLAUDE.md`: el central no guarda credenciales | **Deducido** |
+| La regla de `shadow` juzga por exposición (dueño, otros, escritura y grupo distinto de root o `shadow`), no por el 0400 del núcleo | El 0640 `root:shadow` es el valor de serie de Debian y Ubuntu, y el `too_open` del núcleo lo marca | **Observado** en el corpus (`vm-debian12-arm64`) al escribir las pruebas |
+| Solo se evalúa la fotografía más reciente de cada máquina | Un paquete antiguo importado después describe el pasado | **Deducido** |
+| Mientras una alerta está abierta, no se crea otra con la misma máquina, regla y clave | Un cambio que va y vuelve no debe repetir el aviso | **Deducido** del criterio de `TODO.md` 6.3 |
+| El inventario avisa con señales y no importa `changes` | Mantener el inventario independiente de las alertas | **Deducido** |
+| Los avisos se envían en un hilo propio del trabajador, con su cola `Delivery` | Un destino caído no puede retrasar las recogidas | **Observado** en `test_channels:NotBlockingTest` |
+| Las listas de permisos de cada migración de roles están congeladas en ella | Una migración antigua no puede depender de permisos de modelos que aún no existen | **Deducido**; `test_alerts_web` comprueba que la suma de las migraciones es `roles.py` |
+
 ---
 
 ## Deuda y riesgos
 
-- **Sin comparación ni alertas** (fase 6): el central guarda el histórico, pero todavía
-  no avisa de cambios, que es el objetivo del cambio (`IDEA.md`).
+- **Ruido de las reglas sin medir en un parque real.** Un puerto UDP efímero que un
+  proceso abre en escucha, o una dirección que cambia, alerta como puerto nuevo. Se
+  puede silenciar o ajustar por máquina o grupo, pero no se ha medido cuánto ruido hay.
+- **La compatibilidad con Slack y Mattermost no se ha probado** contra esos servicios:
+  solo se comprueba el JSON que recibe un servidor local.
 - **El script instalado en cada máquina se actualiza a mano.** El central detecta la
   diferencia (`collector_outdated`), pero no la corrige.
 - **SQLite y un solo trabajador** son una **suposición** de escala suficiente: no se ha

@@ -5,7 +5,7 @@
 {% if perms.inventory.add_machine %}<p><a href="{% url 'machine-create' %}">New machine</a></p>{% endif %}
 <form method="post" action="{% url 'collect' %}">{% csrf_token %}
 <div class="table-wrap"><table>
-  <tr>{% if perms.collection.add_job %}<th></th>{% endif %}<th>Machine</th><th>Groups</th><th>Last snapshot</th><th>Result</th><th>Gaps</th></tr>
+  <tr>{% if perms.collection.add_job %}<th></th>{% endif %}<th>Machine</th><th>Groups</th><th>Last snapshot</th><th>Result</th><th>Gaps</th><th>Open alerts</th></tr>
   {% for row in rows %}
   <tr>
     {% if perms.collection.add_job %}<td><input type="checkbox" name="machine" value="{{ row.machine.pk }}" aria-label="Select {{ row.machine.name }}"></td>{% endif %}
@@ -14,8 +14,9 @@
     <td>{% if row.last %}{{ row.last.collected_at|date:"Y-m-d H:i" }} UTC{% else %}<span class="muted">never</span>{% endif %}</td>
     <td>{% if row.last %}<span class="{{ row.last.result }}">{{ row.last.get_result_display }}</span>{% endif %}</td>
     <td>{% if row.gaps is not None %}{{ row.gaps }}{% endif %}</td>
+    <td>{% if row.alerts %}<a href="{% url 'alert-list' %}?state=open&amp;machine={{ row.machine.pk }}">{{ row.alerts }}</a>{% else %}<span class="muted">0</span>{% endif %}</td>
   </tr>
-  {% empty %}<tr><td colspan="6" class="muted">No machines yet.</td></tr>
+  {% empty %}<tr><td colspan="7" class="muted">No machines yet.</td></tr>
   {% endfor %}
 </table></div>
 {% if perms.collection.add_job and rows %}<button type="submit">Collect selected now</button>{% endif %}

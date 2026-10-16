@@ -211,8 +211,8 @@ Dockerfile, compose.yaml
 | Índices de búsqueda | `SnapshotPackage(nombre, versión)`, `SnapshotUser`, `SnapshotPort(proto, ip, puerto, proceso)`, `SnapshotService`, `Relation(ip, papel)` | Se derivan del JSON al guardarlo; solo de lo no volátil |
 | `Gap` | fotografía, sección, estado, motivo | Responde a «qué no se pudo ver y desde cuándo» |
 | `Job` | tipo (recogida, escaneo), objetivo, estado, intentos, fechas | Es la cola del `aridi_worker` |
-| `Rule`, `RuleOverride` | regla de serie, gravedad; ajuste o silencio por máquina o grupo | — |
-| `Alert`, `Channel` | cambio, gravedad, estado; canal (correo, webhook…) | Los canales concretos están pendientes (`IDEA.md`) |
+| `Rule`, `RuleOverride` | regla de serie, gravedad; ajuste o silencio por máquina o grupo | Las reglas son código (`changes/rules.py`); en la base de datos solo están sus ajustes |
+| `Alert`, `Channel` | cambio, gravedad, estado; canal (correo, webhook…) | Canales decididos el 2026-10-16: correo y webhook JSON. Un `Delivery` por alerta y canal |
 | `AuthorizedNetwork`, `ScanResult` | CIDR autorizado; resultados del escaneo activo | Etapa 4 |
 | Usuarios y roles | `auth` de Django con dos grupos: **administración** y **consulta** | Una instalación por equipo |
 
@@ -225,6 +225,17 @@ máquina** (por defecto 10, configurable con `ARIDI_RAW_RETENTION`), además de 
 fotografía JSON, que se guarda siempre. Así puede reinterpretar las recogidas recientes
 cuando mejoren los analizadores. El precio: más datos sensibles en el central, aunque ya
 filtrados en origen. Sustituye a la decisión menor anterior de no guardarlo.
+
+**Reglas y canales de alerta (decididos por el usuario el 2026-10-16, TODO.md 6.2 y
+6.4):**
+
+- **Reglas de serie:** las 8 propuestas (usuario con acceso o privilegios, puerto nuevo en
+  escucha, servicio fallido, SUID o SGID nuevo, cambio de kernel, disco al 90 %,
+  permisos de los ficheros de cuentas y máquina que no responde), más «área que deja de
+  verse».
+- **Canales:** correo (SMTP) y webhook JSON. Un chat compatible con Slack o Mattermost
+  recibe el campo `text`. Las URL de los webhooks y la contraseña SMTP viven en el
+  entorno, nunca en la base de datos.
 
 ### Aspectos transversales
 

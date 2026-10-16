@@ -1,6 +1,6 @@
 #!/bin/sh
-# Acceptance of phase 5 (TODO.md): the central component in docker compose collects a real
-# Lima VM (debian12-arm64) over SSH.
+# Acceptance of phases 5 and 6 (TODO.md): the central component in docker compose collects
+# a real Lima VM (debian12-arm64) over SSH.
 #
 #   1. Creates a disposable VM without host mounts (as tests/lima/capture-vm.sh) and
 #      prepares it like a real machine (README.md, "Preparing a machine"): account
@@ -9,15 +9,22 @@
 #   2. Makes a local collection in the VM (sh aridi-collect.sh), to be imported later.
 #   3. docker compose up (compose.yaml + tests/lima/compose.acceptance.yaml), an
 #      administrator and a read-only user.
-#   4. tests/lima/acceptance_client.py, through the web: adds the VM, collects it on
-#      demand and by schedule, sees its page and gaps, imports the local bundle, searches
-#      packages, ports and users; the read-only user gets 403 on every change.
+#   4. inventory (phase 5): tests/lima/acceptance_client.py, through the web: adds the VM,
+#      collects it on demand and by schedule, sees its page and gaps, imports the local
+#      bundle, searches packages, ports and users; the read-only user gets 403 on every
+#      change.
+#      alerts (phase 6): tests/lima/alerts_client.py in stages, changing the VM between
+#      them: a user with a shell and a port raise two alerts, in the web and in the test
+#      webhook; silencing both rules for the VM avoids them; with the VM stopped, three
+#      failed collections raise "does not respond".
 #   5. docker compose down and VM deleted.
 #
-# Usage: tests/lima/central-acceptance.sh
+# Usage: tests/lima/central-acceptance.sh [inventory|alerts]     (default: inventory)
 
 set -eu
 
+mode=${1:-inventory}
+case $mode in inventory|alerts) ;; *) echo "usage: $0 [inventory|alerts]" >&2; exit 2 ;; esac
 here=$(cd "$(dirname "$0")" && pwd)
 repo=$(cd "$here/../.." && pwd)
 vm=debian12-arm64
@@ -34,6 +41,9 @@ export ARIDI_CSRF_TRUSTED_ORIGINS=https://aridi.example
 export ARIDI_KNOWN_HOSTS_FILE="$work/known_hosts"
 export ARIDI_SSH_AUTH_SOCK="$work/unused.sock"
 export ACCEPTANCE_KEYS="$work"
+export ACCEPTANCE_TESTS="$here"
+# Alerts: a stopped VM fails at once; one attempt per collection is enough.
+[ "$mode" = alerts ] && export ACCEPTANCE_JOB_ATTEMPTS=1
 compose="docker compose -p aridi-acceptance -f $repo/compose.yaml -f $here/compose.acceptance.yaml"
 
 cleanup() {
@@ -92,9 +102,35 @@ $compose cp "$work/local.aridi" web:/tmp/local.aridi >/dev/null
 echo "acceptance: ok docker compose up, administrator and read-only users"
 
 # 4. Through the web
-$compose exec -T web python - "aridi@host.docker.internal" "$port" "$admin" "$reader" \
-    /tmp/local.aridi < "$here/acceptance_client.py" || {
-    $compose logs --tail 40 worker; fail "web client"; }
+if [ "$mode" = inventory ]; then
+    $compose exec -T web python - "aridi@host.docker.internal" "$port" "$admin" "$reader" \
+        /tmp/local.aridi < "$here/acceptance_client.py" || {
+        $compose logs --tail 40 worker; fail "web client"; }
+    echo "acceptance: ok phase 5 acceptance"
+    exit 0
+fi
 
-# 5. Clean up (trap)
-echo "acceptance: ok phase 5 acceptance"
+stage() {
+    $compose exec -T web python - "$1" "aridi@host.docker.internal" "$port" "$admin" \
+        < "$here/alerts_client.py" || {
+        $compose logs --tail 40 worker; $compose logs --tail 20 hook; fail "stage $1"; }
+}
+listen() {
+    # A listening socket that stays: a transient systemd service.
+    vmsh sudo systemd-run --quiet --unit "aridi-listen-$1" python3 -m http.server "$1" \
+        >/dev/null
+}
+stage baseline
+vmsh sudo useradd -m -s /bin/bash mallory
+listen 4444
+echo "acceptance: ok in the VM: user mallory with /bin/bash, port 4444 listening"
+stage changes
+vmsh sudo useradd -m -s /bin/bash trudy
+listen 4445
+echo "acceptance: ok in the VM: user trudy with /bin/bash, port 4445 listening"
+stage silenced
+limactl stop "$instance" > "$work/lima-stop.log" 2>&1 || {
+    cat "$work/lima-stop.log"; fail "limactl stop"; }
+echo "acceptance: ok VM stopped"
+stage stopped
+echo "acceptance: ok phase 6 acceptance"

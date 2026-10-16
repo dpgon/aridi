@@ -11,6 +11,10 @@
 #   ARIDI_KNOWN_HOSTS_FILE   known_hosts of the machines (strict checking, read-only)
 # Optional: ARIDI_SSH_CONFIG_FILE (ssh_config, read-only), ARIDI_MAX_SSH,
 # ARIDI_RAW_RETENTION, ARIDI_HSTS_SECONDS. See README.md.
+# Alert channels (phase 6): in alerts.env next to this file, if it exists (it holds the
+# SMTP password and the webhook URLs, which are never stored in the database):
+#   ARIDI_BASE_URL, ARIDI_EMAIL_HOST, ARIDI_EMAIL_PORT, ARIDI_EMAIL_USER,
+#   ARIDI_EMAIL_PASSWORD, ARIDI_EMAIL_SECURITY, ARIDI_EMAIL_FROM, ARIDI_WEBHOOK_URL_<NAME>
 
 name: aridi
 
@@ -18,6 +22,9 @@ x-central: &central
   build: .
   image: aridi-central:latest
   restart: unless-stopped
+  env_file:
+    - path: ./alerts.env
+      required: false
   environment: &environment
     ARIDI_SECRET_KEY: ${ARIDI_SECRET_KEY:?set ARIDI_SECRET_KEY}
     ARIDI_ALLOWED_HOSTS: ${ARIDI_ALLOWED_HOSTS:?set ARIDI_ALLOWED_HOSTS}

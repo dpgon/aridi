@@ -200,7 +200,8 @@ Al llegar cada nueva fotografía, aridi la compara con la anterior [decidido]:
   fallar, nuevo binario con privilegios elevados, cambio de kernel, disco casi lleno.
 - El administrador puede **ajustar o silenciar** reglas por máquina o por grupo.
 - Las alertas se ven en la interfaz web y **se envían por canales externos** (correo,
-  chat, webhook). Los canales concretos están por decidir.
+  chat, webhook). Se decidieron correo y webhook JSON, que también sirve para un chat
+  [decidido el 2026-10-16].
 - También es un cambio significativo que una máquina **deje de responder** o deje de
   enviar datos que antes enviaba. Esto es una **interpretación** que se deduce del
   criterio de éxito.
@@ -407,9 +408,11 @@ monitorización en tiempo real, análisis de registros y cumplimiento normativo.
 
 **Quedan pendientes**, porque no cambian la idea:
 - el tamaño real del parque;
-- cuánto tiempo se guarda el histórico;
-- los canales concretos de aviso;
-- la lista exacta de reglas de alerta de serie.
+- cuánto tiempo se guarda el histórico.
+
+**Decididos después, el 2026-10-16:** los canales de aviso (correo y webhook JSON) y la
+lista de reglas de serie, que incluye la alerta por máquinas que dejan de responder
+(`CAMBIO.md` y `TODO.md` 6.2 y 6.4).
 
 **Criterio de éxito** [decidido]: el equipo deja de mantener su inventario a mano y
 confía en aridi como fuente de verdad. Todas las máquinas del parque se inventarían con

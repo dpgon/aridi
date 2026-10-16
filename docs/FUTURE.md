@@ -4,7 +4,8 @@
 > Aquí no se toman decisiones tecnológicas: describe capacidades, no soluciones. Las
 > decisiones están en [`CAMBIO.md`](CAMBIO.md) y el trabajo, en [`TODO.md`](../TODO.md).
 >
-> **Revisado en la fase 4 de `TODO.md`** (2026-10-16), al retirar el código de 2019.
+> **Revisado en la fase 4 de `TODO.md`** (2026-10-16), al retirar el código de 2019, y
+> en las fases 5 y 6, al entregar las etapas 2 y 3.
 > Donde una entrada dice «en 2019», se refiere a la medición de ese código (`MVP.md` de
 > 2026-10-15, commit `4ab279e`); sus ficheros (`gathering*.py`, `scan.py`,
 > `reporting.py`…) solo siguen en la historia de git.
@@ -338,11 +339,12 @@ central` (pruebas de Django, recogida SSH real contra un contenedor y prueba de 
   - **Consulta:** solo ve.
   - Hay una instalación por equipo; no hay separación de clientes dentro de una
     instalación.
-- **Cómo se cumple:** grupos `administration` y `read-only` (`test_web:WebTest`). Las
-  reglas y las redes autorizadas llegarán con las fases 6 y 7; los accesos (usuarios) se
-  gestionan todavía desde la línea de órdenes de Django, no desde la web.
+- **Cómo se cumple:** grupos `administration` y `read-only` (`test_web:WebTest`,
+  `test_alerts_web:AlertWebTest`). Los ajustes de reglas y los canales llegaron con la
+  fase 6; las redes autorizadas llegarán con la 7. Los accesos (usuarios) se gestionan
+  todavía desde la línea de órdenes de Django, no desde la web.
 
-### 2.7 Mapa de relaciones en la web — [usuario], a partir de [deducido]
+### 2.7 Mapa de relaciones en la web — [usuario], a partir de [deducido] — **hecha**
 
 El mapa de infraestructura que el colector ya construye (en 2019, `reporting.py:99`; hoy,
 las relaciones de la fotografía y `src/aridi/relations.py`) se muestra en la interfaz
@@ -350,17 +352,18 @@ web, en sustitución del grafo de 2019 (1.10). En `TODO.md` está en la fase 6 (
 
 - **Criterio de aceptación:** para una máquina, se ven las IPs con las que se relaciona y
   el papel de cada una.
-- **Estado:** la ficha de la máquina ya muestra esa tabla (IP, local o remota, papeles con
-  su origen). El mapa **gráfico** sigue previsto para la fase 6 (6.5).
+- **Cómo se cumple:** la ficha muestra la tabla y la página «Relation map» dibuja un SVG
+  en el servidor (máquina, subredes, pasarela, direcciones fuera), con la tabla paginada
+  (`MVP.md`, n.º 29).
 
 ---
 
-## Etapa 3: cambios y alertas — fase 6
+## Etapa 3: cambios y alertas — fase 6 — **hecha**
 
-**Tema:** enterarse de lo que importa sin tener que mirar. Todo es [usuario]. **Nada de
-esta etapa existe todavía.**
+**Tema:** enterarse de lo que importa sin tener que mirar. Todo es [usuario]. Medido en
+`MVP.md` (n.º 26 a 28).
 
-### 3.1 Comparación entre fotografías — [usuario]
+### 3.1 Comparación entre fotografías — [usuario] — **hecha**
 
 - **Criterios de aceptación:**
   - Para cualquier máquina se pueden comparar dos fotografías y ver qué ha aparecido, qué
@@ -368,26 +371,28 @@ esta etapa existe todavía.**
   - Un dato que pasa de "recogido" a "no recogido" se muestra como tal, no como si
     hubiera desaparecido.
 
-### 3.2 Criterio de cambio significativo de serie, ajustable — [usuario]
+### 3.2 Criterio de cambio significativo de serie, ajustable — [usuario] — **hecha**
 
 - **Criterios de aceptación:**
-  - Hay un conjunto de reglas de serie con niveles de gravedad. Ejemplos de `IDEA.md`:
-    usuario nuevo con acceso o privilegios, puerto nuevo a la escucha, servicio que pasa
-    a fallar, nuevo binario con privilegios elevados, cambio de kernel, disco casi lleno.
+  - Hay un conjunto de reglas de serie con niveles de gravedad.
   - El administrador puede ajustar o silenciar reglas por máquina o por grupo.
-  - La lista exacta de reglas está pendiente.
+- **Lista decidida por el usuario (2026-10-16):** las 8 de `TODO.md` 6.2 más «área que
+  deja de verse».
+- **Queda abierto:** medir el ruido en un parque real.
 
-### 3.3 Avisos externos — [usuario]
+### 3.3 Avisos externos — [usuario] — **hecha**
 
-- **Criterios de aceptación:**
-  - Las alertas se ven en la web y se envían por canales externos (correo, chat,
-    webhook).
-  - Los canales concretos están pendientes.
+- **Criterios de aceptación:** las alertas se ven en la web y se envían por canales
+  externos.
+- **Canales decididos por el usuario (2026-10-16):** correo y webhook JSON (el chat, por
+  el campo `text`). Sin probar todavía contra un SMTP real, Slack o Mattermost.
 
-### 3.4 Alerta por máquinas que dejan de responder — interpretación de `IDEA.md`, pendiente de confirmar
+### 3.4 Alerta por máquinas que dejan de responder — [usuario] — **hecha**
 
 - **Criterio de aceptación:** una máquina que deja de responder, o que deja de enviar
   datos que antes enviaba, genera una alerta.
+- **Cómo se cumple:** tres recogidas fallidas seguidas, o ninguna fotografía en dos
+  periodos de su programación (confirmado por el usuario al elegir las reglas).
 
 ---
 
@@ -447,6 +452,5 @@ Merecen recordarse, pero todavía no tienen sitio:
   números del 0 al 18 que no se usaban). Pensadas para declarar huecos por área, que el
   colector nuevo ya declara por sección (1.3). Se conserva la idea solo por si hiciera
   falta agrupar fuentes de otra forma.
-- **Pendientes de `IDEA.md`** — [usuario]: el tamaño real del parque, cuánto tiempo se
-  guarda el histórico, los canales concretos de aviso y la lista exacta de reglas de
-  serie.
+- **Pendientes de `IDEA.md`** — [usuario]: el tamaño real del parque y cuánto tiempo se
+  guarda el histórico. (Los canales y las reglas se decidieron el 2026-10-16.)

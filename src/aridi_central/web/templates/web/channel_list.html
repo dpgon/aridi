@@ -1,0 +1,28 @@
+{% extends "web/base.html" %}
+{% block title %}Channels{% endblock %}
+{% block content %}
+<h1>Notification channels</h1>
+<p class="muted">SMTP server: {% if smtp %}configured{% else %}not configured (ARIDI_EMAIL_HOST){% endif %} ·
+  webhooks configured in the central: {% if webhooks %}{{ webhooks|join:", " }}{% else %}none (ARIDI_WEBHOOK_URL_&lt;NAME&gt;){% endif %}</p>
+{% if perms.changes.add_channel %}<p><a href="{% url 'channel-create' %}">New channel</a></p>{% endif %}
+<div class="table-wrap"><table>
+  <tr><th>Channel</th><th>Kind</th><th>Target</th><th>Minimum severity</th><th>Groups</th><th>Active</th><th></th></tr>
+  {% for c in channels %}
+  <tr><td>{% if perms.changes.change_channel %}<a href="{% url 'channel-edit' c.pk %}">{{ c.name }}</a>{% else %}{{ c.name }}{% endif %}</td>
+    <td>{{ c.get_kind_display }}</td><td>{{ c.target }}</td><td>{{ c.min_severity }}</td>
+    <td>{% for g in c.groups.all %}{{ g.name }}{% if not forloop.last %}, {% endif %}{% empty %}<span class="muted">all</span>{% endfor %}</td>
+    <td>{{ c.active|yesno }}</td>
+    <td>{% if perms.changes.delete_channel %}<form class="inline" method="post" action="{% url 'channel-delete' c.pk %}">{% csrf_token %}<button type="submit">Delete</button></form>{% endif %}</td></tr>
+  {% empty %}<tr><td colspan="7" class="muted">No channels: alerts are only in the web.</td></tr>
+  {% endfor %}
+</table></div>
+<h2>Recent deliveries</h2>
+<div class="table-wrap"><table>
+  <tr><th>Alert</th><th>Channel</th><th>State</th><th>Attempts</th><th>Last error</th></tr>
+  {% for d in recent %}
+  <tr><td><a href="{% url 'alert-detail' d.alert.pk %}">{{ d.alert.machine.name }}: {{ d.alert.title }}</a></td>
+    <td>{{ d.channel.name }}</td><td class="{{ d.state }}">{{ d.state }}</td><td>{{ d.attempts }}</td><td>{{ d.last_error }}</td></tr>
+  {% empty %}<tr><td colspan="5" class="muted">None.</td></tr>
+  {% endfor %}
+</table></div>
+{% endblock %}

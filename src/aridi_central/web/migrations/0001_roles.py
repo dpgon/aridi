@@ -1,25 +1,26 @@
 """Data migration: the "administration" and "read-only" groups with their permissions."""
 
-from django.contrib.auth.management import create_permissions
 from django.db import migrations
 
-from aridi_central.web.roles import ROLES
+from aridi_central.web.migrations import _roles
+
+# Frozen: the roles as phase 5 defined them. Later permissions come in later migrations.
+VIEW = [
+    "inventory.view_machine", "inventory.view_group", "inventory.view_snapshot",
+    "collection.view_job", "collection.view_schedule",
+]
+ADMIN_ONLY = [
+    "inventory.add_machine", "inventory.change_machine", "inventory.delete_machine",
+    "inventory.add_group", "inventory.change_group", "inventory.delete_group",
+    "inventory.add_snapshot",
+    "collection.add_job",
+    "collection.add_schedule", "collection.change_schedule", "collection.delete_schedule",
+]
+ROLES = {"administration": VIEW + ADMIN_ONLY, "read-only": VIEW}
 
 
 def create_roles(apps, schema_editor):
-    # Permissions are normally created after all migrations; they are needed now.
-    for app_config in apps.get_app_configs():
-        app_config.models_module = True
-        create_permissions(app_config, apps=apps, verbosity=0)
-        app_config.models_module = None
-    Group = apps.get_model("auth", "Group")
-    Permission = apps.get_model("auth", "Permission")
-    for name, codes in ROLES.items():
-        group, _ = Group.objects.get_or_create(name=name)
-        for code in codes:
-            app_label, codename = code.split(".")
-            group.permissions.add(Permission.objects.get(content_type__app_label=app_label,
-                                                         codename=codename))
+    _roles.grant(apps, ROLES)
 
 
 def remove_roles(apps, schema_editor):

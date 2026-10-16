@@ -29,11 +29,13 @@ What exists today:
 - the **local mode**: collect on the machine, interpret anywhere;
 - the **central component** (Django, SQLite, `docker compose`): it collects machines over
   SSH on demand or on a schedule, imports local collections, keeps the history of
-  snapshots and what could not be seen, and searches the fleet. A web interface with two
-  roles, administration and read-only.
+  snapshots and what could not be seen, and searches the fleet. It compares snapshots,
+  raises **alerts** on significant changes (shown in the web, sent by email or webhook)
+  and draws the relation map of each machine. A web interface with two roles,
+  administration and read-only.
 
-What is planned and **does not exist yet**: change detection and alerts between
-snapshots, and network discovery from the central component.
+What is planned and **does not exist yet**: network discovery and scanning from the
+central component.
 
 The measured, feature-by-feature status is in [`docs/MVP.md`](docs/MVP.md).
 
@@ -160,6 +162,58 @@ docker compose exec web python -m aridi_central.manage createsuperuser
 - **Raw bundles** of the 10 most recent collections of each machine are kept compressed
   (`ARIDI_RAW_RETENTION`), so they can be interpreted again by a newer core.
 
+### Alerts
+
+Every new snapshot is compared with the previous one of the same machine, and nine
+built-in rules raise alerts (the **Rules** page lists them with their severity and
+threshold):
+
+| Rule | Severity |
+|---|---|
+| New user with a login shell, uid 0 or in `sudo`/`wheel`/`admin` (or an existing user that gains one) | high |
+| New listening port | medium |
+| Service that becomes failed | medium |
+| New SUID or SGID binary | high |
+| Kernel changed | low |
+| File system at 90 % or more (not read-only, in-memory or overlay) | medium |
+| `/etc/passwd`, `group`, `shadow` or `gshadow` more open than a safe default | high |
+| Machine not responding: 3 failed collections in a row, or no snapshot for two periods of its schedule | high |
+| Area that could be seen and no longer can (`denied`, `missing`, `timeout`…) | low |
+
+- **Comparisons** of any two snapshots of a machine are on its **Compare** page;
+  volatile areas (processes, load, connections, neighbours) only when asked for, and
+  they never raise alerts.
+- **The same alert is not raised twice** while it is open (new or seen). "Not
+  responding" resolves itself when a snapshot arrives. Only the newest snapshot of a
+  machine is evaluated: importing an old bundle raises nothing.
+- **Overrides** (Rules page, administration): silence a rule, or change its severity or
+  threshold, for a machine or a group. The machine's override wins over its groups'; if
+  groups disagree, the one that alerts most wins.
+- **Channels** (Channels page): email or webhook, each with a minimum severity and,
+  optionally, a set of groups. The worker sends them in its own thread and retries
+  (`ARIDI_DELIVERY_ATTEMPTS`, 5 by default), so a channel that is down never delays the
+  collections.
+
+Secrets of the channels never go into the database: put them in an `alerts.env` file next
+to `compose.yaml` (it is read if it exists, and ignored by git):
+
+```sh
+ARIDI_BASE_URL=https://aridi.example.org          # links in the messages
+ARIDI_EMAIL_HOST=smtp.example.org
+ARIDI_EMAIL_PORT=587
+ARIDI_EMAIL_SECURITY=starttls                     # starttls, tls or none
+ARIDI_EMAIL_USER=aridi
+ARIDI_EMAIL_PASSWORD=...
+ARIDI_EMAIL_FROM=aridi@example.org
+ARIDI_WEBHOOK_URL_OPS=https://hooks.example.org/services/...   # a channel names "ops"
+```
+
+The webhook receives a JSON POST: `text` (a one-line summary, safe for Slack or
+Mattermost incoming webhooks: `<`, `>`, `&` and `@` from the machines are neutralised)
+and `alert` (id, url, machine, rule, severity, title, detail, snapshots). Redirects are
+treated as failures. Compatibility with Slack and Mattermost has **not** been tested
+against those services.
+
 ### Backups
 
 The database is a single SQLite file in the `aridi-data` volume. Copy it consistently,
@@ -204,7 +258,8 @@ report format are gone. In particular:
 
 - the ARP sweep and the port scan from the machine are dropped: the collector is passive.
   Scanning is planned for the central component, limited to authorised networks;
-- the `--graph` network graph is dropped; the snapshot carries the relations to draw it;
+- the `--graph` network graph is replaced by the relation map of each machine in the web
+  of the central component (an SVG drawn by the server);
 - host names found in files are listed, not resolved with DNS;
 - reading the report needs Python 3.12 on some computer; the machine itself only needs
   `sh`.
@@ -232,7 +287,8 @@ tests/run.sh all        # or: unit | collector | central | golden
 - **`golden`:** regenerates the reference report of the unit tests (review the diff).
 
 `tests/lima/central-acceptance.sh` runs the acceptance of the central component against a
-disposable Lima VM (it needs Lima and Docker Desktop).
+disposable Lima VM (it needs Lima and Docker Desktop): `inventory` (the default) for the
+collection, history, import and search, and `alerts` for the alerts and the webhook.
 
 ## Documentation
 

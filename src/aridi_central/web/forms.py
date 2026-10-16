@@ -2,6 +2,8 @@
 
 from django import forms
 
+from aridi_central.changes.models import Alert, Channel, RuleOverride
+from aridi_central.changes.rules import CHOICES, Severity
 from aridi_central.collection.models import Schedule
 from aridi_central.inventory.models import Group, Machine
 
@@ -51,3 +53,32 @@ class SearchForm(forms.Form):
     query = forms.CharField(max_length=255, help_text=(
         "package: name or name=version; port: number or tcp/22, udp/53; user, service: "
         "name; ip: address"))
+
+
+# Alerts (phase 6)
+
+class RuleOverrideForm(forms.ModelForm):
+    class Meta:
+        model = RuleOverride
+        fields = ["rule", "machine", "group", "silenced", "severity", "threshold"]
+
+
+class ChannelForm(forms.ModelForm):
+    class Meta:
+        model = Channel
+        fields = ["name", "kind", "target", "min_severity", "groups", "active"]
+        widgets = {"groups": forms.CheckboxSelectMultiple}
+
+
+class AlertFilterForm(forms.Form):
+    STATES = [("open", "open (new or seen)"), ("", "any")] + list(Alert.State.choices)
+    state = forms.ChoiceField(choices=STATES, required=False, initial="open")
+    severity = forms.ChoiceField(choices=[("", "any")] + list(Severity.choices),
+                                 required=False)
+    rule = forms.ChoiceField(choices=[("", "any")] + CHOICES, required=False)
+    machine = forms.ModelChoiceField(Machine.objects.all(), required=False)
+
+
+class AlertStateForm(forms.Form):
+    state = forms.ChoiceField(choices=Alert.State.choices)
+    note = forms.CharField(required=False, max_length=2000)

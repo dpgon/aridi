@@ -23,13 +23,16 @@ central** que lo ejecuta por SSH y guarda el inventario:
    paquetes hechos en local, guarda el histórico de fotografías con sus huecos, busca
    en el parque (paquetes, puertos, usuarios, servicios, IPs) y tiene dos roles web:
    administración y consulta.
+4. **Cambios y alertas** (en el central): compara fotografías, aplica 9 reglas de serie
+   ajustables por máquina o grupo, avisa por correo o webhook y dibuja el mapa de
+   relaciones de cada máquina.
 
 Ya le sirve a un administrador o a un auditor que quiera una **fotografía fiable y
 legible de una máquina Linux**, de CentOS 6 a Fedora 44, incluidas Alpine, Arch y
 openSUSE, y también de contenedores sin Python: el script corre allí y el informe se
 genera en otro equipo con Python 3.12.
 
-**No hay** comparación entre ejecuciones, alertas ni escaneo (ver *Fuera de lo
+**No hay** descubrimiento de red ni escaneo desde el central (ver *Fuera de lo
 entregado*).
 
 **El aridi de 2019 ya no está en el repositorio.** Se retiró en la fase 4, al alcanzar
@@ -426,7 +429,81 @@ Las pruebas se citan como `módulo:Clase.método` (fichero `tests/**/módulo.py`
     opcional), puerto, usuario, servicio e IP de relación
     (`test_web:SearchTest.*`; aceptación: `openssh-server`, `tcp/22` y `aridi` en la VM).
 - **Limitaciones:** sin JavaScript, sin paginación (las listas se cortan a 200 o 500
-  filas) y en inglés.
+  filas; las alertas y el mapa sí se paginan) y en inglés.
+
+### 26. Central: comparación de fotografías — *entregada*
+
+- **Observado:**
+  - Dos copias de la misma fotografía no dan ningún cambio, en tres distribuciones
+    (`test_diff:CompareTest.test_same_snapshot_has_no_changes`).
+  - Paquetes añadidos, quitados y actualizados por gestor, nombre y arquitectura;
+    usuarios por nombre; *sockets* por protocolo, dirección y puerto; SUID, *banners*,
+    servicios y kernel (`test_diff:CompareTest.*`, pares sintéticos).
+  - Un área que pasa de `ok` a `denied` sale como «could not be seen any more», sin
+    listar nada como quitado; al revés, «seen again»
+    (`test_ok_to_denied_is_lost_not_everything_removed`).
+  - Sin `/etc/shadow` en una de las dos, los estados de contraseña no se comparan y se
+    anota (`test_password_states_ignored_when_shadow_was_not_read`).
+  - Los volátiles, solo si se piden (`test_volatile_areas_only_on_request`).
+  - Vista web de dos fotografías cualesquiera, con «comparar con la anterior» en el
+    histórico (`test_alerts_web:AlertWebTest.test_compare_view`); en la aceptación con la
+    VM, la comparación muestra el usuario y el puerto nuevos aunque sus reglas estén
+    silenciadas.
+- **Deducido:** se dejan fuera los campos que cambian solos (ocupación, subestado de
+  servicios, sesiones abiertas); un cambio ahí no aparece en la comparación.
+
+### 27. Central: reglas y alertas — *entregada con limitaciones*
+
+- **Observado:**
+  - Las 9 reglas, cada una con un par que la dispara y otro que no
+    (`test_rules:RuleTest.*`); ninguna salta entre dos fotografías iguales ni por áreas
+    volátiles.
+  - Una recogida con un usuario nuevo con shell y un puerto nuevo crea esas dos alertas,
+    y las siguientes sin cambio nuevo no las repiten
+    (`test_alerts:EvaluationTest.*`). Con la VM de Lima: dos recogidas sin cambios, cero
+    alertas; tras `useradd -s /bin/bash` y un puerto en escucha, **exactamente** esas dos.
+  - Ajustes: silenciar por máquina o grupo, cambiar gravedad y umbral; la máquina gana
+    al grupo y, entre grupos, el que más alerta (`test_alerts:OverrideTest.*`). Con la
+    VM, silenciar las dos reglas evita las alertas de un segundo usuario y puerto.
+  - «No responde»: tres recogidas fallidas seguidas (también por el trabajador real), o
+    sin fotografía en dos periodos de su programación; se resuelve sola al volver
+    (`test_alerts:UnresponsiveTest.*`).
+  - La regla de `shadow` no alerta del 0640 `root:shadow` de Debian (el `too_open` del
+    núcleo sí lo marca) y sí de 0644, de escritura del grupo, de un grupo ajeno o de un
+    dueño que no es root (`test_rules:RuleTest.test_account_file_permissions`).
+  - Lista, detalle con la comparación, cambio de estado por administración y 403 para
+    consulta; los títulos con `<script>` salen escapados (`test_alerts_web:*`).
+- **Limitaciones:**
+  - el ruido en un parque real no se ha medido (por ejemplo, puertos UDP efímeros en
+    escucha);
+  - «sin fotografía en dos periodos» solo se ha observado en pruebas, con la hora movida
+    a mano.
+
+### 28. Central: avisos por correo y webhook — *entregada con limitaciones*
+
+- **Observado:**
+  - Correo con el backend `locmem`: destinatarios, asunto sin saltos de línea aunque el
+    título los traiga, enlace a la alerta (`test_channels:ChannelTest.test_email`,
+    `test_subject_without_line_breaks`).
+  - Webhook contra un `http.server` local: JSON con `text` y `alert`; `<!channel>` y
+    `@here` neutralizados en `text`; HTTP 500, redirección y destino inalcanzable se
+    reintentan y al final quedan `failed` (`test_channels:ChannelTest.*`).
+  - Filtros por gravedad mínima, grupos y canal inactivo
+    (`test_filters_by_severity_and_group`).
+  - Un webhook colgado no retrasa una recogida del trabajador real
+    (`test_channels:NotBlockingTest`).
+  - Con la VM, las dos alertas llegaron al webhook de prueba, y nada más tras silenciar.
+  - La URL del webhook no se guarda ni se muestra en la web
+    (`test_admin_overrides_and_channels`).
+- **Limitaciones:** no se ha probado contra un servidor SMTP real ni contra Slack o
+  Mattermost.
+
+### 29. Central: mapa de relaciones — *entregada*
+
+- **Observado:** SVG generado en el servidor (máquina, subredes locales con su pasarela,
+  direcciones fuera de ellas) y tabla paginada, con v4 y v6 y con 450 direcciones (200
+  dibujadas, el resto en la tabla) (`test_alerts_web:RelationMapTest.*`).
+- **Deducido:** sustituye al `--graph` de 2019, sin Graphviz ni JavaScript.
 
 ---
 
@@ -471,7 +548,7 @@ fila, en [`tests/parity.md`](../tests/parity.md). En resumen:
   Python 3.12 en algún equipo.
 - **La CLI y el formato del informe de 2019** (`-g -s -v -c -a -os -od -of -oi`).
 - **El escaneo de puertos y el barrido ARP desde la máquina:** el colector es pasivo.
-- **El grafo `--graph`.**
+- **El grafo `--graph`** como fichero: lo sustituye el mapa SVG de la web del central.
 - **La resolución DNS de los FQDN** encontrados en `/etc` y `/var/log`.
 - **El texto de las líneas del *carving***, que 2019 mostraba (decisión de seguridad).
 
@@ -481,14 +558,11 @@ que contaba como SUID los enlaces simbólicos). Están en `tests/parity.md`.
 
 ## Fuera de lo entregado
 
-Para que la frontera no admita dudas, aridi **no** hace hoy nada de lo siguiente. Está
-previsto en las fases 6 y 7 de `TODO.md` y **todavía no existe**:
+Para que la frontera no admita dudas, aridi **no** hace hoy nada de lo siguiente. Lo
+primero está previsto en la fase 7 de `TODO.md` y **todavía no existe**:
 
-- **Comparación entre ejecuciones y alertas** (fase 6). El histórico se guarda, pero
-  nadie lo compara ni avisa de cambios.
 - **Descubrimiento de red y escaneo de puertos** desde el central, acotado a redes
-  autorizadas (fase 7). Las aplicaciones `changes` y `discovery` existen vacías.
-- **Mapa gráfico** de relaciones: la ficha lo muestra como tabla.
+  autorizadas (fase 7). La aplicación `discovery` existe vacía.
 - **Actualización automática** del script instalado en las máquinas.
 
 ## Definición de terminado

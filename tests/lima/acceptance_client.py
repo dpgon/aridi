@@ -1,8 +1,8 @@
 """Web client of the phase 5 acceptance (tests/lima/central-acceptance.sh), run in "web".
 
 Arguments: SSH_TARGET SSH_PORT ADMIN_PASSWORD READER_PASSWORD LOCAL_BUNDLE_PATH
-Standard library only; plain HTTP to gunicorn with X-Forwarded-Proto: https, as the TLS
-proxy would send.
+Browser and check are also used by alerts_client.py (phase 6). Standard library only;
+plain HTTP to gunicorn with X-Forwarded-Proto: https, as the TLS proxy would send.
 """
 
 import http.client
@@ -15,7 +15,6 @@ import urllib.parse
 import uuid
 
 HOST = os.environ["ARIDI_ALLOWED_HOSTS"].split(",")[0]
-TARGET, PORT, ADMIN_PASSWORD, READER_PASSWORD, LOCAL_BUNDLE = sys.argv[1:6]
 
 
 class Browser:
@@ -77,66 +76,72 @@ def wait_for(browser, path, needle, what, seconds=300):
     sys.exit(f"acceptance: FAIL {what} (no {needle!r} in {path} after {seconds} s)")
 
 
-admin = Browser()
-admin.login("admin", ADMIN_PASSWORD)
-status, _, _ = admin.request("POST", "/machines/new/", {
-    "name": "debian12-arm64", "ssh_target": TARGET, "ssh_port": PORT, "privilege": "sudo",
-    "active": "on"})
-check(status == 302, "the administrator adds the Lima VM")
-_, _, body = admin.request("GET", "/")
-machine = re.search(r'href="/machines/(\d+)/">debian12-arm64<', body).group(1)
+def main():
+    target, port, admin_password, reader_password, local_bundle = sys.argv[1:6]
+    admin = Browser()
+    admin.login("admin", admin_password)
+    status, _, _ = admin.request("POST", "/machines/new/", {
+        "name": "debian12-arm64", "ssh_target": target, "ssh_port": port, "privilege": "sudo",
+        "active": "on"})
+    check(status == 302, "the administrator adds the Lima VM")
+    _, _, body = admin.request("GET", "/")
+    machine = re.search(r'href="/machines/(\d+)/">debian12-arm64<', body).group(1)
 
-admin.request("POST", "/collect/", {"machine": machine})
-body = wait_for(admin, f"/machines/{machine}/", r"Snapshot of", "on-demand collection")
-check("on-demand SSH collection" in body, "on-demand collection over SSH")
-check("collector_outdated" not in body and "differs from the central" not in body,
-      "the installed script is the central's version")
-check("Users and groups" in body and "Infrastructure" in body,
-      "the machine page shows the areas")
-_, _, gaps = admin.request("GET", f"/machines/{machine}/gaps/")
-check("what could not be seen" in gaps, "the gaps page with their date")
+    admin.request("POST", "/collect/", {"machine": machine})
+    body = wait_for(admin, f"/machines/{machine}/", r"Snapshot of", "on-demand collection")
+    check("on-demand SSH collection" in body, "on-demand collection over SSH")
+    check("collector_outdated" not in body and "differs from the central" not in body,
+          "the installed script is the central's version")
+    check("Users and groups" in body and "Infrastructure" in body,
+          "the machine page shows the areas")
+    _, _, gaps = admin.request("GET", f"/machines/{machine}/gaps/")
+    check("what could not be seen" in gaps, "the gaps page with their date")
 
-status, _, _ = admin.request("POST", "/schedules/new/", {
-    "machine": machine, "kind": "interval", "every_hours": "1", "active": "on"})
-check(status == 302, "a schedule for the VM")
-# The hour passing: once the worker has set the first run time, move it into the past.
-subprocess.run([sys.executable, "-m", "aridi_central.manage", "shell", "-v0", "-c",
-                "import time\n"
-                "from datetime import timedelta\n"
-                "from django.utils import timezone\n"
-                "from aridi_central.collection.models import Schedule\n"
-                "for _ in range(60):\n"
-                "    if Schedule.objects.filter(next_run_at__isnull=False).exists(): break\n"
-                "    time.sleep(2)\n"
-                "Schedule.objects.update(next_run_at=timezone.now() - timedelta(minutes=1))\n"],
-               check=True)
-body = wait_for(admin, f"/machines/{machine}/history/", r"scheduled SSH collection",
-                "scheduled collection", seconds=420)
-check(True, "scheduled collection over SSH")
+    status, _, _ = admin.request("POST", "/schedules/new/", {
+        "machine": machine, "kind": "interval", "every_hours": "1", "active": "on"})
+    check(status == 302, "a schedule for the VM")
+    # The hour passing: once the worker has set the first run time, move it into the past.
+    subprocess.run([sys.executable, "-m", "aridi_central.manage", "shell", "-v0", "-c",
+                    "import time\n"
+                    "from datetime import timedelta\n"
+                    "from django.utils import timezone\n"
+                    "from aridi_central.collection.models import Schedule\n"
+                    "for _ in range(60):\n"
+                    "    if Schedule.objects.filter(next_run_at__isnull=False).exists(): break\n"
+                    "    time.sleep(2)\n"
+                    "Schedule.objects.update(next_run_at=timezone.now() - timedelta(minutes=1))\n"],
+                   check=True)
+    body = wait_for(admin, f"/machines/{machine}/history/", r"scheduled SSH collection",
+                    "scheduled collection", seconds=420)
+    check(True, "scheduled collection over SSH")
 
-with open(LOCAL_BUNDLE, "rb") as handle:
-    data = handle.read()
-status, location, body = admin.request("POST", "/import/", {"machine": machine},
-                                       files={"bundle": ("local.aridi", data)})
-check(status == 302 and "/snapshots/" in (location or ""), "import of a local collection")
-_, _, history = admin.request("GET", f"/machines/{machine}/history/")
-check("imported bundle" in history, "the imported snapshot is in the history")
+    with open(local_bundle, "rb") as handle:
+        data = handle.read()
+    status, location, body = admin.request("POST", "/import/", {"machine": machine},
+                                           files={"bundle": ("local.aridi", data)})
+    check(status == 302 and "/snapshots/" in (location or ""), "import of a local collection")
+    _, _, history = admin.request("GET", f"/machines/{machine}/history/")
+    check("imported bundle" in history, "the imported snapshot is in the history")
 
-for kind, query, what in (("package", "openssh-server", "package"), ("port", "tcp/22", "port"),
-                          ("user", "aridi", "user")):
-    _, _, body = admin.request("GET", "/search/?" + urllib.parse.urlencode(
-        {"kind": kind, "query": query}))
-    check("debian12-arm64" in body.split("<h1>Search the fleet</h1>")[1],
-          f"search finds the VM by {what} ({query})")
+    for kind, query, what in (("package", "openssh-server", "package"), ("port", "tcp/22", "port"),
+                              ("user", "aridi", "user")):
+        _, _, body = admin.request("GET", "/search/?" + urllib.parse.urlencode(
+            {"kind": kind, "query": query}))
+        check("debian12-arm64" in body.split("<h1>Search the fleet</h1>")[1],
+              f"search finds the VM by {what} ({query})")
 
-reader = Browser()
-reader.login("reader", READER_PASSWORD)
-status, _, _ = reader.request("GET", f"/machines/{machine}/")
-check(status == 200, "read-only sees the machine")
-for method, path, form in (("POST", "/collect/", {"machine": machine}),
-                           ("GET", "/machines/new/", None),
-                           ("POST", f"/machines/{machine}/edit/", {"name": "x"}),
-                           ("GET", "/import/", None),
-                           ("POST", "/schedules/new/", {"machine": machine})):
-    status, _, _ = reader.request(method, path, form if method == "POST" else None)
-    check(status == 403, f"read-only cannot {method} {path}")
+    reader = Browser()
+    reader.login("reader", reader_password)
+    status, _, _ = reader.request("GET", f"/machines/{machine}/")
+    check(status == 200, "read-only sees the machine")
+    for method, path, form in (("POST", "/collect/", {"machine": machine}),
+                               ("GET", "/machines/new/", None),
+                               ("POST", f"/machines/{machine}/edit/", {"name": "x"}),
+                               ("GET", "/import/", None),
+                               ("POST", "/schedules/new/", {"machine": machine})):
+        status, _, _ = reader.request(method, path, form if method == "POST" else None)
+        check(status == 403, f"read-only cannot {method} {path}")
+
+
+if __name__ == "__main__":
+    main()
