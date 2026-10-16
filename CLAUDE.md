@@ -14,8 +14,11 @@ aridi es una herramienta de inventario de máquinas Linux. Tiene dos piezas:
     en cualquier equipo y produce una fotografía JSON y un informe de texto.
 
   Es el **modo local en dos pasos**.
-- **El componente central, previsto y todavía inexistente:** Django 5.2 con SQLite,
-  ejecución por SSH, histórico y alertas (fases 5 a 7 de `TODO.md`).
+- **El componente central, que existe desde la fase 5:** Django 5.2 con SQLite en
+  `docker compose`. Recoge por SSH (a demanda o programado), importa recogidas locales,
+  guarda el histórico y los huecos, y busca en el parque, con una web de dos roles.
+  **Siguen previstos y sin existir** los cambios entre ejecuciones y las alertas (fase 6)
+  y el descubrimiento y escaneo desde el central (fase 7).
 
 **Su estado real está medido en `docs/MVP.md`:** léelo antes de dar nada por
 funcionando. La reescritura se decidió en `docs/CAMBIO.md` y se ejecuta por fases según
@@ -36,7 +39,8 @@ Versión completa: `docs/ARCHITECTURE.md`. Contrato de datos: `docs/FORMATO.md`.
 | `collector/aridi-collect.sh` | Script POSIX de recogida en bruto: 17 áreas, con filtrado en origen de lo sensible |
 | `src/aridi/` | Núcleo, solo con la librería estándar: `bundle.py` (lector del paquete), `model.py` (fotografía, estados, huecos y papeles de relación), `interpret.py` (registro de áreas), `parsers/` (un analizador por área), `relations.py`, `views/text.py` y `cli.py` (`aridi validate\|interpret\|report`) |
 | `src/aridi/data/services.csv` | Nombres de puertos (`nombre\|puerto\|descripción`), copiado sin cambios de 2019 |
-| `src/aridi_central/` | Central Django (desde la fase 5; todavía no existe) |
+| `src/aridi_central/` | Central Django: `settings.py` (todo por variables `ARIDI_*`), `inventory/` (máquinas, fotografías, huecos, índices, importación), `collection/` (`ssh.py`, cola `Job`, `Schedule`, `worker.py`), `web/` (vistas, roles y plantillas), `changes/` y `discovery/` vacías |
+| `Dockerfile`, `compose.yaml` | Imagen del central (base fijada por *digest*) y despliegue: `web` (gunicorn), `worker` y el volumen `aridi-data` |
 | `tests/` | `run.sh` (punto de entrada), pruebas `unittest`, `collector/` (script en todas las imágenes), `corpus/` (muestras), `lima/` (VMs), `parity/` y `parity.md` (regresión frente a 2019) |
 | `requirements/` | `central.in` y `central.txt`: dependencias del central, fijadas con hashes |
 | `docs/` | Estudio, idea, alcance medido, futuro, arquitectura, cambio y formato, en español |
@@ -76,6 +80,13 @@ Versión completa: `docs/ARCHITECTURE.md`. Contrato de datos: `docs/FORMATO.md`.
   del corpus, con cada shell disponible, como root y como uid 65534. Comprueba que
   termina con 0, que no deja rastro (`find -newer`) y que los estados (`denied`,
   `timeout`…) son los esperados; después valida los paquetes con el lector del núcleo.
+- **`central`:** `tests/central/run.sh` construye la imagen de pruebas
+  (`requirements/central.txt` con hashes) y ejecuta `check --deploy`, `manage.py test`,
+  la recogida SSH real contra un contenedor desechable (`tests/central/ssh-target.sh`) y
+  la prueba de humo de `docker compose` (`tests/central/smoke.sh`). Las pruebas del central
+  van en `src/aridi_central/*/tests/` y usan el corpus.
+- **Aceptación del central:** `tests/lima/central-acceptance.sh`, contra una VM de Lima
+  desechable.
 - **`golden`:** `tests/run.sh golden` regenera el informe de referencia de
   `tests/test_core/test_text.py`. Hay que hacerlo tras recapturar el corpus o cambiar el
   informe, **revisando el diff**.
@@ -98,6 +109,9 @@ Versión completa: `docs/ARCHITECTURE.md`. Contrato de datos: `docs/FORMATO.md`.
   desechables, regla 2) y `aridi report m.aridi`.
 - **Dependencias del central:** `pip install --require-hashes -r requirements/central.txt`.
   Para regenerarlo, sigue el comando de `requirements/central.in`.
+- **Central en desarrollo:** `ARIDI_DEBUG=1 ARIDI_DB_PATH=/tmp/aridi.db python
+  src/aridi_central/manage.py migrate|runserver|aridi_worker`, dentro de la imagen de
+  pruebas. **Despliegue:** `docker compose up -d --build` (variables en `README.md`).
 
 ## Flujo de git
 
@@ -173,10 +187,26 @@ Versión completa: `docs/ARCHITECTURE.md`. Contrato de datos: `docs/FORMATO.md`.
     haberlo visto funcionar.
 15. **No escribas el futuro en el presente.**
     *Por qué:* `docs/IDEA.md`, `docs/FUTURE.md` y `docs/CAMBIO.md` describen lo previsto
-    (SSH, componente central, alertas…). Hasta que una fase de `TODO.md` lo entregue, ni el
+    (cambios y alertas, descubrimiento y escaneo desde el central…). Hasta que una fase de `TODO.md` lo entregue, ni el
     código ni la documentación deben dar a entender que existe.
 16. **El corpus no puede llevar datos del anfitrión.**
     *Por qué:* en la fase 3, las VMs de Lima montaban el directorio personal del
     anfitrión y creaban un usuario con su nombre. Las capturas usan `--mount-none`,
     volúmenes de Docker en vez de directorios del anfitrión y `docker cp`, y
     `tests/test_corpus_hygiene.py` lo comprueba.
+17. **El central nunca guarda credenciales.**
+    *Por qué:* su base de datos describe todo el parque; si además tuviera claves, robarla
+    daría acceso a todas las máquinas. SSH usa el `ssh-agent` (socket montado) y
+    `known_hosts`, y una máquina solo guarda destino, puerto, salto y modo de privilegio.
+18. **`ssh` siempre con lista de argumentos, `BatchMode=yes`,
+    `StrictHostKeyChecking=yes` y `--` antes del destino, y nunca con `shell=True`.**
+    *Por qué:* los campos de una máquina los escribe una persona en la web; un destino
+    como `-oProxyCommand=…` ejecutaría órdenes en el central. Los validadores de
+    `inventory/validators.py` y `collection/ssh.py` lo impiden, y el comando remoto es fijo.
+19. **Nada de `|safe`, `mark_safe` ni `{% autoescape off %}` sobre datos de máquinas.**
+    *Por qué:* *banners*, nombres de procesos y líneas de registro los controla quien
+    controle la máquina inventariada (`tests/corpus/scenario.sh` mete un `<script>`). La
+    política CSP (`web/middleware.py`) no permite scripts, pero el escape es la defensa.
+20. **La regla de `sudo` de las máquinas solo permite el script instalado.**
+    *Por qué:* es la decisión de `TODO.md` 5.0. Nunca propongas `NOPASSWD: /bin/sh` ni
+    `ALL`: equivale a root en todo el parque para quien tenga la clave de aridi.

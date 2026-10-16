@@ -1,0 +1,25 @@
+# Override of compose.yaml for tests/lima/central-acceptance.sh: an ssh-agent sidecar with
+# the test key, running as uid 10001 like the worker (ssh-agent only answers its own uid),
+# and no port published on the host (the client runs inside "web").
+services:
+  agent:
+    image: aridi-central:latest
+    user: "0"
+    network_mode: none
+    command: ["sh", "-c", "install -d -o 10001 -g 10001 -m 0700 /run/aridi-agent && install -o 10001 -g 10001 -m 0600 /k/id /tmp/id && rm -f /run/aridi-agent/sock && exec setpriv --reuid=10001 --regid=10001 --clear-groups sh -c 'ssh-agent -D -a /run/aridi-agent/sock & sleep 1; SSH_AUTH_SOCK=/run/aridi-agent/sock ssh-add -q /tmp/id && rm /tmp/id && wait'"]
+    volumes:
+      - agent:/run/aridi-agent
+      - ${ACCEPTANCE_KEYS:?}:/k:ro
+  web:
+    ports: !reset []
+  worker:
+    environment:
+      SSH_AUTH_SOCK: /run/aridi-agent/sock
+    volumes:
+      - agent:/run/aridi-agent
+    depends_on:
+      agent:
+        condition: service_started
+
+volumes:
+  agent:

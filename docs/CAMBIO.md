@@ -207,7 +207,7 @@ Dockerfile, compose.yaml
 |---|---|---|
 | `Machine` | nombre, destino SSH (`usuario@host`), puerto, `ProxyJump`, grupos, programación, activa | **No guarda credenciales** |
 | `Group` | nombre, programación por defecto | — |
-| `Snapshot` | máquina, `collected_at`, origen (SSH, importado o a demanda), `schema_version`, JSON completo, resultado (completa / con huecos / fallida) | El JSON se guarda entero |
+| `Snapshot` | máquina, `collected_at`, origen (SSH, importado o a demanda), `schema_version`, JSON completo, resultado (completa / con huecos / fallida), paquete en bruto comprimido (opcional) | El JSON se guarda entero; el paquete en bruto, solo en las últimas recogidas |
 | Índices de búsqueda | `SnapshotPackage(nombre, versión)`, `SnapshotUser`, `SnapshotPort(proto, ip, puerto, proceso)`, `SnapshotService`, `Relation(ip, papel)` | Se derivan del JSON al guardarlo; solo de lo no volátil |
 | `Gap` | fotografía, sección, estado, motivo | Responde a «qué no se pudo ver y desde cuándo» |
 | `Job` | tipo (recogida, escaneo), objetivo, estado, intentos, fechas | Es la cola del `aridi_worker` |
@@ -219,10 +219,12 @@ Dockerfile, compose.yaml
 **Migraciones:** las de Django (`manage.py migrate`). **Copias de seguridad:**
 `sqlite3 aridi.db ".backup …"` sobre el volumen.
 
-**Decisión menor tomada en este documento, revisable:** el paquete en bruto **no se
-guarda** en el central, solo la fotografía JSON. Guardarlo permitiría reinterpretarlo
-cuando mejoren los analizadores, pero conserva más datos sensibles. Si se quiere esa
-capacidad, hay que decidirlo antes de la etapa 2.
+**Paquete en bruto (decidido por el usuario el 2026-10-16, TODO.md 5.0):** el central
+**guarda el paquete en bruto comprimido (gzip), solo de las últimas recogidas de cada
+máquina** (por defecto 10, configurable con `ARIDI_RAW_RETENTION`), además de la
+fotografía JSON, que se guarda siempre. Así puede reinterpretar las recogidas recientes
+cuando mejoren los analizadores. El precio: más datos sensibles en el central, aunque ya
+filtrados en origen. Sustituye a la decisión menor anterior de no guardarlo.
 
 ### Aspectos transversales
 
@@ -244,11 +246,21 @@ capacidad, hay que decidirlo antes de la etapa 2.
 
 - **Credenciales:** el central no guarda claves privadas. Usa el `ssh-agent` del
   anfitrión (socket montado) y `known_hosts` con verificación estricta.
-- **Escalada de privilegios:** `sudo -n`. **Advertencia honesta:** una regla de
-  `sudoers` limitada al script exigiría dejar el script instalado en la máquina, lo que
-  contradice «ningún rastro». Si el script se envía por stdin, la regla tiene que permitir
-  `sh`, y eso **equivale a root completo para la cuenta de aridi**. Queda como decisión
-  abierta (ver *Riesgos*).
+- **Escalada de privilegios (decidido por el usuario el 2026-10-16, TODO.md 5.0):
+  script instalado.** El script se instala en la máquina en una ruta fija,
+  `/usr/local/libexec/aridi-collect.sh`, de root y en solo lectura (con directorios
+  padre también de root), y la regla de `sudoers` solo permite esa ruta, sin argumentos:
+  `aridi ALL=(root) NOPASSWD: /usr/local/libexec/aridi-collect.sh ""`. El central lanza
+  `sudo -n` sobre esa ruta.
+  - **Por qué:** con `sudo sh -s`, quien robe la clave de la cuenta de aridi o controle
+    el central tiene root en todo el parque. Con la ruta fija solo puede lanzar el
+    colector, que es de solo lectura.
+  - **El precio:** queda un fichero en cada máquina («ningún rastro» pasa a ser «ningún
+    rastro salvo el script instalado»), y hay que actualizarlo cuando cambie el script.
+    En cada recogida, el central compara el SHA-256 del script instalado con el de su
+    copia; si no coincide, lo marca como desactualizado.
+  - **Sin `sudo`** (cuenta sin la regla), la recogida sigue siendo posible como usuario
+    normal, con huecos `denied`.
 - **Datos sensibles:** el filtrado se hace en origen (hashes), la web exige autenticación
   y hay dos roles. La base de datos queda en un volumen que hay que proteger.
 - **Datos no fiables:** todo lo que viene de las máquinas (banners, líneas de registro,
@@ -344,10 +356,13 @@ hueco sin herramienta**.
 - **Portabilidad del script `sh`.** dash, bash, busybox ash y el `sh` de CentOS 6 se
   comportan distinto, y algunas herramientas faltan o cambian sus opciones. Mitigación:
   el corpus por distribución y las pruebas del script en cada imagen dentro de la CI.
-- **Escalada con `sudo`.** Enviar el script por stdin obliga a permitir `sh` en
-  `sudoers`, lo que equivale a root completo para la cuenta de aridi. La alternativa
-  (instalar el script con una ruta fija) deja rastro. **Hay que decidirlo antes de la
-  etapa 2.**
+- **Escalada con `sudo`.** **Decidido (2026-10-16):** script instalado en una ruta fija
+  con una regla de `sudoers` limitada a ella (ver *Seguridad de destino*). Riesgos que
+  quedan:
+  - un script desactualizado en alguna máquina, mitigado con la comparación del SHA-256
+    en cada recogida;
+  - un permiso mal puesto en la ruta o en sus directorios padre convertiría la regla en
+    root completo. La documentación de instalación da los comandos exactos.
 - **Datos sensibles en el central.** La base de datos describe usuarios, servicios
   expuestos y debilidades de todo el parque. Mitigación: filtrado en origen, roles, y un
   volumen y unas copias protegidos.

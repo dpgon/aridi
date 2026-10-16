@@ -45,6 +45,15 @@ class CoreIsolationTest(unittest.TestCase):
                     offending.append(f"{path.relative_to(CORE.parent)}:{lineno}: {module}")
         self.assertEqual(offending, [], "non-stdlib imports in the core")
 
+    def test_never_names_the_central_or_django(self):
+        """CLAUDE.md rule 9: not even through importlib or __import__ strings."""
+        offending = []
+        for path in sorted(CORE.rglob("*.py")):
+            for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+                if "aridi_central" in line or "django" in line.lower():
+                    offending.append(f"{path.relative_to(CORE.parent)}:{lineno}")
+        self.assertEqual(offending, [])
+
 
 if __name__ == "__main__":
     unittest.main()

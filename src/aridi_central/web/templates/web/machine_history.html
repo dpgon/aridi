@@ -1,0 +1,16 @@
+{% extends "web/base.html" %}
+{% block title %}{{ machine.name }}: history{% endblock %}
+{% block content %}
+<h1><a href="{% url 'machine-detail' machine.pk %}">{{ machine.name }}</a>: history</h1>
+<div class="table-wrap"><table>
+  <tr><th>Collected (UTC)</th><th>Origin</th><th>Result</th><th>Collector</th><th>Raw bundle kept</th></tr>
+  {% for s in snapshots %}
+  <tr><td>{% if s.data %}<a href="{% url 'snapshot-detail' s.pk %}">{{ s.collected_at|date:"Y-m-d H:i:s" }}</a>{% else %}{{ s.collected_at|date:"Y-m-d H:i:s" }}{% endif %}</td>
+    <td>{{ s.get_origin_display }}</td>
+    <td class="{{ s.result }}">{{ s.get_result_display }}{% if s.failure_reason %}: {{ s.failure_reason }}{% endif %}</td>
+    <td>{{ s.collector_version }}</td>
+    <td>{% if s.raw_bundle is not None %}yes{% else %}<span class="muted">no</span>{% endif %}</td></tr>
+  {% empty %}<tr><td colspan="5" class="muted">No snapshots.</td></tr>
+  {% endfor %}
+</table></div>
+{% endblock %}

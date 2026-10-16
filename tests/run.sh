@@ -6,7 +6,7 @@
 #
 #   unit       core unit tests (python -m unittest) in python:3.12-slim
 #   collector  tests of collector/aridi-collect.sh in every corpus image
-#   central    tests of the central component (phase 5)
+#   central    tests of the central component (tests/central/run.sh)
 #   all        all of the above; exit code is non-zero if any part fails
 #   golden     regenerate the golden report of tests/test_core/test_text.py (review the diff)
 
@@ -37,7 +37,7 @@ run_golden() {
 }
 
 run_central() {
-    echo "central: no tests yet (TODO.md, phase 5)"
+    "$here/central/run.sh" "$@"
 }
 
 suite=${1:-all}

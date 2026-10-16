@@ -24,9 +24,16 @@ aridi was written in 2019 as a single Python program, and is being rewritten
 reached **feature parity with the 2019 program for local use**, and the 2019 code has
 been removed (it stays in the git history).
 
-What exists today is the **local mode**: collect on the machine, interpret anywhere.
-What is planned and **does not exist yet**: running the collector over SSH, a central
-inventory with history, change alerts and network discovery from the central component.
+What exists today:
+
+- the **local mode**: collect on the machine, interpret anywhere;
+- the **central component** (Django, SQLite, `docker compose`): it collects machines over
+  SSH on demand or on a schedule, imports local collections, keeps the history of
+  snapshots and what could not be seen, and searches the fleet. A web interface with two
+  roles, administration and read-only.
+
+What is planned and **does not exist yet**: change detection and alerts between
+snapshots, and network discovery from the central component.
 
 The measured, feature-by-feature status is in [`docs/MVP.md`](docs/MVP.md).
 
@@ -80,7 +87,101 @@ After `pip install .`, `aridi report host.aridi` is the same as
 `python3 -m aridi.cli report host.aridi`.
 
 The script can also be fed through a pipe, for example `ssh host sh -s <
-aridi-collect.sh > host.aridi`. aridi itself does not run SSH yet.
+aridi-collect.sh > host.aridi`. To collect many machines regularly, use the central
+component (below).
+
+## Central component
+
+The central component runs in Docker: a web service (gunicorn) and a worker that runs the
+collections over SSH, both from the image built by the `Dockerfile`, with SQLite in the
+`aridi-data` volume. Third-party Python code comes only from
+`requirements/central.txt`, installed with `--require-hashes`.
+
+### Preparing a machine
+
+On every machine to inventory, as root:
+
+```sh
+useradd -m -s /bin/sh aridi
+install -d -o aridi -g aridi -m 0700 /home/aridi/.ssh
+cat aridi.pub > /home/aridi/.ssh/authorized_keys   # the public key of the central
+chown aridi:aridi /home/aridi/.ssh/authorized_keys && chmod 0600 /home/aridi/.ssh/authorized_keys
+
+install -D -o root -g root -m 0755 aridi-collect.sh /usr/local/libexec/aridi-collect.sh
+echo 'aridi ALL=(root) NOPASSWD: /usr/local/libexec/aridi-collect.sh ""' > /etc/sudoers.d/aridi
+chmod 0440 /etc/sudoers.d/aridi && visudo -c
+```
+
+- **Why an installed script:** the sudo rule allows that one file, without arguments. Whoever
+  gets aridi's key can run the collector, which only reads, and nothing else as root. A
+  rule allowing `sh` would give root on the whole fleet.
+- **Keep the path root-owned:** `/usr/local/libexec`, `/usr/local` and `/usr` must not be
+  writable by other users, or the rule becomes full root.
+- **Updating:** every collection compares the SHA-256 of the installed script with the
+  central's copy; the machine page says when it is outdated. Install the new version
+  with the same `install` command.
+- **Without sudo:** set the machine's privilege to "the SSH user"; the central then sends
+  the script through stdin and what needs root is reported as `denied`.
+- **Host keys:** add the machine to the `known_hosts` file of the central
+  (`ssh-keyscan` from a trusted network, then check the fingerprints). Checking is
+  strict: an unknown or changed key fails the collection.
+
+### Preparing the central
+
+```sh
+export ARIDI_SECRET_KEY="$(python3 -c 'import secrets; print(secrets.token_urlsafe(50))')"
+export ARIDI_ALLOWED_HOSTS=aridi.example.org
+export ARIDI_CSRF_TRUSTED_ORIGINS=https://aridi.example.org
+export ARIDI_KNOWN_HOSTS_FILE=/etc/aridi/known_hosts
+export ARIDI_SSH_AUTH_SOCK=/run/aridi/ssh-agent.sock      # see below
+docker compose up -d --build
+docker compose exec web python -m aridi_central.manage createsuperuser
+```
+
+- **TLS is the proxy's job.** gunicorn listens on `127.0.0.1:8000` only. Put a reverse
+  proxy with TLS in front of it that sets `X-Forwarded-Proto: https` (and removes it from
+  client requests). Cookies are secure-only and HSTS is on by default
+  (`ARIDI_HSTS_SECONDS`).
+- **SSH credentials are never stored.** The worker uses an ssh-agent through the
+  socket in `ARIDI_SSH_AUTH_SOCK`. **ssh-agent only answers clients with its own uid,
+  and the containers run as uid 10001.** On Linux, run a dedicated agent as uid 10001
+  (for example a system user `aridi` with that uid, `ssh-agent -a /run/aridi/ssh-agent.sock`,
+  then `ssh-add` the key). Docker Desktop offers the host's agent at
+  `/run/host-services/ssh-auth.sock`; whether it accepts uid 10001 has **not** been tested
+  by the project, and it exposes every key of your own agent. The tests use a dedicated
+  agent running as uid 10001 (`tests/central/compose.smoke.yaml`). An `ssh_config` can be
+  added with `ARIDI_SSH_CONFIG_FILE`.
+- **Users and roles:** create users with the superuser in
+  `python -m aridi_central.manage shell` or `createsuperuser`, and put them in the
+  `administration` or `read-only` group. Read-only users can see everything and change
+  nothing.
+- **Local collections** can be imported from the web (Import) or with
+  `docker compose exec web python -m aridi_central.manage aridi_import FILE --machine NAME`.
+- **Raw bundles** of the 10 most recent collections of each machine are kept compressed
+  (`ARIDI_RAW_RETENTION`), so they can be interpreted again by a newer core.
+
+### Backups
+
+The database is a single SQLite file in the `aridi-data` volume. Copy it consistently,
+while the services run, with SQLite's online backup:
+
+```sh
+docker compose exec web sqlite3 /data/aridi.db ".backup /data/backup.db"
+docker compose cp web:/data/backup.db ./aridi-$(date +%F).db
+docker compose exec web rm /data/backup.db
+```
+
+To restore, stop the services, replace `/data/aridi.db` with the copy **and delete the
+`aridi.db-wal` and `aridi.db-shm` files of the old database**, then start them again:
+
+```sh
+docker compose stop
+docker compose run --rm --no-deps -v "$PWD":/restore web sh -c \
+  'cp /restore/aridi-DATE.db /data/aridi.db && rm -f /data/aridi.db-wal /data/aridi.db-shm'
+docker compose up -d
+```
+
+The backup holds sensitive data about the whole fleet: store it like the database itself.
 
 **Exit codes of `aridi`:** 0, everything was seen; 1, the snapshot has gaps (listed under
 "What could not be seen"); 2, the bundle could not be read.
@@ -125,7 +226,13 @@ tests/run.sh all        # or: unit | collector | central | golden
   comparison in `tests/parity/`.
 - **`collector`:** the script in every corpus image, with every shell available, as root
   and as an unprivileged user: it must end with 0 and leave no trace on the machine.
+- **`central`:** the central component in its test image: `check --deploy`, the Django
+  tests, a real SSH collection from a disposable container, and a smoke test of
+  `docker compose` (login, collection through ssh-agent, backup and restore).
 - **`golden`:** regenerates the reference report of the unit tests (review the diff).
+
+`tests/lima/central-acceptance.sh` runs the acceptance of the central component against a
+disposable Lima VM (it needs Lima and Docker Desktop).
 
 ## Documentation
 

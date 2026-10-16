@@ -27,6 +27,7 @@ provision:
       apt-get install -y --no-install-recommends openssh-server openssh-client nftables \
         systemd-timesyncd sudo iproute2 procps socat
       useradd -m -s /bin/bash aridi || true
-      # TEST VM ONLY: full passwordless sudo until TODO.md 5.0 decides the real rule.
-      echo 'aridi ALL=(root) NOPASSWD: ALL' > /etc/sudoers.d/aridi
+      # The sudo rule decided in TODO.md 5.0: only the installed collector, no arguments.
+      echo 'aridi ALL=(root) NOPASSWD: /usr/local/libexec/aridi-collect.sh ""' \
+        > /etc/sudoers.d/aridi
       chmod 0440 /etc/sudoers.d/aridi

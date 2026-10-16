@@ -35,7 +35,7 @@ la etapa 0. Cada etapa se entrega en unas fases concretas de `TODO.md`:
 |---|---|---|
 | 0. Base y corpus | 0 y 1 | **Hecha** |
 | 1. Un colector fiable | 2, 3 y 4 | **Hecha** salvo lo que se indica en cada entrada |
-| 2. Inventario central | 5 | Prevista: **no existe nada** |
+| 2. Inventario central | 5 | **Hecha** (2026-10-16), salvo lo que se indica en cada entrada |
 | 3. Cambios y alertas | 6 | Prevista: **no existe nada** |
 | 4. Exploración de red acotada | 3.17 (parte pasiva, adelantada) y 7 | Parte pasiva hecha; el escaneo activo, previsto |
 
@@ -278,41 +278,59 @@ En 2019 no había pruebas, y la medición se hizo a mano.
 ## Etapa 2: inventario central — fase 5
 
 **Tema:** que el equipo tenga todas sus máquinas en un solo sitio, al día y consultables.
-Todo es [usuario] (`IDEA.md`). **Nada de esta etapa existe todavía.**
+Todo es [usuario] (`IDEA.md`). **Hecha en la fase 5** (2026-10-16): `tests/run.sh
+central` (pruebas de Django, recogida SSH real contra un contenedor y prueba de humo de
+`docker compose`) y la aceptación contra una VM de Lima
+(`tests/lima/central-acceptance.sh`). Medición detallada en `MVP.md`.
 
-### 2.1 Ejecución remota por SSH — [usuario]
+### 2.1 Ejecución remota por SSH — [usuario] — **hecha**
 
 - **Criterios de aceptación:**
   - Desde el componente central, una recogida llega a una máquina por SSH, se ejecuta y
     devuelve el resultado por el mismo canal.
   - En la máquina no queda nada (1.5).
   - Si la máquina no responde, se registra como recogida fallida y con su motivo.
+- **Cómo se cumple:** `collection/ssh.py`, probado contra un contenedor real
+  (`test_integration:SshIntegrationTest`) y contra la VM de Lima. Las recogidas fallidas
+  quedan como fotografías `failed` con su motivo (`test_worker:JobTest`).
+- **Cambia «no queda nada»:** por la decisión 5.0 del usuario, el script queda
+  **instalado** en `/usr/local/libexec/aridi-collect.sh` para limitar la regla de `sudo` a
+  él. La recogida en sí sigue sin escribir nada. Sin `sudo`, el modo «usuario» lo envía por
+  stdin y no deja nada.
 
-### 2.2 Programación y recogida a demanda — [usuario]
+### 2.2 Programación y recogida a demanda — [usuario] — **hecha**
 
 - **Criterios de aceptación:**
   - Se pueden programar recogidas por máquina o por grupo con una periodicidad.
   - Se pueden lanzar a demanda sobre una máquina, varias o un grupo.
+- **Cómo se cumple:** `Schedule` (cada N horas o diaria, por máquina o grupo) y
+  `manage.py aridi_worker` (`test_worker:ScheduleTest`, `ConcurrencyTest`).
 
-### 2.3 Importación de recogidas locales — [usuario]
+### 2.3 Importación de recogidas locales — [usuario] — **hecha**
 
 - **Criterio de aceptación:** el resultado de una recogida hecha en modo local (1.4) se
   importa y queda como una fotografía más de su máquina.
+- **Cómo se cumple:** web (Import) y `manage.py aridi_import`; todo el corpus se importa
+  (`test_inventory:ImportTest`).
 
-### 2.4 Inventario e histórico — [usuario]
+### 2.4 Inventario e histórico — [usuario] — **hecha**
 
 - **Criterios de aceptación:**
   - Se ve la ficha actual de cada máquina y todas sus fotografías anteriores.
   - Se ve lo que no se pudo recoger en cada una y desde cuándo.
   - Las máquinas se organizan en grupos.
+- **Cómo se cumple:** ficha, histórico y página de huecos con «desde»
+  (`test_web:WebTest.test_gaps_since`).
 
-### 2.5 Búsqueda en el parque — [usuario]
+### 2.5 Búsqueda en el parque — [usuario] — **hecha**
 
 - **Criterio de aceptación:** se responde a preguntas como "¿qué máquinas tienen este
   paquete o esta versión?", "¿dónde escucha este puerto?" o "¿dónde existe este usuario?",
   con la fecha de la fotografía de cada máquina.
+- **Cómo se cumple:** sobre la última fotografía de cada máquina, por paquete (y versión),
+  puerto, usuario, servicio e IP de relación (`test_web:SearchTest`).
 
-### 2.6 Interfaz web con dos roles — [usuario]
+### 2.6 Interfaz web con dos roles — [usuario] — **hecha en lo que existe**
 
 - **Criterios de aceptación:**
   - **Administración:** gestiona máquinas, grupos, accesos, programación, reglas y redes
@@ -320,6 +338,9 @@ Todo es [usuario] (`IDEA.md`). **Nada de esta etapa existe todavía.**
   - **Consulta:** solo ve.
   - Hay una instalación por equipo; no hay separación de clientes dentro de una
     instalación.
+- **Cómo se cumple:** grupos `administration` y `read-only` (`test_web:WebTest`). Las
+  reglas y las redes autorizadas llegarán con las fases 6 y 7; los accesos (usuarios) se
+  gestionan todavía desde la línea de órdenes de Django, no desde la web.
 
 ### 2.7 Mapa de relaciones en la web — [usuario], a partir de [deducido]
 
@@ -329,6 +350,8 @@ web, en sustitución del grafo de 2019 (1.10). En `TODO.md` está en la fase 6 (
 
 - **Criterio de aceptación:** para una máquina, se ven las IPs con las que se relaciona y
   el papel de cada una.
+- **Estado:** la ficha de la máquina ya muestra esa tabla (IP, local o remota, papeles con
+  su origen). El mapa **gráfico** sigue previsto para la fase 6 (6.5).
 
 ---
 
@@ -416,12 +439,10 @@ Merecen recordarse, pero todavía no tienen sitio:
   no los resuelve, porque generaría tráfico DNS desde la máquina y tardaría. Si se
   recupera, tendría que hacerse fuera de la máquina (por ejemplo, desde el central) y de
   forma opcional.
-- **Guardar el paquete en bruto para reinterpretarlo** — [usuario], pendiente. Si el
-  central guardara el paquete en bruto además de la fotografía, podría reinterpretar las
-  recogidas antiguas cuando mejore un analizador, a cambio de guardar más datos
-  sensibles. `CAMBIO.md` (*Modelo de datos*) tomó la decisión menor y revisable de no
-  guardarlo, y la decisión 5.0 de `TODO.md` la deja en manos del usuario. Si 5.0 no lo
-  adopta, queda aquí.
+- **Reinterpretar recogidas guardadas** — [usuario]. La decisión 5.0 (2026-10-16) adoptó
+  guardar el paquete en bruto comprimido de las últimas recogidas de cada máquina, así
+  que los datos ya están. Lo que queda aparcado es la herramienta que los reinterprete
+  con un núcleo nuevo.
 - **Categorías de ficheros interesantes** — [deducido] (`gathering0.py:12-71` de 2019,
   números del 0 al 18 que no se usaban). Pensadas para declarar huecos por área, que el
   colector nuevo ya declara por sección (1.3). Se conserva la idea solo por si hiciera

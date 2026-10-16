@@ -847,7 +847,7 @@ se fija antes de guardar las primeras fotografías.
 
 ### 5.0 Decisiones previas (bloqueantes)
 
-- [ ] **[decisión]** Escalada de privilegios. Las opciones son:
+- [x] **[decisión]** Escalada de privilegios. Las opciones son:
   1. `sudoers` con `aridi ALL=(root) NOPASSWD: /bin/sh -s`, que equivale a root completo
      para la cuenta `aridi` y lo documenta;
   2. script instalado con una ruta fija (`/usr/local/libexec/aridi-collect.sh`, de root
@@ -856,34 +856,43 @@ se fija antes de guardar las primeras fotografías.
   3. sin `sudo`, recogida como usuario normal con huecos `denied`.
 
   Anotar la decisión en `docs/CAMBIO.md` (*Seguridad de destino* y *Riesgos*).
-- [ ] **[decisión]** ¿Se guarda el paquete en bruto en el central? Permitiría
+  **Decidido por el usuario (2026-10-16): opción 2**, regla
+  `NOPASSWD: /usr/local/libexec/aridi-collect.sh ""`. El central compara el SHA-256 del
+  script instalado en cada recogida. Anotado en `docs/CAMBIO.md`.
+- [x] **[decisión]** ¿Se guarda el paquete en bruto en el central? Permitiría
   reinterpretarlo, a cambio de más datos sensibles. Anotarlo en `docs/CAMBIO.md` (modelo
-  de datos).
+  de datos). **Decidido por el usuario (2026-10-16): sí, comprimido con gzip y solo para
+  las últimas recogidas de cada máquina** (10 por defecto, `ARIDI_RAW_RETENTION`).
 
 ### 5.1 Proyecto Django
 
-- [ ] Crear `src/aridi_central/` con `manage.py`, `settings.py`, `urls.py`, `wsgi.py` y
+- [x] Crear `src/aridi_central/` con `manage.py`, `settings.py`, `urls.py`, `wsgi.py` y
   las aplicaciones `inventory`, `collection`, `changes`, `discovery` y `web`
   (`changes` y `discovery` vacías por ahora).
-- [ ] `settings.py`:
+- [x] `settings.py`:
   - `SECRET_KEY`, `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS` y `ARIDI_DB_PATH` desde
     variables de entorno, con error si falta `SECRET_KEY` en producción;
   - SQLite en `ARIDI_DB_PATH`, con `PRAGMA journal_mode=WAL`, `busy_timeout` y
     `foreign_keys=ON` mediante la señal `connection_created`;
+    también transacciones `IMMEDIATE`, para que la web y el trabajador no choquen al pasar
+    de lectura a escritura;
   - `SESSION_COOKIE_SECURE`, `CSRF_COOKIE_SECURE`, `SECURE_PROXY_SSL_HEADER` (detrás del
     proxy con TLS);
   - logging a stdout con el módulo `logging`.
-- [ ] Ampliar `tests/test_core_isolation.py` para comprobar que **`src/aridi` no importa
+- [x] Ampliar `tests/test_core_isolation.py` para comprobar que **`src/aridi` no importa
   `aridi_central` ni `django`**.
-- [ ] `tests/run.sh central`: construye una imagen de pruebas a partir de
+- [x] `tests/run.sh central`: construye una imagen de pruebas a partir de
   `python:3.12-slim` con `requirements/central.txt` y ejecuta
   `python src/aridi_central/manage.py check --deploy` y `manage.py test`.
-- [ ] Pruebas: arranque con variables mínimas; WAL activo (consultar `PRAGMA
+- [x] Pruebas: arranque con variables mínimas; WAL activo (consultar `PRAGMA
   journal_mode`); `check --deploy` sin errores con la configuración de producción.
+  **Hecho:** `inventory/tests/test_settings.py`; `check --deploy --fail-level WARNING`
+  sin avisos (W005 y W021, subdominios y *preload* de HSTS, silenciados a propósito).
+  Además, una política CSP sin scripts (`web/middleware.py`).
 
 ### 5.2 Modelo de inventario
 
-- [ ] `inventory/models.py`:
+- [x] `inventory/models.py`:
   - `Group` (nombre, programación por defecto);
   - `Machine` (nombre, `ssh_target`, `ssh_port`, `proxy_jump`, grupos, programación
     propia, activa; **sin credenciales**);
@@ -892,99 +901,125 @@ se fija antes de guardar las primeras fotografías.
   - `Gap` (fotografía, área, estado, motivo).
 
   Migración inicial.
-- [ ] Modelos de índice: `SnapshotPackage(name, version, arch, manager)`,
+  **Desviaciones:** la «programación» de `Group` y `Machine` es el modelo `Schedule` de
+  5.5 (por máquina o por grupo). `Machine.privilege` (`sudo` o `user`) sale de la
+  decisión 5.0. `Snapshot` añade el paquete en bruto comprimido, su SHA-256 (evita
+  duplicados), el SHA-256 del script instalado y `collector_outdated`. Las fotografías
+  fallidas guardan en `collected_at` la hora del intento.
+- [x] Modelos de índice: `SnapshotPackage(name, version, arch, manager)`,
   `SnapshotUser(name, uid, shell, password_algo, groups)`,
   `SnapshotPort(proto, family, address, port, process)`,
   `SnapshotService(manager, name, state, enabled)` y `Relation(ip, role, detail)`, con
   índices de base de datos sobre los campos de búsqueda. **Solo se indexan las áreas no
   volátiles.** Migración.
-- [ ] `inventory/indexing.py`: de `Snapshot.data` a las filas de índice y de `Gap`.
+- [x] `inventory/indexing.py`: de `Snapshot.data` a las filas de índice y de `Gap`.
   **Pruebas** con las fotografías de 3 muestras del corpus: recuentos iguales a los de
   la fotografía; los volátiles no se indexan.
-- [ ] Pruebas de migración: `manage.py makemigrations --check` no genera nada nuevo.
+- [x] Pruebas de migración: `manage.py makemigrations --check` no genera nada nuevo.
 
 ### 5.3 Importación de recogidas locales
 
-- [ ] `inventory/importing.py`: recibe un paquete en bruto, lo valida e interpreta con el
+- [x] `inventory/importing.py`: recibe un paquete en bruto, lo valida e interpreta con el
   núcleo (`aridi.interpret`), asocia la fotografía a una máquina por `machine_id` (y, si
   no lo hay, por hostname, con confirmación) y la guarda e indexa.
-- [ ] Comando `manage.py aridi_import <fichero> [--machine NOMBRE]`.
-- [ ] Vista web de subida (solo el rol de administración), con límite de tamaño.
-- [ ] Pruebas: importar cada paquete del corpus; rechazar una versión desconocida o un
+- [x] Comando `manage.py aridi_import <fichero> [--machine NOMBRE]`.
+  Con `--create` para dar de alta la máquina con su hostname. **Sin preguntas** (regla
+  6): si solo coincide el hostname, se niega y pide `--machine`.
+- [x] Vista web de subida (solo el rol de administración), con límite de tamaño.
+- [x] Pruebas: importar cada paquete del corpus; rechazar una versión desconocida o un
   paquete truncado; importar dos veces la misma recogida no la duplica.
 
 ### 5.4 Recogida por SSH
 
-- [ ] `collection/ssh.py`: lanza
+- [x] `collection/ssh.py`: lanza
   `ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=… [-J proxy] -p
   puerto destino '<comando según 5.0>'`, con `collector/aridi-collect.sh` por stdin,
   límite de bytes y de tiempo, y captura de stderr para el motivo de fallo. **Nunca con
   `shell=True`**, y con argumentos validados (`ssh_target` sin espacios ni opciones que
   empiecen por `-`).
-- [ ] Una recogida fallida (sin conexión, clave de *host* desconocida, `sudo` denegado,
+  **Según 5.0:** en modo `sudo`, nada por stdin y el comando fijo
+  `sha256sum <script> >&2; exec sudo -n <script>`; en modo `user`, el script por stdin
+  con `exec sh -s`. Además, `--` antes del destino.
+- [x] Una recogida fallida (sin conexión, clave de *host* desconocida, `sudo` denegado,
   tiempo agotado) se guarda como `Snapshot(result="failed", failure_reason=…)`.
-- [ ] Pruebas unitarias con un `ssh` falso (un script en `PATH` de prueba): argumentos
+- [x] Pruebas unitarias con un `ssh` falso (un script en `PATH` de prueba): argumentos
   correctos, inyección rechazada, *timeout* y salida truncada.
-- [ ] Prueba de integración en `tests/run.sh central`: un contenedor `debian:12` con
+- [x] Prueba de integración en `tests/run.sh central`: un contenedor `debian:12` con
   `openssh-server`, clave de prueba y regla de `sudo` según 5.0. El central recoge de
   él por SSH, y la fotografía tiene `result="complete"` o `gaps`.
+  **Hecho** con `tests/central/ssh-target.sh`: también una cuenta sin la regla (fallo
+  «sudo denied»), el modo `user`, una clave de *host* desconocida y un nombre que no
+  resuelve.
 
 ### 5.5 Cola, trabajador y programación
 
-- [ ] `collection/models.py`: `Job` (tipo `collect` o `scan`, máquina o grupo, estado
+- [x] `collection/models.py`: `Job` (tipo `collect` o `scan`, máquina o grupo, estado
   `queued`/`running`/`done`/`failed`, intentos, fechas, motivo) y `Schedule` (por
   máquina o grupo: cada N horas o diario a una hora UTC; activa).
-- [ ] Comando `manage.py aridi_worker`:
+- [x] Comando `manage.py aridi_worker`:
   - bucle que toma trabajos con bloqueo optimista (`UPDATE … WHERE state='queued'`);
   - concurrencia limitada por `ARIDI_MAX_SSH` (hilos con semáforo);
   - reintentos con espera;
   - genera los trabajos programados al llegar su hora;
   - parada limpia con SIGTERM;
   - solo librería estándar y Django, **sin Celery ni Redis**.
-- [ ] Recogida a demanda desde la web: encola un `Job` para una máquina, varias o un
+- [x] Recogida a demanda desde la web: encola un `Job` para una máquina, varias o un
   grupo.
-- [ ] Pruebas:
+- [x] Pruebas:
   - dos trabajadores simultáneos no toman el mismo trabajo;
   - la programación genera exactamente un trabajo por periodo;
   - SIGTERM con trabajos en curso los deja `failed` o reintentables y no `running` para
     siempre;
   - el límite de concurrencia se respeta.
 
+  **Desviación:** las pruebas del central usan una base SQLite en fichero
+  (`ARIDI_TEST_DB_PATH`), porque la de memoria compartida no se comporta como SQLite real
+  entre hilos. Hallazgo corregido: una parada con trabajos en curso descontaba dos veces
+  el intento.
+
 ### 5.6 Interfaz web e inventario
 
-- [ ] Autenticación con `django.contrib.auth`: inicio y cierre de sesión. Grupos
+- [x] Autenticación con `django.contrib.auth`: inicio y cierre de sesión. Grupos
   **administración** y **consulta** creados por migración de datos, con sus permisos.
-- [ ] Vistas en `web/` (plantillas en el servidor, sin JavaScript de terceros):
+- [x] Vistas en `web/` (plantillas en el servidor, sin JavaScript de terceros):
   - lista de máquinas (última fotografía, resultado, número de huecos, fecha);
   - detalle de máquina (áreas en resumen y detalle, a partir de la fotografía; los
     banners y las líneas de registro escapados);
   - histórico de fotografías;
   - huecos de la máquina con «desde cuándo»;
   - gestión de máquinas, grupos y programación (solo administración).
-- [ ] Pruebas por vista y por rol:
+- [x] Pruebas por vista y por rol:
   - consulta no puede crear, editar ni lanzar recogidas (403);
   - anónimo redirige al inicio de sesión;
   - CSRF exigido en los POST;
   - un banner con `<script>` sale escapado.
 
+  **Roles:** grupos `administration` y `read-only` (`web/roles.py`). Los usuarios se crean
+  con los comandos de Django; no hay gestión de usuarios en la web.
+
 ### 5.7 Búsqueda en el parque
 
-- [ ] Vista y formulario de búsqueda por paquete (nombre y versión opcional), puerto
+- [x] Vista y formulario de búsqueda por paquete (nombre y versión opcional), puerto
   (protocolo y número), usuario, servicio e IP de relación, sobre la **última
   fotografía** de cada máquina. Cada resultado muestra la fecha de esa fotografía.
-- [ ] Pruebas con fotografías del corpus importadas: «¿qué máquinas tienen
+- [x] Pruebas con fotografías del corpus importadas: «¿qué máquinas tienen
   `openssh-server`?», «¿dónde escucha el 8080?», «¿dónde existe `alice`?».
+  **Hecho** (`web/tests/test_web.py`, `SearchTest`). El 8080 aparece también en las VMs:
+  el escenario lo abre en todas las variantes salvo `minimal`.
 
 ### 5.8 Contenedor y despliegue
 
-- [ ] `Dockerfile`:
+- [x] `Dockerfile`:
   - `python:3.12-slim` fijado por *digest*;
   - `apt-get install --no-install-recommends openssh-client sqlite3`;
   - usuario sin privilegios `aridi`;
   - `pip install --require-hashes -r requirements/central.txt` y `pip install --no-deps .`;
   - `collector/aridi-collect.sh` copiado a una ruta conocida;
   - sin claves ni secretos en la imagen.
-- [ ] `compose.yaml`:
+
+  **Desviación:** el proyecto se copia a `/app/src` en vez de `pip install --no-deps .`,
+  porque construirlo hace que pip descargue `setuptools` sin hash (`README.md`).
+- [x] `compose.yaml`:
   - servicios `web` (`gunicorn aridi_central.wsgi`, escuchando en `127.0.0.1:8000` o en
     la red del proxy) y `worker` (`manage.py aridi_worker`);
   - volumen `/data` para SQLite;
@@ -993,29 +1028,34 @@ se fija antes de guardar las primeras fotografías.
   - variables de entorno;
   - `healthcheck`;
   - `restart: unless-stopped`.
-- [ ] Prueba de humo en `tests/run.sh central`: `docker compose up`, crear un
+- [x] Prueba de humo en `tests/run.sh central`: `docker compose up`, crear un
   superusuario, inicio de sesión, recogida de la máquina SSH de prueba de 5.4,
   `docker compose down`.
-- [ ] Documentar las copias de seguridad (`sqlite3 /data/aridi.db ".backup …"`) y la
+  **Hecho** (`tests/central/smoke.sh`), con un `ssh-agent` real. **Hallazgo:**
+  `ssh-agent` solo atiende a clientes de su mismo uid, así que el agente tiene que correr
+  con el uid de los contenedores (10001). Documentado en `README.md`.
+- [x] Documentar las copias de seguridad (`sqlite3 /data/aridi.db ".backup …"`) y la
   restauración, y probarlas una vez en la prueba de humo.
+  La restauración exige borrar `aridi.db-wal` y `aridi.db-shm` de la base anterior; la
+  prueba de humo la hace como dice el `README.md`.
 
 ### 5.9 Documentación de la fase
 
-- [ ] `README.md` (en inglés):
+- [x] `README.md` (en inglés):
   - instalación del central con `docker compose`;
   - preparación de una máquina: usuario, clave en el agente, `known_hosts` y regla de
     `sudo` según 5.0;
   - copias de seguridad;
   - que el TLS lo pone el proxy.
-- [ ] `docs/ARCHITECTURE.md`: secciones del central (visión, stack con versiones reales
+- [x] `docs/ARCHITECTURE.md`: secciones del central (visión, stack con versiones reales
   de `requirements/central.txt`, modelo de datos, interfaces, trabajador, seguridad,
   despliegue).
-- [ ] `docs/MVP.md`: añadir las funcionalidades del inventario central con sus pruebas.
-- [ ] `CLAUDE.md`:
+- [x] `docs/MVP.md`: añadir las funcionalidades del inventario central con sus pruebas.
+- [x] `CLAUDE.md`:
   - reglas del central: sin credenciales en la base de datos, `ssh` siempre con lista de
     argumentos y `BatchMode`, plantillas sin `|safe` sobre datos de máquinas;
   - nuevas dependencias solo con decisión del usuario y con hash.
-- [ ] `docs/FUTURE.md`: marcar la etapa de inventario como hecha.
+- [x] `docs/FUTURE.md`: marcar la etapa de inventario como hecha.
 
 **Criterio de aceptación de la fase 5:**
 
@@ -1025,6 +1065,12 @@ se fija antes de guardar las primeras fotografías.
 - la búsqueda encuentra paquetes, puertos y usuarios;
 - el rol de consulta no puede modificar nada;
 - `tests/run.sh all` pasa.
+
+**Cumplido el 2026-10-16** con `tests/lima/central-acceptance.sh`. La VM se prepara como
+una máquina real, con la cuenta, el script instalado y la regla de 5.0; las plantillas de
+Lima pasan de `NOPASSWD: ALL` a esa regla. El paso de la hora en la recogida programada
+se simula adelantando `next_run_at`. La VM se alcanza por `host.docker.internal`
+(Docker Desktop).
 
 ---
 

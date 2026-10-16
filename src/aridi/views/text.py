@@ -64,6 +64,12 @@ def _area_lines(area, section, detail):
     return lines
 
 
+def area_lines(name, section, detail=False):
+    """Lines of one area without its title, for other views (the central web pages)."""
+    area = next(a for a in AREAS if a.name == name)
+    return _area_lines(area, section, detail)[2:]
+
+
 def _infrastructure(snapshot):
     """The relation map (-oi of 2019): local machine first, then remote addresses."""
     lines = _title("Infrastructure")

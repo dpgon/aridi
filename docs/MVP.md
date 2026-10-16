@@ -8,7 +8,8 @@
 
 ## Qué es hoy
 
-aridi es hoy un **colector local en dos pasos** para una máquina Linux:
+aridi es hoy un **colector en dos pasos** para máquinas Linux, más un **componente
+central** que lo ejecuta por SSH y guarda el inventario:
 
 1. **Recogida:** `collector/aridi-collect.sh`, un script POSIX `sh` sin dependencias, se
    ejecuta en la máquina (como root o sin privilegios), no escribe nada en disco y saca
@@ -17,14 +18,19 @@ aridi es hoy un **colector local en dos pasos** para una máquina Linux:
    lee el paquete en cualquier equipo y produce una **fotografía** JSON
    (`aridi interpret`) o un informe de texto (`aridi report`), con un mapa de relaciones
    IPv4 e IPv6 y una lista de **lo que no se pudo ver**, con su estado y su motivo.
+3. **Central** (`src/aridi_central`, Django 5.2 con SQLite, en `docker compose`): da de
+   alta máquinas y grupos, las recoge por SSH a demanda o por programación, importa
+   paquetes hechos en local, guarda el histórico de fotografías con sus huecos, busca
+   en el parque (paquetes, puertos, usuarios, servicios, IPs) y tiene dos roles web:
+   administración y consulta.
 
 Ya le sirve a un administrador o a un auditor que quiera una **fotografía fiable y
 legible de una máquina Linux**, de CentOS 6 a Fedora 44, incluidas Alpine, Arch y
 openSUSE, y también de contenedores sin Python: el script corre allí y el informe se
 genera en otro equipo con Python 3.12.
 
-**No hay** componente central, ejecución por SSH, histórico, comparación entre
-ejecuciones, alertas ni escaneo (ver *Fuera de lo entregado*).
+**No hay** comparación entre ejecuciones, alertas ni escaneo (ver *Fuera de lo
+entregado*).
 
 **El aridi de 2019 ya no está en el repositorio.** Se retiró en la fase 4, al alcanzar
 la paridad (`tests/parity.md`). Queda en la historia de git: en la raíz hasta el commit
@@ -41,6 +47,8 @@ este documento se ha dado por bueno leyendo código.
 | `unit` | Pruebas `unittest` del núcleo en `python:3.12-slim`: cada área contra el corpus, contra la «verdad de referencia» de cada muestra y con entradas sintéticas | `tests/test_*`, `tests/test_core/`, `tests/test_parsers/` |
 | `collector` | El script en las 10 imágenes, con cada shell presente (`dash`, `bash`, busybox `ash`, el `sh` de CentOS 6), como root y como uid 65534, por `sh -s`: código de salida 0, ningún fichero creado o modificado (`find / -xdev -newer`) y los estados esperados | `tests/collector/test_script.sh` |
 | Regresión contra 2019 | El aridi de 2019 sin modificar y el script nuevo en el mismo contenedor, uno detrás de otro: todo lo que 2019 daba bien sale igual | `tests/parity/`, `tests/test_parity.py`, `tests/parity.md` |
+| `central` | En la imagen de pruebas (dependencias de `requirements/central.txt` por hash, sin red): `check --deploy` sin avisos y `manage.py test`; después, recogida SSH real contra un contenedor `debian:12` preparado como una máquina real, y una prueba de humo de `docker compose` | `src/aridi_central/**/tests/`, `tests/central/` |
+| Aceptación del central | `docker compose` contra la VM de Lima `debian12-arm64`, a través de la web (no forma parte de `tests/run.sh`; se lanza a mano) | `tests/lima/central-acceptance.sh`, `tests/lima/acceptance_client.py` |
 
 **El corpus** (`tests/corpus/`, ver su `README.md`):
 
@@ -66,6 +74,16 @@ huecos declarados; **ningún área en `error`** (`test_relations:GlobalRegressio
 Duración del script: de 1 a 2 s en arm64 nativo, hasta 7 s en Alpine, de 13 a 21 s en
 las amd64 emuladas y 14 s en la VM x86_64; ninguna supera los 60 s.
 
+**Resultado observado del central** (2026-10-16):
+
+- `tests/run.sh central`: 57 pruebas en verde (las 5 de integración se saltan en esa
+  pasada, sin objetivo SSH); después, las 5 de integración contra el contenedor SSH, en
+  verde; y la prueba de humo de `docker compose` (inicio de sesión, alta, recogida por SSH
+  a través de un `ssh-agent`, copia con `sqlite3 .backup` y restauración), en verde.
+- Aceptación con la VM `debian12-arm64`, en verde: alta, recogida a demanda y
+  programada, ficha con huecos, importación de un paquete hecho en local, búsqueda por
+  paquete, puerto y usuario, y 403 del rol de consulta en cada cambio.
+
 **Límites de la medición:**
 
 - Son contenedores y 3 VMs, no un parque real. No hay discos físicos, USB reales, red
@@ -74,6 +92,10 @@ las amd64 emuladas y 14 s en la VM x86_64; ninguna supera los 60 s.
   y 1 VM).
 - Ninguna muestra tiene `wtmpdb` (sistemas sin `wtmp`), un dominio DNS configurado ni
   `iptables` con reglas en modo *legacy*.
+- El central se ha probado con unas pocas máquinas (el corpus importado, un contenedor
+  SSH y una VM), nunca con cientos o miles.
+- La VM de aceptación se alcanza desde el contenedor por `host.docker.internal`, una
+  facilidad de Docker Desktop; en Linux no se ha probado.
 - Lo que no se ha podido observar está en *Implementadas, sin verificar*.
 
 **Categorías y criterio** (los mismos que la medición de 2019, decididos con el usuario):
@@ -292,10 +314,119 @@ Las pruebas se citan como `módulo:Clase.método` (fichero `tests/**/módulo.py`
 - **Observado:** cada papel de relación es un código enumerado; IPv4 e IPv6 se ordenan
   juntas, las locales primero. Todos los papeles salen de alguna muestra, salvo
   `failed_login_source` (sintético) y `scan_open_port` (reservado para el escaneo del
-  central, que todavía no existe)
+  central, que todavía no existe: fase 7)
   (`test_relations:RelationsTest.test_every_role_comes_from_a_sample_or_is_tested_elsewhere`).
   Cada área declara sus huecos parciales con estado y motivo, y el informe los reúne en
   «What could not be seen».
+
+### 21. Central: proyecto, configuración y despliegue — *entregada con limitaciones*
+
+- **Observado:**
+  - Sin `ARIDI_SECRET_KEY` y sin `ARIDI_DEBUG=1` no arranca; con las variables mínimas
+    migra, y SQLite queda en WAL, con `foreign_keys` y `busy_timeout`; `check --deploy`
+    no da ningún aviso; las migraciones están al día
+    (`test_settings:SettingsTest.*`).
+  - Imagen `python:3.12-slim` fijada por *digest*, usuario sin privilegios (uid 10001),
+    dependencias solo de `requirements/central.txt` con hash. `docker compose up` deja
+    `web` y `worker` sanos (`healthcheck`), y `docker compose down` los quita (prueba de
+    humo, `tests/central/smoke.sh`).
+  - Copia con `sqlite3 /data/aridi.db ".backup …"` y restauración como dice el
+    `README.md` (parar, sustituir el fichero, borrar `-wal` y `-shm`, arrancar): la copia
+    pasa `PRAGMA integrity_check`, la fotografía vuelve y un cambio posterior a la copia
+    desaparece (`tests/central/smoke.sh`).
+  - El núcleo no importa Django ni `aridi_central`, ni siquiera por nombre
+    (`test_core_isolation:CoreIsolationTest.test_never_names_the_central_or_django`).
+- **Limitaciones:**
+  - **Sin TLS propio:** gunicorn habla HTTP; el TLS lo pone un proxy, que debe enviar
+    `X-Forwarded-Proto`. No se ha probado con un proxy real.
+  - **La imagen no instala el proyecto con `pip`**, lo copia: construirlo haría que pip
+    descargara `setuptools` sin hash (desviación de `TODO.md` 5.8).
+  - **SQLite en un único volumen** (`/data`): una sola instancia de `web` y de `worker`.
+
+### 22. Central: inventario, histórico e importación — *entregada*
+
+- **Observado:**
+  - Los 33 paquetes del corpus se importan y quedan con su fotografía, su resultado y su
+    paquete en bruto comprimido idéntico al original
+    (`test_inventory:ImportTest.test_every_corpus_bundle_imports`).
+  - Los índices (paquetes, usuarios, puertos, servicios, relaciones, huecos) tienen los
+    mismos recuentos que la fotografía, y las áreas volátiles no se indexan
+    (`test_inventory:IndexingTest.*`).
+  - Una versión desconocida, un paquete truncado o demasiado grande se rechazan sin
+    guardar nada; el mismo fichero dos veces no se duplica; la máquina se asocia por
+    `machine_id` y **nunca solo por hostname** (pide confirmación); el paquete en bruto
+    se conserva solo en las últimas N fotografías (`ARIDI_RAW_RETENTION`)
+    (`test_inventory:ImportTest.*`).
+  - Importación por `manage.py aridi_import` y por la web (solo administración)
+    (`test_import_command`, `test_web:WebTest.test_import_upload`, aceptación).
+  - Histórico de fotografías y huecos «desde cuándo» (`test_web:WebTest.test_gaps_since`).
+  - Las máquinas no guardan credenciales: solo destino, puerto, `ProxyJump` y modo.
+
+### 23. Central: recogida por SSH — *entregada con limitaciones*
+
+- **Observado:**
+  - `ssh` con lista de argumentos (nunca un *shell*), `BatchMode`, `StrictHostKeyChecking`
+    y `--` antes del destino; un destino o un `ProxyJump` que empiece por `-` o tenga
+    espacios o metacaracteres se rechaza en el formulario y al construir la orden
+    (`test_ssh:SshTest.test_arguments_sudo_mode`, `test_injection_is_rejected`,
+    `test_inventory:ValidatorTest.*`, `test_web:WebTest.test_invalid_ssh_target_is_refused_by_the_form`).
+  - **Modo `sudo` (decisión de `TODO.md` 5.0):** contra un contenedor `debian:12` real, el
+    central lanza `sudo -n /usr/local/libexec/aridi-collect.sh`, lee `/etc/shadow` como
+    root y compara el SHA-256 del script instalado con el de su copia
+    (`test_integration:SshIntegrationTest.test_sudo_with_the_installed_script`). Lo mismo
+    contra la VM de Lima (aceptación).
+  - **Modo `user`:** el script viaja por stdin y se ejecuta como el usuario SSH
+    (`test_user_mode_through_stdin`).
+  - Fallos con su motivo, guardados como fotografía `failed`: clave de *host*
+    desconocida, `sudo` denegado, script no instalado, nombre que no resuelve, tiempo
+    agotado, salida demasiado grande (`test_ssh:SshTest.*`, `test_integration:*`).
+- **Limitaciones:**
+  - **El `ssh-agent` solo atiende a procesos con su mismo uid** (observado: «uid
+    mismatch: peer euid 10001 != uid 0»). El trabajador corre como uid 10001, así que el
+    agente montado tiene que ser de ese uid: en Linux hace falta un agente propio con
+    uid 10001; el agente de la sesión del administrador no sirve. En Docker Desktop, el
+    socket de `host-services` hace de intermediario (**suposición**: no probado).
+  - El modo `user` deja huecos `denied` en todo lo que exige root (`/etc/shadow`,
+    cortafuegos, procesos ajenos).
+  - El script instalado hay que actualizarlo a mano en cada máquina; el central solo
+    avisa de que difiere (`collector_outdated`).
+
+### 24. Central: cola, trabajador y programación — *entregada*
+
+- **Observado:**
+  - Dos trabajadores a la vez nunca toman el mismo trabajo (30 trabajos, dos hilos), y
+    el límite de sesiones SSH simultáneas se respeta
+    (`test_worker:ConcurrencyTest.test_two_workers_never_take_the_same_job`,
+    `test_concurrency_limit`).
+  - Reintentos con espera creciente y, al agotarlos, fotografía `failed` con el motivo
+    (`test_worker:JobTest.test_retry_then_failed_snapshot`).
+  - Una programación genera exactamente un trabajo por periodo, aunque se hayan perdido
+    varios, y la de grupo excluye las máquinas con programación propia
+    (`test_worker:ScheduleTest.*`). En la aceptación, la recogida programada de la VM se
+    ve en su histórico.
+  - Con SIGTERM el trabajador para limpiamente y ningún trabajo queda `running` ni
+    pierde un intento (`test_worker:ConcurrencyTest.test_stop_leaves_no_job_running`,
+    `test_worker:SigtermTest.test_worker_command_stops_on_sigterm`).
+- **Deducido:** sin Celery ni Redis; la cola es la base de datos.
+
+### 25. Central: interfaz web, roles y búsqueda — *entregada*
+
+- **Observado:**
+  - Anónimo → inicio de sesión; el rol de **consulta** ve todas las páginas y recibe 403
+    en cada cambio (alta, edición, programación, recogida, importación); el de
+    **administración** gestiona máquinas, grupos y programaciones y lanza recogidas
+    (`test_web:WebTest.*`; aceptación con la VM).
+  - CSRF exigido en los POST; una redirección a otro dominio se ignora; un *banner* con
+    `<script>` y secuencias ANSI sale escapado; cabecera `Content-Security-Policy` sin
+    scripts (`test_csrf_is_required`, `test_open_redirect_is_ignored`,
+    `test_banner_with_script_is_escaped`).
+  - Ficha de máquina con las áreas (resumen y detalle), los huecos y el mapa de
+    relaciones (`test_detail_shows_areas_gaps_and_infrastructure`).
+  - Búsqueda sobre la **última fotografía** de cada máquina: paquete (con versión
+    opcional), puerto, usuario, servicio e IP de relación
+    (`test_web:SearchTest.*`; aceptación: `openssh-server`, `tcp/22` y `aridi` en la VM).
+- **Limitaciones:** sin JavaScript, sin paginación (las listas se cortan a 200 o 500
+  filas) y en inglés.
 
 ---
 
@@ -350,17 +481,15 @@ que contaba como SUID los enlaces simbólicos). Están en `tests/parity.md`.
 
 ## Fuera de lo entregado
 
-Para que la frontera no admita dudas, aridi **no** hace hoy nada de lo siguiente. Todo
-está previsto en las fases 5 a 7 de `TODO.md` y **todavía no existe**:
+Para que la frontera no admita dudas, aridi **no** hace hoy nada de lo siguiente. Está
+previsto en las fases 6 y 7 de `TODO.md` y **todavía no existe**:
 
-- **Ejecución remota por SSH.** El script se lleva y se ejecuta a mano.
-- **Componente central, inventario, histórico o búsqueda en el parque.** Nada se guarda
-  entre ejecuciones; `src/aridi_central/` no existe.
-- **Comparación entre ejecuciones y alertas.**
-- **Programación de recogidas.**
-- **Interfaz web, usuarios o roles.**
-- **Escaneo de puertos** desde el central, acotado a redes autorizadas.
-- **Mapa gráfico** de relaciones.
+- **Comparación entre ejecuciones y alertas** (fase 6). El histórico se guarda, pero
+  nadie lo compara ni avisa de cambios.
+- **Descubrimiento de red y escaneo de puertos** desde el central, acotado a redes
+  autorizadas (fase 7). Las aplicaciones `changes` y `discovery` existen vacías.
+- **Mapa gráfico** de relaciones: la ficha lo muestra como tabla.
+- **Actualización automática** del script instalado en las máquinas.
 
 ## Definición de terminado
 
@@ -372,7 +501,8 @@ La que se aplica desde la reescritura (`CLAUDE.md`, `TODO.md`):
   interpretar es un hueco con estado y motivo. Un dato incorrecto es peor que uno que
   falta.
 - **Seguridad:** el script es de solo lectura y filtra lo sensible en origen; el núcleo
-  no tiene dependencias de terceros.
+  no tiene dependencias de terceros; el central solo usa las de `requirements/central.txt`,
+  con hash, y no guarda credenciales.
 - **Documentación:** el contrato del paquete y de la fotografía está versionado en
   `FORMATO.md`.
 - **Versionado:** `2.0.0.dev0` en el script y en el núcleo; todavía no hay versión

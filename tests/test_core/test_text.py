@@ -48,6 +48,12 @@ class TextTest(unittest.TestCase):
         self.assertEqual(text.clean(None), "")
         self.assertEqual(text.clean("ñandú"), "ñandú")
 
+    def test_area_lines_without_title(self):
+        snapshot = interpret(bundle.read(GOLDEN_SAMPLE))
+        lines = text.area_lines("system", snapshot.sections["system"])
+        self.assertTrue(lines[0].startswith("  Distribution: Debian GNU/Linux 12"))
+        self.assertIn("\n".join(lines), text.render(snapshot))
+
     def test_human_duration(self):
         self.assertEqual(text.human_duration(247016), "2 days, 20:36:56")
         self.assertEqual(text.human_duration(86400 + 59), "1 day, 00:00:59")

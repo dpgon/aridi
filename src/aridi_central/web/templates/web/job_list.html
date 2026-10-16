@@ -1,0 +1,15 @@
+{% extends "web/base.html" %}
+{% block title %}Jobs{% endblock %}
+{% block content %}
+<h1>Jobs</h1>
+<div class="table-wrap"><table>
+  <tr><th>Created (UTC)</th><th>Machine</th><th>Origin</th><th>State</th><th>Attempts</th><th>Reason</th></tr>
+  {% for job in jobs %}
+  <tr><td>{{ job.created_at|date:"Y-m-d H:i:s" }}</td>
+    <td><a href="{% url 'machine-detail' job.machine.pk %}">{{ job.machine.name }}</a></td>
+    <td>{{ job.get_origin_display }}</td><td class="{{ job.state }}">{{ job.state }}</td>
+    <td>{{ job.attempts }}/{{ job.max_attempts }}</td><td>{{ job.reason }}</td></tr>
+  {% empty %}<tr><td colspan="6" class="muted">No jobs.</td></tr>
+  {% endfor %}
+</table></div>
+{% endblock %}
