@@ -94,6 +94,7 @@ redes autorizadas (`discovery/`); nunca a otras.
 | Imagen base | `python:3.12-slim`, fijada por *digest* (`sha256:a6e34c59…`) | Contenedor del central | `Dockerfile` |
 | Docker | El del anfitrión | Ejecutar todas las pruebas y capturar el corpus | `tests/run.sh` |
 | Lima | 2.x | VMs desechables para el corpus (systemd, sesiones, x86_64) | `tests/lima/` |
+| QEMU | El del anfitrión (11.1 observado) | VMs de CentOS 7 y 6 para el corpus, sin Lima, con sus imágenes *cloud* oficiales (SHA-256 fijado) | `tests/qemu/` |
 
 ---
 
@@ -611,9 +612,15 @@ anfitrión no se usa.
   CentOS 6 en amd64 emulado). Cada una en tres variantes: `minimal` (la imagen tal cual,
   sin red), `server` (con herramientas de red y de sistema, sin red) y `bridge` (la
   anterior en una red *bridge* interna, con interfaces `eth0@ifN`).
-- **3 VMs de Lima** (`tests/lima/`: Debian 12 arm64 y amd64, Rocky 9 arm64) para lo que no
-  dan los contenedores: systemd, sesiones SSH reales, cortafuegos con reglas y x86_64.
-  `capture-vm.sh` las arranca con `--mount-none` y aborta si ve un montaje del anfitrión.
+- **7 VMs** para lo que no dan los contenedores: un sistema de arranque real, sesiones
+  SSH reales, cortafuegos con reglas y x86_64.
+  - **5 en Lima** (`tests/lima/`: Debian 12 arm64 y amd64, Rocky 9, Ubuntu 24.04 y
+    AlmaLinux 10 arm64). `capture-vm.sh` las arranca con `--mount-none` y aborta si ve
+    un montaje del anfitrión.
+  - **2 en QEMU sin Lima** (`tests/qemu/`: CentOS 7 y 6 amd64). `capture-vm.sh` arranca
+    la imagen *cloud* oficial (SHA-256 fijado) sobre un disco desechable, con una semilla
+    de cloud-init que solo añade una clave SSH de un solo uso y sin directorios
+    compartidos.
 
 **Regresión final contra 2019** (`tests/parity/`, `tests/parity.md`):
 
@@ -817,7 +824,7 @@ Fuentes: **documentado** (`CAMBIO.md`, `TODO.md`, `FORMATO.md`, un commit), **us
 - **La deducción de `denied` depende del texto de stderr.** Un comando que falle por
   permisos con otro mensaje queda en `error` hasta que su analizador lo corrija.
 - **El corpus depende del colector:** cada cambio del script obliga a recapturar las 30
-  muestras de contenedor y las 3 VMs, y la VM amd64 es lenta (emulación QEMU).
+  muestras de contenedor y las 7 VMs, y las VMs amd64 son lentas (emulación QEMU).
 - **Artefacto de la emulación amd64:** en Arch y CentOS 6, leer `/proc/PID/cmdline` crea y
   borra un fichero en `/tmp`. Lo provoca la emulación, no el script; la prueba del
   colector lo acepta solo cuando lo demuestra (`tests/collector/test_script.sh`).

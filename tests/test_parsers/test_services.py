@@ -6,7 +6,7 @@ from aridi import bundle
 from aridi.interpret import interpret
 from aridi.model import Status
 from aridi.parsers import services
-from tests.helpers import CORPUS, facts, make_bundle, sample_name, samples
+from tests.helpers import CORPUS, SYSTEMD_VMS, facts, make_bundle, sample_name, samples
 
 
 def services_of(sample_dir):
@@ -27,19 +27,23 @@ class CorpusTest(unittest.TestCase):
                 self.assertEqual([g for g in section.gaps if g.status != Status.NA], [])
 
     def test_vms_with_systemd_show_the_failed_service(self):
-        for name in ("vm-debian12-arm64", "vm-rocky9-arm64", "vm-debian12-amd64"):
+        for name in SYSTEMD_VMS:
             with self.subTest(sample=name):
                 sample = CORPUS / name / "vm"
                 data = services_of(sample).data
                 self.assertTrue(data["systemd_running"])
                 self.assertIn("aridi-fails", data["failed"])
-                ssh = {"vm-rocky9-arm64": "sshd"}.get(name, "ssh")
+                el = ("vm-rocky9-arm64", "vm-alma10-arm64", "vm-centos7-amd64")
+                ssh = "sshd" if name in el else "ssh"
                 running = {s["name"] for s in data["services"] if s["active"] == "active"}
                 self.assertIn(ssh, running)
-                # Same failed units as systemctl in facts.txt.
-                failed = sorted(line.split()[0].removesuffix(".service")
-                                for line in facts(sample)["services_systemctl"].splitlines()
-                                if ".service" in line.split()[0] and " failed " in line)
+                # Same failed units as systemctl in facts.txt (UNIT LOAD ACTIVE SUB ...;
+                # "failed" can also be a word of the description).
+                rows = [line.split() for line in
+                        facts(sample)["services_systemctl"].splitlines()]
+                failed = sorted(row[0].removesuffix(".service") for row in rows
+                                if len(row) >= 3 and row[0].endswith(".service")
+                                and row[2] == "failed")
                 self.assertEqual(data["failed"], failed)
 
     def test_centos7_container_systemctl_without_systemd(self):
@@ -53,6 +57,28 @@ class CorpusTest(unittest.TestCase):
     def test_centos6_sysv(self):
         data = services_of(CORPUS / "centos6" / "minimal").data
         self.assertEqual(data["managers"], ["sysv"])
+
+    def test_centos6_vm_sysv_runlevels(self):
+        """A booted SysV machine: the runlevels of chkconfig, and no guessed state.
+
+        Knowing whether a SysV service runs means running its init script ("service X
+        status"), which aridi never does; so "active" is unknown, not "inactive".
+        """
+        sample = CORPUS / "vm-centos6-amd64" / "vm"
+        data = services_of(sample).data
+        self.assertEqual(data["managers"], ["sysv"])
+        self.assertFalse(data["systemd_running"])
+        by_name = {s["name"]: s for s in data["services"]}
+        for name in ("sshd", "ntpd"):
+            self.assertEqual(by_name[name]["enabled"], "enabled")
+            self.assertIn("3", by_name[name]["runlevels"])
+        self.assertEqual({s["active"] for s in data["services"]}, {None})
+        # Same runlevels as chkconfig in facts.txt.
+        for line in facts(sample)["services_chkconfig"].splitlines():
+            fields = line.split()
+            if len(fields) == 8 and fields[0] in by_name:
+                levels = [f.split(":")[0] for f in fields[1:] if f.endswith(":on")]
+                self.assertEqual(by_name[fields[0]]["runlevels"], levels, fields[0])
 
     def test_alpine_openrc(self):
         """OpenRC is installed in the server variant; the image enables no service."""

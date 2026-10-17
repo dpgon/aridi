@@ -152,7 +152,8 @@ un `machine_id` utilizable:
 - en Ubuntu, Rocky, Fedora y CentOS 7 existe pero está vacío (`ok` con 0 bytes), que es
   la convención de systemd para las imágenes base.
 
-En ambos casos la fotografía da `machine_id: null`. Las 3 VMs de Lima sí lo tienen. El
+En ambos casos la fotografía da `machine_id: null`. Las VMs sí lo tienen, salvo CentOS 6,
+donde el fichero no existe. El
 central tendrá que identificar las máquinas sin `machine_id` por su destino SSH (fase 5).
 
 ### Lo que el script nunca emite

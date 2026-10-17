@@ -6,6 +6,16 @@ REPO = Path(__file__).resolve().parent.parent
 CORPUS = REPO / "tests" / "corpus"
 BOUNDARY = "0123456789abcdef0123456789abcdef"
 
+# VM samples: Lima (tests/lima/) and plain QEMU for CentOS (tests/qemu/).
+VMS = ("vm-debian12-arm64", "vm-rocky9-arm64", "vm-debian12-amd64", "vm-ubuntu2404-arm64",
+       "vm-alma10-arm64", "vm-centos7-amd64", "vm-centos6-amd64")
+SYSTEMD_VMS = tuple(name for name in VMS if name != "vm-centos6-amd64")
+NFT_VMS = tuple(name for name in VMS if not name.startswith("vm-centos"))
+IPTABLES_VMS = ("vm-centos7-amd64", "vm-centos6-amd64")
+# The host as each VM sees it (where its SSH sessions come from): the gateway of Lima's
+# user network, or of QEMU's.
+VM_HOST = {name: "10.0.2.2" if name in IPTABLES_VMS else "192.168.5.2" for name in VMS}
+
 
 def make_bundle(sections, version=1, boundary=BOUNDARY, close=None, collector="2.0.0.test"):
     """Bytes of a bundle laid out like collector/aridi-collect.sh does.

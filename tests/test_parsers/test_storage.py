@@ -7,7 +7,7 @@ from aridi import bundle
 from aridi.interpret import interpret
 from aridi.model import Status
 from aridi.parsers import storage
-from tests.helpers import (CORPUS, facts, legacy_bundle, legacy_report, make_bundle,
+from tests.helpers import (CORPUS, VMS, facts, legacy_bundle, legacy_report, make_bundle,
                            sample_name, samples)
 
 
@@ -81,7 +81,7 @@ class CorpusTest(unittest.TestCase):
         self.assertTrue(section.data["devices"])
 
     def test_vm_root_filesystem(self):
-        for name in ("vm-debian12-arm64", "vm-rocky9-arm64", "vm-debian12-amd64"):
+        for name in VMS:
             with self.subTest(sample=name):
                 data = storage_of(CORPUS / name / "vm" / "bundle.aridi").data
                 root = next(m for m in data["mounts"] if m["mountpoint"] == "/")

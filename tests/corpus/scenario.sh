@@ -20,7 +20,10 @@ skip() { echo "skip $*"; }
 add_user() {
     # add_user NAME UID
     if have useradd; then
-        useradd -m -u "$2" -s /bin/sh "$1"
+        # AlmaLinux 10 in Lima: useradd fails to allocate subordinate ids (the Lima user
+        # took the range), so retry without them.
+        useradd -m -u "$2" -s /bin/sh "$1" ||
+            useradd -K SUB_UID_COUNT=0 -K SUB_GID_COUNT=0 -m -u "$2" -s /bin/sh "$1"
     elif have adduser; then
         adduser -D -u "$2" -s /bin/sh "$1"
     else

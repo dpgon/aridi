@@ -6,9 +6,7 @@ from aridi import bundle
 from aridi.interpret import interpret
 from aridi.model import Role, Status
 from aridi.parsers import firewall, timesync
-from tests.helpers import CORPUS, make_bundle
-
-VMS = ("vm-debian12-arm64", "vm-rocky9-arm64", "vm-debian12-amd64")
+from tests.helpers import CORPUS, IPTABLES_VMS, NFT_VMS, make_bundle
 
 
 def snapshot_of(name, variant):
@@ -22,7 +20,7 @@ def relations(snapshot, role):
 class FirewallCorpusTest(unittest.TestCase):
 
     def test_scenario_nftables_rules_in_the_vms(self):
-        for name in VMS:
+        for name in NFT_VMS:
             with self.subTest(sample=name):
                 snapshot = snapshot_of(name, "vm")
                 section = snapshot.sections["firewall"]
@@ -38,6 +36,28 @@ class FirewallCorpusTest(unittest.TestCase):
                                "chain": "forward", "direction": "forward", "action": "accept",
                                "source": "10.0.0.0/8", "destination": None, "protocol": None,
                                "port": None}, section.data["rules"])
+
+    def test_scenario_iptables_rules_in_centos_vms(self):
+        """Real iptables rules (FUTURE.md 1.11), the same as iptables-save in facts.txt."""
+        for name in IPTABLES_VMS:
+            with self.subTest(sample=name):
+                snapshot = snapshot_of(name, "vm")
+                section = snapshot.sections["firewall"]
+                self.assertEqual(section.status, Status.OK)
+                self.assertEqual(section.data["engines"], ["iptables"])
+                self.assertTrue({"192.0.2.10", "2001:db8::10"} <=
+                                relations(snapshot, Role.FW_ALLOWED_IN))
+                self.assertIn("198.51.100.5", relations(snapshot, Role.FW_ALLOWED_OUT))
+                policies = {(c["family"], c["name"]): c["policy"]
+                            for c in section.data["chains"] if c["table"] == "filter"}
+                self.assertEqual(policies[("ip", "FORWARD")], "drop")
+                self.assertIn({"engine": "iptables", "family": "ip", "table": "filter",
+                               "chain": "FORWARD", "direction": "forward", "action": "accept",
+                               "source": "10.0.0.0/8", "destination": None, "protocol": None,
+                               "port": None}, section.data["rules"])
+                # nf_tables was never loaded, so it is not asked (no module loading).
+                nft = [g for g in section.gaps if g.item.startswith("nft")]
+                self.assertTrue(all(g.status == Status.NA for g in nft), nft)
 
     def test_firewalld_in_rocky9(self):
         snapshot = snapshot_of("vm-rocky9-arm64", "vm")
@@ -89,15 +109,24 @@ class FirewallSyntheticTest(unittest.TestCase):
 
 class TimesyncTest(unittest.TestCase):
 
-    def test_chrony_in_rocky9(self):
-        snapshot = snapshot_of("vm-rocky9-arm64", "vm")
+    def test_chrony_in_el_vms(self):
+        for name in ("vm-rocky9-arm64", "vm-alma10-arm64", "vm-centos7-amd64"):
+            with self.subTest(sample=name):
+                snapshot = snapshot_of(name, "vm")
+                data = snapshot.sections["timesync"].data
+                self.assertIn("chrony", data["services"])
+                self.assertIn("192.0.2.124", [c["server"] for c in data["configured"]])
+                self.assertIn("192.0.2.124", relations(snapshot, Role.NTP_SERVER))
+
+    def test_ntpd_in_centos6(self):
+        snapshot = snapshot_of("vm-centos6-amd64", "vm")
         data = snapshot.sections["timesync"].data
-        self.assertIn("chrony", data["services"])
-        self.assertIn("192.0.2.124", [c["server"] for c in data["configured"]])
-        self.assertIn("192.0.2.124", relations(snapshot, Role.NTP_SERVER))
+        self.assertIn("ntpd", data["services"])
+        self.assertIn("192.0.2.125", [c["server"] for c in data["configured"]])
+        self.assertIn("192.0.2.125", relations(snapshot, Role.NTP_SERVER))
 
     def test_timesyncd_in_debian(self):
-        for name in ("vm-debian12-arm64", "vm-debian12-amd64"):
+        for name in ("vm-debian12-arm64", "vm-debian12-amd64", "vm-ubuntu2404-arm64"):
             with self.subTest(sample=name):
                 snapshot = snapshot_of(name, "vm")
                 data = snapshot.sections["timesync"].data

@@ -43,7 +43,7 @@ Versión completa: `docs/ARCHITECTURE.md`. Contrato de datos: `docs/FORMATO.md`.
 | `src/aridi/data/services.csv` | Nombres de puertos (`nombre\|puerto\|protocolo\|descripción`), generado desde IANA con `tools/build_services.py` |
 | `src/aridi_central/` | Central Django: `settings.py` (todo por variables `ARIDI_*`), `inventory/` (máquinas, fotografías, huecos, índices, importación), `collection/` (`ssh.py`, cola `Job`, `Schedule`, `worker.py`), `changes/` (`diff.py`, `rules.py`, `evaluate.py`, `channels.py`: comparación, reglas, alertas y avisos), `discovery/` (redes autorizadas, `scanner.py`, `scanning.py`), `web/` (vistas, roles, mapa SVG y plantillas) |
 | `Dockerfile`, `compose.yaml` | Imagen del central (base fijada por *digest*) y despliegue: `web` (gunicorn), `worker` y el volumen `aridi-data` |
-| `tests/` | `run.sh` (punto de entrada), pruebas `unittest`, `collector/` (script en todas las imágenes), `corpus/` (muestras), `lima/` (VMs), `parity/` y `parity.md` (regresión frente a 2019) |
+| `tests/` | `run.sh` (punto de entrada), pruebas `unittest`, `collector/` (script en todas las imágenes), `corpus/` (muestras), `lima/` y `qemu/` (VMs), `parity/` y `parity.md` (regresión frente a 2019) |
 | `requirements/` | `central.in` y `central.txt`: dependencias del central, fijadas con hashes |
 | `docs/` | Estudio, idea, alcance medido, futuro, arquitectura, cambio y formato, en español |
 | `pyproject.toml` | Distribución `aridi`: núcleo sin dependencias; extra `central` |
@@ -92,8 +92,8 @@ Versión completa: `docs/ARCHITECTURE.md`. Contrato de datos: `docs/FORMATO.md`.
 - **`golden`:** `tests/run.sh golden` regenera el informe de referencia de
   `tests/test_core/test_text.py`. Hay que hacerlo tras recapturar el corpus o cambiar el
   informe, **revisando el diff**.
-- **Corpus:** `tests/corpus/capture.sh all` (contenedores) y `tests/lima/capture-vm.sh
-  all` (VMs) recapturan las muestras. Hay que hacerlo **cada vez que cambia el script**.
+- **Corpus:** `tests/corpus/capture.sh all` (contenedores), `tests/lima/capture-vm.sh
+  all` y `tests/qemu/capture-vm.sh all` (VMs) recapturan las muestras. Hay que hacerlo **cada vez que cambia el script**.
 - **Paridad:** `tests/test_parity.py` compara con lo que el aridi de 2019 vio en las
   mismas máquinas (`tests/parity/`, datos congelados). `tests/parity.md` asocia cada
   funcionalidad de 2019 a sus pruebas, y `tests/test_parity_doc.py` comprueba que esas
@@ -136,7 +136,7 @@ Versión completa: `docs/ARCHITECTURE.md`. Contrato de datos: `docs/FORMATO.md`.
    solo puede usar lo que hay en `requirements/central.txt` (Django, asgiref, sqlparse,
    gunicorn, packaging). Cualquier paquete más necesita la decisión del usuario y su hash.
 2. **No ejecutes el script en tu máquina ni en ninguna máquina real. Usa contenedores
-   desechables con `--network none` o las VMs de `tests/lima/`.**
+   desechables con `--network none` o las VMs de `tests/lima/` y `tests/qemu/`.**
    *Por qué:* lee datos sensibles de todo el sistema (cuentas, procesos, registros,
    cortafuegos). Solo se ejecuta donde lo que lea no importe.
 3. **aridi es de solo lectura: ningún cambio puede modificar el sistema inspeccionado.**

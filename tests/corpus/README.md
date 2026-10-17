@@ -25,6 +25,8 @@ tests/corpus/
     collector.stderr    solo si el colector escribió algo en stderr
 tests/lima/             VMs (Lima 2.x) para lo que no dan los contenedores
   <vm>.yaml, scenario-vm.sh, capture-vm.sh
+tests/qemu/             VMs de CentOS 7 y 6 en QEMU, sin Lima
+  capture-vm.sh         (usa tests/lima/scenario-vm.sh)
 tests/corpus/vm-<vm>/vm/  muestras de VM, con los mismos ficheros
 ```
 
@@ -35,17 +37,21 @@ tests/corpus/vm-<vm>/vm/  muestras de VM, con los mismos ficheros
 ```sh
 tests/corpus/capture.sh all                  # 10 imágenes × 3 variantes (contenedores)
 tests/corpus/capture.sh debian12 bridge      # una sola muestra
-tests/lima/capture-vm.sh all                 # 3 VMs (crea, captura y borra cada una)
+tests/lima/capture-vm.sh all                 # 5 VMs de Lima (crea, captura y borra cada una)
 tests/lima/capture-vm.sh rocky9-arm64        # una sola VM
+tests/qemu/capture-vm.sh all                 # CentOS 7 y 6 en QEMU
+tests/qemu/capture-vm.sh centos6-amd64       # una sola VM
 ```
 
 **Duración observada** (Mac arm64, 2026-10-15, con las 17 áreas): unos 4 min para las 30
 muestras de contenedor, con las imágenes `server` ya construidas, y otros 4 min para las 3
-VMs, la x86_64 emulada incluida.
+primeras VMs de Lima, la x86_64 emulada incluida. El 2026-10-17, unos 3 min por VM para
+Ubuntu 24.04 y AlmaLinux 10, y unos 4 min para cada CentOS en QEMU, con la imagen ya
+descargada (el SSH responde a los 42 s en CentOS 7 y a los 77 s en CentOS 6).
 
 **Duración del script por muestra** (`collector_seconds` en `meta.txt`): de 1 a 2 s en
 las imágenes arm64 nativas y en las VMs arm64, de 1 a 7 s en Alpine, de 13 a 21 s en las
-amd64 emuladas (CentOS 6 y Arch) y 14 s en la VM x86_64. Ninguna supera los 60 s
+amd64 emuladas (CentOS 6 y Arch) y de 12 a 15 s en las VMs x86_64. Ninguna supera los 60 s
 (`TODO.md` 3.18).
 
 **Artefacto de la emulación amd64:** en Arch y CentOS 6, leer `/proc/PID/cmdline` (incluso
@@ -70,6 +76,24 @@ solo para la VM x86_64). Las VMs no montan ningún directorio del anfitrión
 **Hasta el 2026-10-15 sí montaban el directorio personal del anfitrión**, en solo lectura:
 Lima 2 suma los montajes de la plantilla base a `mounts: []`. Se corrigió al verlo en el
 `df` de una muestra. La VM x86_64 se emula con QEMU y tarda varios minutos.
+
+**Requisitos de las VMs de CentOS** (`tests/qemu/capture-vm.sh`): `qemu-system-x86_64`,
+`qemu-img`, `curl`, `ssh` y `hdiutil` (macOS) o `mkisofs`/`xorriso`. La imagen *cloud*
+oficial se descarga una vez en `~/.cache/aridi-qemu` (o `$ARIDI_QEMU_CACHE`) y se
+comprueba contra su SHA-256 fijado en el script. Cada captura usa un disco desechable
+sobre ella y una clave SSH de un solo uso, que se borran al terminar. La VM no comparte
+ningún directorio con el anfitrión. Los repositorios de CentOS se sustituyen por los de
+`vault.centos.org`, porque ya no tienen soporte.
+
+**Lo que se aprendió al añadir las VMs del 2026-10-17:**
+
+- AlmaLinux 10 escucha SSH también por vsock y cierra esas conexiones, así que su
+  plantilla desactiva `ssh.overVsock`.
+- En AlmaLinux 10, `useradd` no encuentra rangos de subuid libres (el usuario de Lima
+  los ocupa), y `scenario.sh` reintenta sin ellos.
+- CentOS 6 no tiene systemd: `scenario-vm.sh` arranca los servidores como procesos
+  separados, y el proceso con uid 4242 baja privilegios con Python 2 (no hay
+  `setpriv`).
 
 ## Qué contiene cada muestra (escenario)
 

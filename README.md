@@ -51,8 +51,8 @@ The measured, feature-by-feature status is in [`docs/MVP.md`](docs/MVP.md).
   can be the same machine or any other.
 
 Tested on Debian 12 and 13, Ubuntu 24.04, Rocky 9, Fedora 44, Alpine 3.20, Arch,
-openSUSE Leap 15.6, CentOS 7 and CentOS 6 (containers), plus Debian 12 (arm64 and amd64)
-and Rocky 9 (arm64) VMs.
+openSUSE Leap 15.6, CentOS 7 and CentOS 6 (containers), plus Debian 12 (arm64 and amd64),
+Rocky 9, Ubuntu 24.04 and AlmaLinux 10 (arm64), CentOS 7 and CentOS 6 (amd64) VMs.
 
 ## Installation
 

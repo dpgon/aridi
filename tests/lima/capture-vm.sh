@@ -2,7 +2,8 @@
 # Captures one corpus sample in a disposable Lima VM (TODO.md, phase 1.2).
 #
 # Usage: tests/lima/capture-vm.sh VM | all
-#   VM  debian12-arm64 | rocky9-arm64 | debian12-amd64  (tests/lima/VM.yaml)
+#   VM  debian12-arm64 | rocky9-arm64 | debian12-amd64 | ubuntu2404-arm64 | alma10-arm64
+#       (tests/lima/VM.yaml)
 #
 # Creates the VM, applies tests/corpus/scenario.sh (static part) and
 # tests/lima/scenario-vm.sh, runs collector/aridi-collect.sh through "sudo sh -s",
@@ -84,7 +85,7 @@ capture() {
 
 if [ "${1:-}" = all ]; then
     status=0
-    for vm in debian12-arm64 rocky9-arm64 debian12-amd64; do
+    for vm in debian12-arm64 rocky9-arm64 debian12-amd64 ubuntu2404-arm64 alma10-arm64; do
         capture "$vm" || { echo "vm-$vm: FAILED"; status=1; }
     done
     exit $status

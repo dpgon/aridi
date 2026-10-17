@@ -1,0 +1,3485 @@
+ARIDI-BUNDLE 1 2.0.0
+boundary 8919c183f550ffd8911e2e6e7de301c3
+--8919c183f550ffd8911e2e6e7de301c3 begin meta.env kind=text limit=4194304
+shell=/bin/bash
+timeout=coreutils
+section_timeout=60
+section_limit=4194304
+boundary_source=urandom
+path=/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/sbin:/usr/local/bin
+
+--8919c183f550ffd8911e2e6e7de301c3 end meta.env status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin meta.date_utc kind=cmd tool=date limit=4194304
+2026-10-17T10:19:53Z
+
+--8919c183f550ffd8911e2e6e7de301c3 end meta.date_utc status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin meta.uid kind=cmd tool=id limit=4194304
+0
+
+--8919c183f550ffd8911e2e6e7de301c3 end meta.uid status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin meta.machine_id kind=file path=/etc/machine-id limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end meta.machine_id status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note meta.machine_id not found: /etc/machine-id
+--8919c183f550ffd8911e2e6e7de301c3 begin meta.dbus_machine_id kind=file path=/var/lib/dbus/machine-id limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end meta.dbus_machine_id status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note meta.dbus_machine_id not found: /var/lib/dbus/machine-id
+--8919c183f550ffd8911e2e6e7de301c3 begin meta.hostname kind=file path=/proc/sys/kernel/hostname limit=4194304
+centos6-corpus
+
+--8919c183f550ffd8911e2e6e7de301c3 end meta.hostname status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin meta.uname kind=cmd tool=uname limit=4194304
+Linux centos6-corpus 2.6.32-754.17.1.el6.x86_64 #1 SMP Tue Jul 2 12:42:48 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+
+--8919c183f550ffd8911e2e6e7de301c3 end meta.uname status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin system.os_release kind=file path=/etc/os-release limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end system.os_release status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note system.os_release not found: /etc/os-release
+--8919c183f550ffd8911e2e6e7de301c3 begin system.os_release_usr kind=file path=/usr/lib/os-release limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end system.os_release_usr status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note system.os_release_usr not found: /usr/lib/os-release
+--8919c183f550ffd8911e2e6e7de301c3 begin system.centos_release kind=file path=/etc/centos-release limit=4194304
+CentOS release 6.10 (Final)
+
+--8919c183f550ffd8911e2e6e7de301c3 end system.centos_release status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin system.redhat_release kind=file path=/etc/redhat-release limit=4194304
+CentOS release 6.10 (Final)
+
+--8919c183f550ffd8911e2e6e7de301c3 end system.redhat_release status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin system.fedora_release kind=file path=/etc/fedora-release limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end system.fedora_release status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note system.fedora_release not found: /etc/fedora-release
+--8919c183f550ffd8911e2e6e7de301c3 begin system.suse_release kind=file path=/etc/SuSE-release limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end system.suse_release status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note system.suse_release not found: /etc/SuSE-release
+--8919c183f550ffd8911e2e6e7de301c3 begin system.debian_version kind=file path=/etc/debian_version limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end system.debian_version status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note system.debian_version not found: /etc/debian_version
+--8919c183f550ffd8911e2e6e7de301c3 begin system.slackware_version kind=file path=/etc/slackware-version limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end system.slackware_version status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note system.slackware_version not found: /etc/slackware-version
+--8919c183f550ffd8911e2e6e7de301c3 begin system.alpine_release kind=file path=/etc/alpine-release limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end system.alpine_release status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note system.alpine_release not found: /etc/alpine-release
+--8919c183f550ffd8911e2e6e7de301c3 begin system.lsb_release kind=file path=/etc/lsb-release limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end system.lsb_release status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note system.lsb_release not found: /etc/lsb-release
+--8919c183f550ffd8911e2e6e7de301c3 begin system.kernel_ostype kind=file path=/proc/sys/kernel/ostype limit=4194304
+Linux
+
+--8919c183f550ffd8911e2e6e7de301c3 end system.kernel_ostype status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin system.kernel_osrelease kind=file path=/proc/sys/kernel/osrelease limit=4194304
+2.6.32-754.17.1.el6.x86_64
+
+--8919c183f550ffd8911e2e6e7de301c3 end system.kernel_osrelease status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin system.kernel_version kind=file path=/proc/sys/kernel/version limit=4194304
+#1 SMP Tue Jul 2 12:42:48 UTC 2019
+
+--8919c183f550ffd8911e2e6e7de301c3 end system.kernel_version status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin system.proc_version kind=file path=/proc/version limit=4194304
+Linux version 2.6.32-754.17.1.el6.x86_64 (mockbuild@x86-01.bsys.centos.org) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-23) (GCC) ) #1 SMP Tue Jul 2 12:42:48 UTC 2019
+
+--8919c183f550ffd8911e2e6e7de301c3 end system.proc_version status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin system.machine kind=cmd tool=uname limit=4194304
+x86_64
+
+--8919c183f550ffd8911e2e6e7de301c3 end system.machine status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin system.ldd_version kind=cmd tool=sh limit=4194304
+ldd (GNU libc) 2.12
+Copyright (C) 2010 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+Written by Roland McGrath and Ulrich Drepper.
+
+--8919c183f550ffd8911e2e6e7de301c3 end system.ldd_version status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin system.getconf_libc kind=cmd tool=getconf limit=4194304
+glibc 2.12
+
+--8919c183f550ffd8911e2e6e7de301c3 end system.getconf_libc status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin system.musl_loader kind=cmd tool=sh limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end system.musl_loader status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin hardware.cpuinfo kind=file path=/proc/cpuinfo limit=4194304
+processor	: 0
+vendor_id	: AuthenticAMD
+cpu family	: 6
+model		: 6
+model name	: QEMU TCG CPU version 2.5+
+stepping	: 3
+cpu MHz		: 999.916
+cache size	: 512 KB
+physical id	: 0
+siblings	: 2
+core id		: 0
+cpu cores	: 2
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ss ht syscall nx mmxext pdpe1gb rdtscp lm 3dnowext 3dnow unfair_spinlock eagerfpu pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy svm cr8_legacy abm sse4a 3dnowprefetch arat xsaveopt retpoline npt fsgsbase bmi1 avx2 smep bmi2 erms rdseed adx
+bogomips	: 1999.83
+TLB size	: 1024 4K pages
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 40 bits physical, 57 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: AuthenticAMD
+cpu family	: 6
+model		: 6
+model name	: QEMU TCG CPU version 2.5+
+stepping	: 3
+cpu MHz		: 999.916
+cache size	: 512 KB
+physical id	: 0
+siblings	: 2
+core id		: 1
+cpu cores	: 2
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ss ht syscall nx mmxext pdpe1gb rdtscp lm 3dnowext 3dnow unfair_spinlock eagerfpu pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy svm cr8_legacy abm sse4a 3dnowprefetch arat xsaveopt retpoline npt fsgsbase bmi1 avx2 smep bmi2 erms rdseed adx
+bogomips	: 2512.20
+TLB size	: 1024 4K pages
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 40 bits physical, 57 bits virtual
+power management:
+
+
+--8919c183f550ffd8911e2e6e7de301c3 end hardware.cpuinfo status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin hardware.cpu_online kind=file path=/sys/devices/system/cpu/online limit=4194304
+0-1
+
+--8919c183f550ffd8911e2e6e7de301c3 end hardware.cpu_online status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin hardware.cpu_present kind=file path=/sys/devices/system/cpu/present limit=4194304
+0-1
+
+--8919c183f550ffd8911e2e6e7de301c3 end hardware.cpu_present status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin hardware.cpu_topology kind=cmd tool=sh limit=4194304
+cpu0 package=0 core=0 die= cluster= threads=0 online=
+cpu1 package=0 core=1 die= cluster= threads=1 online=1
+
+--8919c183f550ffd8911e2e6e7de301c3 end hardware.cpu_topology status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin hardware.machine kind=cmd tool=uname limit=4194304
+x86_64
+
+--8919c183f550ffd8911e2e6e7de301c3 end hardware.machine status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin hardware.lscpu kind=cmd tool=lscpu limit=4194304
+Architecture:          x86_64
+CPU op-mode(s):        32-bit, 64-bit
+Byte Order:            Little Endian
+CPU(s):                2
+On-line CPU(s) list:   0,1
+Thread(s) per core:    1
+Core(s) per socket:    2
+Socket(s):             1
+NUMA node(s):          1
+Vendor ID:             AuthenticAMD
+CPU family:            6
+Model:                 6
+Model name:            QEMU TCG CPU version 2.5+
+Stepping:              3
+CPU MHz:               999.916
+BogoMIPS:              2512.20
+Virtualization:        AMD-V
+L1d cache:             64K
+L1i cache:             64K
+L2 cache:              512K
+L3 cache:              16384K
+NUMA node0 CPU(s):     0,1
+
+--8919c183f550ffd8911e2e6e7de301c3 end hardware.lscpu status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin hardware.meminfo kind=file path=/proc/meminfo limit=4194304
+MemTotal:        1921800 kB
+MemFree:         1591136 kB
+Buffers:           10616 kB
+Cached:           202148 kB
+SwapCached:            0 kB
+Active:           164116 kB
+Inactive:          64608 kB
+Active(anon):      15972 kB
+Inactive(anon):      136 kB
+Active(file):     148144 kB
+Inactive(file):    64472 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Dirty:              4380 kB
+Writeback:             0 kB
+AnonPages:         16128 kB
+Mapped:             8588 kB
+Shmem:               152 kB
+Slab:              73416 kB
+SReclaimable:      18212 kB
+SUnreclaim:        55204 kB
+KernelStack:        1952 kB
+PageTables:         3004 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:      960900 kB
+Committed_AS:      79116 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:       10944 kB
+VmallocChunk:   34359715368 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:         0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:       12136 kB
+DirectMap2M:     2084864 kB
+DirectMap1G:           0 kB
+
+--8919c183f550ffd8911e2e6e7de301c3 end hardware.meminfo status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin hardware.usb kind=cmd tool=sh limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end hardware.usb status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin packages.dpkg kind=cmd tool=awk limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end packages.dpkg status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note packages.dpkg no /var/lib/dpkg/status
+--8919c183f550ffd8911e2e6e7de301c3 begin packages.apk kind=cmd tool=awk limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end packages.apk status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note packages.apk no /lib/apk/db/installed
+--8919c183f550ffd8911e2e6e7de301c3 begin packages.pacman kind=cmd tool=awk limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end packages.pacman status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note packages.pacman no /var/lib/pacman/local
+--8919c183f550ffd8911e2e6e7de301c3 begin packages.rpm kind=cmd tool=chroot limit=4194304
+setup	(none)	2.8.14	23.el6	noarch
+basesystem	(none)	10.0	4.el6	noarch
+tzdata	(none)	2019b	2.el6	noarch
+nss-softokn-freebl	(none)	3.14.3	23.3.el6_8	x86_64
+ncurses-libs	(none)	5.7	4.20090207.el6	x86_64
+libattr	(none)	2.4.44	7.el6	x86_64
+zlib	(none)	1.2.3	29.el6	x86_64
+audit-libs	(none)	2.4.5	6.el6	x86_64
+bzip2-libs	(none)	1.0.5	7.el6_0	x86_64
+libcom_err	(none)	1.41.12	24.el6	x86_64
+db4	(none)	4.7.25	22.el6	x86_64
+libselinux	(none)	2.0.94	7.el6	x86_64
+sed	(none)	4.2.1	10.el6	x86_64
+xz-libs	(none)	4.999.9	0.5.beta.20091007git.el6	x86_64
+gawk	(none)	3.1.7	10.el6_7.3	x86_64
+sqlite	(none)	3.6.20	1.el6_7.2	x86_64
+file-libs	(none)	5.04	30.el6	x86_64
+dbus-libs	1	1.2.24	11.el6_10	x86_64
+pcre	(none)	7.8	7.el6	x86_64
+findutils	1	4.4.2	9.el6	x86_64
+bzip2	(none)	1.0.5	7.el6_0	x86_64
+libuuid	(none)	2.17.2	12.28.el6_9.2	x86_64
+libgpg-error	(none)	1.7	4.el6	x86_64
+procps	(none)	3.2.8	45.el6_9.3	x86_64
+libselinux-utils	(none)	2.0.94	7.el6	x86_64
+cpio	(none)	2.10	13.el6	x86_64
+tcp_wrappers-libs	(none)	7.6	58.el6	x86_64
+sysvinit-tools	(none)	2.87	6.dsf.el6	x86_64
+libudev	(none)	147	2.73.el6_8.2	x86_64
+libtasn1	(none)	2.3	6.el6_5	x86_64
+p11-kit-trust	(none)	0.18.5	2.el6_5.2	x86_64
+libnih	(none)	1.0.1	8.el6	x86_64
+setools-libs	(none)	3.3.7	4.el6	x86_64
+elfutils-libs	(none)	0.164	2.el6	x86_64
+gmp	(none)	4.3.1	13.el6	x86_64
+libusb	(none)	0.1.12	23.el6	x86_64
+xz-lzma-compat	(none)	4.999.9	0.5.beta.20091007git.el6	x86_64
+vim-minimal	2	7.4.629	5.el6_10.2	x86_64
+tar	2	1.23	15.el6_8	x86_64
+libss	(none)	1.41.12	24.el6	x86_64
+e2fsprogs	(none)	1.41.12	24.el6	x86_64
+which	(none)	2.19	6.el6	x86_64
+m4	(none)	1.4.13	5.el6	x86_64
+ncurses	(none)	5.7	4.20090207.el6	x86_64
+less	(none)	436	13.el6	x86_64
+gzip	(none)	1.3.12	24.el6	x86_64
+cracklib-dicts	(none)	2.8.16	4.el6	x86_64
+pam	(none)	1.1.1	24.el6	x86_64
+hwdata	(none)	0.233	20.1.el6	noarch
+redhat-logos	(none)	60.0.14	12.el6.centos	noarch
+pciutils	(none)	3.1.10	4.el6	x86_64
+logrotate	(none)	3.7.8	28.el6	x86_64
+nss-sysinit	(none)	3.36.0	9.el6_10	x86_64
+libedit	(none)	2.11	4.20080712cvs.1.el6	x86_64
+libcap-ng	(none)	0.6.4	3.el6_0.1	x86_64
+mingetty	(none)	1.08	5.el6	x86_64
+libyaml	(none)	0.1.3	4.el6_6	x86_64
+krb5-libs	(none)	1.10.3	65.el6	x86_64
+libssh2	(none)	1.4.2	3.el6_10.1	x86_64
+rpm-libs	(none)	4.8.0	59.el6	x86_64
+rpm	(none)	4.8.0	59.el6	x86_64
+gnupg2	(none)	2.0.14	9.el6_10	x86_64
+deltarpm	(none)	3.5	0.5.20090913git.el6	x86_64
+fipscheck-lib	(none)	1.2.0	7.el6	x86_64
+ustr	(none)	1.0.4	9.1.el6	x86_64
+shadow-utils	2	4.1.5.1	5.el6	x86_64
+MAKEDEV	(none)	3.24	6.el6	x86_64
+newt	(none)	0.52.11	4.el6	x86_64
+gdbm	(none)	1.8.0	39.el6	x86_64
+python	(none)	2.6.6	68.el6_10	x86_64
+libselinux-python	(none)	2.0.94	7.el6	x86_64
+rpm-python	(none)	4.8.0	59.el6	x86_64
+libsemanage-python	(none)	2.0.43	5.1.el6	x86_64
+m2crypto	(none)	0.20.2	9.el6	x86_64
+python-urlgrabber	(none)	3.9.1	11.el6	noarch
+python-prettytable	(none)	0.7.2	11.el6	noarch
+python-configobj	(none)	4.6.0	3.el6	noarch
+python-iniparse	(none)	0.3.1	2.1.el6	noarch
+python-markdown	(none)	2.0.1	4.el6	noarch
+python-jsonpatch	(none)	1.2	4.el6	noarch
+python-setuptools	(none)	0.6.10	4.el6_9	noarch
+python-cheetah	(none)	2.4.1	1.el6	x86_64
+python-backports	(none)	1.0	5.el6	x86_64
+python-urllib3	(none)	1.10.2	3.el6	noarch
+python-boto	1	2.34.0	6.el6	noarch
+gamin	(none)	0.1.10	9.el6	x86_64
+shared-mime-info	(none)	0.70	6.el6	x86_64
+libuser	(none)	0.56.13	8.el6_7	x86_64
+yum-metadata-parser	(none)	1.1.2	16.el6	x86_64
+yum	(none)	3.2.29	81.el6.centos.0.1	noarch
+kernel-firmware	(none)	2.6.32	754.17.1.el6	noarch
+centos-release	(none)	6	10.el6.centos.12.3	x86_64
+iptables	(none)	1.4.7	19.el6	x86_64
+libdrm	(none)	2.4.65	2.el6	x86_64
+iputils	(none)	20071127	24.el6	x86_64
+initscripts	(none)	9.03.61	1.el6.centos	x86_64
+rsyslog	(none)	5.8.10	12.el6	x86_64
+mdadm	(none)	3.3.4	8.el6	x86_64
+device-mapper	(none)	1.02.117	12.el6_9.1	x86_64
+kbd	(none)	1.15	11.el6	x86_64
+dracut-kernel	(none)	004	411.el6	noarch
+postfix	2	2.6.6	8.el6	x86_64
+cronie-anacron	(none)	1.4.4	16.el6_8.2	x86_64
+libcgroup	(none)	0.40.rc1	27.el6_10	x86_64
+iptables-ipv6	(none)	1.4.7	19.el6	x86_64
+selinux-policy	(none)	3.7.19	312.el6	noarch
+dhclient	12	4.1.1	63.P1.el6.centos	x86_64
+system-config-firewall-tui	(none)	1.2.27	7.2.el6_6	noarch
+kernel	(none)	2.6.32	754.17.1.el6	x86_64
+kexec-tools	(none)	2.0.0	310.el6	x86_64
+openssh-server	(none)	5.3p1	124.el6_10	x86_64
+acpid	(none)	1.0.10	3.el6	x86_64
+passwd	(none)	0.77	7.el6	x86_64
+audit	(none)	2.4.5	6.el6	x86_64
+rsync	(none)	3.0.6	12.el6	x86_64
+attr	(none)	2.4.44	7.el6	x86_64
+gpg-pubkey	(none)	c105b9de	4e0fd3a3	(none)
+ntp	(none)	4.2.6p5	15.el6.centos	x86_64
+sudo	(none)	1.8.6p3	29.el6_10.3	x86_64
+libgcc	(none)	4.4.7	23.el6	x86_64
+filesystem	(none)	2.4.30	3.el6	x86_64
+ncurses-base	(none)	5.7	4.20090207.el6	x86_64
+glibc-common	(none)	2.12	1.212.el6_10.3	x86_64
+glibc	(none)	2.12	1.212.el6_10.3	x86_64
+bash	(none)	4.1.2	48.el6	x86_64
+libcap	(none)	2.16	5.5.el6	x86_64
+info	(none)	4.13a	8.el6	x86_64
+popt	(none)	1.13	7.el6	x86_64
+libacl	(none)	2.2.49	7.el6_9.1	x86_64
+nspr	(none)	4.19.0	1.el6	x86_64
+libsepol	(none)	2.0.41	4.el6	x86_64
+chkconfig	(none)	1.3.49.5	1.el6	x86_64
+nss-util	(none)	3.36.0	1.el6	x86_64
+libstdc++	(none)	4.4.7	23.el6	x86_64
+readline	(none)	6.0	4.el6	x86_64
+elfutils-libelf	(none)	0.164	2.el6	x86_64
+libxml2	(none)	2.7.6	21.el6_8.1	x86_64
+lua	(none)	5.1.4	4.1.el6	x86_64
+grep	(none)	2.20	6.el6	x86_64
+cyrus-sasl-lib	(none)	2.1.23	15.el6_6.2	x86_64
+libidn	(none)	1.18	2.el6	x86_64
+libblkid	(none)	2.17.2	12.28.el6_9.2	x86_64
+nss-softokn	(none)	3.14.3	23.3.el6_8	x86_64
+net-tools	(none)	1.60	114.el6	x86_64
+checkpolicy	(none)	2.0.22	1.el6	x86_64
+make	1	3.81	23.el6	x86_64
+pciutils-libs	(none)	3.1.10	4.el6	x86_64
+expat	(none)	2.0.1	13.el6_8	x86_64
+pth	(none)	2.0.7	9.3.el6	x86_64
+p11-kit	(none)	0.18.5	2.el6_5.2	x86_64
+libgcrypt	(none)	1.4.5	12.el6_8	x86_64
+upstart	(none)	0.6.5	17.el6	x86_64
+file	(none)	5.04	30.el6	x86_64
+bc	(none)	1.06.95	1.el6	x86_64
+snappy	(none)	1.1.0	1.el6	x86_64
+xz	(none)	4.999.9	0.5.beta.20091007git.el6	x86_64
+pinentry	(none)	0.7.6	8.el6	x86_64
+psmisc	(none)	22.6	24.el6	x86_64
+db4-utils	(none)	4.7.25	22.el6	x86_64
+e2fsprogs-libs	(none)	1.41.12	24.el6	x86_64
+diffutils	(none)	2.8.1	28.el6	x86_64
+binutils	(none)	2.20.51.0.2	5.48.el6_10.1	x86_64
+dash	(none)	0.5.5.1	4.el6	x86_64
+groff	(none)	1.18.1.4	21.el6	x86_64
+coreutils-libs	(none)	8.4	47.el6	x86_64
+cracklib	(none)	2.8.16	4.el6	x86_64
+coreutils	(none)	8.4	47.el6	x86_64
+module-init-tools	(none)	3.9	26.el6	x86_64
+ca-certificates	(none)	2018.2.22	65.1.el6	noarch
+plymouth-scripts	(none)	0.8.3	29.el6.centos	x86_64
+libpciaccess	(none)	0.13.4	1.el6	x86_64
+nss	(none)	3.36.0	9.el6_10	x86_64
+nss-tools	(none)	3.36.0	9.el6_10	x86_64
+dmidecode	1	2.12	7.el6	x86_64
+ethtool	2	3.5	6.el6	x86_64
+lzo	(none)	2.03	3.1.el6_5.1	x86_64
+keyutils-libs	(none)	1.4	5.el6	x86_64
+openssl	(none)	1.0.1e	57.el6	x86_64
+libcurl	(none)	7.19.7	53.el6_9	x86_64
+curl	(none)	7.19.7	53.el6_9	x86_64
+openldap	(none)	2.4.40	16.el6	x86_64
+gpgme	(none)	1.1.8	3.el6	x86_64
+mysql-libs	(none)	5.1.73	8.el6_8	x86_64
+fipscheck	(none)	1.2.0	7.el6	x86_64
+libsemanage	(none)	2.0.43	5.1.el6	x86_64
+libutempter	(none)	1.1.5	4.1.el6	x86_64
+slang	(none)	2.2.1	1.el6	x86_64
+plymouth-core-libs	(none)	0.8.3	29.el6.centos	x86_64
+libffi	(none)	3.0.5	3.2.el6	x86_64
+python-libs	(none)	2.6.6	68.el6_10	x86_64
+PyYAML	(none)	3.10	3.1.el6	x86_64
+pygpgme	(none)	0.1	18.20090824bzr68.el6	x86_64
+setools-libs-python	(none)	3.3.7	4.el6	x86_64
+python-pycurl	(none)	7.19.0	9.el6	x86_64
+newt-python	(none)	0.52.11	4.el6	x86_64
+python-oauth	(none)	1.0.1	1.el6.centos	noarch
+python-argparse	(none)	1.2.1	2.1.el6	noarch
+audit-libs-python	(none)	2.4.5	6.el6	x86_64
+python-jsonpointer	(none)	1.0	4.el6	noarch
+python-chardet	(none)	2.2.1	1.el6	noarch
+python-pygments	(none)	1.1.1	2.el6	noarch
+python-six	(none)	1.9.0	2.el6	noarch
+python-backports-ssl_match_hostname	(none)	3.4.0.2	5.el6	noarch
+python-requests	(none)	2.6.0	4.el6	noarch
+pkgconfig	1	0.23	9.1.el6	x86_64
+glib2	(none)	2.28.8	10.el6	x86_64
+grubby	(none)	7.0.15	7.el6	x86_64
+dbus-glib	(none)	0.86	6.el6	x86_64
+yum-plugin-fastestmirror	(none)	1.1.30	42.el6_10	noarch
+busybox	1	1.15.1	21.el6_6	x86_64
+kbd-misc	(none)	1.15	11.el6	noarch
+policycoreutils	(none)	2.0.83	30.1.el6_8	x86_64
+iproute	(none)	2.6.32	57.el6	x86_64
+plymouth	(none)	0.8.3	29.el6.centos	x86_64
+util-linux-ng	(none)	2.17.2	12.28.el6_9.2	x86_64
+udev	(none)	147	2.73.el6_8.2	x86_64
+openssh	(none)	5.3p1	124.el6_10	x86_64
+device-mapper-libs	(none)	1.02.117	12.el6_9.1	x86_64
+kpartx	(none)	0.4.9	106.el6_10.1	x86_64
+dracut	(none)	004	411.el6	noarch
+cyrus-sasl	(none)	2.1.23	15.el6_6.2	x86_64
+crontabs	(none)	1.10	33.el6	noarch
+cronie	(none)	1.4.4	16.el6_8.2	x86_64
+policycoreutils-python	(none)	2.0.83	30.1.el6_8	x86_64
+system-config-firewall-base	(none)	1.2.27	7.2.el6_6	noarch
+dhcp-common	12	4.1.1	63.P1.el6.centos	x86_64
+selinux-policy-targeted	(none)	3.7.19	312.el6	noarch
+cloud-init	(none)	0.7.5	10.el6.centos.2	x86_64
+rdma	(none)	6.9_4.1	3.el6	noarch
+openssh-clients	(none)	5.3p1	124.el6_10	x86_64
+b43-openfwwf	(none)	5.2	10.el6	noarch
+yum-presto	(none)	0.6.2	1.el6	noarch
+grub	1	0.97	99.el6	x86_64
+man	(none)	1.6f	39.el6	x86_64
+efibootmgr	(none)	0.5.4	15.el6	x86_64
+acl	(none)	2.2.49	7.el6_9.1	x86_64
+rootfiles	(none)	8.1	6.1.el6	noarch
+ntpdate	(none)	4.2.6p5	15.el6.centos	x86_64
+nc	(none)	1.84	24.el6	x86_64
+
+--8919c183f550ffd8911e2e6e7de301c3 end packages.rpm status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin storage.partitions kind=file path=/proc/partitions limit=4194304
+major minor  #blocks  name
+
+ 252        0   12582912 vda
+ 252        1    8387584 vda1
+ 252       16        900 vdb
+
+--8919c183f550ffd8911e2e6e7de301c3 end storage.partitions status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin storage.mountinfo kind=file path=/proc/self/mountinfo limit=4194304
+15 20 0:3 / /proc rw,relatime - proc proc rw
+16 20 0:0 / /sys rw,relatime - sysfs sysfs rw,seclabel
+17 22 0:5 / /dev rw,relatime - devtmpfs devtmpfs rw,seclabel,size=950036k,nr_inodes=237509,mode=755
+18 17 0:11 / /dev/pts rw,relatime - devpts devpts rw,seclabel,gid=5,mode=620,ptmxmode=000
+19 17 0:15 / /dev/shm rw,relatime - tmpfs tmpfs rw,seclabel
+20 1 252:1 / / rw,relatime - ext4 /dev/vda1 rw,seclabel,barrier=1,data=ordered
+21 20 0:14 / /selinux rw,relatime - selinuxfs none rw
+22 20 0:5 / /dev rw,relatime - devtmpfs devtmpfs rw,seclabel,size=950036k,nr_inodes=237509,mode=755
+23 15 0:16 / /proc/bus/usb rw,relatime - usbfs /proc/bus/usb rw
+24 15 0:17 / /proc/sys/fs/binfmt_misc rw,relatime - binfmt_misc none rw
+
+--8919c183f550ffd8911e2e6e7de301c3 end storage.mountinfo status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin storage.swaps kind=file path=/proc/swaps limit=4194304
+Filename				Type		Size	Used	Priority
+
+--8919c183f550ffd8911e2e6e7de301c3 end storage.swaps status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin storage.block kind=cmd tool=sh limit=4194304
+loop0 kind=disk size=0 removable=0 ro=0 dev=7:0 dm= holders= slaves=
+loop1 kind=disk size=0 removable=0 ro=0 dev=7:1 dm= holders= slaves=
+loop2 kind=disk size=0 removable=0 ro=0 dev=7:2 dm= holders= slaves=
+loop3 kind=disk size=0 removable=0 ro=0 dev=7:3 dm= holders= slaves=
+loop4 kind=disk size=0 removable=0 ro=0 dev=7:4 dm= holders= slaves=
+loop5 kind=disk size=0 removable=0 ro=0 dev=7:5 dm= holders= slaves=
+loop6 kind=disk size=0 removable=0 ro=0 dev=7:6 dm= holders= slaves=
+loop7 kind=disk size=0 removable=0 ro=0 dev=7:7 dm= holders= slaves=
+ram0 kind=disk size=32768 removable=0 ro=0 dev=1:0 dm= holders= slaves=
+ram1 kind=disk size=32768 removable=0 ro=0 dev=1:1 dm= holders= slaves=
+ram10 kind=disk size=32768 removable=0 ro=0 dev=1:10 dm= holders= slaves=
+ram11 kind=disk size=32768 removable=0 ro=0 dev=1:11 dm= holders= slaves=
+ram12 kind=disk size=32768 removable=0 ro=0 dev=1:12 dm= holders= slaves=
+ram13 kind=disk size=32768 removable=0 ro=0 dev=1:13 dm= holders= slaves=
+ram14 kind=disk size=32768 removable=0 ro=0 dev=1:14 dm= holders= slaves=
+ram15 kind=disk size=32768 removable=0 ro=0 dev=1:15 dm= holders= slaves=
+ram2 kind=disk size=32768 removable=0 ro=0 dev=1:2 dm= holders= slaves=
+ram3 kind=disk size=32768 removable=0 ro=0 dev=1:3 dm= holders= slaves=
+ram4 kind=disk size=32768 removable=0 ro=0 dev=1:4 dm= holders= slaves=
+ram5 kind=disk size=32768 removable=0 ro=0 dev=1:5 dm= holders= slaves=
+ram6 kind=disk size=32768 removable=0 ro=0 dev=1:6 dm= holders= slaves=
+ram7 kind=disk size=32768 removable=0 ro=0 dev=1:7 dm= holders= slaves=
+ram8 kind=disk size=32768 removable=0 ro=0 dev=1:8 dm= holders= slaves=
+ram9 kind=disk size=32768 removable=0 ro=0 dev=1:9 dm= holders= slaves=
+sr0 kind=disk size=2097151 removable=1 ro=0 dev=11:0 dm= holders= slaves=
+vda kind=disk size=25165824 removable=0 ro=0 dev=252:0 dm= holders= slaves=
+vda1 kind=part size=16775168 removable= ro= dev=252:1 dm= holders= slaves=
+vdb kind=disk size=1800 removable=0 ro=1 dev=252:16 dm= holders= slaves=
+
+--8919c183f550ffd8911e2e6e7de301c3 end storage.block status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin storage.df kind=cmd tool=df limit=4194304
+Filesystem     1024-blocks   Used Available Capacity Mounted on
+/dev/vda1          8124856 843916   6861564      11% /
+tmpfs               960900      0    960900       0% /dev/shm
+
+--8919c183f550ffd8911e2e6e7de301c3 end storage.df status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin storage.lsblk kind=cmd tool=sh limit=4194304
+NAME="sr0" KNAME="sr0" TYPE="rom" SIZE="1073741312" RM="1" RO="0" FSTYPE="" MOUNTPOINT=""
+NAME="vda" KNAME="vda" TYPE="disk" SIZE="12884901888" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
+NAME="vda1" KNAME="vda1" TYPE="part" SIZE="8588886016" RM="0" RO="0" FSTYPE="ext4" MOUNTPOINT="/"
+NAME="vdb" KNAME="vdb" TYPE="disk" SIZE="921600" RM="0" RO="1" FSTYPE="iso9660" MOUNTPOINT=""
+
+--8919c183f550ffd8911e2e6e7de301c3 end storage.lsblk status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin permissions.find kind=cmd tool=sh limit=4194304
+85ed 0 0 /sbin/netreport
+89ed 0 0 /sbin/unix_chkpwd
+89ed 0 0 /sbin/pam_timestamp_check
+89ed 0 0 /usr/local/bin/aridi-suid-test
+89c9 0 0 /usr/libexec/pt_chown
+89ed 0 0 /usr/libexec/openssh/ssh-keysign
+85c9 0 22 /usr/libexec/utempter/utempter
+89ed 0 0 /usr/sbin/usernetctl
+85ed 0 90 /usr/sbin/postqueue
+85ed 0 90 /usr/sbin/postdrop
+85ed 0 5 /usr/bin/write
+89ed 0 0 /usr/bin/newgrp
+89ed 0 0 /usr/bin/chage
+89c9 0 0 /usr/bin/chfn
+89c9 0 0 /usr/bin/chsh
+89ed 0 0 /usr/bin/crontab
+8849 0 0 /usr/bin/sudo
+85ed 0 99 /usr/bin/ssh-agent
+89ed 0 0 /usr/bin/passwd
+856d 0 5 /usr/bin/wall
+89ed 0 0 /usr/bin/gpasswd
+89ed 0 0 /bin/mount
+89ed 0 0 /bin/su
+89ed 0 0 /bin/umount
+85ed 0 499 /bin/cgclassify
+89ed 0 0 /bin/ping
+89ed 0 0 /bin/ping6
+85ed 0 499 /bin/cgexec
+43ff 0 0 /tmp
+43ff 0 0 /tmp/.ICE-unix
+41ff 0 0 /srv/world-writable
+c1b6 89 89 /var/spool/postfix/private/tlsmgr
+c1b6 89 89 /var/spool/postfix/private/local
+c1b6 89 89 /var/spool/postfix/private/anvil
+c1b6 89 89 /var/spool/postfix/private/proxymap
+c1b6 89 89 /var/spool/postfix/private/scache
+c1b6 89 89 /var/spool/postfix/private/discard
+c1b6 89 89 /var/spool/postfix/private/virtual
+c1b6 89 89 /var/spool/postfix/private/bounce
+c1b6 89 89 /var/spool/postfix/private/error
+c1b6 89 89 /var/spool/postfix/private/smtp
+c1b6 89 89 /var/spool/postfix/private/lmtp
+c1b6 89 89 /var/spool/postfix/private/defer
+c1b6 89 89 /var/spool/postfix/private/relay
+c1b6 89 89 /var/spool/postfix/private/trace
+c1b6 89 89 /var/spool/postfix/private/retry
+c1b6 89 89 /var/spool/postfix/private/verify
+c1b6 89 89 /var/spool/postfix/private/proxywrite
+c1b6 89 89 /var/spool/postfix/private/rewrite
+c1b6 89 89 /var/spool/postfix/public/cleanup
+1192 89 89 /var/spool/postfix/public/pickup
+1192 89 89 /var/spool/postfix/public/qmgr
+c1b6 89 89 /var/spool/postfix/public/flush
+c1b6 89 89 /var/spool/postfix/public/showq
+43ff 0 0 /var/tmp
+c1b6 0 0 /var/run/acpid.socket
+
+--8919c183f550ffd8911e2e6e7de301c3 end permissions.find status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin permissions.account_files kind=cmd tool=sh limit=4194304
+81a4 0 0 /etc/passwd
+81a4 0 0 /etc/group
+8000 0 0 /etc/shadow
+8000 0 0 /etc/gshadow
+
+--8919c183f550ffd8911e2e6e7de301c3 end permissions.account_files status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin identity.hostname kind=cmd tool=hostname limit=4194304
+centos6-corpus
+
+--8919c183f550ffd8911e2e6e7de301c3 end identity.hostname status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin identity.kernel_hostname kind=file path=/proc/sys/kernel/hostname limit=4194304
+centos6-corpus
+
+--8919c183f550ffd8911e2e6e7de301c3 end identity.kernel_hostname status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin identity.etc_hostname kind=file path=/etc/hostname limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end identity.etc_hostname status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note identity.etc_hostname not found: /etc/hostname
+--8919c183f550ffd8911e2e6e7de301c3 begin identity.nis_domainname kind=file path=/proc/sys/kernel/domainname limit=4194304
+(none)
+
+--8919c183f550ffd8911e2e6e7de301c3 end identity.nis_domainname status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin identity.dnsdomainname kind=cmd tool=dnsdomainname limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end identity.dnsdomainname status=ok rc=1
+--8919c183f550ffd8911e2e6e7de301c3 note identity.dnsdomainname dnsdomainname: Unknown host
+--8919c183f550ffd8911e2e6e7de301c3 begin identity.hostid kind=cmd tool=hostid limit=4194304
+00000000
+
+--8919c183f550ffd8911e2e6e7de301c3 end identity.hostid status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin identity.issue kind=file path=/etc/issue limit=4194304
+CentOS release 6.10 (Final)
+Kernel \r on an \m
+
+
+--8919c183f550ffd8911e2e6e7de301c3 end identity.issue status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin identity.issue_net kind=file path=/etc/issue.net limit=4194304
+Corpus banner [31mred[0m <script>alert(1)</script>
+
+--8919c183f550ffd8911e2e6e7de301c3 end identity.issue_net status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin identity.motd kind=file path=/etc/motd limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end identity.motd status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin identity.motd_d kind=cmd tool=sh limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end identity.motd_d status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note identity.motd_d no /etc/motd.d
+--8919c183f550ffd8911e2e6e7de301c3 begin users.passwd kind=file path=/etc/passwd filter=prefix limit=4194304
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
+uucp:x:10:14:uucp:/var/spool/uucp:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+games:x:12:100:games:/usr/games:/sbin/nologin
+gopher:x:13:30:gopher:/var/gopher:/sbin/nologin
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
+nobody:x:99:99:Nobody:/:/sbin/nologin
+vcsa:x:69:69:virtual console memory owner:/dev:/sbin/nologin
+saslauth:x:499:76:Saslauthd user:/var/empty/saslauth:/sbin/nologin
+postfix:x:89:89::/var/spool/postfix:/sbin/nologin
+sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin
+centos:x:500:500:Cloud User:/home/centos:/bin/bash
+ntp:x:38:38::/etc/ntp:/sbin/nologin
+aridi:x:501:501::/home/aridi:/bin/bash
+alice:x:2001:2001::/home/alice:/bin/sh
+bob:x:2002:2002::/home/bob:/bin/sh
+
+--8919c183f550ffd8911e2e6e7de301c3 end users.passwd status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin users.group kind=file path=/etc/group filter=prefix limit=4194304
+root:x:0:
+bin:x:1:bin,daemon
+daemon:x:2:bin,daemon
+sys:x:3:bin,adm
+adm:x:4:adm,daemon,centos
+tty:x:5:
+disk:x:6:
+lp:x:7:daemon
+mem:x:8:
+kmem:x:9:
+wheel:x:10:centos
+mail:x:12:mail,postfix
+uucp:x:14:
+man:x:15:
+games:x:20:
+gopher:x:30:
+video:x:39:
+dip:x:40:
+ftp:x:50:
+lock:x:54:
+audio:x:63:
+nobody:x:99:
+users:x:100:
+utmp:x:22:
+utempter:x:35:
+floppy:x:19:
+vcsa:x:69:
+cdrom:x:11:
+tape:x:33:
+dialout:x:18:
+saslauth:x:76:
+postdrop:x:90:
+postfix:x:89:
+cgred:x:499:
+sshd:x:74:
+centos:x:500:
+ntp:x:38:
+aridi:x:501:
+alice:x:2001:
+bob:x:2002:
+ghostgrp:x:4300:ghostuser,alice
+
+--8919c183f550ffd8911e2e6e7de301c3 end users.group status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin users.shadow kind=file path=/etc/shadow filter=prefix limit=4194304
+root:!!$6$:20743:0:99999:7:::
+bin:*:17246:0:99999:7:::
+daemon:*:17246:0:99999:7:::
+adm:*:17246:0:99999:7:::
+lp:*:17246:0:99999:7:::
+sync:*:17246:0:99999:7:::
+shutdown:*:17246:0:99999:7:::
+halt:*:17246:0:99999:7:::
+mail:*:17246:0:99999:7:::
+uucp:*:17246:0:99999:7:::
+operator:*:17246:0:99999:7:::
+games:*:17246:0:99999:7:::
+gopher:*:17246:0:99999:7:::
+ftp:*:17246:0:99999:7:::
+nobody:*:17246:0:99999:7:::
+vcsa:!!:18116::::::
+saslauth:!!:18116::::::
+postfix:!!:18116::::::
+sshd:!!:18116::::::
+centos:!!:20743:0:99999:7:::
+ntp:!!:20743::::::
+aridi:!!:20743:0:99999:7:::
+alice:$6$:20743:0:99999:7:::
+bob:!!:20743:0:99999:7:::
+
+--8919c183f550ffd8911e2e6e7de301c3 end users.shadow status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin users.gshadow kind=file path=/etc/gshadow filter=prefix limit=4194304
+root:::
+bin:::bin,daemon
+daemon:::bin,daemon
+sys:::bin,adm
+adm:::adm,daemon,centos
+tty:::
+disk:::
+lp:::daemon
+mem:::
+kmem:::
+wheel:::centos
+mail:::mail,postfix
+uucp:::
+man:::
+games:::
+gopher:::
+video:::
+dip:::
+ftp:::
+lock:::
+audio:::
+nobody:::
+users:::
+utmp:!::
+utempter:!::
+floppy:!::
+vcsa:!::
+cdrom:!::
+tape:!::
+dialout:!::
+saslauth:!::
+postdrop:!::
+postfix:!::
+cgred:!::
+sshd:!::
+centos:!::
+ntp:!::
+aridi:!::
+alice:!::
+bob:!::
+ghostgrp:!::ghostuser,alice
+
+--8919c183f550ffd8911e2e6e7de301c3 end users.gshadow status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin services.init_comm kind=file path=/proc/1/comm limit=4194304
+init
+
+--8919c183f550ffd8911e2e6e7de301c3 end services.init_comm status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin services.systemd_units kind=cmd tool=systemctl limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end services.systemd_units status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note services.systemd_units systemd is not running
+--8919c183f550ffd8911e2e6e7de301c3 begin services.systemd_unit_files kind=cmd tool=systemctl limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end services.systemd_unit_files status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note services.systemd_unit_files systemd is not running
+--8919c183f550ffd8911e2e6e7de301c3 begin services.runlevel kind=cmd tool=runlevel limit=4194304
+N 3
+
+--8919c183f550ffd8911e2e6e7de301c3 end services.runlevel status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin services.chkconfig kind=cmd tool=chkconfig limit=4194304
+acpid          	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+auditd         	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+blk-availability	0:off	1:on	2:on	3:on	4:on	5:on	6:off
+cgconfig       	0:off	1:off	2:off	3:off	4:off	5:off	6:off
+cgred          	0:off	1:off	2:off	3:off	4:off	5:off	6:off
+cloud-config   	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+cloud-final    	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+cloud-init     	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+cloud-init-local	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+crond          	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+ip6tables      	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+iptables       	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+kdump          	0:off	1:off	2:off	3:on	4:on	5:on	6:off
+mdmonitor      	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+netconsole     	0:off	1:off	2:off	3:off	4:off	5:off	6:off
+netfs          	0:off	1:off	2:off	3:on	4:on	5:on	6:off
+network        	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+nfs-rdma       	0:off	1:off	2:off	3:off	4:off	5:off	6:off
+ntpd           	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+ntpdate        	0:off	1:off	2:off	3:off	4:off	5:off	6:off
+postfix        	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+rdisc          	0:off	1:off	2:off	3:off	4:off	5:off	6:off
+rdma           	0:off	1:on	2:on	3:on	4:on	5:on	6:off
+restorecond    	0:off	1:off	2:off	3:off	4:off	5:off	6:off
+rsyslog        	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+saslauthd      	0:off	1:off	2:off	3:off	4:off	5:off	6:off
+sshd           	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+udev-post      	0:off	1:on	2:on	3:on	4:on	5:on	6:off
+
+--8919c183f550ffd8911e2e6e7de301c3 end services.chkconfig status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin services.rc_d kind=cmd tool=sh limit=4194304
+/etc/rc.d/rc0.d:
+K10saslauthd
+K25sshd
+K30postfix
+K50cloud-config
+K50cloud-final
+K50cloud-init
+K50cloud-init-local
+K50kdump
+K60crond
+K61nfs-rdma
+K71cgred
+K72cgconfig
+K74acpid
+K74ntpd
+K75blk-availability
+K75netfs
+K75ntpdate
+K75udev-post
+K85mdmonitor
+K87restorecond
+K88auditd
+K88rsyslog
+K89netconsole
+K89rdisc
+K90network
+K92ip6tables
+K92iptables
+K95rdma
+S00killall
+S01halt
+/etc/rc.d/rc1.d:
+K10saslauthd
+K25sshd
+K30postfix
+K50cloud-config
+K50cloud-final
+K50cloud-init
+K50cloud-init-local
+K50kdump
+K60crond
+K61nfs-rdma
+K71cgred
+K72cgconfig
+K74acpid
+K74ntpd
+K75netfs
+K75ntpdate
+K85mdmonitor
+K87restorecond
+K88auditd
+K88rsyslog
+K89netconsole
+K89rdisc
+K90network
+K92ip6tables
+K92iptables
+S05rdma
+S25blk-availability
+S26udev-post
+S99single
+/etc/rc.d/rc2.d:
+K10saslauthd
+K50kdump
+K61nfs-rdma
+K71cgred
+K72cgconfig
+K75netfs
+K75ntpdate
+K87restorecond
+K89netconsole
+K89rdisc
+S05rdma
+S08ip6tables
+S08iptables
+S10network
+S11auditd
+S12rsyslog
+S15mdmonitor
+S25blk-availability
+S26acpid
+S26udev-post
+S50cloud-init-local
+S51cloud-init
+S52cloud-config
+S53cloud-final
+S55sshd
+S58ntpd
+S80postfix
+S90crond
+S99local
+/etc/rc.d/rc3.d:
+K10saslauthd
+K61nfs-rdma
+K71cgred
+K72cgconfig
+K75ntpdate
+K87restorecond
+K89netconsole
+K89rdisc
+S05rdma
+S08ip6tables
+S08iptables
+S10network
+S11auditd
+S12rsyslog
+S15mdmonitor
+S25blk-availability
+S25netfs
+S26acpid
+S26udev-post
+S50cloud-init-local
+S50kdump
+S51cloud-init
+S52cloud-config
+S53cloud-final
+S55sshd
+S58ntpd
+S80postfix
+S90crond
+S99local
+/etc/rc.d/rc4.d:
+K10saslauthd
+K61nfs-rdma
+K71cgred
+K72cgconfig
+K75ntpdate
+K87restorecond
+K89netconsole
+K89rdisc
+S05rdma
+S08ip6tables
+S08iptables
+S10network
+S11auditd
+S12rsyslog
+S15mdmonitor
+S25blk-availability
+S25netfs
+S26acpid
+S26udev-post
+S50cloud-init-local
+S50kdump
+S51cloud-init
+S52cloud-config
+S53cloud-final
+S55sshd
+S58ntpd
+S80postfix
+S90crond
+S99local
+/etc/rc.d/rc5.d:
+K10saslauthd
+K61nfs-rdma
+K71cgred
+K72cgconfig
+K75ntpdate
+K87restorecond
+K89netconsole
+K89rdisc
+S05rdma
+S08ip6tables
+S08iptables
+S10network
+S11auditd
+S12rsyslog
+S15mdmonitor
+S25blk-availability
+S25netfs
+S26acpid
+S26udev-post
+S50cloud-init-local
+S50kdump
+S51cloud-init
+S52cloud-config
+S53cloud-final
+S55sshd
+S58ntpd
+S80postfix
+S90crond
+S99local
+/etc/rc.d/rc6.d:
+K10saslauthd
+K25sshd
+K30postfix
+K50cloud-config
+K50cloud-final
+K50cloud-init
+K50cloud-init-local
+K50kdump
+K60crond
+K61nfs-rdma
+K71cgred
+K72cgconfig
+K74acpid
+K74ntpd
+K75blk-availability
+K75netfs
+K75ntpdate
+K75udev-post
+K85mdmonitor
+K87restorecond
+K88auditd
+K88rsyslog
+K89netconsole
+K89rdisc
+K90network
+K92ip6tables
+K92iptables
+K95rdma
+S00killall
+S01reboot
+/etc/rc0.d:
+K10saslauthd
+K25sshd
+K30postfix
+K50cloud-config
+K50cloud-final
+K50cloud-init
+K50cloud-init-local
+K50kdump
+K60crond
+K61nfs-rdma
+K71cgred
+K72cgconfig
+K74acpid
+K74ntpd
+K75blk-availability
+K75netfs
+K75ntpdate
+K75udev-post
+K85mdmonitor
+K87restorecond
+K88auditd
+K88rsyslog
+K89netconsole
+K89rdisc
+K90network
+K92ip6tables
+K92iptables
+K95rdma
+S00killall
+S01halt
+/etc/rc1.d:
+K10saslauthd
+K25sshd
+K30postfix
+K50cloud-config
+K50cloud-final
+K50cloud-init
+K50cloud-init-local
+K50kdump
+K60crond
+K61nfs-rdma
+K71cgred
+K72cgconfig
+K74acpid
+K74ntpd
+K75netfs
+K75ntpdate
+K85mdmonitor
+K87restorecond
+K88auditd
+K88rsyslog
+K89netconsole
+K89rdisc
+K90network
+K92ip6tables
+K92iptables
+S05rdma
+S25blk-availability
+S26udev-post
+S99single
+/etc/rc2.d:
+K10saslauthd
+K50kdump
+K61nfs-rdma
+K71cgred
+K72cgconfig
+K75netfs
+K75ntpdate
+K87restorecond
+K89netconsole
+K89rdisc
+S05rdma
+S08ip6tables
+S08iptables
+S10network
+S11auditd
+S12rsyslog
+S15mdmonitor
+S25blk-availability
+S26acpid
+S26udev-post
+S50cloud-init-local
+S51cloud-init
+S52cloud-config
+S53cloud-final
+S55sshd
+S58ntpd
+S80postfix
+S90crond
+S99local
+/etc/rc3.d:
+K10saslauthd
+K61nfs-rdma
+K71cgred
+K72cgconfig
+K75ntpdate
+K87restorecond
+K89netconsole
+K89rdisc
+S05rdma
+S08ip6tables
+S08iptables
+S10network
+S11auditd
+S12rsyslog
+S15mdmonitor
+S25blk-availability
+S25netfs
+S26acpid
+S26udev-post
+S50cloud-init-local
+S50kdump
+S51cloud-init
+S52cloud-config
+S53cloud-final
+S55sshd
+S58ntpd
+S80postfix
+S90crond
+S99local
+/etc/rc4.d:
+K10saslauthd
+K61nfs-rdma
+K71cgred
+K72cgconfig
+K75ntpdate
+K87restorecond
+K89netconsole
+K89rdisc
+S05rdma
+S08ip6tables
+S08iptables
+S10network
+S11auditd
+S12rsyslog
+S15mdmonitor
+S25blk-availability
+S25netfs
+S26acpid
+S26udev-post
+S50cloud-init-local
+S50kdump
+S51cloud-init
+S52cloud-config
+S53cloud-final
+S55sshd
+S58ntpd
+S80postfix
+S90crond
+S99local
+/etc/rc5.d:
+K10saslauthd
+K61nfs-rdma
+K71cgred
+K72cgconfig
+K75ntpdate
+K87restorecond
+K89netconsole
+K89rdisc
+S05rdma
+S08ip6tables
+S08iptables
+S10network
+S11auditd
+S12rsyslog
+S15mdmonitor
+S25blk-availability
+S25netfs
+S26acpid
+S26udev-post
+S50cloud-init-local
+S50kdump
+S51cloud-init
+S52cloud-config
+S53cloud-final
+S55sshd
+S58ntpd
+S80postfix
+S90crond
+S99local
+/etc/rc6.d:
+K10saslauthd
+K25sshd
+K30postfix
+K50cloud-config
+K50cloud-final
+K50cloud-init
+K50cloud-init-local
+K50kdump
+K60crond
+K61nfs-rdma
+K71cgred
+K72cgconfig
+K74acpid
+K74ntpd
+K75blk-availability
+K75netfs
+K75ntpdate
+K75udev-post
+K85mdmonitor
+K87restorecond
+K88auditd
+K88rsyslog
+K89netconsole
+K89rdisc
+K90network
+K92ip6tables
+K92iptables
+K95rdma
+S00killall
+S01reboot
+
+--8919c183f550ffd8911e2e6e7de301c3 end services.rc_d status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin services.openrc_runlevels kind=cmd tool=sh limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end services.openrc_runlevels status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note services.openrc_runlevels no /etc/runlevels
+--8919c183f550ffd8911e2e6e7de301c3 begin services.openrc_status kind=cmd tool=rc-status limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end services.openrc_status status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note services.openrc_status no /etc/runlevels
+--8919c183f550ffd8911e2e6e7de301c3 begin services.runit kind=cmd tool=sv limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end services.runit status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note services.runit no runit services
+--8919c183f550ffd8911e2e6e7de301c3 begin network.ip_link kind=cmd tool=ip limit=4194304
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN \    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000\    link/ether 52:54:00:12:34:56 brd ff:ff:ff:ff:ff:ff
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.ip_link status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin network.ip_addr kind=cmd tool=ip limit=4194304
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN \    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+1: lo    inet 127.0.0.1/8 scope host lo
+1: lo    inet6 ::1/128 scope host \       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000\    link/ether 52:54:00:12:34:56 brd ff:ff:ff:ff:ff:ff
+2: eth0    inet 10.0.2.15/24 brd 10.0.2.255 scope global eth0
+2: eth0    inet6 fec0::5054:ff:fe12:3456/64 scope site dynamic \       valid_lft 86289sec preferred_lft 14289sec
+2: eth0    inet6 fe80::5054:ff:fe12:3456/64 scope link \       valid_lft forever preferred_lft forever
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.ip_addr status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin network.ip_route kind=cmd tool=ip limit=4194304
+10.0.2.0/24 dev eth0  proto kernel  scope link  src 10.0.2.15 
+default via 10.0.2.2 dev eth0 
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.ip_route status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin network.ip_route6 kind=cmd tool=ip limit=4194304
+unreachable ::/96 dev lo  metric 1024  error -113 mtu 65536
+unreachable ::ffff:0.0.0.0/96 dev lo  metric 1024  error -113 mtu 65536
+unreachable 2002:a00::/24 dev lo  metric 1024  error -113 mtu 65536
+unreachable 2002:7f00::/24 dev lo  metric 1024  error -113 mtu 65536
+unreachable 2002:a9fe::/32 dev lo  metric 1024  error -113 mtu 65536
+unreachable 2002:ac10::/28 dev lo  metric 1024  error -113 mtu 65536
+unreachable 2002:c0a8::/32 dev lo  metric 1024  error -113 mtu 65536
+unreachable 2002:e000::/19 dev lo  metric 1024  error -113 mtu 65536
+unreachable 3ffe:ffff::/32 dev lo  metric 1024  error -113 mtu 65536
+fe80::/64 dev eth0  proto kernel  metric 256  mtu 1500
+fec0::/64 dev eth0  proto kernel  metric 256  expires 86262sec mtu 1500
+default via fe80::2 dev eth0  proto kernel  metric 1024  expires 1688sec mtu 1500 hoplimit 64
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.ip_route6 status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin network.sys_class_net kind=cmd tool=sh limit=4194304
+eth0 address=52:54:00:12:34:56 operstate=up mtu=1500 type=1 ifindex=2 iflink=2
+lo address=00:00:00:00:00:00 operstate=unknown mtu=65536 type=772 ifindex=1 iflink=1
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.sys_class_net status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin network.if_inet6 kind=file path=/proc/net/if_inet6 limit=4194304
+00000000000000000000000000000001 01 80 10 80       lo
+fec0000000000000505400fffe123456 02 40 40 00     eth0
+fe80000000000000505400fffe123456 02 40 20 80     eth0
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.if_inet6 status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin network.fib_trie kind=file path=/proc/net/fib_trie limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.fib_trie status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note network.fib_trie not found: /proc/net/fib_trie
+--8919c183f550ffd8911e2e6e7de301c3 begin network.proc_route kind=file path=/proc/net/route limit=4194304
+Iface	Destination	Gateway 	Flags	RefCnt	Use	Metric	Mask		MTU	Window	IRTT                                                       
+eth0	0002000A	00000000	0001	0	0	0	00FFFFFF	0	0	0                                                                               
+eth0	00000000	0202000A	0003	0	0	0	00000000	0	0	0                                                                               
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.proc_route status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin network.proc_ipv6_route kind=file path=/proc/net/ipv6_route limit=4194304
+00000000000000000000000000000000 60 00000000000000000000000000000000 00 00000000000000000000000000000000 00000400 00000000 00000000 00200200       lo
+00000000000000000000ffff00000000 60 00000000000000000000000000000000 00 00000000000000000000000000000000 00000400 00000000 00000000 00200200       lo
+20020a00000000000000000000000000 18 00000000000000000000000000000000 00 00000000000000000000000000000000 00000400 00000000 00000000 00200200       lo
+20027f00000000000000000000000000 18 00000000000000000000000000000000 00 00000000000000000000000000000000 00000400 00000000 00000000 00200200       lo
+2002a9fe000000000000000000000000 20 00000000000000000000000000000000 00 00000000000000000000000000000000 00000400 00000000 00000000 00200200       lo
+2002ac10000000000000000000000000 1c 00000000000000000000000000000000 00 00000000000000000000000000000000 00000400 00000000 00000000 00200200       lo
+2002c0a8000000000000000000000000 20 00000000000000000000000000000000 00 00000000000000000000000000000000 00000400 00000000 00000000 00200200       lo
+2002e000000000000000000000000000 13 00000000000000000000000000000000 00 00000000000000000000000000000000 00000400 00000000 00000000 00200200       lo
+3ffeffff000000000000000000000000 20 00000000000000000000000000000000 00 00000000000000000000000000000000 00000400 00000000 00000000 00200200       lo
+fe800000000000000000000000000000 40 00000000000000000000000000000000 00 00000000000000000000000000000000 00000100 00000000 00000000 00000001     eth0
+fec00000000000000000000000000000 40 00000000000000000000000000000000 00 00000000000000000000000000000000 00000100 00000000 00000000 004c0001     eth0
+00000000000000000000000000000000 00 00000000000000000000000000000000 00 fe800000000000000000000000000002 00000400 00000000 00000018 00450003     eth0
+00000000000000000000000000000000 00 00000000000000000000000000000000 00 00000000000000000000000000000000 ffffffff 00000001 00000019 00200200       lo
+00000000000000000000000000000001 80 00000000000000000000000000000000 00 00000000000000000000000000000000 00000000 00000001 0000001c 80200001       lo
+fe80000000000000505400fffe123456 80 00000000000000000000000000000000 00 00000000000000000000000000000000 00000000 00000001 00000000 80200001       lo
+fec0000000000000505400fffe123456 80 00000000000000000000000000000000 00 00000000000000000000000000000000 00000000 00000001 00000000 80200001       lo
+ff000000000000000000000000000000 08 00000000000000000000000000000000 00 00000000000000000000000000000000 00000100 00000000 00000000 00000001     eth0
+00000000000000000000000000000000 00 00000000000000000000000000000000 00 00000000000000000000000000000000 ffffffff 00000001 00000019 00200200       lo
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.proc_ipv6_route status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin network.hosts kind=file path=/etc/hosts limit=4194304
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+10.20.30.40 corpus-db.example.internal
+2001:db8::40 corpus-db6.example.internal
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.hosts status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin network.resolv_conf kind=file path=/etc/resolv.conf limit=4194304
+; generated by /sbin/dhclient-script
+nameserver 10.0.2.3
+nameserver 2001:db8::53
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.resolv_conf status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin network.resolved_resolv_conf kind=file path=/run/systemd/resolve/resolv.conf limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.resolved_resolv_conf status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note network.resolved_resolv_conf not found: /run/systemd/resolve/resolv.conf
+--8919c183f550ffd8911e2e6e7de301c3 begin network.proc_tcp kind=file path=/proc/net/tcp limit=4194304
+  sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode                                                     
+   0: 00000000:0016 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 15196 1 ffff88003700a7c0 99 0 0 10 -1                     
+   1: 0100007F:0019 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 16069 1 ffff88007a3ee800 99 0 0 10 -1                     
+   2: 0100007F:1F91 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 17829 1 ffff88007cdc7840 99 0 0 10 -1                     
+   3: 0100007F:DCCE 0100007F:0016 06 00000000:00000000 03:0000131D 00000000     0        0 0 3 ffff88007dbf4080                                      
+   4: 0F02000A:9F2E 0FCA0841:0050 06 00000000:00000000 03:00000C4B 00000000     0        0 0 3 ffff88007dbf4e80                                      
+   5: 0100007F:0016 0100007F:DCD2 01 00000000:00000000 02:000AF80A 00000000     0        0 18091 2 ffff88007cdc7140 20 3 28 10 -1                    
+   6: 0100007F:DCD2 0100007F:0016 01 00000000:00000000 02:000AF808 00000000     0        0 18090 2 ffff88003700a0c0 21 4 29 10 -1                    
+   7: 0100007F:DCD4 0100007F:0016 06 00000000:00000000 03:0000138A 00000000     0        0 0 3 ffff88007dbf4180                                      
+   8: 0F02000A:0016 0202000A:C8A4 01 00000000:00000000 02:000AF927 00000000     0        0 18321 3 ffff88007a3ee100 20 3 1 10 -1                     
+   9: 0F02000A:C23A 76CA0841:01BB 06 00000000:00000000 03:00000C4C 00000000     0        0 0 3 ffff88007dbf4d80                                      
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.proc_tcp status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin network.proc_tcp6 kind=file path=/proc/net/tcp6 limit=4194304
+  sl  local_address                         remote_address                        st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode
+   0: 00000000000000000000000000000000:0016 00000000000000000000000000000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 15199 1 ffff880079ce8800 99 0 0 2 -1
+   1: 00000000000000000000000001000000:0019 00000000000000000000000000000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 16070 1 ffff880079ce8040 99 0 0 2 -1
+   2: 00000000000000000000000000000000:1F90 00000000000000000000000000000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 17826 1 ffff88007ad4d040 99 0 0 2 -1
+   3: 00000000000000000000000001000000:9518 00000000000000000000000001000000:0016 06 00000000:00000000 03:0000135D 00000000     0        0 0 3 ffff88007cce4e40
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.proc_tcp6 status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin network.proc_udp kind=file path=/proc/net/udp limit=4194304
+  sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode ref pointer drops             
+  15: 00000000:0044 00000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 10333 2 ffff880037bd9b00 0          
+  70: 0F02000A:007B 00000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 18275 2 ffff880079d7e100 0          
+  70: 0100007F:007B 00000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 18274 2 ffff880037bd9080 0          
+  70: 00000000:007B 00000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 18267 2 ffff880079d7eb80 0          
+  85: 00000000:158A 00000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 17832 2 ffff880037bd9400 0          
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.proc_udp status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin network.proc_udp6 kind=file path=/proc/net/udp6 limit=4194304
+  sl  local_address                         remote_address                        st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode ref pointer drops
+  70: 000080FE00000000FF005450563412FE:007B 00000000000000000000000000000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 18278 2 ffff8800377c6c00 0
+  70: 0000C0FE00000000FF005450563412FE:007B 00000000000000000000000000000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 18277 2 ffff8800377c6800 0
+  70: 00000000000000000000000001000000:007B 00000000000000000000000000000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 18276 2 ffff8800377c6400 0
+  70: 00000000000000000000000000000000:007B 00000000000000000000000000000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 18268 2 ffff8800377c6000 0
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.proc_udp6 status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin network.proc_raw kind=file path=/proc/net/raw limit=4194304
+  sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode ref pointer drops
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.proc_raw status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin network.proc_raw6 kind=file path=/proc/net/raw6 limit=4194304
+  sl  local_address                         remote_address                        st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode ref pointer drops
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.proc_raw6 status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin network.socket_pids kind=cmd tool=sh limit=4194304
+1 8402
+1106 10332
+1106 10333
+1167 10473
+1167 10478
+1167 10479
+1189 10520
+1236 10633
+1236 10635
+1267 10764
+1267 8898
+479 10664
+479 8881
+479 8882
+479 8897
+479 8898
+6916 15196
+6916 15199
+7074 16069
+7074 16070
+7074 16071
+7074 16072
+7074 16075
+7074 16076
+7074 16077
+7074 16079
+7074 16080
+7074 16082
+7074 16083
+7074 16084
+7074 16086
+7074 16087
+7074 16088
+7074 16026
+7074 16090
+7074 16091
+7074 16092
+7074 16094
+7074 16095
+7074 16096
+7074 16098
+7074 16099
+7074 16100
+7074 16102
+7074 16103
+7074 16104
+7074 16106
+7074 16107
+7074 16108
+7074 16110
+7074 16111
+7074 16112
+7074 16114
+7074 16115
+7074 16116
+7074 16118
+7074 16119
+7074 16120
+7074 16122
+7074 16123
+7074 16124
+7074 16126
+7074 16127
+7074 16128
+7074 16130
+7074 16131
+7074 16132
+7074 16135
+7074 16136
+7074 16137
+7074 16139
+7074 16140
+7074 16141
+7074 16143
+7074 16144
+7074 16145
+7074 16147
+7074 16148
+7074 16149
+7074 16151
+7074 16152
+7074 16153
+7074 16155
+7074 16156
+7074 16157
+7074 16159
+7074 16160
+7074 16161
+7074 16163
+7074 16164
+7080 16076
+7080 16171
+7081 16083
+7081 16178
+7088 16214
+7237 17826
+7242 17829
+7247 17832
+7288 18091
+7288 18208
+7288 18212
+7291 18090
+7296 18091
+7296 18208
+7296 18211
+7324 18267
+7324 18268
+7324 18274
+7324 18275
+7324 18276
+7324 18277
+7324 18278
+7324 18280
+7324 18258
+7326 18321
+7326 18383
+7326 18387
+7329 18321
+7329 18383
+7329 18386
+7330 18434
+7330 18435
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.socket_pids status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin network.process_names kind=cmd tool=sh limit=4194304
+1 0 init
+10 0 watchdog/1
+11 0 events/0
+1106 0 dhclient
+1167 0 auditd
+1189 0 rsyslogd
+12 0 events/1
+1236 0 acpid
+1267 0 udevd
+13 0 events/0
+14 0 events/1
+15 0 events_long/0
+16 0 events_long/1
+17 0 events_power_ef
+18 0 events_power_ef
+19 0 cgroup
+2 0 kthreadd
+20 0 khelper
+21 0 netns
+22 0 async/mgr
+23 0 pm
+24 0 sync_supers
+25 0 bdi-default
+251 0 scsi_eh_0
+253 0 scsi_eh_1
+26 0 kintegrityd/0
+27 0 kintegrityd/1
+28 0 kblockd/0
+284 0 virtio-blk
+29 0 kblockd/1
+3 0 migration/0
+30 0 kacpid
+31 0 kacpi_notify
+32 0 kacpi_hotplug
+33 0 ata_aux
+34 0 ata_sff/0
+35 0 ata_sff/1
+36 0 ksuspend_usbd
+37 0 khubd
+38 0 kseriod
+39 0 md/0
+390 0 jbd2/vda1-8
+391 0 ext4-dio-unwrit
+4 0 ksoftirqd/0
+40 0 md/1
+41 0 md_misc/0
+42 0 md_misc/1
+43 0 linkwatch
+46 0 khungtaskd
+47 0 lru-add-drain/0
+472 0 flush-252:0
+473 0 flush-252:16
+479 0 udevd
+48 0 lru-add-drain/1
+49 0 kswapd0
+5 0 stopper/0
+50 0 ksmd
+51 0 khugepaged
+52 0 aio/0
+53 0 aio/1
+54 0 crypto/0
+55 0 crypto/1
+6 0 watchdog/0
+608 0 virtio-net
+62 0 kthrotld/0
+63 0 kthrotld/1
+65 0 kpsmoused
+66 0 usbhid_resumer
+67 0 deferwq
+6916 0 sshd
+7 0 migration/1
+7074 0 master
+7080 89 pickup
+7081 89 qmgr
+7088 0 crond
+7109 0 agetty
+7111 0 mingetty
+7233 0 sh
+7237 0 nc
+7238 0 sh
+7242 0 nc
+7243 0 sh
+7247 0 nc
+7248 4242 python
+7288 0 sshd
+7291 0 ssh
+7296 2001 sshd
+7301 2001 sleep
+7324 38 ntpd
+7326 0 sshd
+7329 500 sshd
+7330 0 sudo
+7337 0 sh
+8 0 stopper/1
+802 0 kauditd
+840 0 ib_addr
+845 0 infiniband/0
+846 0 infiniband/1
+855 0 ib_mcast
+860 0 iw_cm_wq
+866 0 ib_cm/0
+867 0 ib_cm/1
+872 0 rdma_cm
+8829 0 sh
+8830 0 sh
+8831 0 sh
+8832 0 sh
+8833 0 head
+8834 0 sh
+8835 0 timeout
+8836 0 awk
+8837 0 sh
+893 0 ipoib_flush
+9 0 ksoftirqd/1
+98 0 kdmremove
+99 0 kstriped
+
+--8919c183f550ffd8911e2e6e7de301c3 end network.process_names status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin firewall.nft_json kind=cmd tool=nft limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end firewall.nft_json status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note firewall.nft_json nf_tables is not in the kernel
+--8919c183f550ffd8911e2e6e7de301c3 begin firewall.nft kind=cmd tool=nft limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end firewall.nft status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note firewall.nft nf_tables is not in the kernel
+--8919c183f550ffd8911e2e6e7de301c3 begin firewall.iptables_legacy kind=cmd tool=sh limit=4194304
+# Generated by iptables-save v1.4.7 on Sat Oct 17 10:20:01 2026
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [429:93529]
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A INPUT -p icmp -j ACCEPT 
+-A INPUT -i lo -j ACCEPT 
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT 
+-A INPUT -j REJECT --reject-with icmp-host-prohibited 
+-A INPUT -s 192.0.2.10/32 -p tcp -m tcp --dport 22 -j ACCEPT 
+-A FORWARD -j REJECT --reject-with icmp-host-prohibited 
+-A FORWARD -s 10.0.0.0/8 -j ACCEPT 
+-A OUTPUT -d 198.51.100.5/32 -p tcp -m tcp --dport 443 -j ACCEPT 
+COMMIT
+# Completed on Sat Oct 17 10:20:01 2026
+
+--8919c183f550ffd8911e2e6e7de301c3 end firewall.iptables_legacy status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin firewall.ip6tables_legacy kind=cmd tool=sh limit=4194304
+# Generated by ip6tables-save v1.4.7 on Sat Oct 17 10:20:01 2026
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A INPUT -p ipv6-icmp -j ACCEPT 
+-A INPUT -i lo -j ACCEPT 
+-A INPUT -d fe80::/64 -p udp -m state --state NEW -m udp --dport 546 -j ACCEPT 
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT 
+-A INPUT -j REJECT --reject-with icmp6-adm-prohibited 
+-A INPUT -s 2001:db8::10/128 -p tcp -m tcp --dport 22 -j ACCEPT 
+-A FORWARD -j REJECT --reject-with icmp6-adm-prohibited 
+COMMIT
+# Completed on Sat Oct 17 10:20:01 2026
+
+--8919c183f550ffd8911e2e6e7de301c3 end firewall.ip6tables_legacy status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin firewall.firewalld kind=cmd tool=firewall-cmd limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end firewall.firewalld status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note firewall.firewalld firewalld is not running
+--8919c183f550ffd8911e2e6e7de301c3 begin firewall.ufw kind=cmd tool=ufw limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end firewall.ufw status=missing rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note firewall.ufw tool not found: ufw
+--8919c183f550ffd8911e2e6e7de301c3 begin timesync.chrony_conf kind=file path=/etc/chrony.conf limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end timesync.chrony_conf status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note timesync.chrony_conf not found: /etc/chrony.conf
+--8919c183f550ffd8911e2e6e7de301c3 begin timesync.chrony_conf_debian kind=file path=/etc/chrony/chrony.conf limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end timesync.chrony_conf_debian status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note timesync.chrony_conf_debian not found: /etc/chrony/chrony.conf
+--8919c183f550ffd8911e2e6e7de301c3 begin timesync.chronyc kind=cmd tool=chronyc limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end timesync.chronyc status=missing rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note timesync.chronyc tool not found: chronyc
+--8919c183f550ffd8911e2e6e7de301c3 begin timesync.ntp_conf kind=file path=/etc/ntp.conf limit=4194304
+# For more information about this file, see the man pages
+# ntp.conf(5), ntp_acc(5), ntp_auth(5), ntp_clock(5), ntp_misc(5), ntp_mon(5).
+
+driftfile /var/lib/ntp/drift
+
+# Permit time synchronization with our time source, but do not
+# permit the source to query or modify the service on this system.
+restrict default kod nomodify notrap nopeer noquery
+restrict -6 default kod nomodify notrap nopeer noquery
+
+# Permit all access over the loopback interface.  This could
+# be tightened as well, but to do so would effect some of
+# the administrative functions.
+restrict 127.0.0.1 
+restrict -6 ::1
+
+# Hosts on local network are less restricted.
+#restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap
+
+# Use public servers from the pool.ntp.org project.
+# Please consider joining the pool (http://www.pool.ntp.org/join.html).
+server 0.centos.pool.ntp.org iburst
+server 1.centos.pool.ntp.org iburst
+server 2.centos.pool.ntp.org iburst
+server 3.centos.pool.ntp.org iburst
+
+#broadcast 192.168.1.255 autokey	# broadcast server
+#broadcastclient			# broadcast client
+#broadcast 224.0.1.1 autokey		# multicast server
+#multicastclient 224.0.1.1		# multicast client
+#manycastserver 239.255.254.254		# manycast server
+#manycastclient 239.255.254.254 autokey # manycast client
+
+# Enable public key cryptography.
+#crypto
+
+includefile /etc/ntp/crypto/pw
+
+# Key file containing the keys and key identifiers used when operating
+# with symmetric key cryptography. 
+keys /etc/ntp/keys
+
+# Specify the key identifiers which are trusted.
+#trustedkey 4 8 42
+
+# Specify the key identifier to use with the ntpdc utility.
+#requestkey 8
+
+# Specify the key identifier to use with the ntpq utility.
+#controlkey 8
+
+# Enable writing of statistics records.
+#statistics clockstats cryptostats loopstats peerstats
+server 192.0.2.125 iburst
+
+--8919c183f550ffd8911e2e6e7de301c3 end timesync.ntp_conf status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin timesync.ntpq kind=cmd tool=ntpq limit=4194304
+     remote           refid      st t when poll reach   delay   offset  jitter
+==============================================================================
+*185.134.42.7    150.214.94.5     2 u    2   64    1   36.551   -1.688   1.915
+ 92.113.12.78    .INIT.          16 u    -   64    0    0.000    0.000   0.000
+ 195.20.235.143  150.214.94.10    2 u    2   64    1   36.045   -0.179   2.428
+ 94.143.139.219  150.214.94.10    2 u    1   64    1   32.864   -4.253   2.396
+ 192.0.2.125     .INIT.          16 u    -   64    0    0.000    0.000   0.000
+
+--8919c183f550ffd8911e2e6e7de301c3 end timesync.ntpq status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin timesync.timesyncd_conf kind=cmd tool=sh limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end timesync.timesyncd_conf status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note timesync.timesyncd_conf no timesyncd configuration
+--8919c183f550ffd8911e2e6e7de301c3 begin timesync.timedatectl kind=cmd tool=timedatectl limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end timesync.timedatectl status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note timesync.timedatectl systemd is not running
+--8919c183f550ffd8911e2e6e7de301c3 begin processes.stat kind=cmd tool=sh limit=4194304
+1 (init) S 0 1 1 0 -1 4202752 2732 2315026 9 491 17 182 6771 3514 20 0 1 0 5 19693568 376 18446744073709551615 94129230131200 94129230271700 140732994342784 140732994341864 140557285832323 0 0 4096 536962595 18446744071580653177 0 0 0 0 0 0 0 0 0
+10 (watchdog/1) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 -100 0 1 0 14 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579860218 0 0 17 1 99 1 0 0 0
+11 (events/0) S 2 0 0 0 -1 2216730688 0 0 0 0 0 4 0 0 20 0 1 0 14 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+1106 (dhclient) S 1 1106 1106 0 -1 4202560 71 0 0 0 0 0 0 0 20 0 1 0 2354 9334784 174 18446744073709551615 94103558168576 94103558725476 140728413120128 140728413118232 140295673112195 0 0 0 0 18446744071580653177 0 0 17 0 0 0 0 0 0
+1167 (auditd) S 1 1167 1167 0 -1 4202816 200 0 0 0 2 7 0 0 16 -4 2 0 2426 30478336 210 18446744073709551615 93870339489792 93870339588284 140726149770976 140726149751184 140519321313859 0 0 2147136766 84481 18446744073709551615 0 0 17 0 0 0 0 0 0
+1189 (rsyslogd) S 1 1183 803 0 -1 4202816 394 0 4 0 10 13 0 0 20 0 4 0 2455 255127552 409 18446744073709551615 94872355442688 94872355804152 140725700724752 140725700724112 140395483907747 0 0 16781830 1133601 18446744073709551615 0 0 17 0 0 0 0 0 0
+12 (events/1) S 2 0 0 0 -1 2216730688 0 0 0 0 0 3 0 0 20 0 1 0 15 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+1236 (acpid) S 1 1236 1236 0 -1 4202560 154 0 0 0 0 0 0 0 20 0 1 0 2505 4173824 161 18446744073709551615 94819423875072 94819423895964 140730995235424 140730995234224 140162332976072 0 0 4096 16391 18446744071580653177 0 0 17 1 0 0 0 0 0
+1267 (udevd) S 479 479 479 0 -1 4202816 313 410 0 0 0 17 0 2 18 -2 1 0 2851 11427840 377 18446744073709551615 94849332662272 94849332786828 140734179263088 140734179257568 139882857161927 0 2147196671 0 24576 18446744071580653177 0 0 17 1 0 0 0 0 0
+13 (events/0) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 15 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+14 (events/1) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 15 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+15 (events_long/0) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 15 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+16 (events_long/1) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 15 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+17 (events_power_ef) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 15 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+18 (events_power_ef) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 15 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+19 (cgroup) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 15 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+2 (kthreadd) S 0 0 0 0 -1 2149621824 0 0 0 0 0 1 0 0 20 0 1 0 6 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579544405 0 0 0 0 0 0 0 0 0
+20 (khelper) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 15 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+21 (netns) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 15 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+22 (async/mgr) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 15 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579579571 0 0 17 1 0 0 0 0 0
+23 (pm) S 2 0 0 0 -1 2149589056 0 0 0 0 0 0 0 0 20 0 1 0 15 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+24 (sync_supers) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 17 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071580251643 0 0 17 1 0 0 0 0 0
+25 (bdi-default) S 2 0 0 0 -1 2157981760 0 0 0 0 0 0 0 0 20 0 1 0 17 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071580254922 0 0 17 0 0 0 0 0 0
+251 (scsi_eh_0) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 253 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071582699448 0 0 17 0 0 0 0 0 0
+253 (scsi_eh_1) S 2 0 0 0 -1 2149621824 0 0 0 0 0 1 0 0 20 0 1 0 253 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071582699448 0 0 17 0 0 0 0 0 0
+26 (kintegrityd/0) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 17 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+27 (kintegrityd/1) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 17 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+28 (kblockd/0) S 2 0 0 0 -1 2216730688 0 0 0 0 0 22 0 0 20 0 1 0 17 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+284 (virtio-blk) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 301 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+29 (kblockd/1) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 17 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+3 (migration/0) S 2 0 0 0 -1 2216730688 0 0 0 0 0 4 0 0 -100 0 1 0 7 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579336229 0 0 17 0 99 1 0 0 0
+30 (kacpid) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 18 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+31 (kacpi_notify) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 18 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+32 (kacpi_hotplug) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 18 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+33 (ata_aux) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 24 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+34 (ata_sff/0) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 24 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+35 (ata_sff/1) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 24 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+36 (ksuspend_usbd) S 2 0 0 0 -1 2149589056 0 0 0 0 0 0 0 0 20 0 1 0 24 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+37 (khubd) S 2 0 0 0 -1 2149589056 0 0 0 0 0 0 0 0 20 0 1 0 24 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071582944105 0 0 17 0 0 0 0 0 0
+38 (kseriod) S 2 0 0 0 -1 2149589312 0 0 0 0 0 0 0 0 20 0 1 0 25 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071583126506 0 0 17 1 0 0 0 0 0
+39 (md/0) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 25 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+390 (jbd2/vda1-8) S 2 0 0 0 -1 2149621824 0 0 0 0 0 10 0 0 20 0 1 0 369 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744072099519482 0 0 17 1 0 0 16 0 0
+391 (ext4-dio-unwrit) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 369 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+4 (ksoftirqd/0) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 7 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579407077 0 0 17 0 0 0 0 0 0
+40 (md/1) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 25 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+41 (md_misc/0) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 25 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+42 (md_misc/1) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 25 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+43 (linkwatch) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 25 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+46 (khungtaskd) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 113 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579857602 0 0 17 1 0 0 0 0 0
+47 (lru-add-drain/0) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 113 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+472 (flush-252:0) S 2 0 0 0 -1 2157981760 0 0 0 0 0 21 0 0 20 0 1 0 750 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071580745786 0 0 17 1 0 0 0 0 0
+473 (flush-252:16) S 2 0 0 0 -1 2157981760 0 0 0 0 0 0 0 0 20 0 1 0 750 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071580745738 0 0 17 0 0 0 0 0 0
+479 (udevd) S 1 479 479 0 -1 4202816 1103 70529 0 24 13 14 95 164 16 -4 1 0 846 11476992 364 18446744073709551615 94849332662272 94849332786828 140734179263088 140734179258144 139882857161672 0 2147221247 0 0 18446744071580653177 0 0 17 1 0 0 0 0 0
+48 (lru-add-drain/1) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 113 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+49 (kswapd0) S 2 0 0 0 -1 2158241856 0 0 0 0 0 0 0 0 20 0 1 0 113 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071580224219 0 0 17 0 0 0 0 0 0
+5 (stopper/0) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 -100 0 1 0 7 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579780693 0 0 17 0 99 1 0 0 0
+50 (ksmd) S 2 0 0 0 -1 2149589056 0 0 0 0 0 0 0 0 25 5 1 0 113 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071580439411 0 0 17 1 0 0 0 0 0
+51 (khugepaged) S 2 0 0 0 -1 2149589056 0 0 0 0 0 3 0 0 39 19 1 0 113 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071580524415 0 0 17 1 0 0 0 0 0
+52 (aio/0) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 114 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+53 (aio/1) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 114 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+54 (crypto/0) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 114 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+55 (crypto/1) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 114 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+6 (watchdog/0) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 -100 0 1 0 7 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579860218 0 0 17 0 99 1 0 0 0
+608 (virtio-net) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 960 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+62 (kthrotld/0) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 115 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+63 (kthrotld/1) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 115 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+65 (kpsmoused) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 149 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+66 (usbhid_resumer) S 2 0 0 0 -1 2149589056 0 0 0 0 0 0 0 0 20 0 1 0 150 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+67 (deferwq) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 151 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+6916 (sshd) S 1 6916 6916 0 -1 4202816 273 21425 0 7 0 4 50 312 20 0 1 0 7331 67878912 300 18446744073709551615 94389302185984 94389302743356 140736859447184 140736859444104 139830385280643 0 0 16781312 81925 18446744071580653177 0 0 17 1 0 0 0 0 0
+7 (migration/1) S 2 0 0 0 -1 2216730688 0 0 0 0 0 4 0 0 -100 0 1 0 7 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579336229 0 0 17 1 99 1 0 0 0
+7074 (master) S 1 7074 7074 0 -1 4202752 1068 0 0 0 7 2 0 0 20 0 1 0 7818 82956288 869 18446744073709551615 94166302334976 94166302480732 140720535632832 140720535631288 140268252705315 0 0 4096 91215 18446744071580860540 0 0 17 0 0 0 0 0 0
+7080 (pickup) S 7074 7074 7074 0 -1 4202752 1008 0 1 0 1 2 0 0 20 0 1 0 7835 83038208 861 18446744073709551615 94006471151616 94006471374612 140731459728880 140731459726024 140428859449891 0 0 16781312 8192 18446744071580860540 0 0 17 0 0 0 0 0 0
+7081 (qmgr) S 7074 7074 7074 0 -1 4202752 1017 0 2 0 2 1 0 0 20 0 1 0 7835 83107840 871 18446744073709551615 94791793778688 94791794073356 140736899673680 140736899670744 140340841972259 0 0 16781312 8192 18446744071580860540 0 0 17 1 0 0 1 0 0
+7088 (crond) S 1 7088 7088 0 -1 4202560 305 0 0 0 0 116 0 0 20 0 1 0 7847 119689216 345 18446744073709551615 93875244285952 93875244343580 140731285562128 140731285560856 140490880060576 0 0 0 81923 18446744071579567476 0 0 17 0 0 0 0 0 0
+7109 (agetty) S 1 7109 7109 1088 7109 4202496 545 0 1 0 0 2 0 0 20 0 1 0 7920 4173824 162 18446744073709551615 4194304 4211148 140726747779504 140726747779032 140379472070640 0 0 0 0 18446744071582337078 0 0 17 0 0 0 0 0 0
+7111 (mingetty) S 1 7111 7111 1025 7111 4202752 531 0 0 0 0 1 0 0 20 0 1 0 7928 4157440 148 18446744073709551615 4194304 4205796 140728549134864 140728549134568 139680943392752 0 0 0 0 18446744071582337078 0 0 17 1 0 0 0 0 0
+7233 (sh) S 1 7233 7233 0 -1 4202752 1044 647 0 0 1 0 0 0 20 0 1 0 11259 108621824 328 18446744073709551615 4194304 5063084 140736411753728 140736411752320 140416593270942 0 65536 16777222 65536 18446744071579390708 0 0 17 1 0 0 0 0 0
+7237 (nc) S 7233 7233 7233 0 -1 4202496 275 0 0 0 0 0 0 0 20 0 1 0 11262 12275712 164 18446744073709551615 4194304 4213180 140724045328384 140724045311336 140398227978224 0 0 16777222 0 18446744071583894257 0 0 17 1 0 0 0 0 0
+7238 (sh) S 1 7238 7238 0 -1 4202752 1046 649 0 0 1 2 0 0 20 0 1 0 11361 108621824 329 18446744073709551615 4194304 5063084 140723839955056 140723839953648 140016696576158 0 65536 16777222 65536 18446744071579390708 0 0 17 1 0 0 0 0 0
+7242 (nc) S 7238 7238 7238 0 -1 4202496 276 0 0 0 0 0 0 0 20 0 1 0 11366 12275712 165 18446744073709551615 4194304 4213180 140735751697248 140735751680200 140045389973488 0 0 16777222 0 18446744071583894257 0 0 17 1 0 0 0 0 0
+7243 (sh) S 1 7243 7243 0 -1 4202752 1047 647 0 0 1 2 0 0 20 0 1 0 11463 108621824 328 18446744073709551615 4194304 5063084 140727715148880 140727715147472 140102506920094 0 65536 16777222 65536 18446744071579390708 0 0 17 0 0 0 0 0 0
+7247 (nc) S 7243 7243 7243 0 -1 4202496 276 0 0 0 0 1 0 0 20 0 1 0 11468 12275712 164 18446744073709551615 4194304 4213180 140729741865312 140729741848264 140475416803923 0 0 16777222 0 18446744071583567598 0 0 17 0 0 0 0 0 0
+7248 (python) S 1 7248 7248 0 -1 4202752 1259 0 0 0 4 3 0 0 20 0 1 0 11567 120111104 946 18446744073709551615 4194304 4196532 140722746396464 140722746395096 140202978616963 0 0 16781318 0 18446744071580653177 0 0 17 0 0 0 0 0 0
+7288 (sshd) S 6916 7288 7288 0 -1 4202752 1292 703 0 0 2 25 0 1 20 0 1 0 11938 98238464 987 18446744073709551615 94689365827584 94689366384956 140720870488160 140720870485112 139729288304624 0 0 16781312 16387 18446744071584247753 0 0 17 0 0 0 0 0 0
+7291 (ssh) S 1 7291 7291 0 -1 4202560 147 0 0 0 0 1 0 0 20 0 1 0 11955 61321216 322 18446744073709551615 93940337287168 93940337723500 140720526251664 140720526243640 139729214375555 0 0 16781312 134234119 18446744071580653177 0 0 17 0 0 0 0 0 0
+7296 (sshd) S 7288 7288 7288 0 -1 4202816 289 0 0 0 0 0 0 0 20 0 1 0 11978 98238464 459 18446744073709551615 94689365827584 94689366384956 140720870488160 140720870485048 139729288328835 0 0 16781312 65536 18446744071580653177 0 0 17 0 0 0 0 0 0
+7301 (sleep) S 7296 7301 7301 34816 7301 4202496 632 0 0 0 0 1 0 0 20 0 1 0 11981 103342080 153 18446744073709551615 4194304 4215308 140729797742752 140729797742280 140296296012960 0 0 16777216 0 18446744071579567476 0 0 17 0 0 0 0 0 0
+7324 (ntpd) S 1 7324 7324 0 -1 4202816 502 0 0 0 2 4 0 0 20 0 1 0 12016 31477760 530 18446744073709551615 94280197967872 94280198676228 140735868669360 140735868668840 140304380397187 0 0 16781312 19015 18446744071580653177 0 0 17 1 0 0 0 0 0
+7326 (sshd) S 6916 7326 7326 0 -1 4202752 1275 704 0 0 3 27 1 1 20 0 1 0 12221 98238464 984 18446744073709551615 94009680007168 94009680564540 140731357440992 140731357437944 139706923804656 0 0 16781312 16387 18446744071584247753 0 0 17 0 0 0 0 0 0
+7329 (sshd) S 7326 7326 7326 0 -1 4202816 325 0 0 0 4 11 0 0 20 0 1 0 12258 98553856 487 18446744073709551615 94009680007168 94009680564540 140731357440992 140731357437880 139706923828867 0 0 16781312 65536 18446744071580653177 0 0 17 1 0 0 0 0 0
+7330 (sudo) S 7329 7330 7330 0 -1 4202752 1374 1273 0 0 2 6 0 2 20 0 1 0 12260 173146112 669 18446744073709551615 94354898747392 94354898863012 140737150758656 140737150756792 140303128319619 0 0 16777216 752135 18446744071580653177 0 0 17 1 0 0 0 0 0
+7337 (sh) S 7330 7330 7330 0 -1 4202752 8212 370210 0 10 25 23 177 588 20 0 1 0 12272 108888064 421 18446744073709551615 4194304 5063084 140737077501968 140737077490664 139898332170224 0 0 16777220 65536 18446744071580600299 0 0 17 1 0 0 0 0 0
+8 (stopper/1) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 -100 0 1 0 7 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579780693 0 0 17 1 99 1 0 0 0
+802 (kauditd) S 2 0 0 0 -1 2149589056 0 0 0 0 0 2 0 0 20 0 1 0 1447 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579802553 0 0 17 0 0 0 0 0 0
+840 (ib_addr) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 1510 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+845 (infiniband/0) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 1519 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+846 (infiniband/1) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 1519 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+855 (ib_mcast) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 1530 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+860 (iw_cm_wq) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 1535 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+866 (ib_cm/0) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 1541 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+867 (ib_cm/1) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 1541 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+872 (rdma_cm) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 1547 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+8908 (sh) S 7337 7330 7330 0 -1 4202560 155 0 0 0 0 0 0 0 20 0 1 0 13059 108888064 200 18446744073709551615 4194304 5063084 140737077501968 140737077489152 139898331977886 0 65536 16777216 65538 18446744071579390708 0 0 17 0 0 0 0 0 0
+8909 (sh) S 8908 7330 7330 0 -1 4202560 117 0 0 0 0 0 0 0 20 0 1 0 13059 108888064 167 18446744073709551615 4194304 5063084 140737077501968 140737077488080 139898331977886 0 65536 16777216 65538 18446744071579390708 0 0 17 1 0 0 0 0 0
+8910 (sh) S 8908 7330 7330 0 -1 4202560 143 0 0 0 0 0 0 0 20 0 1 0 13059 108888064 207 18446744073709551615 4194304 5063084 140737077501968 140737077486904 139898332170224 0 0 16777216 65538 18446744071580600299 0 0 17 0 0 0 0 0 0
+8911 (sh) S 8909 7330 7330 0 -1 4202560 149 0 0 0 0 0 0 0 20 0 1 0 13059 108888064 195 18446744073709551615 4194304 5063084 140737077501968 140737077486464 139898331977886 0 65536 16777216 65538 18446744071579390708 0 0 17 1 0 0 0 0 0
+8912 (head) S 8909 7330 7330 0 -1 4202752 268 0 0 0 0 0 0 0 20 0 1 0 13059 4177920 142 18446744073709551615 4194304 4223292 140736309514752 140736309505816 140519303034864 0 0 16777216 0 18446744071580600299 0 0 17 1 0 0 0 0 0
+8913 (sh) S 8910 7330 7330 0 -1 4202816 150 0 0 0 0 0 0 0 20 0 1 0 13059 108888064 206 18446744073709551615 4194304 5063084 140737077501968 140737077486192 139898331977886 0 65536 16777216 65538 18446744071579390708 0 0 17 1 0 0 0 0 0
+8914 (timeout) S 8911 8914 7330 0 -1 4202496 238 0 0 0 0 0 0 0 20 0 1 0 13059 4218880 168 18446744073709551615 4194304 4237004 140725454292640 140725454292128 140192992217092 0 0 19922944 24583 18446744071579390708 0 0 17 0 0 0 0 0 0
+8915 (awk) S 8913 7330 7330 0 -1 4202496 308 0 0 0 0 0 0 0 20 0 1 0 13059 9297920 236 18446744073709551615 4194304 4546804 140725025767424 140725025766728 139729634494448 0 0 16777216 1216 18446744071580600299 0 0 17 1 0 0 0 0 0
+8916 (sh) S 8914 8914 7330 0 -1 4202752 383 0 0 0 0 0 0 0 20 0 1 0 13059 9416704 314 18446744073709551615 4194304 5063084 140733446478400 140733446476960 140233731582110 0 65536 16777220 65538 18446744071579390708 0 0 17 0 0 0 0 0 0
+893 (ipoib_flush) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 1573 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+9 (ksoftirqd/1) S 2 0 0 0 -1 2216730688 0 0 0 0 0 0 0 0 20 0 1 0 7 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579407077 0 0 17 1 0 0 0 0 0
+98 (kdmremove) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 184 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 1 0 0 0 0 0
+99 (kstriped) S 2 0 0 0 -1 2149621824 0 0 0 0 0 0 0 0 20 0 1 0 184 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 18446744071579517637 0 0 17 0 0 0 0 0 0
+
+--8919c183f550ffd8911e2e6e7de301c3 end processes.stat status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin processes.status kind=cmd tool=sh limit=4194304
+1 0 1504 1
+10 0  1
+11 0  1
+1106 0 696 1
+1167 0 840 2
+1189 0 1636 4
+12 0  1
+1236 0 644 1
+1267 0 1508 1
+13 0  1
+14 0  1
+15 0  1
+16 0  1
+17 0  1
+18 0  1
+19 0  1
+2 0  1
+20 0  1
+21 0  1
+22 0  1
+23 0  1
+24 0  1
+25 0  1
+251 0  1
+253 0  1
+26 0  1
+27 0  1
+28 0  1
+284 0  1
+29 0  1
+3 0  1
+30 0  1
+31 0  1
+32 0  1
+33 0  1
+34 0  1
+35 0  1
+36 0  1
+37 0  1
+38 0  1
+39 0  1
+390 0  1
+391 0  1
+4 0  1
+40 0  1
+41 0  1
+42 0  1
+43 0  1
+46 0  1
+47 0  1
+472 0  1
+473 0  1
+479 0 1456 1
+48 0  1
+49 0  1
+5 0  1
+50 0  1
+51 0  1
+52 0  1
+53 0  1
+54 0  1
+55 0  1
+6 0  1
+608 0  1
+62 0  1
+63 0  1
+65 0  1
+66 0  1
+67 0  1
+6916 0 1200 1
+7 0  1
+7074 0 3476 1
+7080 89 3444 1
+7081 89 3484 1
+7088 0 1380 1
+7109 0 648 1
+7111 0 592 1
+7233 0 1312 1
+7237 0 656 1
+7238 0 1316 1
+7242 0 660 1
+7243 0 1312 1
+7247 0 656 1
+7248 4242 3784 1
+7288 0 3948 1
+7291 0 1288 1
+7296 2001 1836 1
+7301 2001 612 1
+7324 38 2120 1
+7326 0 3936 1
+7329 500 1948 1
+7330 0 2676 1
+7337 0 1684 1
+8 0  1
+802 0  1
+840 0  1
+845 0  1
+846 0  1
+855 0  1
+860 0  1
+866 0  1
+867 0  1
+872 0  1
+8924 0 800 1
+8925 0 672 1
+8926 0 828 1
+8927 0 780 1
+8928 0 532 1
+8929 0 824 1
+893 0  1
+8930 0 676 1
+8931 0 944 1
+8932 0 1268 1
+9 0  1
+98 0  1
+99 0  1
+
+--8919c183f550ffd8911e2e6e7de301c3 end processes.status status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin processes.cmdline kind=cmd tool=sh limit=4194304
+1 /sbin/init 
+10 
+11 
+1106 /sbin/dhclient -1 -q -cf /etc/dhcp/dhclient-eth0.conf -lf /var/lib/dhclient/dhclient-eth0.leases -pf /var/run/dhclient-eth0.pid eth0 
+1167 auditd 
+1189 /sbin/rsyslogd -i /var/run/syslogd.pid -c 5 
+12 
+1236 /usr/sbin/acpid 
+1267 /sbin/udevd -d 
+13 
+14 
+15 
+16 
+17 
+18 
+19 
+2 
+20 
+21 
+22 
+23 
+24 
+25 
+251 
+253 
+26 
+27 
+28 
+284 
+29 
+3 
+30 
+31 
+32 
+33 
+34 
+35 
+36 
+37 
+38 
+39 
+390 
+391 
+4 
+40 
+41 
+42 
+43 
+46 
+47 
+472 
+473 
+479 /sbin/udevd -d 
+48 
+49 
+5 
+50 
+51 
+52 
+53 
+54 
+55 
+6 
+608 
+62 
+63 
+65 
+66 
+67 
+6916 /usr/sbin/sshd 
+7 
+7074 /usr/libexec/postfix/master 
+7080 pickup -l -t fifo -u 
+7081 qmgr -l -t fifo -u 
+7088 crond 
+7109 /sbin/agetty /dev/ttyS0 115200 vt100-nav 
+7111 /sbin/mingetty /dev/tty1 
+7233 sh -c while :; do nc -6 -l 8080 < /dev/null; done 
+7237 nc -6 -l 8080 
+7238 sh -c while :; do nc -l 127.0.0.1 8081 < /dev/null; done 
+7242 nc -l 127.0.0.1 8081 
+7243 sh -c while :; do nc -u -l 5514 < /dev/null; done 
+7247 nc -u -l 5514 
+7248 python -c import os, time; os.setgroups([]); os.setgid(4242); os.setuid(4242); time.sleep(3600) 
+7288 sshd: alice [priv]
+7291 ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -tt -f alice@127.0.0.1 sleep 3600 
+7296 sshd: alice@pts/0 
+7301 sleep 3600 
+7324 ntpd -u ntp:ntp -p /var/run/ntpd.pid -g 
+7326 sshd: centos [priv]
+7329 sshd: centos@notty
+7330 sudo sh -s 
+7337 sh -s 
+8 
+802 
+840 
+845 
+846 
+855 
+860 
+866 
+867 
+872 
+893 
+8940 sh -s 
+8941 sh -s 
+8942 sh -s 
+8943 sh -s 
+8944 head -c 4194305 
+8945 sh -s 
+8946 timeout 60 sh -c          for p in /proc/[0-9]*; do             [ -r "$p/cmdline" ] || continue             printf "%s " "${p#/proc/}"             head -c 512 "$p/cmdline" 2>/dev/null | tr "\000\n" "  "             echo         done | awk "$1" sh  {     for (i = 2; i <= NF; i++) {         low = tolower($i)         if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)=/)             $i = substr($i, 1, index($i, "=")) "***"         else if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?
+8947 awk length(s) < 400 { s = s " " $0 } END { s = substr(s, 2, 400)         gsub(/[^ -~]/, "?", s); print s } 
+8948 sh -c          for p in /proc/[0-9]*; do             [ -r "$p/cmdline" ] || continue             printf "%s " "${p#/proc/}"             head -c 512 "$p/cmdline" 2>/dev/null | tr "\000\n" "  "             echo         done | awk "$1" sh  {     for (i = 2; i <= NF; i++) {         low = tolower($i)         if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)=/)             $i = substr($i, 1, index($i, "=")) "***"         else if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)$/ && i
+8949 sh -c          for p in /proc/[0-9]*; do             [ -r "$p/cmdline" ] || continue             printf "%s " "${p#/proc/}"             head -c 512 "$p/cmdline" 2>/dev/null | tr "\000\n" "  "             echo         done | awk "$1" sh  {     for (i = 2; i <= NF; i++) {         low = tolower($i)         if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)=/)             $i = substr($i, 1, index($i, "=")) "***"         else if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)$/ && i
+8950 awk  {     for (i = 2; i <= NF; i++) {         low = tolower($i)         if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)=/)             $i = substr($i, 1, index($i, "=")) "***"         else if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)$/ && i < NF)             $(++i) = "***"     }     print } 
+9 
+98 
+99 
+
+--8919c183f550ffd8911e2e6e7de301c3 end processes.cmdline status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin processes.uptime kind=file path=/proc/uptime limit=4194304
+131.27 127.54
+
+--8919c183f550ffd8911e2e6e7de301c3 end processes.uptime status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin processes.clk_tck kind=cmd tool=getconf limit=4194304
+100
+
+--8919c183f550ffd8911e2e6e7de301c3 end processes.clk_tck status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin load.uptime_1 kind=file path=/proc/uptime limit=4194304
+131.33 127.57
+
+--8919c183f550ffd8911e2e6e7de301c3 end load.uptime_1 status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin load.stat_1 kind=file path=/proc/stat limit=4194304
+cpu  5638 0 4440 13074 23 1 54 0 0
+cpu0 3143 0 2527 5618 16 1 34 0 0
+cpu1 2494 0 1913 7455 6 0 20 0 0
+intr 162883 178 6 0 0 145 0 0 0 1 0 0 0 108 0 0 114 0 0 0 0 0 0 0 0 0 7851 0 24 0 2122 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ctxt 82183
+btime 1792232270
+processes 9247
+procs_running 1
+procs_blocked 0
+softirq 264726 0 124873 0 2263 27 0 152 2207 76 135128
+
+--8919c183f550ffd8911e2e6e7de301c3 end load.stat_1 status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin load.diskstats_1 kind=file path=/proc/diskstats limit=4194304
+   1       0 ram0 0 0 0 0 0 0 0 0 0 0 0
+   1       1 ram1 0 0 0 0 0 0 0 0 0 0 0
+   1       2 ram2 0 0 0 0 0 0 0 0 0 0 0
+   1       3 ram3 0 0 0 0 0 0 0 0 0 0 0
+   1       4 ram4 0 0 0 0 0 0 0 0 0 0 0
+   1       5 ram5 0 0 0 0 0 0 0 0 0 0 0
+   1       6 ram6 0 0 0 0 0 0 0 0 0 0 0
+   1       7 ram7 0 0 0 0 0 0 0 0 0 0 0
+   1       8 ram8 0 0 0 0 0 0 0 0 0 0 0
+   1       9 ram9 0 0 0 0 0 0 0 0 0 0 0
+   1      10 ram10 0 0 0 0 0 0 0 0 0 0 0
+   1      11 ram11 0 0 0 0 0 0 0 0 0 0 0
+   1      12 ram12 0 0 0 0 0 0 0 0 0 0 0
+   1      13 ram13 0 0 0 0 0 0 0 0 0 0 0
+   1      14 ram14 0 0 0 0 0 0 0 0 0 0 0
+   1      15 ram15 0 0 0 0 0 0 0 0 0 0 0
+   7       0 loop0 0 0 0 0 0 0 0 0 0 0 0
+   7       1 loop1 0 0 0 0 0 0 0 0 0 0 0
+   7       2 loop2 0 0 0 0 0 0 0 0 0 0 0
+   7       3 loop3 0 0 0 0 0 0 0 0 0 0 0
+   7       4 loop4 0 0 0 0 0 0 0 0 0 0 0
+   7       5 loop5 0 0 0 0 0 0 0 0 0 0 0
+   7       6 loop6 0 0 0 0 0 0 0 0 0 0 0
+   7       7 loop7 0 0 0 0 0 0 0 0 0 0 0
+  11       0 sr0 0 0 0 0 0 0 0 0 0 0 0
+ 252       0 vda 5356 1114 234802 2888 3255 25625 229384 2524 0 3561 5376
+ 252       1 vda1 5193 1114 233498 2819 3047 25625 229384 2494 0 3489 5277
+ 252      16 vdb 22 0 152 9 0 0 0 0 0 9 9
+
+--8919c183f550ffd8911e2e6e7de301c3 end load.diskstats_1 status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin load.uptime_2 kind=file path=/proc/uptime limit=4194304
+132.47 129.62
+
+--8919c183f550ffd8911e2e6e7de301c3 end load.uptime_2 status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin load.stat_2 kind=file path=/proc/stat limit=4194304
+cpu  5642 0 4453 13280 23 1 54 0 0
+cpu0 3145 0 2533 5721 16 1 34 0 0
+cpu1 2496 0 1919 7559 6 0 20 0 0
+intr 163251 178 6 0 0 145 0 0 0 1 0 0 0 108 0 0 114 0 0 0 0 0 0 0 0 0 7851 0 24 0 2135 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ctxt 82428
+btime 1792232270
+processes 9293
+procs_running 1
+procs_blocked 0
+softirq 265249 0 125111 0 2276 27 0 152 2226 76 135381
+
+--8919c183f550ffd8911e2e6e7de301c3 end load.stat_2 status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin load.diskstats_2 kind=file path=/proc/diskstats limit=4194304
+   1       0 ram0 0 0 0 0 0 0 0 0 0 0 0
+   1       1 ram1 0 0 0 0 0 0 0 0 0 0 0
+   1       2 ram2 0 0 0 0 0 0 0 0 0 0 0
+   1       3 ram3 0 0 0 0 0 0 0 0 0 0 0
+   1       4 ram4 0 0 0 0 0 0 0 0 0 0 0
+   1       5 ram5 0 0 0 0 0 0 0 0 0 0 0
+   1       6 ram6 0 0 0 0 0 0 0 0 0 0 0
+   1       7 ram7 0 0 0 0 0 0 0 0 0 0 0
+   1       8 ram8 0 0 0 0 0 0 0 0 0 0 0
+   1       9 ram9 0 0 0 0 0 0 0 0 0 0 0
+   1      10 ram10 0 0 0 0 0 0 0 0 0 0 0
+   1      11 ram11 0 0 0 0 0 0 0 0 0 0 0
+   1      12 ram12 0 0 0 0 0 0 0 0 0 0 0
+   1      13 ram13 0 0 0 0 0 0 0 0 0 0 0
+   1      14 ram14 0 0 0 0 0 0 0 0 0 0 0
+   1      15 ram15 0 0 0 0 0 0 0 0 0 0 0
+   7       0 loop0 0 0 0 0 0 0 0 0 0 0 0
+   7       1 loop1 0 0 0 0 0 0 0 0 0 0 0
+   7       2 loop2 0 0 0 0 0 0 0 0 0 0 0
+   7       3 loop3 0 0 0 0 0 0 0 0 0 0 0
+   7       4 loop4 0 0 0 0 0 0 0 0 0 0 0
+   7       5 loop5 0 0 0 0 0 0 0 0 0 0 0
+   7       6 loop6 0 0 0 0 0 0 0 0 0 0 0
+   7       7 loop7 0 0 0 0 0 0 0 0 0 0 0
+  11       0 sr0 0 0 0 0 0 0 0 0 0 0 0
+ 252       0 vda 5356 1114 234802 2888 3255 25625 229384 2524 0 3561 5376
+ 252       1 vda1 5193 1114 233498 2819 3047 25625 229384 2494 0 3489 5277
+ 252      16 vdb 22 0 152 9 0 0 0 0 0 9 9
+
+--8919c183f550ffd8911e2e6e7de301c3 end load.diskstats_2 status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin load.meminfo kind=file path=/proc/meminfo limit=4194304
+MemTotal:        1921800 kB
+MemFree:         1566436 kB
+Buffers:           14968 kB
+Cached:           202336 kB
+SwapCached:            0 kB
+Active:           170428 kB
+Inactive:          62908 kB
+Active(anon):      16044 kB
+Inactive(anon):      136 kB
+Active(file):     154384 kB
+Inactive(file):    62772 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Dirty:              3028 kB
+Writeback:             0 kB
+AnonPages:         16064 kB
+Mapped:             8612 kB
+Shmem:               152 kB
+Slab:              93592 kB
+SReclaimable:      37224 kB
+SUnreclaim:        56368 kB
+KernelStack:        1808 kB
+PageTables:         3020 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:      960900 kB
+Committed_AS:      79276 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:       10944 kB
+VmallocChunk:   34359715368 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:         0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:       12136 kB
+DirectMap2M:     2084864 kB
+DirectMap1G:           0 kB
+
+--8919c183f550ffd8911e2e6e7de301c3 end load.meminfo status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin load.loadavg kind=file path=/proc/loadavg limit=4194304
+0.56 0.22 0.08 1/120 9337
+
+--8919c183f550ffd8911e2e6e7de301c3 end load.loadavg status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin load.file_nr kind=file path=/proc/sys/fs/file-nr limit=4194304
+640	0	187978
+
+--8919c183f550ffd8911e2e6e7de301c3 end load.file_nr status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin load.inode_nr kind=file path=/proc/sys/fs/inode-nr limit=4194304
+28012	3
+
+--8919c183f550ffd8911e2e6e7de301c3 end load.inode_nr status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin sessions.who kind=cmd tool=who limit=4194304
+alice    pts/0        Oct 17 10:19 (127.0.0.1)
+
+--8919c183f550ffd8911e2e6e7de301c3 end sessions.who status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin sessions.utmpdump_utmp kind=cmd tool=utmpdump path=/run/utmp limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end sessions.utmpdump_utmp status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note sessions.utmpdump_utmp not found: /run/utmp
+--8919c183f550ffd8911e2e6e7de301c3 begin sessions.utmpdump_wtmp kind=cmd tool=utmpdump limit=4194304
+[2] [00000] [~~  ] [reboot  ] [~           ] [2.6.32-754.17.1.el6.x86_64] [0.0.0.0        ] [Sat Oct 17 10:18:04 2026 UTC]
+[1] [00051] [~~  ] [runlevel] [~           ] [2.6.32-754.17.1.el6.x86_64] [0.0.0.0        ] [Sat Oct 17 10:18:04 2026 UTC]
+[7] [06950] [ts/1] [centos  ] [pts/1       ] [10.0.2.2            ] [10.0.2.2       ] [Sat Oct 17 10:19:06 2026 UTC]
+[8] [06950] [    ] [        ] [pts/1       ] [                    ] [0.0.0.0        ] [Sat Oct 17 10:19:06 2026 UTC]
+[6] [07109] [v/tt] [LOGIN   ] [/dev/ttyS0  ] [                    ] [0.0.0.0        ] [Sat Oct 17 10:19:09 2026 UTC]
+[6] [07111] [1   ] [LOGIN   ] [tty1        ] [                    ] [0.0.0.0        ] [Sat Oct 17 10:19:09 2026 UTC]
+[7] [07276] [ts/0] [alice   ] [pts/0       ] [127.0.0.1           ] [127.0.0.1      ] [Sat Oct 17 10:19:49 2026 UTC]
+[8] [07276] [    ] [        ] [pts/0       ] [                    ] [0.0.0.0        ] [Sat Oct 17 10:19:49 2026 UTC]
+[7] [07282] [ts/0] [alice   ] [pts/0       ] [::1                 ] [0.0.0.0        ] [Sat Oct 17 10:19:49 2026 UTC]
+[8] [07282] [    ] [        ] [pts/0       ] [                    ] [0.0.0.0        ] [Sat Oct 17 10:19:50 2026 UTC]
+[7] [07288] [ts/0] [alice   ] [pts/0       ] [127.0.0.1           ] [127.0.0.1      ] [Sat Oct 17 10:19:50 2026 UTC]
+
+--8919c183f550ffd8911e2e6e7de301c3 end sessions.utmpdump_wtmp status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 note sessions.utmpdump_wtmp Utmp dump of /var/log/wtmp
+--8919c183f550ffd8911e2e6e7de301c3 begin sessions.utmpdump_btmp kind=cmd tool=utmpdump limit=4194304
+[6] [07293] [    ] [nosuchuser] [ssh:notty   ] [127.0.0.1           ] [127.0.0.1      ] [Sat Oct 17 10:19:50 2026 UTC]
+
+--8919c183f550ffd8911e2e6e7de301c3 end sessions.utmpdump_btmp status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 note sessions.utmpdump_btmp Utmp dump of /var/log/btmp
+--8919c183f550ffd8911e2e6e7de301c3 begin sessions.wtmpdb kind=cmd tool=wtmpdb limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end sessions.wtmpdb status=missing rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note sessions.wtmpdb tool not found: wtmpdb
+--8919c183f550ffd8911e2e6e7de301c3 begin sessions.lastlog2 kind=cmd tool=lastlog2 limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end sessions.lastlog2 status=missing rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note sessions.lastlog2 tool not found: lastlog2
+--8919c183f550ffd8911e2e6e7de301c3 begin sessions.last kind=cmd tool=last limit=4194304
+alice    pts/0        127.0.0.1        Sat Oct 17 10:19:50 2026   still logged in                      
+alice    pts/0        ::1              Sat Oct 17 10:19:49 2026 - Sat Oct 17 10:19:50 2026  (00:00)    
+alice    pts/0        127.0.0.1        Sat Oct 17 10:19:49 2026 - Sat Oct 17 10:19:49 2026  (00:00)    
+centos   pts/1        10.0.2.2         Sat Oct 17 10:19:06 2026 - Sat Oct 17 10:19:06 2026  (00:00)    
+reboot   system boot  2.6.32-754.17.1.el6.x86_64 Sat Oct 17 10:18:04 2026 - Sat Oct 17 10:20:03 2026  (00:01)    
+
+wtmp begins Sat Oct 17 10:18:04 2026
+
+--8919c183f550ffd8911e2e6e7de301c3 end sessions.last status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin sessions.lastb kind=cmd tool=lastb limit=4194304
+nosuchuser ssh:notty    127.0.0.1        Sat Oct 17 10:19:50 2026 - Sat Oct 17 10:19:50 2026  (00:00)    
+
+btmp begins Sat Oct 17 10:19:50 2026
+
+--8919c183f550ffd8911e2e6e7de301c3 end sessions.lastb status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin sessions.journal_sshd kind=cmd tool=journalctl limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end sessions.journal_sshd status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note sessions.journal_sshd systemd is not running
+--8919c183f550ffd8911e2e6e7de301c3 begin sessions.log_auth_log kind=cmd tool=tail path=/var/log/auth.log limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end sessions.log_auth_log status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note sessions.log_auth_log not found: /var/log/auth.log
+--8919c183f550ffd8911e2e6e7de301c3 begin sessions.log_secure kind=cmd tool=sh limit=4194304
+Oct 17 10:19:03 localhost sshd[6916]: Server listening on 0.0.0.0 port 22.
+Oct 17 10:19:03 localhost sshd[6916]: Server listening on :: port 22.
+Oct 17 10:19:04 localhost sshd[6927]: Accepted publickey for centos from 10.0.2.2 port 51335 ssh2
+Oct 17 10:19:04 localhost sshd[6927]: pam_unix(sshd:session): session opened for user centos by (uid=0)
+Oct 17 10:19:05 localhost sshd[6931]: Received disconnect from 10.0.2.2: 11: disconnected by user
+Oct 17 10:19:05 localhost sshd[6927]: pam_unix(sshd:session): session closed for user centos
+Oct 17 10:19:05 localhost sshd[6939]: Accepted publickey for centos from 10.0.2.2 port 51337 ssh2
+Oct 17 10:19:05 localhost sshd[6939]: pam_unix(sshd:session): session opened for user centos by (uid=0)
+Oct 17 10:19:05 localhost sshd[6942]: Received disconnect from 10.0.2.2: 11: disconnected by user
+Oct 17 10:19:05 localhost sshd[6939]: pam_unix(sshd:session): session closed for user centos
+Oct 17 10:19:05 localhost sshd[6950]: Accepted publickey for centos from 10.0.2.2 port 51338 ssh2
+Oct 17 10:19:06 localhost sshd[6950]: pam_unix(sshd:session): session opened for user centos by (uid=0)
+Oct 17 10:19:06 localhost sshd[6954]: Received disconnect from 10.0.2.2: 11: disconnected by user
+Oct 17 10:19:06 localhost sshd[6950]: pam_unix(sshd:session): session closed for user centos
+Oct 17 10:19:06 localhost sshd[6974]: Accepted publickey for centos from 10.0.2.2 port 51339 ssh2
+Oct 17 10:19:06 localhost sshd[6974]: pam_unix(sshd:session): session opened for user centos by (uid=0)
+Oct 17 10:19:37 localhost sshd[6990]: Received disconnect from 10.0.2.2: 11: disconnected by user
+Oct 17 10:19:37 localhost sshd[6974]: pam_unix(sshd:session): session closed for user centos
+Oct 17 10:19:37 localhost sshd[7155]: Accepted publickey for centos from 10.0.2.2 port 51354 ssh2
+Oct 17 10:19:38 localhost sshd[7155]: pam_unix(sshd:session): session opened for user centos by (uid=0)
+Oct 17 10:19:38 localhost sshd[7158]: Received disconnect from 10.0.2.2: 11: disconnected by user
+Oct 17 10:19:38 localhost sshd[7155]: pam_unix(sshd:session): session closed for user centos
+Oct 17 10:19:38 localhost sshd[7168]: Accepted publickey for centos from 10.0.2.2 port 51355 ssh2
+Oct 17 10:19:38 localhost sshd[7168]: pam_unix(sshd:session): session opened for user centos by (uid=0)
+Oct 17 10:19:41 localhost sshd[7171]: Received disconnect from 10.0.2.2: 11: disconnected by user
+Oct 17 10:19:41 localhost sshd[7168]: pam_unix(sshd:session): session closed for user centos
+Oct 17 10:19:41 localhost sshd[7208]: Accepted publickey for centos from 10.0.2.2 port 51358 ssh2
+Oct 17 10:19:41 localhost sshd[7208]: pam_unix(sshd:session): session opened for user centos by (uid=0)
+Oct 17 10:19:42 localhost sshd[7211]: Received disconnect from 10.0.2.2: 11: disconnected by user
+Oct 17 10:19:42 localhost sshd[7208]: pam_unix(sshd:session): session closed for user centos
+Oct 17 10:19:42 localhost sshd[7221]: Accepted publickey for centos from 10.0.2.2 port 51359 ssh2
+Oct 17 10:19:42 localhost sshd[7221]: pam_unix(sshd:session): session opened for user centos by (uid=0)
+Oct 17 10:19:49 localhost sshd[7276]: Accepted publickey for alice from 127.0.0.1 port 56526 ssh2
+Oct 17 10:19:49 localhost sshd[7276]: pam_unix(sshd:session): session opened for user alice by (uid=0)
+Oct 17 10:19:49 localhost sshd[7279]: Received disconnect from 127.0.0.1: 11: disconnected by user
+Oct 17 10:19:49 localhost sshd[7276]: pam_unix(sshd:session): session closed for user alice
+Oct 17 10:19:49 localhost sshd[7282]: Accepted publickey for alice from ::1 port 38168 ssh2
+Oct 17 10:19:49 localhost sshd[7282]: pam_unix(sshd:session): session opened for user alice by (uid=0)
+Oct 17 10:19:50 localhost sshd[7285]: Received disconnect from ::1: 11: disconnected by user
+Oct 17 10:19:50 localhost sshd[7282]: pam_unix(sshd:session): session closed for user alice
+Oct 17 10:19:50 localhost sshd[7288]: Accepted publickey for alice from 127.0.0.1 port 56530 ssh2
+Oct 17 10:19:50 localhost sshd[7293]: Invalid user nosuchuser from 127.0.0.1
+Oct 17 10:19:50 localhost sshd[7294]: input_userauth_request: invalid user nosuchuser
+Oct 17 10:19:50 localhost sshd[7294]: Connection closed by 127.0.0.1
+Oct 17 10:19:50 localhost sshd[7288]: pam_unix(sshd:session): session opened for user alice by (uid=0)
+Oct 17 10:19:50 localhost sshd[7224]: Received disconnect from 10.0.2.2: 11: disconnected by user
+Oct 17 10:19:50 localhost sshd[7221]: pam_unix(sshd:session): session closed for user centos
+Oct 17 10:19:53 localhost sshd[7326]: Accepted publickey for centos from 10.0.2.2 port 51364 ssh2
+Oct 17 10:19:53 localhost sshd[7326]: pam_unix(sshd:session): session opened for user centos by (uid=0)
+
+--8919c183f550ffd8911e2e6e7de301c3 end sessions.log_secure status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin sessions.log_messages kind=cmd tool=sh limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end sessions.log_messages status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin carving.etc_ips kind=cmd tool=sh limit=4194304
+/etc/pki/tls/certs/ca-bundle.crt|101|51:3a:4f:48:f6:8b:b6:b3||w||
+/etc/pki/tls/certs/ca-bundle.crt|138|77:77:06:27:26:a9:b1:7c||w||
+/etc/pki/tls/certs/ca-bundle.crt|215|7c:4f:04:39:1c:d4:99:2d||w||
+/etc/pki/tls/certs/ca-bundle.crt|292|6d:8c:14:46:b1:a6:0a:ee||w||
+/etc/pki/tls/certs/ca-bundle.crt|375|b6:b8:09:68:19:1c:18:43||w||
+/etc/pki/tls/certs/ca-bundle.crt|411|74:97:25:8a:c7:3f:7a:54||w||
+/etc/pki/tls/certs/ca-bundle.crt|621|d6:c7:d3:e0:fb:09:60:6c||w||
+/etc/pki/tls/certs/ca-bundle.crt|911|c7:26:0d:ac:98:16:56:a0||w||
+/etc/pki/tls/certs/ca-bundle.crt|1029|bf:13:62:0a:9f:c7:b9:97||w||
+/etc/pki/tls/certs/ca-bundle.crt|1150|cd:07:cf:e6:2c:eb:7b:2e||w||
+/etc/pki/tls/certs/ca-bundle.crt|1187|fe:dc:e3:01:0f:c9:48:ff||w||
+/etc/pki/tls/certs/ca-bundle.crt|1358|e1:c5:6b:86:42:06:b9:41||w||
+/etc/pki/tls/certs/ca-bundle.crt|1567|5b:1e:51:f4:df:e9:92:fa||w||
+/etc/pki/tls/certs/ca-bundle.crt|1740|c6:e2:0e:b5:b9:be:24:8f||w||
+/etc/pki/tls/certs/ca-bundle.crt|2161|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|2161|4.1.15096.1||p|p|
+/etc/pki/tls/certs/ca-bundle.crt|2258|1.2.840.113533||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|2307|7d:09:97:fe:f0:47:ea:7a||w||
+/etc/pki/tls/certs/ca-bundle.crt|2390|07:dd:bd:3c:86:97:2f:d2||w||
+/etc/pki/tls/certs/ca-bundle.crt|2640|ed:32:ad:b6:21:9e:be:bc||w||
+/etc/pki/tls/certs/ca-bundle.crt|2837|9d:7e:62:22:da:de:18:27||w||
+/etc/pki/tls/certs/ca-bundle.crt|2956|f4:57:f8:18:ba:84:6e:87||w||
+/etc/pki/tls/certs/ca-bundle.crt|3075|b6:ad:b7:ca:3e:01:ef:9c||w||
+/etc/pki/tls/certs/ca-bundle.crt|3162|1.3.171.1||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|3201|6c:25:c7:23:80:83:0a:eb||w||
+/etc/pki/tls/certs/ca-bundle.crt|3361|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|3361|4.1.311.21||p|p|
+/etc/pki/tls/certs/ca-bundle.crt|3493|7f:fe:2a:e6:23:d6:8c:71||w||
+/etc/pki/tls/certs/ca-bundle.crt|3616|42:f7:3c:81:0c:4b:52:0a||w||
+/etc/pki/tls/certs/ca-bundle.crt|3707|2c:29:9c:5b:16:ed:05:95||w||
+/etc/pki/tls/certs/ca-bundle.crt|3763|56:b6:29:cd:34:bc:78:f6||w||
+/etc/pki/tls/certs/ca-bundle.crt|3849|45:63:a1:ac:76:a9:c2:fb||w||
+/etc/pki/tls/certs/ca-bundle.crt|3888|75:e6:df:cb:c1:68:5b:a8||w||
+/etc/pki/tls/certs/ca-bundle.crt|3944|7b:2c:9b:d3:16:80:32:99||w||
+/etc/pki/tls/certs/ca-bundle.crt|4030|90:70:a9:04:1e:57:27:b9||w||
+/etc/pki/tls/certs/ca-bundle.crt|4257|4A:A0:AA:58:84:D3:5E:3C||w||
+/etc/pki/tls/certs/ca-bundle.crt|4381|5f:50:49:1c:ee:ec:d7:2e||w||
+/etc/pki/tls/certs/ca-bundle.crt|4500|f7:80:7b:21:67:27:30:59||w||
+/etc/pki/tls/certs/ca-bundle.crt|4860|d3:f6:75:a4:75:96:6d:56||w||
+/etc/pki/tls/certs/ca-bundle.crt|4895|84:82:2c:5f:1c:62:d0:40||w||
+/etc/pki/tls/certs/ca-bundle.crt|4980|da:9b:ec:71:f3:03:b0:19||w||
+/etc/pki/tls/certs/ca-bundle.crt|5065|25:a1:df:ca:33:cb:59:02||w||
+/etc/pki/tls/certs/ca-bundle.crt|5151|c8:ff:0f:51:6e:d6:ec:09||w||
+/etc/pki/tls/certs/ca-bundle.crt|5271|5e:c3:b7:a6:43:7f:a4:e0||w||
+/etc/pki/tls/certs/ca-bundle.crt|5374|4b:55:34:46:2a:8b:86:3b||w||
+/etc/pki/tls/certs/ca-bundle.crt|5423|57:0a:11:97:42:c4:e3:cc||w||
+/etc/pki/tls/certs/ca-bundle.crt|5509|7c:fb:6c:9d:0c:a5:e1:96||w||
+/etc/pki/tls/certs/ca-bundle.crt|5633|5c:33:cb:62:2c:5f:b3:32||w||
+/etc/pki/tls/certs/ca-bundle.crt|5672|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|5672|4.1.6189.3||p|p|
+/etc/pki/tls/certs/ca-bundle.crt|5717|53:ec:3b:ee:fb:b2:48:5f||w||
+/etc/pki/tls/certs/ca-bundle.crt|5806|6e:4f:12:7e:0a:3c:9d:95||w||
+/etc/pki/tls/certs/ca-bundle.crt|5846|92:b8:88:db:b0:8a:c1:63||w||
+/etc/pki/tls/certs/ca-bundle.crt|5929|a3:e5:4a:17:e9:a4:d7:0b||w||
+/etc/pki/tls/certs/ca-bundle.crt|6188|4a:5d:9f:ad:bb:1b:5f:74||w||
+/etc/pki/tls/certs/ca-bundle.crt|6305|a3:da:42:7e:a4:b1:ae:da||w||
+/etc/pki/tls/certs/ca-bundle.crt|6397|7c:80:c5:f0:d9:77:48:d0||w||
+/etc/pki/tls/certs/ca-bundle.crt|7203|07:d1:75:bc:cf:f3:66:7e||w||
+/etc/pki/tls/certs/ca-bundle.crt|7240|6a:68:3e:9c:51:9b:cb:53||w||
+/etc/pki/tls/certs/ca-bundle.crt|7326|e8:b3:82:34:ed:06:5c:24||w||
+/etc/pki/tls/certs/ca-bundle.crt|7573|1.2.840.113533||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|7790|1.2.840.113533||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|8287|f9:29:48:8a:ce:73:fe:2c||w||
+/etc/pki/tls/certs/ca-bundle.crt|8408|56:d0:2f:57:53:47:e8:92||w||
+/etc/pki/tls/certs/ca-bundle.crt|8784|c9:cd:d3:e9:d5:7d:23:ce||w||
+/etc/pki/tls/certs/ca-bundle.crt|8876|c0:74:80:d1:0b:42:9f:c1||w||
+/etc/pki/tls/certs/ca-bundle.crt|9261|7d:3e:6c:db:fc:26:88:c7||w||
+/etc/pki/tls/certs/ca-bundle.crt|9300|c2:7e:43:04:4e:47:3f:19||w||
+/etc/pki/tls/certs/ca-bundle.crt|9650|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|9650|4.1.311.21||p|p|
+/etc/pki/tls/certs/ca-bundle.crt|9730|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|9730|4.1.8024.0||p|p|
+/etc/pki/tls/certs/ca-bundle.crt|9881|1c:2e:24:87:33:60:e5:c3||w||
+/etc/pki/tls/certs/ca-bundle.crt|10004|d5:82:10:ea:c2:31:cd:2e||w||
+/etc/pki/tls/certs/ca-bundle.crt|10125|c4:8e:79:69:83:de:7f:8c||w||
+/etc/pki/tls/certs/ca-bundle.crt|10211|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|10211|4.1.8024.0||p|p|
+/etc/pki/tls/certs/ca-bundle.crt|10254|d7:37:57:b6:0d:a9:12:da||w||
+/etc/pki/tls/certs/ca-bundle.crt|10380|99:04:4b:fd:58:f9:98:f4||w||
+/etc/pki/tls/certs/ca-bundle.crt|10498|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|10498|4.1.311.20||p|p|
+/etc/pki/tls/certs/ca-bundle.crt|10511|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|10511|4.1.311.21||p|p|
+/etc/pki/tls/certs/ca-bundle.crt|10586|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|10586|4.1.311.20||p|p|
+/etc/pki/tls/certs/ca-bundle.crt|10599|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|10599|4.1.311.21||p|p|
+/etc/pki/tls/certs/ca-bundle.crt|10882|7d:32:60:e6:eb:af:8a:01||w||
+/etc/pki/tls/certs/ca-bundle.crt|11162|bb:40:1c:43:f5:5e:4f:b0||w||
+/etc/pki/tls/certs/ca-bundle.crt|11220|2.16.756.1||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|11220|89.1.2.1||p|p|
+/etc/pki/tls/certs/ca-bundle.crt|11252|57:c1:fa:3e:7a:e1:97:c9||w||
+/etc/pki/tls/certs/ca-bundle.crt|11290|4f:1b:d4:2f:54:bb:2f:4b||w||
+/etc/pki/tls/certs/ca-bundle.crt|11348|2.16.756.1||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|11348|89.1.3.1||p|p|
+/etc/pki/tls/certs/ca-bundle.crt|11380|60:39:ce:ca:62:d8:2e:6e||w||
+/etc/pki/tls/certs/ca-bundle.crt|11498|fe:a9:b2:2b:06:d0:04:cd||w||
+/etc/pki/tls/certs/ca-bundle.crt|11694|e0:25:a5:86:2c:7c:f4:12||w||
+/etc/pki/tls/certs/ca-bundle.crt|12116|16:f1:62:f9:ca:90:a8:fd||w||
+/etc/pki/tls/certs/ca-bundle.crt|12281|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|12281|5.5.7.1||p|p|
+/etc/pki/tls/certs/ca-bundle.crt|12352|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|12352|5.5.7.1||p|p|
+/etc/pki/tls/certs/ca-bundle.crt|12439|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|12439|5.5.7.1||p|p|
+/etc/pki/tls/certs/ca-bundle.crt|12824|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|12824|4.1.311.20||p|p|
+/etc/pki/tls/certs/ca-bundle.crt|12837|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.crt|12837|4.1.311.21||p|p|
+/etc/pki/tls/certs/ca-bundle.crt|13045|0a:09:4d:ea:81:f8:11:9c||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|106|51:3a:4f:48:f6:8b:b6:b3||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|237|fc:78:d6:5c:2c:26:43:a9||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|374|77:77:06:27:26:a9:b1:7c||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|456|7c:4f:04:39:1c:d4:99:2d||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|538|6d:8c:14:46:b1:a6:0a:ee||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|621|b6:b8:09:68:19:1c:18:43||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|661|74:97:25:8a:c7:3f:7a:54||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|881|d6:c7:d3:e0:fb:09:60:6c||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|1190|c7:26:0d:ac:98:16:56:a0||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|1313|bf:13:62:0a:9f:c7:b9:97||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|1439|cd:07:cf:e6:2c:eb:7b:2e||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|1529|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.trust.crt|1529|4.1.17326.10||p|p|
+/etc/pki/tls/certs/ca-bundle.trust.crt|1633|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.trust.crt|1633|4.1.17326.10||p|p|
+/etc/pki/tls/certs/ca-bundle.trust.crt|1689|fe:dc:e3:01:0f:c9:48:ff||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|1865|e1:c5:6b:86:42:06:b9:41||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|2084|5b:1e:51:f4:df:e9:92:fa||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|2342|c6:e2:0e:b5:b9:be:24:8f||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|2972|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.trust.crt|2972|4.1.15096.1||p|p|
+/etc/pki/tls/certs/ca-bundle.trust.crt|3073|1.2.840.113533||w|p|
+/etc/pki/tls/certs/ca-bundle.trust.crt|3210|b8:e5:c5:df:84:c1:b7:eb||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|3349|f3:4e:ba:37:98:7b:82:b9||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|3397|7d:09:97:fe:f0:47:ea:7a||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|3480|07:dd:bd:3c:86:97:2f:d2||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|3746|ed:32:ad:b6:21:9e:be:bc||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|3952|9d:7e:62:22:da:de:18:27||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|4076|f4:57:f8:18:ba:84:6e:87||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|4200|b6:ad:b7:ca:3e:01:ef:9c||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|4293|1.3.171.1||w|p|
+/etc/pki/tls/certs/ca-bundle.trust.crt|4332|6c:25:c7:23:80:83:0a:eb||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|4503|1.3.6.1||w|p|
+/etc/pki/tls/certs/ca-bundle.trust.crt|4503|4.1.311.21||p|p|
+/etc/pki/tls/certs/ca-bundle.trust.crt|4640|7f:fe:2a:e6:23:d6:8c:71||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|4768|42:f7:3c:81:0c:4b:52:0a||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|4954|2c:29:9c:5b:16:ed:05:95||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|5016|56:b6:29:cd:34:bc:78:f6||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|5102|45:63:a1:ac:76:a9:c2:fb||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|5146|75:e6:df:cb:c1:68:5b:a8||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|5208|7b:2c:9b:d3:16:80:32:99||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|5294|90:70:a9:04:1e:57:27:b9||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|5536|4A:A0:AA:58:84:D3:5E:3C||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|5665|5f:50:49:1c:ee:ec:d7:2e||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|5789|f7:80:7b:21:67:27:30:59||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|5831|4e:b2:00:67:0c:03:5d:4f||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|5889|2.16.756.1||w|p|
+/etc/pki/tls/certs/ca-bundle.trust.crt|5889|89.1.1.1||p|p|
+/etc/pki/tls/certs/ca-bundle.trust.crt|5921|d3:93:a9:85:86:79:65:d2||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|6015|2.16.756.1||w|p|
+/etc/pki/tls/certs/ca-bundle.trust.crt|6015|2.16.756.1||k|p|
+/etc/pki/tls/certs/ca-bundle.trust.crt|6052|9e:1b:c5:e6:0e:d9:31:d9||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|6818|d3:f6:75:a4:75:96:6d:56||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|6858|84:82:2c:5f:1c:62:d0:40||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|6947|da:9b:ec:71:f3:03:b0:19||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|7037|25:a1:df:ca:33:cb:59:02||w||
+/etc/pki/tls/certs/ca-bundle.trust.crt|7123|c8:ff:0f:51:6e:d6:ec:09||w||
+/etc/pki/tls/openssl.cnf|26|1.2.3.4||x||c
+/etc/pki/tls/openssl.cnf|31|1.2.3.4||w|p|
+/etc/pki/tls/openssl.cnf|32|1.2.3.4||w|p|
+/etc/pki/tls/openssl.cnf|33|1.2.3.4||w|p|
+/etc/resolv.conf|2|10.0.2.3||w||
+/etc/resolv.conf|3|2001:db8::53||w||
+/etc/postfix/main.cf|131|1.2.3.4||w||c
+/etc/postfix/main.cf|264|168.100.189.0|28|w|s|c
+/etc/postfix/main.cf|264|127.0.0.0|8|w|s|c
+/etc/postfix/main.cf|603|127.0.0.1||w||c
+/etc/postfix/access|409|1.2.3.4||w|w|c
+/etc/postfix/access|410|1.2.3.0|24|w|s|c
+/etc/postfix/access|421|1.2.3.4||w|w|c
+/etc/hosts|1|127.0.0.1|||w|
+/etc/hosts|2|::1|||w|
+/etc/hosts|3|10.20.30.40|||w|
+/etc/hosts|4|2001:db8::40|||w|
+/etc/networks|1|0.0.0.0||w||
+/etc/networks|2|127.0.0.0||w||
+/etc/networks|3|169.254.0.0||w||
+/etc/cloud/templates/hosts.debian.tmpl|16|127.0.1.1|||w|
+/etc/cloud/templates/hosts.debian.tmpl|17|127.0.0.1|||w|
+/etc/cloud/templates/hosts.debian.tmpl|20|::1|||w|
+/etc/cloud/templates/hosts.debian.tmpl|21|fe00::0|||w|
+/etc/cloud/templates/hosts.debian.tmpl|22|ff00::0|||w|
+/etc/cloud/templates/hosts.debian.tmpl|23|ff02::1|||w|
+/etc/cloud/templates/hosts.debian.tmpl|24|ff02::2|||w|
+/etc/cloud/templates/hosts.debian.tmpl|25|ff02::3|||w|
+/etc/cloud/templates/chef_client.rb.tmpl|24|ef::||l|l|
+/etc/cloud/templates/chef_client.rb.tmpl|24|::F||l|l|
+/etc/cloud/templates/hosts.suse.tmpl|15|127.0.0.1|||w|
+/etc/cloud/templates/hosts.suse.tmpl|18|::1|||w|
+/etc/cloud/templates/hosts.suse.tmpl|19|fe00::0|||w|
+/etc/cloud/templates/hosts.suse.tmpl|21|ff00::0|||w|
+/etc/cloud/templates/hosts.suse.tmpl|22|ff02::1|||w|
+/etc/cloud/templates/hosts.suse.tmpl|23|ff02::2|||w|
+/etc/cloud/templates/hosts.suse.tmpl|24|ff02::3|||w|
+/etc/cloud/templates/hosts.redhat.tmpl|15|127.0.0.1|||w|
+/etc/cloud/templates/hosts.redhat.tmpl|16|127.0.0.1|||w|
+/etc/cloud/templates/hosts.redhat.tmpl|17|127.0.0.1|||w|
+/etc/cloud/templates/hosts.redhat.tmpl|20|::1|||w|
+/etc/cloud/templates/hosts.redhat.tmpl|21|::1|||w|
+/etc/cloud/templates/hosts.redhat.tmpl|22|::1|||w|
+/etc/ssh/sshd_config|15|0.0.0.0||w||c
+/etc/aridi-corpus.conf|2|192.0.2.10||w||
+/etc/aridi-corpus.conf|3|2001:db8::10||w||
+/etc/aridi-corpus.conf|4|1.2.3.4||w||v
+/etc/aridi-corpus.conf|5|198.51.100.0|24|w|s|
+/etc/aridi-corpus.conf|6|203.0.113.7|32|w|s|
+/etc/aridi-corpus.conf|7|169.254.10.20||w||
+/etc/sysconfig/network-scripts/ifup-ppp|105|0.0.0.0|0|w|s|
+/etc/sysconfig/network-scripts/ifcfg-lo|2|127.0.0.1||x||
+/etc/sysconfig/network-scripts/ifcfg-lo|3|255.0.0.0||x||
+/etc/sysconfig/network-scripts/ifcfg-lo|4|127.0.0.0||x||
+/etc/sysconfig/network-scripts/ifcfg-lo|5|127.0.0.0|8|w|s|c
+/etc/sysconfig/network-scripts/ifcfg-lo|6|255.255.255.255||x|x|c
+/etc/sysconfig/network-scripts/ifcfg-lo|7|127.255.255.255||x||
+/etc/sysconfig/network-scripts/ifup-aliases|19|192.168.30.1||x|x|c
+/etc/sysconfig/network-scripts/ifup-aliases|20|192.168.30.254||x|x|c
+/etc/sysconfig/network-scripts/ifup-aliases|24|192.168.30.1||w|w|c
+/etc/sysconfig/network-scripts/ifup-aliases|24|192.168.30.254||w|x|c
+/etc/sysconfig/network-scripts/ifup-aliases|31|192.168.30.1||x|w|c
+/etc/sysconfig/network-scripts/ifup-aliases|31|192.168.31.255||x|w|c
+/etc/sysconfig/network-scripts/ifup-aliases|83|192.168.1.1||x||c
+/etc/sysconfig/network-scripts/ifup-aliases|84|192.16.1.255||x||c
+/etc/sysconfig/network-scripts/ifup-aliases|151|0.0.0.0||x|x|
+/etc/sysconfig/network-scripts/ifup-ipv6|38|192.88.99.1||w|x|c
+/etc/sysconfig/network-scripts/ifup-ipv6|202|192.88.99.1||x|x|
+/etc/sysconfig/network-scripts/ifup-ib|313|169.254.0.0|16|w|s|
+/etc/sysconfig/network-scripts/network-functions-ipv6|437|0.0.0.0|8|w|s|c
+/etc/sysconfig/network-scripts/network-functions-ipv6|438|255.0.0.0||w|w|
+/etc/sysconfig/network-scripts/network-functions-ipv6|439|10.0.0.0|8|w|s|c
+/etc/sysconfig/network-scripts/network-functions-ipv6|440|255.0.0.0||w|w|
+/etc/sysconfig/network-scripts/network-functions-ipv6|441|127.0.0.0|8|w|s|c
+/etc/sysconfig/network-scripts/network-functions-ipv6|442|255.0.0.0||w|w|
+/etc/sysconfig/network-scripts/network-functions-ipv6|443|169.254.0.0|16|w|s|c
+/etc/sysconfig/network-scripts/network-functions-ipv6|444|255.255.0.0||w|w|
+/etc/sysconfig/network-scripts/network-functions-ipv6|445|172.16.0.0|12|w|s|c
+/etc/sysconfig/network-scripts/network-functions-ipv6|446|255.240.0.0||w|w|
+/etc/sysconfig/network-scripts/network-functions-ipv6|447|192.168.0.0|16|w|s|c
+/etc/sysconfig/network-scripts/network-functions-ipv6|448|255.255.0.0||w|w|
+/etc/sysconfig/network-scripts/network-functions-ipv6|449|224.0.0.0|3|w|s|c
+/etc/sysconfig/network-scripts/network-functions-ipv6|450|224.0.0.0||w|w|
+/etc/sysconfig/network-scripts/network-functions-ipv6|566|::1||x|x|c
+/etc/sysconfig/network-scripts/network-functions-ipv6|609|::1|16|x|s|
+/etc/sysconfig/network-scripts/network-functions-ipv6|614|0.0.0.0||w|w|
+/etc/sysconfig/network-scripts/network-functions-ipv6|740|0.0.0.0||x|x|
+/etc/sysconfig/network-scripts/network-functions-ipv6|888|0.0.0.0||x|x|
+/etc/sysconfig/network-scripts/network-functions-ipv6|926|0.0.0.0||x|x|
+/etc/sysconfig/network-scripts/ifup-ippp|105|0.0.0.0||x|x|
+/etc/sysconfig/network-scripts/ifup-ippp|106|0.0.0.0||x|x|
+/etc/sysconfig/network-scripts/ifup-ippp|187|0.0.0.0||x|x|
+/etc/sysconfig/network-scripts/ifup-ippp|260|0.0.0.0||x|x|
+/etc/sysconfig/network-scripts/ifup-ippp|360|0.0.0.0||x|x|
+/etc/sysconfig/network-scripts/init.ipv6-global|91|0.0.0.0|96|k|s|
+/etc/sysconfig/network-scripts/init.ipv6-global|91|::ffff:0||w|p|
+/etc/sysconfig/network-scripts/init.ipv6-global|93|0.0.0.0|96|k|s|
+/etc/sysconfig/network-scripts/init.ipv6-global|93|::0||w|p|
+/etc/sysconfig/network-scripts/init.ipv6-global|95|2002:e000::|19|w|s|
+/etc/sysconfig/network-scripts/init.ipv6-global|97|2002:7f00::|24|w|s|
+/etc/sysconfig/network-scripts/init.ipv6-global|99|2002:0a00::|24|w|s|
+/etc/sysconfig/network-scripts/init.ipv6-global|100|2002:ac10::|28|w|s|
+/etc/sysconfig/network-scripts/init.ipv6-global|101|2002:c0a8::|32|w|s|
+/etc/sysconfig/network-scripts/init.ipv6-global|103|2002:a9fe::|32|w|s|
+/etc/sysconfig/network-scripts/init.ipv6-global|105|3ffe:ffff::|32|w|s|
+/etc/sysconfig/network-scripts/ifup-eth|299|169.254.0.0|16|w|s|
+/etc/sysconfig/network-scripts/ifdown-ipv6|24|192.88.99.1||w|x|c
+/etc/sysconfig/network-scripts/ifdown-ipv6|77|192.88.99.1||x|x|
+/etc/sysconfig/network-scripts/network-functions|407|0.0.0.0|0|w|s|
+/etc/sysconfig/network-scripts/network-functions|435|0.0.0.0||x|x|
+/etc/sysconfig/cbq/cbq-0000.example|5|192.168.1.0|24|x|s|
+/etc/security/access.conf|85|192.168.200.1||w|w|c
+/etc/security/access.conf|85|192.168.200.4||w|w|c
+/etc/security/access.conf|85|192.168.200.9||w||c
+/etc/security/access.conf|86|127.0.0.1||w||c
+/etc/security/access.conf|91|192.168.201.0|24|w|s|c
+/etc/security/access.conf|91|192.168.201.0|255|w|s|c
+/etc/security/access.conf|91|255.255.255.0||s||c
+/etc/security/access.conf|107|127.0.0.0|24|w|s|c
+/etc/security/access.conf|110|127.0.0.0|127|k|s|c
+/etc/security/access.conf|110|::ffff:127||w|p|c
+/etc/security/access.conf|113|2001:4ca0:0:101::1||w||c
+/etc/security/access.conf|116|2001:4ca0:0:101:0:0:0:1||w||c
+/etc/security/access.conf|119|2001:4ca0:0:101::|64|w|s|c
+/etc/rsyslog.conf|78|192.168.0.1||w|k|c
+/etc/kdump.conf|51|127.0.0.1||s|h|c
+/etc/rc.d/init.d/kdump|209|127.0.0.1||s|h|
+/etc/rc.d/init.d/kdump|211|127.0.0.1||s|h|
+/etc/rc.d/rc.sysinit|350|0.0.0.0|0|w|s|
+/etc/ppp/ip-up.ipv6to4|26|192.88.99.1||w|x|c
+/etc/ppp/ip-up.ipv6to4|95|192.88.99.1||x|x|
+/etc/ntp.conf|14|127.0.0.1||w|w|
+/etc/ntp.conf|15|::1||w||
+/etc/ntp.conf|18|192.168.1.0||w|w|c
+/etc/ntp.conf|18|255.255.255.0||w|w|c
+/etc/ntp.conf|27|192.168.1.255||w|w|c
+/etc/ntp.conf|29|224.0.1.1||w|w|c
+/etc/ntp.conf|30|224.0.1.1||w|w|c
+/etc/ntp.conf|31|239.255.254.254||w|w|c
+/etc/ntp.conf|32|239.255.254.254||w|w|c
+/etc/ntp.conf|54|192.0.2.125||w|w|
+
+--8919c183f550ffd8911e2e6e7de301c3 end carving.etc_ips status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin carving.log_ips kind=cmd tool=sh limit=4194304
+/var/log/cloud-init-output.log|7|127.0.0.1||w|w|
+/var/log/cloud-init-output.log|7|255.0.0.0||w|w|
+/var/log/cloud-init-output.log|8|10.0.2.15||w|w|
+/var/log/cloud-init-output.log|8|255.255.255.0||w|w|
+/var/log/cloud-init-output.log|14|10.0.2.0||w|w|
+/var/log/cloud-init-output.log|14|0.0.0.0||w|w|
+/var/log/cloud-init-output.log|14|255.255.255.0||w|w|
+/var/log/cloud-init-output.log|15|0.0.0.0||w|w|
+/var/log/cloud-init-output.log|15|10.0.2.2||w|w|
+/var/log/cloud-init-output.log|15|0.0.0.0||w|w|
+/var/log/anaconda.yum.log|40|1.3.49.5||h|h|
+/var/log/anaconda.yum.log|41|1.3.49.5||h|h|
+/var/log/anaconda.yum.log|42|1.3.49.5||h|h|
+/var/log/anaconda.yum.log|125|1.18.1.4||h|h|
+/var/log/anaconda.yum.log|126|1.18.1.4||h|h|
+/var/log/anaconda.yum.log|182|0.5.5.1||h|h|
+/var/log/anaconda.yum.log|199|2.20.51.0||h|p|
+/var/log/anaconda.yum.log|256|3.4.0.2||h|h|
+/var/log/anaconda.yum.log|279|3.4.0.2||h|h|
+/var/log/boot.log|38|127.0.0.1||w|w|
+/var/log/boot.log|38|255.0.0.0||w|w|
+/var/log/boot.log|39|10.0.2.15||w|w|
+/var/log/boot.log|39|255.255.255.0||w|w|
+/var/log/boot.log|45|10.0.2.0||w|w|
+/var/log/boot.log|45|0.0.0.0||w|w|
+/var/log/boot.log|45|255.255.255.0||w|w|
+/var/log/boot.log|46|0.0.0.0||w|w|
+/var/log/boot.log|46|10.0.2.2||w|w|
+/var/log/boot.log|46|0.0.0.0||w|w|
+/var/log/aridi-corpus.log|1|203.0.113.50||w|w|
+/var/log/aridi-corpus.log|2|2001:db8::77||w|w|
+/var/log/messages|363|0.0.0.0||w|w|
+/var/log/messages|364|0.0.0.0||w|w|
+/var/log/messages|366|127.0.0.1||w|w|
+/var/log/messages|367|10.0.2.15||w|w|
+/var/log/messages|368|::1||w|w|
+/var/log/messages|369|fec0::5054:ff:fe12:3456||w|w|
+/var/log/messages|370|fe80::5054:ff:fe12:3456||w|w|
+/var/log/messages|372|0.0.0.0||w|w|
+/var/log/messages|373|0.0.0.0||w|w|
+/var/log/messages|374|0.0.0.0||w|w|
+/var/log/messages|375|0.0.0.0||w|w|
+/var/log/messages|376|0.0.0.0||w|w|
+/var/log/messages|377|0.0.0.0||w|w|
+/var/log/messages|381|0.0.0.0||w|w|
+/var/log/messages|382|0.0.0.0||w|w|
+/var/log/messages|384|127.0.0.1||w|w|
+/var/log/messages|385|10.0.2.15||w|w|
+/var/log/messages|386|::1||w|w|
+/var/log/messages|387|fec0::5054:ff:fe12:3456||w|w|
+/var/log/messages|388|fe80::5054:ff:fe12:3456||w|w|
+/var/log/messages|390|0.0.0.0||w|w|
+/var/log/messages|391|0.0.0.0||w|w|
+/var/log/messages|392|0.0.0.0||w|w|
+/var/log/messages|393|0.0.0.0||w|w|
+/var/log/secure|7|0.0.0.0||w|w|
+/var/log/secure|9|10.0.2.2||w|w|
+/var/log/secure|11|10.0.2.2||w|k|
+/var/log/secure|13|10.0.2.2||w|w|
+/var/log/secure|15|10.0.2.2||w|k|
+/var/log/secure|17|10.0.2.2||w|w|
+/var/log/secure|20|10.0.2.2||w|k|
+/var/log/secure|22|10.0.2.2||w|w|
+/var/log/secure|32|10.0.2.2||w|k|
+/var/log/secure|34|10.0.2.2||w|w|
+/var/log/secure|37|10.0.2.2||w|k|
+/var/log/secure|39|10.0.2.2||w|w|
+/var/log/secure|46|10.0.2.2||w|k|
+/var/log/secure|48|10.0.2.2||w|w|
+/var/log/secure|51|10.0.2.2||w|k|
+/var/log/secure|53|10.0.2.2||w|w|
+/var/log/secure|56|127.0.0.1||w|w|
+/var/log/secure|58|127.0.0.1||w|k|
+/var/log/secure|60|::1||w|w|
+/var/log/secure|64|127.0.0.1||w|w|
+/var/log/secure|65|127.0.0.1||w||
+/var/log/secure|67|127.0.0.1||w||
+/var/log/secure|69|10.0.2.2||w|k|
+/var/log/secure|71|10.0.2.2||w|w|
+/var/log/audit/audit.log|11|10.0.2.2||x|w|
+/var/log/audit/audit.log|12|10.0.2.2||x|w|
+/var/log/audit/audit.log|13|10.0.2.15||x|w|
+/var/log/audit/audit.log|13|10.0.2.2||x|w|
+/var/log/audit/audit.log|14|10.0.2.15||x|w|
+/var/log/audit/audit.log|14|10.0.2.2||x|w|
+/var/log/audit/audit.log|15|10.0.2.2||x|w|
+/var/log/audit/audit.log|16|10.0.2.2||x|w|
+/var/log/audit/audit.log|17|10.0.2.2||x|w|
+/var/log/audit/audit.log|17|10.0.2.2||x|w|
+/var/log/audit/audit.log|18|10.0.2.15||x|w|
+/var/log/audit/audit.log|18|10.0.2.2||x|w|
+/var/log/audit/audit.log|19|10.0.2.2||x|w|
+/var/log/audit/audit.log|20|10.0.2.2||x|w|
+/var/log/audit/audit.log|20|10.0.2.2||x|w|
+/var/log/audit/audit.log|22|10.0.2.2||x|w|
+/var/log/audit/audit.log|22|10.0.2.2||x|w|
+/var/log/audit/audit.log|23|10.0.2.2||x|w|
+/var/log/audit/audit.log|23|10.0.2.2||x|w|
+/var/log/audit/audit.log|24|10.0.2.15||x|w|
+/var/log/audit/audit.log|24|10.0.2.2||x|w|
+/var/log/audit/audit.log|25|10.0.2.2||x|w|
+/var/log/audit/audit.log|26|10.0.2.2||x|w|
+/var/log/audit/audit.log|27|10.0.2.2||x|w|
+/var/log/audit/audit.log|27|10.0.2.2||x|w|
+/var/log/audit/audit.log|28|10.0.2.2||x|w|
+/var/log/audit/audit.log|28|10.0.2.2||x|w|
+/var/log/audit/audit.log|29|10.0.2.2||x|w|
+/var/log/audit/audit.log|29|10.0.2.2||x|w|
+/var/log/audit/audit.log|30|10.0.2.15||x|w|
+/var/log/audit/audit.log|30|10.0.2.2||x|w|
+/var/log/audit/audit.log|31|10.0.2.2||x|w|
+/var/log/audit/audit.log|31|10.0.2.2||x|w|
+/var/log/audit/audit.log|32|10.0.2.2||x|w|
+/var/log/audit/audit.log|32|10.0.2.2||x|w|
+/var/log/audit/audit.log|33|10.0.2.2||x|w|
+/var/log/audit/audit.log|33|10.0.2.2||x|w|
+/var/log/audit/audit.log|34|10.0.2.2||x|w|
+/var/log/audit/audit.log|34|10.0.2.2||x|w|
+/var/log/audit/audit.log|35|10.0.2.2||x|w|
+/var/log/audit/audit.log|36|10.0.2.2||x|w|
+/var/log/audit/audit.log|37|10.0.2.2||x|w|
+/var/log/audit/audit.log|38|10.0.2.2||x|w|
+/var/log/audit/audit.log|39|10.0.2.15||x|w|
+/var/log/audit/audit.log|39|10.0.2.2||x|w|
+/var/log/audit/audit.log|40|10.0.2.15||x|w|
+/var/log/audit/audit.log|40|10.0.2.2||x|w|
+/var/log/audit/audit.log|41|10.0.2.2||x|w|
+/var/log/audit/audit.log|42|10.0.2.2||x|w|
+/var/log/audit/audit.log|43|10.0.2.2||x|w|
+/var/log/audit/audit.log|43|10.0.2.2||x|w|
+/var/log/audit/audit.log|44|10.0.2.15||x|w|
+/var/log/audit/audit.log|44|10.0.2.2||x|w|
+/var/log/audit/audit.log|45|10.0.2.2||x|w|
+/var/log/audit/audit.log|46|10.0.2.2||x|w|
+/var/log/audit/audit.log|46|10.0.2.2||x|w|
+/var/log/audit/audit.log|48|10.0.2.2||x|w|
+/var/log/audit/audit.log|48|10.0.2.2||x|w|
+/var/log/audit/audit.log|49|10.0.2.2||x|w|
+/var/log/audit/audit.log|49|10.0.2.2||x|w|
+/var/log/audit/audit.log|50|10.0.2.15||x|w|
+/var/log/audit/audit.log|50|10.0.2.2||x|w|
+/var/log/audit/audit.log|51|10.0.2.2||x|w|
+/var/log/audit/audit.log|52|10.0.2.2||x|w|
+/var/log/audit/audit.log|53|10.0.2.2||x|w|
+/var/log/audit/audit.log|53|10.0.2.2||x|w|
+/var/log/audit/audit.log|54|10.0.2.2||x|w|
+/var/log/audit/audit.log|54|10.0.2.2||x|w|
+/var/log/audit/audit.log|55|10.0.2.2||x|w|
+/var/log/audit/audit.log|55|10.0.2.2||x|w|
+/var/log/audit/audit.log|56|10.0.2.15||x|w|
+/var/log/audit/audit.log|56|10.0.2.2||x|w|
+/var/log/audit/audit.log|57|10.0.2.2||x|w|
+/var/log/audit/audit.log|57|10.0.2.2||x|w|
+/var/log/audit/audit.log|58|10.0.2.2||x|w|
+/var/log/audit/audit.log|58|10.0.2.2||x|w|
+/var/log/audit/audit.log|59|10.0.2.2||x|w|
+/var/log/audit/audit.log|59|10.0.2.2||x|w|
+/var/log/audit/audit.log|60|10.0.2.2||x|w|
+/var/log/audit/audit.log|60|10.0.2.2||x|w|
+/var/log/audit/audit.log|61|10.0.2.2||x|w|
+/var/log/audit/audit.log|62|10.0.2.2||x|w|
+/var/log/audit/audit.log|63|10.0.2.2||x|w|
+/var/log/audit/audit.log|64|10.0.2.2||x|w|
+/var/log/audit/audit.log|65|10.0.2.15||x|w|
+/var/log/audit/audit.log|65|10.0.2.2||x|w|
+/var/log/audit/audit.log|66|10.0.2.15||x|w|
+/var/log/audit/audit.log|66|10.0.2.2||x|w|
+/var/log/audit/audit.log|67|10.0.2.2||x|w|
+/var/log/audit/audit.log|68|10.0.2.2||x|w|
+/var/log/audit/audit.log|69|10.0.2.2||x|w|
+/var/log/audit/audit.log|69|10.0.2.2||x|w|
+/var/log/audit/audit.log|70|10.0.2.15||x|w|
+/var/log/audit/audit.log|70|10.0.2.2||x|w|
+/var/log/audit/audit.log|71|10.0.2.2||x|w|
+/var/log/audit/audit.log|72|10.0.2.2||x|w|
+/var/log/audit/audit.log|72|10.0.2.2||x|w|
+/var/log/audit/audit.log|74|10.0.2.2||x|w|
+/var/log/audit/audit.log|74|10.0.2.2||x|w|
+/var/log/audit/audit.log|75|10.0.2.2||x|w|
+/var/log/audit/audit.log|75|10.0.2.2||x|w|
+/var/log/audit/audit.log|76|10.0.2.15||x|w|
+/var/log/audit/audit.log|76|10.0.2.2||x|w|
+/var/log/audit/audit.log|77|10.0.2.2||x|w|
+/var/log/audit/audit.log|78|10.0.2.2||x|w|
+/var/log/audit/audit.log|79|10.0.2.2||x|w|
+/var/log/audit/audit.log|79|10.0.2.2||x|w|
+/var/log/audit/audit.log|80|10.0.2.2||x|w|
+/var/log/audit/audit.log|80|10.0.2.2||x|w|
+/var/log/audit/audit.log|81|10.0.2.2||x|w|
+/var/log/audit/audit.log|81|10.0.2.2||x|w|
+/var/log/audit/audit.log|89|10.0.2.15||x|w|
+/var/log/audit/audit.log|89|10.0.2.2||x|w|
+/var/log/audit/audit.log|90|10.0.2.2||x|w|
+/var/log/audit/audit.log|90|10.0.2.2||x|w|
+/var/log/audit/audit.log|91|10.0.2.2||x|w|
+/var/log/audit/audit.log|91|10.0.2.2||x|w|
+/var/log/audit/audit.log|92|10.0.2.2||x|w|
+/var/log/audit/audit.log|93|10.0.2.2||x|w|
+/var/log/audit/audit.log|94|10.0.2.2||x|w|
+/var/log/audit/audit.log|95|10.0.2.2||x|w|
+/var/log/audit/audit.log|96|10.0.2.15||x|w|
+/var/log/audit/audit.log|96|10.0.2.2||x|w|
+/var/log/audit/audit.log|97|10.0.2.15||x|w|
+/var/log/audit/audit.log|97|10.0.2.2||x|w|
+/var/log/audit/audit.log|98|10.0.2.2||x|w|
+/var/log/audit/audit.log|99|10.0.2.2||x|w|
+/var/log/audit/audit.log|100|10.0.2.2||x|w|
+/var/log/audit/audit.log|100|10.0.2.2||x|w|
+/var/log/audit/audit.log|101|10.0.2.15||x|w|
+/var/log/audit/audit.log|101|10.0.2.2||x|w|
+/var/log/audit/audit.log|102|10.0.2.2||x|w|
+/var/log/audit/audit.log|103|10.0.2.2||x|w|
+/var/log/audit/audit.log|103|10.0.2.2||x|w|
+/var/log/audit/audit.log|105|10.0.2.2||x|w|
+/var/log/audit/audit.log|105|10.0.2.2||x|w|
+/var/log/audit/audit.log|106|10.0.2.2||x|w|
+/var/log/audit/audit.log|106|10.0.2.2||x|w|
+/var/log/audit/audit.log|107|10.0.2.15||x|w|
+/var/log/audit/audit.log|107|10.0.2.2||x|w|
+/var/log/audit/audit.log|108|10.0.2.2||x|w|
+/var/log/audit/audit.log|109|10.0.2.2||x|w|
+/var/log/audit/audit.log|110|10.0.2.2||x|w|
+/var/log/audit/audit.log|110|10.0.2.2||x|w|
+/var/log/audit/audit.log|111|10.0.2.2||x|w|
+/var/log/audit/audit.log|111|10.0.2.2||x|w|
+/var/log/audit/audit.log|112|10.0.2.2||x|w|
+/var/log/audit/audit.log|112|10.0.2.2||x|w|
+/var/log/audit/audit.log|127|10.0.2.15||x|w|
+/var/log/audit/audit.log|127|10.0.2.2||x|w|
+/var/log/audit/audit.log|128|10.0.2.2||x|w|
+/var/log/audit/audit.log|128|10.0.2.2||x|w|
+/var/log/audit/audit.log|129|10.0.2.2||x|w|
+/var/log/audit/audit.log|129|10.0.2.2||x|w|
+/var/log/audit/audit.log|130|10.0.2.2||x|w|
+/var/log/audit/audit.log|130|10.0.2.2||x|w|
+/var/log/audit/audit.log|131|10.0.2.2||x|w|
+/var/log/audit/audit.log|131|10.0.2.2||x|w|
+/var/log/audit/audit.log|132|10.0.2.2||x|w|
+/var/log/audit/audit.log|133|10.0.2.2||x|w|
+/var/log/audit/audit.log|134|10.0.2.2||x|w|
+/var/log/audit/audit.log|135|10.0.2.2||x|w|
+/var/log/audit/audit.log|136|10.0.2.15||x|w|
+/var/log/audit/audit.log|136|10.0.2.2||x|w|
+/var/log/audit/audit.log|137|10.0.2.15||x|w|
+/var/log/audit/audit.log|137|10.0.2.2||x|w|
+/var/log/audit/audit.log|138|10.0.2.2||x|w|
+/var/log/audit/audit.log|139|10.0.2.2||x|w|
+/var/log/audit/audit.log|140|10.0.2.2||x|w|
+/var/log/audit/audit.log|140|10.0.2.2||x|w|
+/var/log/audit/audit.log|141|10.0.2.15||x|w|
+/var/log/audit/audit.log|141|10.0.2.2||x|w|
+/var/log/audit/audit.log|142|10.0.2.2||x|w|
+/var/log/audit/audit.log|143|10.0.2.2||x|w|
+/var/log/audit/audit.log|143|10.0.2.2||x|w|
+/var/log/audit/audit.log|145|10.0.2.2||x|w|
+/var/log/audit/audit.log|145|10.0.2.2||x|w|
+/var/log/audit/audit.log|146|10.0.2.2||x|w|
+/var/log/audit/audit.log|146|10.0.2.2||x|w|
+/var/log/audit/audit.log|147|10.0.2.2||x|w|
+/var/log/audit/audit.log|148|10.0.2.2||x|w|
+/var/log/audit/audit.log|149|10.0.2.15||x|w|
+/var/log/audit/audit.log|149|10.0.2.2||x|w|
+/var/log/audit/audit.log|150|10.0.2.2||x|w|
+/var/log/audit/audit.log|150|10.0.2.2||x|w|
+/var/log/audit/audit.log|151|10.0.2.2||x|w|
+/var/log/audit/audit.log|151|10.0.2.2||x|w|
+/var/log/audit/audit.log|152|10.0.2.2||x|w|
+/var/log/audit/audit.log|152|10.0.2.2||x|w|
+/var/log/audit/audit.log|158|10.0.2.15||x|w|
+/var/log/audit/audit.log|158|10.0.2.2||x|w|
+/var/log/audit/audit.log|159|10.0.2.2||x|w|
+/var/log/audit/audit.log|159|10.0.2.2||x|w|
+/var/log/audit/audit.log|160|10.0.2.2||x|w|
+/var/log/audit/audit.log|160|10.0.2.2||x|w|
+/var/log/audit/audit.log|161|10.0.2.2||x|w|
+/var/log/audit/audit.log|161|10.0.2.2||x|w|
+/var/log/audit/audit.log|162|10.0.2.2||x|w|
+/var/log/audit/audit.log|162|10.0.2.2||x|w|
+/var/log/audit/audit.log|163|10.0.2.2||x|w|
+/var/log/audit/audit.log|164|10.0.2.2||x|w|
+/var/log/audit/audit.log|165|10.0.2.2||x|w|
+/var/log/audit/audit.log|166|10.0.2.2||x|w|
+/var/log/audit/audit.log|167|10.0.2.15||x|w|
+/var/log/audit/audit.log|167|10.0.2.2||x|w|
+/var/log/audit/audit.log|168|10.0.2.15||x|w|
+/var/log/audit/audit.log|168|10.0.2.2||x|w|
+/var/log/audit/audit.log|169|10.0.2.2||x|w|
+/var/log/audit/audit.log|170|10.0.2.2||x|w|
+/var/log/audit/audit.log|171|10.0.2.2||x|w|
+/var/log/audit/audit.log|171|10.0.2.2||x|w|
+/var/log/audit/audit.log|172|10.0.2.15||x|w|
+/var/log/audit/audit.log|172|10.0.2.2||x|w|
+/var/log/audit/audit.log|173|10.0.2.2||x|w|
+/var/log/audit/audit.log|174|10.0.2.2||x|w|
+/var/log/audit/audit.log|174|10.0.2.2||x|w|
+/var/log/audit/audit.log|176|10.0.2.2||x|w|
+/var/log/audit/audit.log|176|10.0.2.2||x|w|
+/var/log/audit/audit.log|177|10.0.2.2||x|w|
+/var/log/audit/audit.log|177|10.0.2.2||x|w|
+/var/log/audit/audit.log|178|10.0.2.15||x|w|
+/var/log/audit/audit.log|178|10.0.2.2||x|w|
+/var/log/audit/audit.log|179|10.0.2.2||x|w|
+/var/log/audit/audit.log|180|10.0.2.2||x|w|
+/var/log/audit/audit.log|181|10.0.2.2||x|w|
+/var/log/audit/audit.log|181|10.0.2.2||x|w|
+/var/log/audit/audit.log|182|10.0.2.2||x|w|
+/var/log/audit/audit.log|182|10.0.2.2||x|w|
+/var/log/audit/audit.log|183|10.0.2.2||x|w|
+/var/log/audit/audit.log|183|10.0.2.2||x|w|
+/var/log/audit/audit.log|195|10.0.2.15||x|w|
+/var/log/audit/audit.log|195|10.0.2.2||x|w|
+/var/log/audit/audit.log|196|10.0.2.2||x|w|
+/var/log/audit/audit.log|196|10.0.2.2||x|w|
+/var/log/audit/audit.log|197|10.0.2.2||x|w|
+/var/log/audit/audit.log|197|10.0.2.2||x|w|
+/var/log/audit/audit.log|198|10.0.2.2||x|w|
+/var/log/audit/audit.log|198|10.0.2.2||x|w|
+/var/log/audit/audit.log|199|10.0.2.2||x|w|
+/var/log/audit/audit.log|199|10.0.2.2||x|w|
+/var/log/audit/audit.log|200|10.0.2.2||x|w|
+/var/log/audit/audit.log|201|10.0.2.2||x|w|
+/var/log/audit/audit.log|202|10.0.2.2||x|w|
+/var/log/audit/audit.log|203|10.0.2.2||x|w|
+/var/log/audit/audit.log|204|10.0.2.15||x|w|
+/var/log/audit/audit.log|204|10.0.2.2||x|w|
+/var/log/audit/audit.log|205|10.0.2.15||x|w|
+/var/log/audit/audit.log|205|10.0.2.2||x|w|
+/var/log/audit/audit.log|206|10.0.2.2||x|w|
+/var/log/audit/audit.log|207|10.0.2.2||x|w|
+/var/log/audit/audit.log|208|10.0.2.2||x|w|
+/var/log/audit/audit.log|208|10.0.2.2||x|w|
+/var/log/audit/audit.log|209|10.0.2.15||x|w|
+/var/log/audit/audit.log|209|10.0.2.2||x|w|
+/var/log/audit/audit.log|210|10.0.2.2||x|w|
+/var/log/audit/audit.log|211|10.0.2.2||x|w|
+/var/log/audit/audit.log|211|10.0.2.2||x|w|
+/var/log/audit/audit.log|213|10.0.2.2||x|w|
+/var/log/audit/audit.log|213|10.0.2.2||x|w|
+/var/log/audit/audit.log|214|10.0.2.2||x|w|
+/var/log/audit/audit.log|214|10.0.2.2||x|w|
+/var/log/audit/audit.log|215|10.0.2.2||x|w|
+/var/log/audit/audit.log|216|10.0.2.2||x|w|
+/var/log/audit/audit.log|217|10.0.2.15||x|w|
+/var/log/audit/audit.log|217|10.0.2.2||x|w|
+/var/log/audit/audit.log|218|10.0.2.2||x|w|
+/var/log/audit/audit.log|218|10.0.2.2||x|w|
+/var/log/audit/audit.log|219|10.0.2.2||x|w|
+/var/log/audit/audit.log|219|10.0.2.2||x|w|
+/var/log/audit/audit.log|220|10.0.2.2||x|w|
+/var/log/audit/audit.log|220|10.0.2.2||x|w|
+/var/log/audit/audit.log|226|10.0.2.15||x|w|
+/var/log/audit/audit.log|226|10.0.2.2||x|w|
+/var/log/audit/audit.log|227|10.0.2.2||x|w|
+/var/log/audit/audit.log|227|10.0.2.2||x|w|
+/var/log/audit/audit.log|228|10.0.2.2||x|w|
+/var/log/audit/audit.log|228|10.0.2.2||x|w|
+/var/log/audit/audit.log|229|10.0.2.2||x|w|
+/var/log/audit/audit.log|229|10.0.2.2||x|w|
+/var/log/audit/audit.log|230|10.0.2.2||x|w|
+/var/log/audit/audit.log|230|10.0.2.2||x|w|
+/var/log/audit/audit.log|231|10.0.2.2||x|w|
+/var/log/audit/audit.log|232|10.0.2.2||x|w|
+/var/log/audit/audit.log|233|10.0.2.2||x|w|
+/var/log/audit/audit.log|234|10.0.2.2||x|w|
+/var/log/audit/audit.log|235|10.0.2.15||x|w|
+/var/log/audit/audit.log|235|10.0.2.2||x|w|
+/var/log/audit/audit.log|236|10.0.2.15||x|w|
+/var/log/audit/audit.log|236|10.0.2.2||x|w|
+/var/log/audit/audit.log|237|10.0.2.2||x|w|
+/var/log/audit/audit.log|238|10.0.2.2||x|w|
+/var/log/audit/audit.log|239|10.0.2.2||x|w|
+/var/log/audit/audit.log|239|10.0.2.2||x|w|
+/var/log/audit/audit.log|240|10.0.2.15||x|w|
+/var/log/audit/audit.log|240|10.0.2.2||x|w|
+/var/log/audit/audit.log|241|10.0.2.2||x|w|
+/var/log/audit/audit.log|242|10.0.2.2||x|w|
+/var/log/audit/audit.log|242|10.0.2.2||x|w|
+/var/log/audit/audit.log|244|10.0.2.2||x|w|
+/var/log/audit/audit.log|244|10.0.2.2||x|w|
+/var/log/audit/audit.log|245|10.0.2.2||x|w|
+/var/log/audit/audit.log|245|10.0.2.2||x|w|
+/var/log/audit/audit.log|246|10.0.2.2||x|w|
+/var/log/audit/audit.log|247|10.0.2.2||x|w|
+/var/log/audit/audit.log|248|10.0.2.15||x|w|
+/var/log/audit/audit.log|248|10.0.2.2||x|w|
+/var/log/audit/audit.log|249|10.0.2.2||x|w|
+/var/log/audit/audit.log|249|10.0.2.2||x|w|
+/var/log/audit/audit.log|250|10.0.2.2||x|w|
+/var/log/audit/audit.log|250|10.0.2.2||x|w|
+/var/log/audit/audit.log|251|10.0.2.2||x|w|
+/var/log/audit/audit.log|251|10.0.2.2||x|w|
+/var/log/audit/audit.log|255|127.0.0.1||x|w|
+/var/log/audit/audit.log|256|127.0.0.1||x|w|
+/var/log/audit/audit.log|257|127.0.0.1||x|w|
+/var/log/audit/audit.log|257|127.0.0.1||x|w|
+/var/log/audit/audit.log|258|127.0.0.1||x|w|
+/var/log/audit/audit.log|258|127.0.0.1||x|w|
+/var/log/audit/audit.log|259|127.0.0.1||x|w|
+/var/log/audit/audit.log|260|127.0.0.1||x|w|
+/var/log/audit/audit.log|261|127.0.0.1||x|w|
+/var/log/audit/audit.log|261|127.0.0.1||x|w|
+/var/log/audit/audit.log|262|127.0.0.1||x|w|
+/var/log/audit/audit.log|262|127.0.0.1||x|w|
+/var/log/audit/audit.log|263|127.0.0.1||x|w|
+/var/log/audit/audit.log|264|127.0.0.1||x|w|
+/var/log/audit/audit.log|264|127.0.0.1||x|w|
+/var/log/audit/audit.log|266|127.0.0.1||x|w|
+/var/log/audit/audit.log|266|127.0.0.1||x|w|
+/var/log/audit/audit.log|267|127.0.0.1||x|w|
+/var/log/audit/audit.log|267|127.0.0.1||x|w|
+/var/log/audit/audit.log|268|127.0.0.1||x|w|
+/var/log/audit/audit.log|269|127.0.0.1||x|w|
+/var/log/audit/audit.log|270|127.0.0.1||x|w|
+/var/log/audit/audit.log|270|127.0.0.1||x|w|
+/var/log/audit/audit.log|271|127.0.0.1||x|w|
+/var/log/audit/audit.log|271|127.0.0.1||x|w|
+/var/log/audit/audit.log|272|127.0.0.1||x|w|
+/var/log/audit/audit.log|272|127.0.0.1||x|w|
+/var/log/audit/audit.log|273|127.0.0.1||x|w|
+/var/log/audit/audit.log|273|127.0.0.1||x|w|
+/var/log/audit/audit.log|276|127.0.0.1||x|w|
+/var/log/audit/audit.log|276|127.0.0.1||x|w|
+/var/log/audit/audit.log|277|127.0.0.1||x|w|
+/var/log/audit/audit.log|277|127.0.0.1||x|w|
+/var/log/audit/audit.log|278|127.0.0.1||x|w|
+/var/log/audit/audit.log|278|127.0.0.1||x|w|
+/var/log/audit/audit.log|279|127.0.0.1||x|w|
+/var/log/audit/audit.log|280|127.0.0.1||x|w|
+/var/log/audit/audit.log|281|::1||x|w|
+/var/log/audit/audit.log|282|::1||x|w|
+/var/log/audit/audit.log|283|::1||x|w|
+/var/log/audit/audit.log|283|::1||x|w|
+/var/log/audit/audit.log|284|::1||x|w|
+/var/log/audit/audit.log|284|::1||x|w|
+/var/log/audit/audit.log|285|::1||x|w|
+/var/log/audit/audit.log|286|::1||x|w|
+/var/log/audit/audit.log|287|::1||x|w|
+/var/log/audit/audit.log|287|::1||x|w|
+/var/log/audit/audit.log|288|::1||x|w|
+/var/log/audit/audit.log|288|::1||x|w|
+/var/log/audit/audit.log|289|::1||x|w|
+/var/log/audit/audit.log|290|::1||x|w|
+/var/log/audit/audit.log|290|::1||x|w|
+/var/log/audit/audit.log|292|::1||x|w|
+/var/log/audit/audit.log|292|::1||x|w|
+/var/log/audit/audit.log|293|::1||x|w|
+/var/log/audit/audit.log|293|::1||x|w|
+/var/log/audit/audit.log|294|::1||x|w|
+/var/log/audit/audit.log|295|::1||x|w|
+/var/log/audit/audit.log|296|::1||x|w|
+/var/log/audit/audit.log|296|::1||x|w|
+/var/log/audit/audit.log|297|::1||x|w|
+/var/log/audit/audit.log|297|::1||x|w|
+/var/log/audit/audit.log|298|::1||x|w|
+/var/log/audit/audit.log|298|::1||x|w|
+/var/log/audit/audit.log|299|::1||x|w|
+/var/log/audit/audit.log|299|::1||x|w|
+/var/log/audit/audit.log|302|::1||x|w|
+/var/log/audit/audit.log|302|::1||x|w|
+/var/log/audit/audit.log|303|::1||x|w|
+/var/log/audit/audit.log|303|::1||x|w|
+/var/log/audit/audit.log|304|::1||x|w|
+/var/log/audit/audit.log|304|::1||x|w|
+/var/log/audit/audit.log|305|::1||x|w|
+/var/log/audit/audit.log|306|::1||x|w|
+/var/log/audit/audit.log|307|127.0.0.1||x|w|
+/var/log/audit/audit.log|308|127.0.0.1||x|w|
+/var/log/audit/audit.log|309|127.0.0.1||x|w|
+/var/log/audit/audit.log|309|127.0.0.1||x|w|
+/var/log/audit/audit.log|310|127.0.0.1||x|w|
+/var/log/audit/audit.log|310|127.0.0.1||x|w|
+/var/log/audit/audit.log|311|127.0.0.1||x|w|
+/var/log/audit/audit.log|312|127.0.0.1||x|w|
+/var/log/audit/audit.log|313|127.0.0.1||x|w|
+/var/log/audit/audit.log|313|127.0.0.1||x|w|
+/var/log/audit/audit.log|314|127.0.0.1||x|w|
+/var/log/audit/audit.log|314|127.0.0.1||x|w|
+/var/log/audit/audit.log|315|127.0.0.1||x|w|
+/var/log/audit/audit.log|316|127.0.0.1||x|w|
+/var/log/audit/audit.log|316|127.0.0.1||x|w|
+/var/log/audit/audit.log|318|127.0.0.1||x|w|
+/var/log/audit/audit.log|319|127.0.0.1||x|w|
+/var/log/audit/audit.log|320|127.0.0.1||x|w|
+/var/log/audit/audit.log|320|127.0.0.1||x|w|
+/var/log/audit/audit.log|321|127.0.0.1||x|w|
+/var/log/audit/audit.log|321|127.0.0.1||x|w|
+/var/log/audit/audit.log|322|127.0.0.1||x|w|
+/var/log/audit/audit.log|322|127.0.0.1||x|w|
+/var/log/audit/audit.log|323|127.0.0.1||x|w|
+/var/log/audit/audit.log|323|127.0.0.1||x|w|
+/var/log/audit/audit.log|324|127.0.0.1||x|w|
+/var/log/audit/audit.log|325|127.0.0.1||x|w|
+/var/log/audit/audit.log|326|127.0.0.1||x|w|
+/var/log/audit/audit.log|327|127.0.0.1||x|w|
+/var/log/audit/audit.log|327|127.0.0.1||x|w|
+/var/log/audit/audit.log|328|127.0.0.1||x|w|
+/var/log/audit/audit.log|328|127.0.0.1||x|w|
+/var/log/audit/audit.log|329|127.0.0.1||x|w|
+/var/log/audit/audit.log|329|127.0.0.1||x|w|
+/var/log/audit/audit.log|330|127.0.0.1||x|w|
+/var/log/audit/audit.log|331|127.0.0.1||x|w|
+/var/log/audit/audit.log|334|127.0.0.1||x|w|
+/var/log/audit/audit.log|334|127.0.0.1||x|w|
+/var/log/audit/audit.log|340|127.0.0.1||x|w|
+/var/log/audit/audit.log|340|127.0.0.1||x|w|
+/var/log/audit/audit.log|342|127.0.0.1||x|w|
+/var/log/audit/audit.log|342|127.0.0.1||x|w|
+/var/log/audit/audit.log|347|10.0.2.15||x|w|
+/var/log/audit/audit.log|347|10.0.2.2||x|w|
+/var/log/audit/audit.log|348|10.0.2.2||x|w|
+/var/log/audit/audit.log|348|10.0.2.2||x|w|
+/var/log/audit/audit.log|349|10.0.2.2||x|w|
+/var/log/audit/audit.log|349|10.0.2.2||x|w|
+/var/log/audit/audit.log|350|10.0.2.2||x|w|
+/var/log/audit/audit.log|350|10.0.2.2||x|w|
+/var/log/audit/audit.log|351|10.0.2.2||x|w|
+/var/log/audit/audit.log|351|10.0.2.2||x|w|
+/var/log/audit/audit.log|352|10.0.2.2||x|w|
+/var/log/audit/audit.log|353|10.0.2.2||x|w|
+/var/log/audit/audit.log|354|10.0.2.2||x|w|
+/var/log/audit/audit.log|355|10.0.2.2||x|w|
+/var/log/audit/audit.log|356|10.0.2.15||x|w|
+/var/log/audit/audit.log|356|10.0.2.2||x|w|
+/var/log/audit/audit.log|357|10.0.2.15||x|w|
+/var/log/audit/audit.log|357|10.0.2.2||x|w|
+/var/log/audit/audit.log|358|10.0.2.2||x|w|
+/var/log/audit/audit.log|359|10.0.2.2||x|w|
+/var/log/audit/audit.log|360|10.0.2.2||x|w|
+/var/log/audit/audit.log|360|10.0.2.2||x|w|
+/var/log/audit/audit.log|361|10.0.2.15||x|w|
+/var/log/audit/audit.log|361|10.0.2.2||x|w|
+/var/log/audit/audit.log|362|10.0.2.2||x|w|
+/var/log/audit/audit.log|363|10.0.2.2||x|w|
+/var/log/audit/audit.log|363|10.0.2.2||x|w|
+/var/log/audit/audit.log|365|10.0.2.2||x|w|
+/var/log/audit/audit.log|365|10.0.2.2||x|w|
+/var/log/audit/audit.log|366|10.0.2.2||x|w|
+/var/log/audit/audit.log|366|10.0.2.2||x|w|
+/var/log/audit/audit.log|367|10.0.2.2||x|w|
+/var/log/audit/audit.log|368|10.0.2.2||x|w|
+/var/log/audit/audit.log|369|10.0.2.15||x|w|
+/var/log/audit/audit.log|369|10.0.2.2||x|w|
+/var/log/audit/audit.log|370|10.0.2.2||x|w|
+/var/log/audit/audit.log|370|10.0.2.2||x|w|
+/var/log/audit/audit.log|371|10.0.2.2||x|w|
+/var/log/audit/audit.log|371|10.0.2.2||x|w|
+/var/log/audit/audit.log|372|10.0.2.2||x|w|
+/var/log/audit/audit.log|372|10.0.2.2||x|w|
+/var/log/anaconda.syslog|521|fe80::|64|w|s|
+/var/log/anaconda.syslog|522|9fcc:cc03:4100::a00:0|0|w|s|
+/var/log/anaconda.syslog|523|ff00::|8|w|s|
+/var/log/anaconda.syslog|524|ae00:3:101::100:0|0|w|s|
+/var/log/anaconda.syslog|607|255.255.255.255||w|w|
+/var/log/anaconda.syslog|608|10.0.2.2||w||
+/var/log/anaconda.syslog|609|255.255.255.255||w|w|
+/var/log/anaconda.syslog|610|10.0.2.2||w|w|
+/var/log/anaconda.syslog|615|10.0.2.15||w|w|
+/var/log/anaconda.syslog|616|10.0.2.15||w||
+/var/log/anaconda.syslog|617|255.255.255.0||x|x|
+/var/log/anaconda.syslog|618|10.0.2.2||w||
+/var/log/anaconda.syslog|619|10.0.2.3||x|x|
+/var/log/anaconda.syslog|624|10.0.2.15|0|x|s|
+/var/log/anaconda.syslog|628|0.0.0.0||x|x|
+/var/log/dracut.log|71|1.15.37.0||h|p|
+/var/log/dracut.log|72|1.15.37.0||h|p|
+/var/log/dracut.log|1130|3.2.3.0||h|p|
+/var/log/dracut.log|1131|3.2.3.0||h|p|
+/var/log/dracut.log|1132|3.2.3.0||h|p|
+
+--8919c183f550ffd8911e2e6e7de301c3 end carving.log_ips status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin carving.etc_names kind=cmd tool=sh limit=4194304
+/etc/pki/tls/certs/ca-bundle.crt|www.cert.fnmt.es
+/etc/pki/tls/certs/ca-bundle.crt|www.certplus.com
+/etc/pki/tls/certs/ca-bundle.crt|www2.public-trust.com
+/etc/pki/tls/certs/ca-bundle.crt|directory.d-trust.net
+/etc/pki/tls/certs/ca-bundle.crt|www.d-trust.net
+/etc/pki/tls/certs/ca-bundle.crt|www.catcert.net
+/etc/pki/tls/certs/ca-bundle.crt|www.entrust.net
+/etc/pki/tls/certs/ca-bundle.crt|repository.luxtrust.lu
+/etc/pki/tls/certs/ca-bundle.crt|l.l.c
+/etc/pki/tls/certs/ca-bundle.crt|crl.netsolssl.com
+/etc/pki/tls/certs/ca-bundle.crt|www.accv.es
+/etc/pki/tls/certs/ca-bundle.crt|ocsp.accv.es
+/etc/pki/tls/certs/ca-bundle.crt|s.p.a
+/etc/pki/tls/certs/ca-bundle.crt|www.firmaprofesional.com
+/etc/pki/tls/certs/ca-bundle.crt|crl.comodoca.com
+/etc/pki/tls/certs/ca-bundle.crt|www.camerfirma.com
+/etc/pki/tls/certs/ca-bundle.crt|policy.camerfirma.com
+/etc/pki/tls/certs/ca-bundle.crt|crl.comodo.net
+/etc/pki/tls/certs/ca-bundle.crt|www.digicert.com
+/etc/pki/tls/certs/ca-bundle.crt|crl.globalsign.net
+/etc/pki/tls/certs/ca-bundle.crt|www.netlock.net
+/etc/pki/tls/certs/ca-bundle.crt|ocsp.quovadisoffshore.com
+/etc/pki/tls/certs/ca-bundle.crt|www.quovadis.bm
+/etc/pki/tls/certs/ca-bundle.crt|www.quovadisglobal.com
+/etc/pki/tls/certs/ca-bundle.crt|www.valicert.com
+/etc/pki/tls/certs/ca-bundle.crt|crl.securetrust.com
+/etc/pki/tls/certs/ca-bundle.crt|www.pkioverheid.nl
+/etc/pki/tls/certs/ca-bundle.crt|repository.swisssign.com
+/etc/pki/tls/certs/ca-bundle.crt|logo.verisign.com
+/etc/pki/tls/certs/ca-bundle.crt|www.xrampsecurity.com
+/etc/pki/tls/certs/ca-bundle.crt|crl.xrampsecurity.com
+/etc/pki/tls/certs/ca-bundle.trust.crt|www.cert.fnmt.es
+/etc/pki/tls/certs/ca-bundle.trust.crt|www.certicamara.com
+/etc/pki/tls/certs/ca-bundle.trust.crt|www.chambersign.org
+/etc/pki/tls/certs/ca-bundle.trust.crt|crl.chambersign.org
+/etc/pki/tls/certs/ca-bundle.trust.crt|cps.chambersign.org
+/etc/pki/tls/certs/ca-bundle.trust.crt|www.certplus.com
+/etc/pki/tls/certs/ca-bundle.trust.crt|fedir.comsign.co.il
+/etc/pki/tls/certs/ca-bundle.trust.crt|www2.public-trust.com
+/etc/pki/tls/certs/ca-bundle.trust.crt|directory.d-trust.net
+/etc/pki/tls/certs/ca-bundle.trust.crt|crl.d-trust.net
+/etc/pki/tls/certs/ca-bundle.trust.crt|www.d-trust.net
+/etc/pki/tls/certs/ca-bundle.trust.crt|www.catcert.net
+/etc/pki/tls/certs/ca-bundle.trust.crt|www.entrust.net
+/etc/pki/tls/certs/ca-bundle.trust.crt|www.diginotar.nl
+/etc/pki/tls/certs/ca-bundle.trust.crt|crl.pkioverheid.nl
+/etc/pki/tls/certs/ca-bundle.trust.crt|repository.luxtrust.lu
+/etc/pki/tls/certs/ca-bundle.trust.crt|l.l.c
+/etc/pki/tls/certs/ca-bundle.trust.crt|crl.netsolssl.com
+/etc/pki/tls/certs/ca-bundle.trust.crt|repository.swisssign.com
+/etc/pki/tls/certs/ca-bundle.trust.crt|www.trustcenter.de
+/etc/pki/tls/certs/ca-bundle.trust.crt|www.usertrust.com
+/etc/pki/tls/certs/ca-bundle.trust.crt|crl.usertrust.com
+/etc/hosts|corpus-db.example.internal
+/etc/hosts|corpus-db6.example.internal
+/etc/krb5.conf|kerberos.example.com
+/etc/protocols|cs.ucl.ac.uk
+/etc/services|inlab.m.eunet.de
+/etc/services|e.l.s
+/etc/services|ipcore.co.za
+/etc/services|p.o.c
+/etc/services|www.flirtmitmir.de
+/etc/services|m.i.t
+/etc/dbus-1/system.d/Upstart.conf|www.freedesktop.org
+/etc/dbus-1/system.d/Upstart.conf|org.freedesktop.dbus.properties
+/etc/dbus-1/system.d/Upstart.conf|org.freedesktop.dbus.introspectable
+/etc/cloud/cloud.cfg.d/05_logging.cfg|handlers.sysloghandler.log
+/etc/cloud/templates/sources.list.debian.tmpl|sources.list.d
+/etc/cloud/templates/sources.list.debian.tmpl|sources.list.debian.tmpl
+/etc/cloud/templates/sources.list.ubuntu.tmpl|sources.list.d
+/etc/cloud/templates/sources.list.ubuntu.tmpl|sources.list.tmpl
+/etc/cloud/templates/hosts.suse.tmpl|hosts.suse.tmpl
+/etc/cloud/templates/hosts.redhat.tmpl|hosts.redhat.tmpl
+/etc/selinux/targeted/contexts/dbus_contexts|www.freedesktop.org
+/etc/selinux/targeted/contexts/files/file_contexts|adobe.air.updater
+/etc/selinux/targeted/contexts/files/file_contexts|adobe.air.application
+/etc/yum.repos.d/CentOS-Vault.repo|vault.centos.org
+/etc/yum.repos.d/CentOS-Debuginfo.repo|debuginfo.centos.org
+/etc/yum.repos.d/CentOS-Base.repo|vault.centos.org
+/etc/yum.repos.d/CentOS-fasttrack.repo|vault.centos.org
+/etc/ld.so.conf|ld.so.conf.d
+/etc/virc|www.linuxpowertop.org
+/etc/sysctl.conf|net.ipv4.ip
+/etc/sysctl.conf|net.ipv4.conf.default.rp
+/etc/sysctl.conf|net.ipv4.conf.default.accept
+/etc/sysctl.conf|net.ipv4.tcp
+/etc/sysconfig/network-scripts/ifup-ppp|resolv.conf.save
+/etc/sysconfig/network-scripts/ifup-post|resolv.conf.save
+/etc/sysconfig/network-scripts/ifup-ipv6|net.ipv6.conf.all.forwarding
+/etc/sysconfig/network-scripts/ifup-ipv6|net.ipv6.conf
+/etc/sysconfig/network-scripts/ifup-ib|net.ipv4.conf
+/etc/sysconfig/network-scripts/network-functions-ipv6|net.ipv6.conf.sit0.forwarding
+/etc/sysconfig/network-scripts/network-functions-ipv6|net.ipv6.conf.sit0.accept
+/etc/sysconfig/network-scripts/network-functions-ipv6|net.ipv4.ip
+/etc/sysconfig/network-scripts/network-functions-ipv6|net.ipv6.conf
+/etc/sysconfig/network-scripts/ifup-ippp|2.4.x
+/etc/sysconfig/network-scripts/init.ipv6-global|net.ipv6.conf
+/etc/sysconfig/network-scripts/ifup-eth|net.ipv4.conf
+/etc/sysconfig/network-scripts/ifdown-ipv6|net.ipv6.conf
+/etc/sysconfig/network-scripts/ifdown-post|resolv.conf.save
+/etc/sysconfig/network-scripts/network-functions|com.redhat.ifcfgrh1.getifcfgdetails
+/etc/yum.conf|bugs.centos.org
+/etc/rc.d/init.d/network|net.ipv4.ip
+/etc/rc.d/rc.sysinit|ld.so.cache
+/etc/ntp.conf|0.centos.pool.ntp.org
+/etc/ntp.conf|1.centos.pool.ntp.org
+/etc/ntp.conf|2.centos.pool.ntp.org
+/etc/ntp.conf|3.centos.pool.ntp.org
+
+--8919c183f550ffd8911e2e6e7de301c3 end carving.etc_names status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin carving.journal_ips kind=cmd tool=journalctl limit=4194304
+
+--8919c183f550ffd8911e2e6e7de301c3 end carving.journal_ips status=na rc=-
+--8919c183f550ffd8911e2e6e7de301c3 note carving.journal_ips systemd is not running
+--8919c183f550ffd8911e2e6e7de301c3 begin neighbours.proc_arp kind=file path=/proc/net/arp limit=4194304
+IP address       HW type     Flags       HW address            Mask     Device
+10.0.2.3         0x1         0x2         52:55:0a:00:02:03     *        eth0
+10.0.2.2         0x1         0x2         52:55:0a:00:02:02     *        eth0
+
+--8919c183f550ffd8911e2e6e7de301c3 end neighbours.proc_arp status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 begin neighbours.ip_neigh kind=cmd tool=ip limit=4194304
+fe80::2 dev eth0 lladdr 52:56:00:00:00:02 router STALE
+10.0.2.3 dev eth0 lladdr 52:55:0a:00:02:03 REACHABLE
+10.0.2.2 dev eth0 lladdr 52:55:0a:00:02:02 REACHABLE
+
+--8919c183f550ffd8911e2e6e7de301c3 end neighbours.ip_neigh status=ok rc=0
+--8919c183f550ffd8911e2e6e7de301c3 close sections=134

@@ -8,10 +8,9 @@ from aridi import bundle
 from aridi.interpret import interpret
 from aridi.model import Role, Status
 from aridi.parsers import connections, load, processes, sessions
-from tests.helpers import (CORPUS, facts, legacy_bundle, legacy_report, make_bundle,
-                           sample_name, samples)
+from tests.helpers import (CORPUS, VM_HOST, VMS, facts, legacy_bundle, legacy_report,
+                           make_bundle, sample_name, samples)
 
-VMS = ("vm-debian12-arm64", "vm-rocky9-arm64", "vm-debian12-amd64")
 
 
 def snapshot_of(path):
@@ -124,17 +123,20 @@ class SessionsTest(unittest.TestCase):
             with self.subTest(sample=name):
                 snapshot = snapshot_of(CORPUS / name / "vm" / "bundle.aridi")
                 data = snapshot.sections["sessions"].data
+                # CentOS 7 sshd has "UseDNS yes": utmp keeps the resolved name.
+                resolved = name == "vm-centos7-amd64"
                 active = [s for s in data["active"] if s["user"] == "alice"]
-                self.assertEqual([s["host"] for s in active], ["127.0.0.1"])
+                self.assertEqual([s["host"] for s in active],
+                                 ["localhost" if resolved else "127.0.0.1"])
                 hosts = {e["host"] for e in data["logins"] if e["user"] == "alice"}
-                self.assertTrue({"127.0.0.1", "::1"} <= hosts, hosts)
+                self.assertTrue(({"localhost"} if resolved else {"127.0.0.1", "::1"}) <= hosts,
+                                hosts)
                 self.assertGreaterEqual(data["login_counts"]["day"], 3)
                 failed = [e for e in data["failed"] if e["user"] == "nosuchuser"]
-                self.assertTrue(failed)
-                self.assertEqual(failed[0]["host"], "127.0.0.1")
-                # Loopback sources are not relations; the Lima host (limactl shell) is.
+                self.assertIn("127.0.0.1", {e["host"] for e in failed})
+                # Loopback sources are not relations; the host (the capture's SSH) is.
                 sources = {str(r.ip) for r in snapshot.relations if r.source == "sessions"}
-                self.assertEqual(sources, {"192.168.5.2"})
+                self.assertEqual(sources, {VM_HOST[name]})
 
     def test_containers_without_sessions(self):
         for sample in samples():

@@ -8,8 +8,8 @@ from aridi import bundle
 from aridi.interpret import interpret
 from aridi.model import Role, Status
 from aridi.parsers import carving, neighbours
-from tests.helpers import (CORPUS, corpus_bundles, legacy_bundle, legacy_report, make_bundle,
-                           sample_name, samples)
+from tests.helpers import (CORPUS, VMS, corpus_bundles, legacy_bundle, legacy_report,
+                           make_bundle, sample_name, samples)
 
 
 def snapshot_of(path):
@@ -133,7 +133,7 @@ class NeighboursTest(unittest.TestCase):
                 self.assertTrue(section.volatile)
 
     def test_vms_see_their_gateway(self):
-        for name in ("vm-debian12-arm64", "vm-rocky9-arm64", "vm-debian12-amd64"):
+        for name in VMS:
             with self.subTest(sample=name):
                 snapshot = snapshot_of(CORPUS / name / "vm" / "bundle.aridi")
                 self.assertTrue(snapshot.sections["neighbours"].data["neighbours"])

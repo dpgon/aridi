@@ -64,8 +64,12 @@ este documento se ha dado por bueno leyendo código.
 - **3 variantes por imagen:** `minimal` (la imagen tal cual, sin red), `server` (con
   `iproute2`, `procps`, `nftables`, `iptables`, `socat`…, sin red) y `bridge` (la
   `server` en una red Docker interna, con `eth0@ifN`).
-- **3 VMs de Lima** con systemd, cortafuegos y sesiones SSH reales: Debian 12 arm64,
-  Rocky 9 arm64 y Debian 12 amd64 (emulada). No montan nada del anfitrión.
+- **7 VMs** con cortafuegos y sesiones SSH reales. No montan nada del anfitrión:
+  - en Lima, con systemd: Debian 12 arm64, Rocky 9 arm64, Debian 12 amd64 (emulada),
+    Ubuntu 24.04 arm64 y AlmaLinux 10 arm64;
+  - en QEMU sin Lima (`tests/qemu/`), amd64 emuladas: CentOS 7 (systemd, `iptables`,
+    chrony, `UseDNS yes`) y CentOS 6 (SysV, `iptables`, ntpd). Las cuatro últimas son
+    del 2026-10-17.
 - **Un escenario común** (`tests/corpus/scenario.sh`) con los casos que rompían 2019:
   `alice` con contraseña del algoritmo por defecto (yescrypt o SHA-512), `bob`
   bloqueado, un grupo con un miembro sin cuenta, un SUID de prueba, un directorio
@@ -75,10 +79,11 @@ este documento se ha dado por bueno leyendo código.
 - **Una verdad de referencia** por muestra (`facts.txt`, obtenida con las herramientas
   del propio sistema), con la que se comparan paquetes, cuentas, montajes, SUID, puertos…
 
-**Resultado observado** (`aridi report` sobre las 33 muestras): 12 completas y 21 con
-huecos declarados; **ningún área en `error`** (`test_relations:GlobalRegressionTest`).
-Duración del script: de 1 a 2 s en arm64 nativo, hasta 7 s en Alpine, de 13 a 21 s en
-las amd64 emuladas y 14 s en la VM x86_64; ninguna supera los 60 s.
+**Resultado observado** (`aridi report` sobre las 37 muestras, 2026-10-17): 16 completas
+(las 7 VMs entre ellas) y 21 con huecos declarados; **ningún área en `error`**
+(`test_relations:GlobalRegressionTest`). Duración del script: de 1 a 3 s en arm64
+nativo, hasta 7 s en Alpine, de 13 a 21 s en las amd64 emuladas en contenedor y de 12 a
+15 s en las VMs x86_64; ninguna supera los 60 s.
 
 **Resultado observado del central** (2026-10-16):
 
@@ -92,12 +97,11 @@ las amd64 emuladas y 14 s en la VM x86_64; ninguna supera los 60 s.
 
 **Límites de la medición:**
 
-- Son contenedores y 3 VMs, no un parque real. No hay discos físicos, USB reales, red
+- Son contenedores y 7 VMs, no un parque real. No hay discos físicos, USB reales, red
   local con otros equipos ni carga real.
 - Todo corre en un Mac arm64 con Docker Desktop; x86_64 se ve solo emulado (2 imágenes
-  y 1 VM).
-- Ninguna muestra tiene `wtmpdb` (sistemas sin `wtmp`), un dominio DNS configurado ni
-  `iptables` con reglas en modo *legacy*.
+  y 3 VMs).
+- Ninguna muestra tiene `wtmpdb` (sistemas sin `wtmp`) ni un dominio DNS configurado.
 - El central se ha probado con unas pocas máquinas (el corpus importado, un contenedor
   SSH y una VM), nunca con cientos o miles.
 - La VM de aceptación se alcanza desde el contenedor por `host.docker.internal`, una
@@ -243,23 +247,23 @@ Las pruebas se citan como `módulo:Clase.método` (fichero `tests/**/módulo.py`
 
 ### 12. Cortafuegos — *entregada con limitaciones*
 
-- **Observado:** reglas de nftables en las 3 VMs, firewalld en Rocky 9, cadenas
-  `forward` incluidas (`test_firewall_timesync:FirewallCorpusTest.*`). En contenedores
+- **Observado:** reglas de nftables en las 5 VMs de Lima, firewalld en Rocky 9, reglas
+  de `iptables` e `ip6tables` en las VMs de CentOS 7 y 6 (iguales a `iptables-save` de
+  `facts.txt`), cadenas `forward` incluidas (`test_firewall_timesync:FirewallCorpusTest.*`). En contenedores
   sin `CAP_NET_ADMIN`, hueco `denied` con el motivo («Operation not permitted»).
 - **Limitaciones (huecos que quedan en el corpus):**
   - `firewall nft_json denied` en 15 muestras de contenedor;
   - `iptables_legacy` e `ip6tables_legacy denied` en 6;
   - `nftables rules missing` en 2: el `nft` 0.8 de CentOS 7 no tiene salida JSON, y las
     reglas no se interpretan desde su texto.
-  - **`iptables` con reglas** y **ufw** solo se han visto con datos sintéticos
-    (`FirewallSyntheticTest`).
+  - **ufw** solo se ha visto con datos sintéticos (`FirewallSyntheticTest`).
 
 ### 13. Sincronización horaria — *entregada con limitaciones*
 
-- **Observado:** chrony en Rocky 9 y systemd-timesyncd en las VMs Debian, con sus
-  servidores configurados; sin servicio, hueco `na` (`test_firewall_timesync:TimesyncTest.*`).
-- **Limitaciones:** ntpd (`ntpq`) solo con datos sintéticos. Los nombres de servidor se
-  guardan como texto, sin resolver.
+- **Observado:** chrony en Rocky 9, AlmaLinux 10 y CentOS 7, systemd-timesyncd en las
+  VMs Debian y Ubuntu, y ntpd en CentOS 6, con sus servidores configurados; sin servicio,
+  hueco `na` (`test_firewall_timesync:TimesyncTest.*`).
+- **Limitaciones:** los nombres de servidor se guardan como texto, sin resolver.
 
 ### 14. Procesos — *entregada con limitaciones*
 
@@ -280,14 +284,20 @@ Las pruebas se citan como `módulo:Clase.método` (fichero `tests/**/módulo.py`
 
 ### 16. Sesiones y accesos — *entregada con limitaciones*
 
-- **Observado:** en las 3 VMs, la sesión SSH activa de `alice`, sus accesos por IPv4 e
-  IPv6, el acceso fallido de `nosuchuser` y la IP del anfitrión de Lima como relación
-  (`test_volatile:SessionsTest.test_vm_sessions`). En contenedores, el área sale bien,
+- **Observado:** en las 7 VMs, la sesión SSH activa de `alice`, sus accesos por IPv4 e
+  IPv6, el acceso fallido de `nosuchuser` y la IP del anfitrión (la de Lima o la de
+  QEMU) como relación (`test_volatile:SessionsTest.test_vm_sessions`). En CentOS 7,
+  `sshd` tiene `UseDNS yes` y utmp, wtmp y btmp guardan el nombre resuelto
+  (`localhost`); el informe lo muestra tal cual, y la relación sale de la dirección del
+  registro (corregido el 2026-10-17;
+  `test_volatile:SessionsTest.test_resolved_host_name_uses_the_record_address`). En contenedores, el área sale bien,
   sin sesiones.
 - **Limitaciones:**
   - Ninguna imagen tiene `wtmpdb`: esa vía solo se prueba con datos sintéticos.
   - Los accesos fallidos del corpus vienen de *loopback*, así que el papel
     `failed_login_source` solo se ve con datos sintéticos.
+  - Un acceso que solo aparece en un registro de texto (journal, `secure`) con
+    `UseDNS yes` trae el nombre y no la IP: no da relación.
   - Las fechas en otro idioma salen como desconocidas, no se adivinan
     (`test_dates_in_another_language_are_unknown_not_wrong`).
 
@@ -315,7 +325,7 @@ Las pruebas se citan como `módulo:Clase.método` (fichero `tests/**/módulo.py`
 
 ### 19. Vecinos de red — *entregada*
 
-- **Observado:** la tabla de vecinos (pasiva) en las 33 muestras; la pasarela en las 3
+- **Observado:** la tabla de vecinos (pasiva) en las 37 muestras; la pasarela en las 7
   VMs; sin `ip`, `/proc/net/arp` (solo IPv4) (`test_carving:NeighboursTest.*`).
 
 ### 20. Mapa de relaciones y «lo que no se pudo ver» — *entregada*

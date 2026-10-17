@@ -60,8 +60,9 @@ Una entrada se da por **hecha** solo si las pruebas que se citan pasan en
   - un **corpus de muestras reales** (`tests/corpus/`): 10 imágenes de contenedor
     (Debian 12 y 13, Ubuntu 24.04, Rocky 9, Fedora 44, Alpine 3.20, openSUSE Leap 15.6,
     Arch, CentOS 7 y CentOS 6), cada una en tres variantes (mínima, con herramientas de
-    servidor, y en red *bridge*), más 3 VMs con systemd y sesiones reales (Debian 12
-    arm64 y amd64, Rocky 9 arm64);
+    servidor, y en red *bridge*), más 7 VMs con sesiones reales (Debian 12 arm64 y
+    amd64, Rocky 9 arm64, Ubuntu 24.04 arm64 y AlmaLinux 10 arm64 en Lima; CentOS 7 y 6
+    amd64 en QEMU, añadidas el 2026-10-17);
   - un escenario común (`tests/corpus/scenario.sh`) que reproduce los casos que rompían
     el aridi de 2019, y unos hechos de referencia (`facts.txt`) con los que se contrasta
     cada dato.
@@ -197,9 +198,13 @@ leer sin interpretar texto, y que el componente central podrá importar (etapa 2
   están en el corpus y en `tests/run.sh collector`.
 - **Estado** [observado]: probado en contenedores de Debian 12 y 13, Ubuntu 24.04,
   Rocky 9, Fedora 44, openSUSE Leap 15.6, Arch, Alpine 3.20, CentOS 7 y CentOS 6, y en
-  VMs de Debian 12 (x86_64 y arm64) y Rocky 9 (arm64). **Sin verificar:** máquinas
-  físicas, Alma, Ubuntu en VM, y CentOS 6 y 7 en VM (solo en contenedor). Arch y CentOS 6
-  se probaron con emulación amd64 sobre arm64.
+  VMs de Debian 12 (x86_64 y arm64), Rocky 9 (arm64), Ubuntu 24.04 (arm64), AlmaLinux 10
+  (arm64), CentOS 7 (x86_64) y CentOS 6 (x86_64). Las cuatro últimas se añadieron el
+  2026-10-17: las dos primeras en Lima y las dos de CentOS en QEMU sin Lima
+  (`tests/qemu/capture-vm.sh`), porque CentOS 6 no tiene systemd y su kernel 2.6.32 no
+  admite el agente de Lima. Las 7 VMs dan una recogida completa, sin huecos. **Sin
+  verificar:** máquinas físicas. x86_64 solo se ha visto emulado (TCG) sobre arm64: Arch
+  y CentOS 6 en contenedor y Debian 12, CentOS 7 y CentOS 6 en VM.
 
 ### 1.7 Cobertura de los subsistemas modernos — [deducido] de `MVP.md` *Fuera de lo entregado*
 
@@ -275,8 +280,9 @@ En 2019 no había pruebas, y la medición se hizo a mano.
 - **Estado** [observado]: **hecha** con `tests/run.sh all` sobre el corpus, y con la
   comparación contra el aridi de 2019 en la misma máquina (`tests/test_parity.py`). Para
   cada funcionalidad *sin verificar* de 2019, `tests/parity.md` dice qué la cubre. El
-  barrido ARP se abandona en la máquina (4.1); `iptables` con reglas solo se prueba con
-  datos sintéticos, porque las VMs usan nftables.
+  barrido ARP se abandona en la máquina (4.1). `iptables` e `ip6tables` con reglas se ven
+  en las VMs de CentOS 7 y 6 desde el 2026-10-17
+  (`test_firewall_timesync:FirewallCorpusTest.test_scenario_iptables_rules_in_centos_vms`).
 
 ---
 

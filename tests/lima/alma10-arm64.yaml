@@ -1,0 +1,36 @@
+# Corpus VM: AlmaLinux 10, arm64 native (FUTURE.md 1.6: Alma).
+# Same content as rocky9-arm64.yaml: systemd, sshd with real sessions, firewalld on
+# nftables and chrony. Created and deleted by tests/lima/capture-vm.sh.
+base: template://almalinux-10
+arch: aarch64
+cpus: 2
+memory: 2GiB
+disk: 10GiB
+# No host directories inside the VM (see debian12-arm64.yaml): capture-vm.sh passes
+# --mount-none, because Lima appends the base template mounts to this list.
+mounts: []
+# AlmaLinux 10 also listens for SSH on vsock (systemd-ssh-generator), and those
+# connections are closed: Lima would wait for SSH forever. Use the usual forwarded port.
+ssh:
+  overVsock: false
+# Neutral guest user: by default Lima copies the host user name and full name (GECOS).
+user:
+  name: lima
+  comment: lima corpus user
+containerd:
+  system: false
+  user: false
+provision:
+  - mode: system
+    script: |
+      #!/bin/sh
+      set -eux
+      dnf install -y openssh-server openssh-clients nftables firewalld chrony sudo \
+        iproute procps-ng socat
+      systemctl enable --now firewalld chronyd
+      # No subordinate ids: the Lima user took the whole range (see scenario.sh).
+      useradd -K SUB_UID_COUNT=0 -K SUB_GID_COUNT=0 -m -s /bin/bash aridi
+      # The sudo rule decided in TODO.md 5.0: only the installed collector, no arguments.
+      echo 'aridi ALL=(root) NOPASSWD: /usr/local/libexec/aridi-collect.sh ""' \
+        > /etc/sudoers.d/aridi
+      chmod 0440 /etc/sudoers.d/aridi
