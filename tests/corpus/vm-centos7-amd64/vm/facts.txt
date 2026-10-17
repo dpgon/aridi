@@ -25,8 +25,8 @@ x86_64
 2
 ### meminfo
 MemTotal:        1881952 kB
-MemFree:         1164332 kB
-MemAvailable:    1565940 kB
+MemFree:         1162784 kB
+MemAvailable:    1564084 kB
 ### packages
 PyYAML	(none):3.10-11.el7	x86_64
 acl	(none):2.2.51-15.el7	x86_64
@@ -438,59 +438,59 @@ bob:!!
 ### listening
 Netid  State      Recv-Q Send-Q Local Address:Port               Peer Address:Port              
 udp    UNCONN     0      0         *:68                    *:*                   users:(("dhclient",pid=870,fd=6))
-udp    UNCONN     0      0         *:111                   *:*                   users:(("rpcbind",pid=549,fd=6))
-udp    UNCONN     0      0      127.0.0.1:323                   *:*                   users:(("chronyd",pid=8050,fd=5))
-udp    UNCONN     0      0         *:5514                  *:*                   users:(("socat",pid=7863,fd=5))
-udp    UNCONN     0      0         *:712                   *:*                   users:(("rpcbind",pid=549,fd=7))
-udp    UNCONN     0      0      [::]:111                [::]:*                   users:(("rpcbind",pid=549,fd=9))
-udp    UNCONN     0      0         [::1]:323                [::]:*                   users:(("chronyd",pid=8050,fd=6))
-udp    UNCONN     0      0      [::]:712                [::]:*                   users:(("rpcbind",pid=549,fd=10))
-tcp    LISTEN     0      128       *:111                   *:*                   users:(("rpcbind",pid=549,fd=8))
-tcp    LISTEN     0      5      127.0.0.1:8081                  *:*                   users:(("socat",pid=7859,fd=5))
-tcp    LISTEN     0      128       *:22                    *:*                   users:(("sshd",pid=7712,fd=3))
-tcp    LISTEN     0      100    127.0.0.1:25                    *:*                   users:(("master",pid=1053,fd=13))
-tcp    LISTEN     0      128    [::]:111                [::]:*                   users:(("rpcbind",pid=549,fd=11))
-tcp    LISTEN     0      5      [::]:8080               [::]:*                   users:(("socat",pid=7856,fd=5))
-tcp    LISTEN     0      128    [::]:22                 [::]:*                   users:(("sshd",pid=7712,fd=4))
-tcp    LISTEN     0      100       [::1]:25                 [::]:*                   users:(("master",pid=1053,fd=14))
+udp    UNCONN     0      0         *:111                   *:*                   users:(("rpcbind",pid=588,fd=6))
+udp    UNCONN     0      0      127.0.0.1:323                   *:*                   users:(("chronyd",pid=8045,fd=5))
+udp    UNCONN     0      0         *:5514                  *:*                   users:(("socat",pid=7932,fd=5))
+udp    UNCONN     0      0         *:741                   *:*                   users:(("rpcbind",pid=588,fd=7))
+udp    UNCONN     0      0      [::]:111                [::]:*                   users:(("rpcbind",pid=588,fd=9))
+udp    UNCONN     0      0         [::1]:323                [::]:*                   users:(("chronyd",pid=8045,fd=6))
+udp    UNCONN     0      0      [::]:741                [::]:*                   users:(("rpcbind",pid=588,fd=10))
+tcp    LISTEN     0      100    127.0.0.1:25                    *:*                   users:(("master",pid=1049,fd=13))
+tcp    LISTEN     0      128       *:111                   *:*                   users:(("rpcbind",pid=588,fd=8))
+tcp    LISTEN     0      5      127.0.0.1:8081                  *:*                   users:(("socat",pid=7928,fd=5))
+tcp    LISTEN     0      128       *:22                    *:*                   users:(("sshd",pid=7780,fd=3))
+tcp    LISTEN     0      100       [::1]:25                 [::]:*                   users:(("master",pid=1049,fd=14))
+tcp    LISTEN     0      128    [::]:111                [::]:*                   users:(("rpcbind",pid=588,fd=11))
+tcp    LISTEN     0      5      [::]:8080               [::]:*                   users:(("socat",pid=7923,fd=5))
+tcp    LISTEN     0      128    [::]:22                 [::]:*                   users:(("sshd",pid=7780,fd=4))
 ### listening_netstat
 Active Internet connections (only servers)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
-tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN      549/rpcbind         
-tcp        0      0 127.0.0.1:8081          0.0.0.0:*               LISTEN      7859/socat          
-tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      7712/sshd           
-tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      1053/master         
-tcp6       0      0 :::111                  :::*                    LISTEN      549/rpcbind         
-tcp6       0      0 :::8080                 :::*                    LISTEN      7856/socat          
-tcp6       0      0 :::22                   :::*                    LISTEN      7712/sshd           
-tcp6       0      0 ::1:25                  :::*                    LISTEN      1053/master         
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      1049/master         
+tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN      588/rpcbind         
+tcp        0      0 127.0.0.1:8081          0.0.0.0:*               LISTEN      7928/socat          
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      7780/sshd           
+tcp6       0      0 ::1:25                  :::*                    LISTEN      1049/master         
+tcp6       0      0 :::111                  :::*                    LISTEN      588/rpcbind         
+tcp6       0      0 :::8080                 :::*                    LISTEN      7923/socat          
+tcp6       0      0 :::22                   :::*                    LISTEN      7780/sshd           
 udp        0      0 0.0.0.0:68              0.0.0.0:*                           870/dhclient        
-udp        0      0 0.0.0.0:111             0.0.0.0:*                           549/rpcbind         
-udp        0      0 127.0.0.1:323           0.0.0.0:*                           8050/chronyd        
-udp        0      0 0.0.0.0:5514            0.0.0.0:*                           7863/socat          
-udp        0      0 0.0.0.0:712             0.0.0.0:*                           549/rpcbind         
-udp6       0      0 :::111                  :::*                                549/rpcbind         
-udp6       0      0 ::1:323                 :::*                                8050/chronyd        
-udp6       0      0 :::712                  :::*                                549/rpcbind         
+udp        0      0 0.0.0.0:111             0.0.0.0:*                           588/rpcbind         
+udp        0      0 127.0.0.1:323           0.0.0.0:*                           8045/chronyd        
+udp        0      0 0.0.0.0:5514            0.0.0.0:*                           7932/socat          
+udp        0      0 0.0.0.0:741             0.0.0.0:*                           588/rpcbind         
+udp6       0      0 :::111                  :::*                                588/rpcbind         
+udp6       0      0 ::1:323                 :::*                                8045/chronyd        
+udp6       0      0 :::741                  :::*                                588/rpcbind         
 ### proc_net_tcp6_listen
+00000000000000000000000001000000:0019
 00000000000000000000000000000000:006F
 00000000000000000000000000000000:1F90
 00000000000000000000000000000000:0016
-00000000000000000000000001000000:0019
 ### proc_net_udp_unconnected
 00000000:0044
 00000000:006F
 0100007F:0143
 00000000:158A
-00000000:02C8
+00000000:02E5
 ### links_ip
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000\    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT group default qlen 1000\    link/ether 52:54:00:12:34:56 brd ff:ff:ff:ff:ff:ff
 ### interfaces_ip
 1: lo    inet 127.0.0.1/8 scope host lo\       valid_lft forever preferred_lft forever
 1: lo    inet6 ::1/128 scope host \       valid_lft forever preferred_lft forever
-2: eth0    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0\       valid_lft 86282sec preferred_lft 86282sec
-2: eth0    inet6 fec0::5054:ff:fe12:3456/64 scope site mngtmpaddr dynamic \       valid_lft 86285sec preferred_lft 14285sec
+2: eth0    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0\       valid_lft 86235sec preferred_lft 86235sec
+2: eth0    inet6 fec0::5054:ff:fe12:3456/64 scope site mngtmpaddr dynamic \       valid_lft 86237sec preferred_lft 14237sec
 2: eth0    inet6 fe80::5054:ff:fe12:3456/64 scope link \       valid_lft forever preferred_lft forever
 ### interfaces_sys
 eth0 52:54:00:12:34:56
@@ -506,33 +506,33 @@ lo 00:00:00:00:00:00
 25 18 0:21 / /sys/fs/cgroup ro,nosuid,nodev,noexec shared:9 - tmpfs tmpfs ro,seclabel,mode=755
 26 25 0:22 / /sys/fs/cgroup/systemd rw,nosuid,nodev,noexec,relatime shared:10 - cgroup cgroup rw,seclabel,xattr,release_agent=/usr/lib/systemd/systemd-cgroups-agent,name=systemd
 27 18 0:23 / /sys/fs/pstore rw,nosuid,nodev,noexec,relatime shared:21 - pstore pstore rw
-28 25 0:24 / /sys/fs/cgroup/devices rw,nosuid,nodev,noexec,relatime shared:11 - cgroup cgroup rw,seclabel,devices
-29 25 0:25 / /sys/fs/cgroup/cpuset rw,nosuid,nodev,noexec,relatime shared:12 - cgroup cgroup rw,seclabel,cpuset
+28 25 0:24 / /sys/fs/cgroup/net_cls,net_prio rw,nosuid,nodev,noexec,relatime shared:11 - cgroup cgroup rw,seclabel,net_prio,net_cls
+29 25 0:25 / /sys/fs/cgroup/freezer rw,nosuid,nodev,noexec,relatime shared:12 - cgroup cgroup rw,seclabel,freezer
 30 25 0:26 / /sys/fs/cgroup/pids rw,nosuid,nodev,noexec,relatime shared:13 - cgroup cgroup rw,seclabel,pids
-31 25 0:27 / /sys/fs/cgroup/cpu,cpuacct rw,nosuid,nodev,noexec,relatime shared:14 - cgroup cgroup rw,seclabel,cpuacct,cpu
-32 25 0:28 / /sys/fs/cgroup/net_cls,net_prio rw,nosuid,nodev,noexec,relatime shared:15 - cgroup cgroup rw,seclabel,net_prio,net_cls
-33 25 0:29 / /sys/fs/cgroup/memory rw,nosuid,nodev,noexec,relatime shared:16 - cgroup cgroup rw,seclabel,memory
+31 25 0:27 / /sys/fs/cgroup/memory rw,nosuid,nodev,noexec,relatime shared:14 - cgroup cgroup rw,seclabel,memory
+32 25 0:28 / /sys/fs/cgroup/cpu,cpuacct rw,nosuid,nodev,noexec,relatime shared:15 - cgroup cgroup rw,seclabel,cpuacct,cpu
+33 25 0:29 / /sys/fs/cgroup/cpuset rw,nosuid,nodev,noexec,relatime shared:16 - cgroup cgroup rw,seclabel,cpuset
 34 25 0:30 / /sys/fs/cgroup/blkio rw,nosuid,nodev,noexec,relatime shared:17 - cgroup cgroup rw,seclabel,blkio
-35 25 0:31 / /sys/fs/cgroup/perf_event rw,nosuid,nodev,noexec,relatime shared:18 - cgroup cgroup rw,seclabel,perf_event
-36 25 0:32 / /sys/fs/cgroup/hugetlb rw,nosuid,nodev,noexec,relatime shared:19 - cgroup cgroup rw,seclabel,hugetlb
-37 25 0:33 / /sys/fs/cgroup/freezer rw,nosuid,nodev,noexec,relatime shared:20 - cgroup cgroup rw,seclabel,freezer
+35 25 0:31 / /sys/fs/cgroup/devices rw,nosuid,nodev,noexec,relatime shared:18 - cgroup cgroup rw,seclabel,devices
+36 25 0:32 / /sys/fs/cgroup/perf_event rw,nosuid,nodev,noexec,relatime shared:19 - cgroup cgroup rw,seclabel,perf_event
+37 25 0:33 / /sys/fs/cgroup/hugetlb rw,nosuid,nodev,noexec,relatime shared:20 - cgroup cgroup rw,seclabel,hugetlb
 39 18 0:35 / /sys/kernel/config rw,relatime shared:22 - configfs configfs rw
 40 0 253:1 / / rw,relatime shared:1 - xfs /dev/vda1 rw,seclabel,attr2,inode64,noquota
 41 40 0:34 / /var/lib/nfs/rpc_pipefs rw,relatime shared:2 - rpc_pipefs rpc_pipefs rw
 38 18 0:16 / /sys/fs/selinux rw,relatime shared:23 - selinuxfs selinuxfs rw
-42 18 0:6 / /sys/kernel/debug rw,relatime shared:25 - debugfs debugfs rw
-43 20 0:36 / /dev/hugepages rw,relatime shared:26 - hugetlbfs hugetlbfs rw,seclabel
-44 19 0:37 / /proc/sys/fs/binfmt_misc rw,relatime shared:27 - autofs systemd-1 rw,fd=32,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=10974
-45 20 0:15 / /dev/mqueue rw,relatime shared:28 - mqueue mqueue rw,seclabel
-83 24 0:39 / /run/user/1000 rw,nosuid,nodev,relatime shared:65 - tmpfs tmpfs rw,seclabel,size=188196k,mode=700,uid=1000,gid=1000
-85 24 0:40 / /run/user/2001 rw,nosuid,nodev,relatime shared:29 - tmpfs tmpfs rw,seclabel,size=188196k,mode=700,uid=2001,gid=2001
+42 20 0:15 / /dev/mqueue rw,relatime shared:25 - mqueue mqueue rw,seclabel
+43 18 0:6 / /sys/kernel/debug rw,relatime shared:26 - debugfs debugfs rw
+44 19 0:36 / /proc/sys/fs/binfmt_misc rw,relatime shared:27 - autofs systemd-1 rw,fd=32,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=13491
+45 20 0:37 / /dev/hugepages rw,relatime shared:28 - hugetlbfs hugetlbfs rw,seclabel
+84 24 0:39 / /run/user/1000 rw,nosuid,nodev,relatime shared:65 - tmpfs tmpfs rw,seclabel,size=188196k,mode=700,uid=1000,gid=1000
+86 24 0:40 / /run/user/2001 rw,nosuid,nodev,relatime shared:67 - tmpfs tmpfs rw,seclabel,size=188196k,mode=700,uid=2001,gid=2001
 ### df
 Filesystem     1024-blocks    Used Available Capacity Mounted on
 devtmpfs            915272       0    915272       0% /dev
 tmpfs               940976       0    940976       0% /dev/shm
 tmpfs               940976   16956    924020       2% /run
 tmpfs               940976       0    940976       0% /sys/fs/cgroup
-/dev/vda1         12571628 1119260  11452368       9% /
+/dev/vda1         12571628 1119416  11452212       9% /
 tmpfs               188196       0    188196       0% /run/user/1000
 tmpfs               188196       0    188196       0% /run/user/2001
 ### suid_files
@@ -567,10 +567,10 @@ tmpfs               188196       0    188196       0% /run/user/2001
 ### world_writable_dirs_no_sticky
 /srv/world-writable
 ### account_file_modes
--rw-r--r--. 1 0 0  604 Oct 17 10:16 /etc/group
-----------. 1 0 0  479 Oct 17 10:16 /etc/gshadow
--rw-r--r--. 1 0 0 1202 Oct 17 10:16 /etc/passwd
-----------. 1 0 0  767 Oct 17 10:16 /etc/shadow
+-rw-r--r--. 1 0 0  604 Oct 17 14:52 /etc/group
+----------. 1 0 0  479 Oct 17 14:52 /etc/gshadow
+-rw-r--r--. 1 0 0 1202 Oct 17 14:52 /etc/passwd
+----------. 1 0 0  773 Oct 17 14:52 /etc/shadow
 ### processes
   PID   UID STAT COMMAND
     1     0 Ss   systemd
@@ -615,70 +615,69 @@ tmpfs               188196       0    188196       0% /run/user/2001
    52     0 S    kworker/0:2
    53     0 S<   ipv6_addrconf
    66     0 S<   deferwq
-  115     0 S    kauditd
-  200     0 S<   rpciod
-  201     0 S<   xprtiod
+  114     0 S    kauditd
+  122     0 S    kworker/1:2
+  201     0 S<   rpciod
+  202     0 S<   xprtiod
   274     0 S<   ata_sff
-  275     0 S    scsi_eh_0
-  276     0 S<   scsi_tmf_0
-  277     0 S    scsi_eh_1
-  278     0 S<   scsi_tmf_1
-  279     0 S    kworker/u4:2
-  280     0 S    kworker/u4:3
-  289     0 S<   kworker/1:1H
-  296     0 S<   bioset
-  297     0 S<   xfsalloc
-  298     0 S<   xfs_mru_cache
-  299     0 S<   xfs-buf/vda1
-  300     0 S<   xfs-data/vda1
-  301     0 S<   xfs-conv/vda1
-  302     0 S<   xfs-cil/vda1
-  303     0 S<   xfs-reclaim/vda
-  304     0 S<   xfs-log/vda1
-  305     0 S<   xfs-eofblocks/v
-  306     0 S    xfsaild/vda1
-  307     0 S<   kworker/0:1H
-  425     0 Ss   systemd-journal
-  430     0 S    kworker/1:2
-  459     0 Ss   systemd-udevd
+  276     0 S    scsi_eh_0
+  277     0 S<   scsi_tmf_0
+  278     0 S    scsi_eh_1
+  279     0 S<   scsi_tmf_1
+  280     0 S    kworker/u4:2
+  281     0 S    kworker/u4:3
+  290     0 S<   kworker/1:1H
+  297     0 S<   bioset
+  298     0 S<   xfsalloc
+  299     0 S<   xfs_mru_cache
+  300     0 S<   xfs-buf/vda1
+  301     0 S<   xfs-data/vda1
+  302     0 S<   xfs-conv/vda1
+  303     0 S<   xfs-cil/vda1
+  304     0 S<   xfs-reclaim/vda
+  305     0 S<   xfs-log/vda1
+  306     0 S<   xfs-eofblocks/v
+  307     0 S    xfsaild/vda1
+  308     0 S<   kworker/0:1H
+  426     0 Ss   systemd-journal
+  458     0 Ss   systemd-udevd
   494     0 S<sl auditd
-  539     0 Ss   systemd-logind
-  544     0 Ss   irqbalance
-  545    81 Ssl  dbus-daemon
-  549    32 Ss   rpcbind
-  552     0 Ssl  gssproxy
-  575   999 Ssl  polkitd
-  614     0 S<   ttm_swap
-  627     0 S<   kvm-irqfd-clean
+  574   999 Ssl  polkitd
+  581     0 Ss   irqbalance
+  587     0 Ss   systemd-logind
+  588    32 Ss   rpcbind
+  591    81 Ssl  dbus-daemon
+  593     0 Ssl  gssproxy
+  603     0 S<   ttm_swap
+  612     0 S<   kvm-irqfd-clean
   870     0 Ss   dhclient
-  932     0 Ssl  tuned
- 1053     0 Ss   master
- 1054    89 S    pickup
- 1055    89 S    qmgr
- 1138     0 Ssl  rsyslogd
+  929     0 Ssl  tuned
+ 1049     0 Ss   master
+ 1053    89 S    pickup
+ 1054    89 S    qmgr
+ 1135     0 Ssl  rsyslogd
+ 1143     0 Ss   crond
  1144     0 Ss+  agetty
- 1145     0 Ss   crond
  1146     0 Ss+  agetty
- 1713     0 S    kworker/0:3
- 7712     0 Ss   sshd
- 7820     0 S    kworker/1:3
- 7856     0 Ss   socat
- 7859     0 Ss   socat
- 7863     0 Ss   socat
- 7922  4242 Ss   sleep
- 8025     0 Ss   sshd
- 8029     0 Ss   ssh
- 8050   998 S    chronyd
- 8052  2001 S    sshd
- 8057  2001 Ss+  sleep
-10112     0 Ss   sshd
-10116  1000 S    sshd
-10117     0 Ss   sudo
-10127     0 S    sh
-10151     0 S    systemd-udevd
-10179     0 R    ps
+ 7780     0 Ss   sshd
+ 7840     0 S    kworker/0:3
+ 7923     0 Ss   socat
+ 7928     0 Ss   socat
+ 7932     0 Ss   socat
+ 7936  4242 Ss   sleep
+ 8018     0 Ss   sshd
+ 8023     0 Ss   ssh
+ 8043  2001 S    sshd
+ 8045   998 S    chronyd
+ 8048  2001 Ss+  sleep
+10105     0 Ss   sshd
+10109  1000 S    sshd
+10110     0 Ss   sudo
+10120     0 S    sh
+10144     0 S    systemd-udevd
+10172     0 R    ps
 ### process_count
-106
+105
 ### hostname
 centos7-corpus
 ### resolv_conf
@@ -705,7 +704,7 @@ dev-disk-by\x2dpath-pci\x2d0000:00:05.0.device                                  
 dev-disk-by\x2dpath-virtio\x2dpci\x2d0000:00:04.0.device                            loaded    active   plugged   /dev/disk/by-path/virtio-pci-0000:00:04.0
 dev-disk-by\x2dpath-virtio\x2dpci\x2d0000:00:04.0\x2dpart1.device                   loaded    active   plugged   /dev/disk/by-path/virtio-pci-0000:00:04.0-part1
 dev-disk-by\x2dpath-virtio\x2dpci\x2d0000:00:05.0.device                            loaded    active   plugged   /dev/disk/by-path/virtio-pci-0000:00:05.0
-dev-disk-by\x2duuid-2026\x2d10\x2d17\x2d10\x2d14\x2d20\x2d00.device                 loaded    active   plugged   /dev/disk/by-uuid/2026-10-17-10-14-20-00
+dev-disk-by\x2duuid-2026\x2d10\x2d17\x2d14\x2d49\x2d57\x2d00.device                 loaded    active   plugged   /dev/disk/by-uuid/2026-10-17-14-49-57-00
 dev-disk-by\x2duuid-f956f023\x2da2a0\x2d4fd5\x2d8e89\x2d0b44b0848ab3.device         loaded    active   plugged   /dev/disk/by-uuid/f956f023-a2a0-4fd5-8e89-0b44b0848ab3
 dev-fd0.device                                                                      loaded    active   plugged   /dev/fd0
 dev-sr0.device                                                                      loaded    active   plugged   QEMU_DVD-ROM
@@ -933,13 +932,13 @@ network        	0:off	1:off	2:on	3:on	4:on	5:on	6:off
 ### nft
 (missing: nft)
 ### iptables
-# Generated by iptables-save v1.4.21 on Sat Oct 17 10:16:48 2026
+# Generated by iptables-save v1.4.21 on Sat Oct 17 14:53:11 2026
 *filter
-:INPUT ACCEPT [866:82936]
+:INPUT ACCEPT [871:83136]
 :FORWARD DROP [0:0]
-:OUTPUT ACCEPT [865:342506]
+:OUTPUT ACCEPT [870:343134]
 -A INPUT -s 192.0.2.10/32 -p tcp -m tcp --dport 22 -j ACCEPT
 -A FORWARD -s 10.0.0.0/8 -j ACCEPT
 -A OUTPUT -d 198.51.100.5/32 -p tcp -m tcp --dport 443 -j ACCEPT
 COMMIT
-# Completed on Sat Oct 17 10:16:48 2026
+# Completed on Sat Oct 17 14:53:11 2026

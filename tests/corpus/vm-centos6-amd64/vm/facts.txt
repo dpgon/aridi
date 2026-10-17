@@ -10,8 +10,8 @@ x86_64
 2
 ### meminfo
 MemTotal:        1921800 kB
-MemFree:         1564324 kB
-Buffers:           14988 kB
+MemFree:         1564184 kB
+Buffers:           15020 kB
 ### packages
 MAKEDEV	(none):3.24-6.el6	x86_64
 PyYAML	(none):3.10-3.1.el6	x86_64
@@ -348,39 +348,39 @@ alice:$6$
 bob:!!
 ### listening
 Netid  State      Recv-Q Send-Q     Local Address:Port       Peer Address:Port 
-udp    UNCONN     0      0                      *:68                    *:*      users:(("dhclient",1106,5))
-udp    UNCONN     0      0              10.0.2.15:123                   *:*      users:(("ntpd",7324,19))
-udp    UNCONN     0      0              127.0.0.1:123                   *:*      users:(("ntpd",7324,18))
-udp    UNCONN     0      0                      *:123                   *:*      users:(("ntpd",7324,16))
-udp    UNCONN     0      0                      *:5514                  *:*      users:(("nc",7247,3))
-udp    UNCONN     0      0        fe80::5054:ff:fe12:3456:123                  :::*      users:(("ntpd",7324,22))
-udp    UNCONN     0      0        fec0::5054:ff:fe12:3456:123                  :::*      users:(("ntpd",7324,21))
-udp    UNCONN     0      0                    ::1:123                  :::*      users:(("ntpd",7324,20))
-udp    UNCONN     0      0                     :::123                  :::*      users:(("ntpd",7324,17))
-tcp    LISTEN     0      128                   :::22                   :::*      users:(("sshd",6916,4))
-tcp    LISTEN     0      128                    *:22                    *:*      users:(("sshd",6916,3))
-tcp    LISTEN     0      100                  ::1:25                   :::*      users:(("master",7074,13))
-tcp    LISTEN     0      100            127.0.0.1:25                    *:*      users:(("master",7074,12))
-tcp    LISTEN     0      1                     :::8080                 :::*      users:(("nc",7237,3))
-tcp    LISTEN     0      1              127.0.0.1:8081                  *:*      users:(("nc",7242,3))
+udp    UNCONN     0      0                      *:68                    *:*      users:(("dhclient",1104,5))
+udp    UNCONN     0      0              10.0.2.15:123                   *:*      users:(("ntpd",7322,19))
+udp    UNCONN     0      0              127.0.0.1:123                   *:*      users:(("ntpd",7322,18))
+udp    UNCONN     0      0                      *:123                   *:*      users:(("ntpd",7322,16))
+udp    UNCONN     0      0                      *:5514                  *:*      users:(("nc",7245,3))
+udp    UNCONN     0      0        fe80::5054:ff:fe12:3456:123                  :::*      users:(("ntpd",7322,22))
+udp    UNCONN     0      0        fec0::5054:ff:fe12:3456:123                  :::*      users:(("ntpd",7322,21))
+udp    UNCONN     0      0                    ::1:123                  :::*      users:(("ntpd",7322,20))
+udp    UNCONN     0      0                     :::123                  :::*      users:(("ntpd",7322,17))
+tcp    LISTEN     0      128                   :::22                   :::*      users:(("sshd",6914,4))
+tcp    LISTEN     0      128                    *:22                    *:*      users:(("sshd",6914,3))
+tcp    LISTEN     0      100                  ::1:25                   :::*      users:(("master",7014,13))
+tcp    LISTEN     0      100            127.0.0.1:25                    *:*      users:(("master",7014,12))
+tcp    LISTEN     0      1                     :::8080                 :::*      users:(("nc",7235,3))
+tcp    LISTEN     0      1              127.0.0.1:8081                  *:*      users:(("nc",7240,3))
 ### listening_netstat
 Active Internet connections (only servers)
 Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name   
-tcp        0      0 0.0.0.0:22                  0.0.0.0:*                   LISTEN      6916/sshd           
-tcp        0      0 127.0.0.1:25                0.0.0.0:*                   LISTEN      7074/master         
-tcp        0      0 127.0.0.1:8081              0.0.0.0:*                   LISTEN      7242/nc             
-tcp        0      0 :::22                       :::*                        LISTEN      6916/sshd           
-tcp        0      0 ::1:25                      :::*                        LISTEN      7074/master         
-tcp        0      0 :::8080                     :::*                        LISTEN      7237/nc             
-udp        0      0 0.0.0.0:68                  0.0.0.0:*                               1106/dhclient       
-udp        0      0 10.0.2.15:123               0.0.0.0:*                               7324/ntpd           
-udp        0      0 127.0.0.1:123               0.0.0.0:*                               7324/ntpd           
-udp        0      0 0.0.0.0:123                 0.0.0.0:*                               7324/ntpd           
-udp        0      0 0.0.0.0:5514                0.0.0.0:*                               7247/nc             
-udp        0      0 fe80::5054:ff:fe12:3456:123 :::*                                    7324/ntpd           
-udp        0      0 fec0::5054:ff:fe12:3456:123 :::*                                    7324/ntpd           
-udp        0      0 ::1:123                     :::*                                    7324/ntpd           
-udp        0      0 :::123                      :::*                                    7324/ntpd           
+tcp        0      0 0.0.0.0:22                  0.0.0.0:*                   LISTEN      6914/sshd           
+tcp        0      0 127.0.0.1:25                0.0.0.0:*                   LISTEN      7014/master         
+tcp        0      0 127.0.0.1:8081              0.0.0.0:*                   LISTEN      7240/nc             
+tcp        0      0 :::22                       :::*                        LISTEN      6914/sshd           
+tcp        0      0 ::1:25                      :::*                        LISTEN      7014/master         
+tcp        0      0 :::8080                     :::*                        LISTEN      7235/nc             
+udp        0      0 0.0.0.0:68                  0.0.0.0:*                               1104/dhclient       
+udp        0      0 10.0.2.15:123               0.0.0.0:*                               7322/ntpd           
+udp        0      0 127.0.0.1:123               0.0.0.0:*                               7322/ntpd           
+udp        0      0 0.0.0.0:123                 0.0.0.0:*                               7322/ntpd           
+udp        0      0 0.0.0.0:5514                0.0.0.0:*                               7245/nc             
+udp        0      0 fe80::5054:ff:fe12:3456:123 :::*                                    7322/ntpd           
+udp        0      0 fec0::5054:ff:fe12:3456:123 :::*                                    7322/ntpd           
+udp        0      0 ::1:123                     :::*                                    7322/ntpd           
+udp        0      0 :::123                      :::*                                    7322/ntpd           
 ### proc_net_tcp6_listen
 00000000000000000000000000000000:0016
 00000000000000000000000001000000:0019
@@ -400,7 +400,7 @@ udp        0      0 :::123                      :::*                            
 1: lo    inet6 ::1/128 scope host \       valid_lft forever preferred_lft forever
 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000\    link/ether 52:54:00:12:34:56 brd ff:ff:ff:ff:ff:ff
 2: eth0    inet 10.0.2.15/24 brd 10.0.2.255 scope global eth0
-2: eth0    inet6 fec0::5054:ff:fe12:3456/64 scope site dynamic \       valid_lft 86282sec preferred_lft 14282sec
+2: eth0    inet6 fec0::5054:ff:fe12:3456/64 scope site dynamic \       valid_lft 86253sec preferred_lft 14253sec
 2: eth0    inet6 fe80::5054:ff:fe12:3456/64 scope link \       valid_lft forever preferred_lft forever
 ### interfaces_sys
 eth0 52:54:00:12:34:56
@@ -418,7 +418,7 @@ lo 00:00:00:00:00:00
 24 15 0:17 / /proc/sys/fs/binfmt_misc rw,relatime - binfmt_misc none rw
 ### df
 Filesystem     1024-blocks   Used Available Capacity Mounted on
-/dev/vda1          8124856 843692   6861788      11% /
+/dev/vda1          8124856 843900   6861580      11% /
 tmpfs               960900      0    960900       0% /dev/shm
 ### suid_files
 /bin/mount
@@ -453,10 +453,10 @@ tmpfs               960900      0    960900       0% /dev/shm
 ### world_writable_dirs_no_sticky
 /srv/world-writable
 ### account_file_modes
--rw-r--r--. 1 0 0  563 Oct 17 10:19 /etc/group
-----------. 1 0 0  458 Oct 17 10:19 /etc/gshadow
--rw-r--r--. 1 0 0 1054 Oct 17 10:19 /etc/passwd
-----------. 1 0 0  812 Oct 17 10:19 /etc/shadow
+-rw-r--r--. 1 0 0  563 Oct 17 14:31 /etc/group
+----------. 1 0 0  458 Oct 17 14:31 /etc/gshadow
+-rw-r--r--. 1 0 0 1054 Oct 17 14:31 /etc/passwd
+----------. 1 0 0  820 Oct 17 14:31 /etc/shadow
 ### processes
   PID   UID STAT COMMAND
     1     0 Ss   init
@@ -519,57 +519,56 @@ tmpfs               960900      0    960900       0% /dev/shm
    67     0 S    deferwq
    98     0 S    kdmremove
    99     0 S    kstriped
-  251     0 S    scsi_eh_0
-  253     0 S    scsi_eh_1
-  284     0 S    virtio-blk
+  265     0 S    scsi_eh_0
+  266     0 S    scsi_eh_1
+  282     0 S    virtio-blk
   390     0 S    jbd2/vda1-8
   391     0 S    ext4-dio-unwrit
-  472     0 S    flush-252:0
-  473     0 S    flush-252:16
-  479     0 S<s  udevd
-  608     0 S    virtio-net
-  802     0 S    kauditd
-  840     0 S    ib_addr
-  845     0 S    infiniband/0
-  846     0 S    infiniband/1
-  855     0 S    ib_mcast
-  860     0 S    iw_cm_wq
-  866     0 S    ib_cm/0
-  867     0 S    ib_cm/1
-  872     0 S    rdma_cm
-  893     0 S    ipoib_flush
- 1106     0 Ss   dhclient
- 1167     0 S<sl auditd
- 1189     0 Sl   rsyslogd
- 1236     0 Ss   acpid
- 1267     0 S<   udevd
- 6916     0 Ss   sshd
- 7074     0 Ss   master
- 7080    89 S    pickup
- 7081    89 S    qmgr
- 7088     0 Ss   crond
- 7109     0 Ss+  agetty
- 7111     0 Ss+  mingetty
- 7233     0 Ss   sh
- 7237     0 S    nc
- 7238     0 Ss   sh
- 7242     0 S    nc
- 7243     0 Ss   sh
- 7247     0 S    nc
- 7248  4242 Ss   python
- 7288     0 Ss   sshd
- 7291     0 Ss   ssh
- 7296  2001 S    sshd
- 7301  2001 Ss+  sleep
- 7324    38 Ss   ntpd
- 9581     0 Ss   sshd
- 9584   500 S    sshd
- 9585     0 Ss   sudo
- 9592     0 S    sh
- 9615     0 S<   udevd
- 9641     0 R    ps
+  440     0 S    flush-252:0
+  441     0 S    flush-252:16
+  477     0 S<s  udevd
+  597     0 S    virtio-net
+  800     0 S    kauditd
+  838     0 S    ib_addr
+  843     0 S    infiniband/0
+  844     0 S    infiniband/1
+  853     0 S    ib_mcast
+  858     0 S    iw_cm_wq
+  863     0 S    ib_cm/0
+  864     0 S    ib_cm/1
+  870     0 S    rdma_cm
+  891     0 S    ipoib_flush
+ 1104     0 Ss   dhclient
+ 1165     0 S<sl auditd
+ 1187     0 Sl   rsyslogd
+ 1234     0 Ss   acpid
+ 1265     0 S<   udevd
+ 6914     0 Ss   sshd
+ 7014     0 Ss   master
+ 7023    89 S    pickup
+ 7024    89 S    qmgr
+ 7028     0 Ss   crond
+ 7050     0 Ss+  agetty
+ 7051     0 Ss+  mingetty
+ 7231     0 Ss   sh
+ 7235     0 S    nc
+ 7236     0 Ss   sh
+ 7240     0 S    nc
+ 7241     0 Ss   sh
+ 7245     0 S    nc
+ 7246  4242 Ss   python
+ 7286     0 Ss   sshd
+ 7289     0 Ss   ssh
+ 7295  2001 S    sshd
+ 7299  2001 Ss+  sleep
+ 7322    38 Ss   ntpd
+ 9579     0 Ss   sshd
+ 9582   500 S    sshd
+ 9583     0 Ss   sudo
+ 9590     0 S    sh
+ 9638     0 R    ps
 ### process_count
-111
+110
 ### hostname
 centos6-corpus
 ### resolv_conf
@@ -619,11 +618,11 @@ udev-post      	0:off	1:on	2:on	3:on	4:on	5:on	6:off
 ### nft
 (missing: nft)
 ### iptables
-# Generated by iptables-save v1.4.7 on Sat Oct 17 10:20:08 2026
+# Generated by iptables-save v1.4.7 on Sat Oct 17 14:32:19 2026
 *filter
 :INPUT ACCEPT [0:0]
 :FORWARD DROP [0:0]
-:OUTPUT ACCEPT [768:242846]
+:OUTPUT ACCEPT [760:242258]
 -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT 
 -A INPUT -p icmp -j ACCEPT 
 -A INPUT -i lo -j ACCEPT 
@@ -634,4 +633,4 @@ udev-post      	0:off	1:on	2:on	3:on	4:on	5:on	6:off
 -A FORWARD -s 10.0.0.0/8 -j ACCEPT 
 -A OUTPUT -d 198.51.100.5/32 -p tcp -m tcp --dport 443 -j ACCEPT 
 COMMIT
-# Completed on Sat Oct 17 10:20:08 2026
+# Completed on Sat Oct 17 14:32:19 2026

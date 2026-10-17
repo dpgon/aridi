@@ -1,6 +1,6 @@
-ARIDI-BUNDLE 1 2.0.0
-boundary a5b2e19c1682589c5ae53031491a088a
---a5b2e19c1682589c5ae53031491a088a begin meta.env kind=text limit=4194304
+ARIDI-BUNDLE 1 2.0.1
+boundary 17b79d7f3fda69f8251d0ba1595d50bf
+--17b79d7f3fda69f8251d0ba1595d50bf begin meta.env kind=text limit=4194304
 shell=/bin/busybox
 timeout=watcher
 section_timeout=60
@@ -8,32 +8,32 @@ section_limit=4194304
 boundary_source=urandom
 path=/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/sbin:/usr/local/bin
 
---a5b2e19c1682589c5ae53031491a088a end meta.env status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin meta.date_utc kind=cmd tool=date limit=4194304
-2026-10-16T12:59:36Z
+--17b79d7f3fda69f8251d0ba1595d50bf end meta.env status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin meta.date_utc kind=cmd tool=date limit=4194304
+2026-10-17T14:27:55Z
 
---a5b2e19c1682589c5ae53031491a088a end meta.date_utc status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin meta.uid kind=cmd tool=id limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end meta.date_utc status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin meta.uid kind=cmd tool=id limit=4194304
 0
 
---a5b2e19c1682589c5ae53031491a088a end meta.uid status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin meta.machine_id kind=file path=/etc/machine-id limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end meta.uid status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin meta.machine_id kind=file path=/etc/machine-id limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end meta.machine_id status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note meta.machine_id not found: /etc/machine-id
---a5b2e19c1682589c5ae53031491a088a begin meta.dbus_machine_id kind=file path=/var/lib/dbus/machine-id limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end meta.machine_id status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note meta.machine_id not found: /etc/machine-id
+--17b79d7f3fda69f8251d0ba1595d50bf begin meta.dbus_machine_id kind=file path=/var/lib/dbus/machine-id limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end meta.dbus_machine_id status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note meta.dbus_machine_id not found: /var/lib/dbus/machine-id
---a5b2e19c1682589c5ae53031491a088a begin meta.hostname kind=file path=/proc/sys/kernel/hostname limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end meta.dbus_machine_id status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note meta.dbus_machine_id not found: /var/lib/dbus/machine-id
+--17b79d7f3fda69f8251d0ba1595d50bf begin meta.hostname kind=file path=/proc/sys/kernel/hostname limit=4194304
 corpus-alpine320
 
---a5b2e19c1682589c5ae53031491a088a end meta.hostname status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin meta.uname kind=cmd tool=uname limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end meta.hostname status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin meta.uname kind=cmd tool=uname limit=4194304
 Linux corpus-alpine320 7.0.14-linuxkit #1 SMP PREEMPT Sun Sep 20 16:14:09 UTC 2026 aarch64 Linux
 
---a5b2e19c1682589c5ae53031491a088a end meta.uname status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin system.os_release kind=file path=/etc/os-release limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end meta.uname status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin system.os_release kind=file path=/etc/os-release limit=4194304
 NAME="Alpine Linux"
 ID=alpine
 VERSION_ID=3.20.10
@@ -41,79 +41,79 @@ PRETTY_NAME="Alpine Linux v3.20"
 HOME_URL="https://alpinelinux.org/"
 BUG_REPORT_URL="https://gitlab.alpinelinux.org/alpine/aports/-/issues"
 
---a5b2e19c1682589c5ae53031491a088a end system.os_release status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin system.os_release_usr kind=file path=/usr/lib/os-release limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end system.os_release status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin system.os_release_usr kind=file path=/usr/lib/os-release limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end system.os_release_usr status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note system.os_release_usr not found: /usr/lib/os-release
---a5b2e19c1682589c5ae53031491a088a begin system.centos_release kind=file path=/etc/centos-release limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end system.os_release_usr status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note system.os_release_usr not found: /usr/lib/os-release
+--17b79d7f3fda69f8251d0ba1595d50bf begin system.centos_release kind=file path=/etc/centos-release limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end system.centos_release status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note system.centos_release not found: /etc/centos-release
---a5b2e19c1682589c5ae53031491a088a begin system.redhat_release kind=file path=/etc/redhat-release limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end system.centos_release status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note system.centos_release not found: /etc/centos-release
+--17b79d7f3fda69f8251d0ba1595d50bf begin system.redhat_release kind=file path=/etc/redhat-release limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end system.redhat_release status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note system.redhat_release not found: /etc/redhat-release
---a5b2e19c1682589c5ae53031491a088a begin system.fedora_release kind=file path=/etc/fedora-release limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end system.redhat_release status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note system.redhat_release not found: /etc/redhat-release
+--17b79d7f3fda69f8251d0ba1595d50bf begin system.fedora_release kind=file path=/etc/fedora-release limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end system.fedora_release status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note system.fedora_release not found: /etc/fedora-release
---a5b2e19c1682589c5ae53031491a088a begin system.suse_release kind=file path=/etc/SuSE-release limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end system.fedora_release status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note system.fedora_release not found: /etc/fedora-release
+--17b79d7f3fda69f8251d0ba1595d50bf begin system.suse_release kind=file path=/etc/SuSE-release limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end system.suse_release status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note system.suse_release not found: /etc/SuSE-release
---a5b2e19c1682589c5ae53031491a088a begin system.debian_version kind=file path=/etc/debian_version limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end system.suse_release status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note system.suse_release not found: /etc/SuSE-release
+--17b79d7f3fda69f8251d0ba1595d50bf begin system.debian_version kind=file path=/etc/debian_version limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end system.debian_version status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note system.debian_version not found: /etc/debian_version
---a5b2e19c1682589c5ae53031491a088a begin system.slackware_version kind=file path=/etc/slackware-version limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end system.debian_version status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note system.debian_version not found: /etc/debian_version
+--17b79d7f3fda69f8251d0ba1595d50bf begin system.slackware_version kind=file path=/etc/slackware-version limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end system.slackware_version status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note system.slackware_version not found: /etc/slackware-version
---a5b2e19c1682589c5ae53031491a088a begin system.alpine_release kind=file path=/etc/alpine-release limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end system.slackware_version status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note system.slackware_version not found: /etc/slackware-version
+--17b79d7f3fda69f8251d0ba1595d50bf begin system.alpine_release kind=file path=/etc/alpine-release limit=4194304
 3.20.10
 
---a5b2e19c1682589c5ae53031491a088a end system.alpine_release status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin system.lsb_release kind=file path=/etc/lsb-release limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end system.alpine_release status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin system.lsb_release kind=file path=/etc/lsb-release limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end system.lsb_release status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note system.lsb_release not found: /etc/lsb-release
---a5b2e19c1682589c5ae53031491a088a begin system.kernel_ostype kind=file path=/proc/sys/kernel/ostype limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end system.lsb_release status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note system.lsb_release not found: /etc/lsb-release
+--17b79d7f3fda69f8251d0ba1595d50bf begin system.kernel_ostype kind=file path=/proc/sys/kernel/ostype limit=4194304
 Linux
 
---a5b2e19c1682589c5ae53031491a088a end system.kernel_ostype status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin system.kernel_osrelease kind=file path=/proc/sys/kernel/osrelease limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end system.kernel_ostype status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin system.kernel_osrelease kind=file path=/proc/sys/kernel/osrelease limit=4194304
 7.0.14-linuxkit
 
---a5b2e19c1682589c5ae53031491a088a end system.kernel_osrelease status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin system.kernel_version kind=file path=/proc/sys/kernel/version limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end system.kernel_osrelease status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin system.kernel_version kind=file path=/proc/sys/kernel/version limit=4194304
 #1 SMP PREEMPT Sun Sep 20 16:14:09 UTC 2026
 
---a5b2e19c1682589c5ae53031491a088a end system.kernel_version status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin system.proc_version kind=file path=/proc/version limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end system.kernel_version status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin system.proc_version kind=file path=/proc/version limit=4194304
 Linux version 7.0.14-linuxkit (root@buildkitsandbox) (gcc (Alpine 15.2.0) 15.2.0, GNU ld (GNU Binutils) 2.45.1) #1 SMP PREEMPT Sun Sep 20 16:14:09 UTC 2026
 
---a5b2e19c1682589c5ae53031491a088a end system.proc_version status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin system.machine kind=cmd tool=uname limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end system.proc_version status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin system.machine kind=cmd tool=uname limit=4194304
 aarch64
 
---a5b2e19c1682589c5ae53031491a088a end system.machine status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin system.ldd_version kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end system.machine status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin system.ldd_version kind=cmd tool=sh limit=4194304
 musl libc (aarch64)
 Version 1.2.5
 Dynamic Program Loader
 Usage: /lib/ld-musl-aarch64.so.1 [options] [--] pathname
 
---a5b2e19c1682589c5ae53031491a088a end system.ldd_version status=ok rc=1
---a5b2e19c1682589c5ae53031491a088a begin system.getconf_libc kind=cmd tool=getconf limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end system.ldd_version status=ok rc=1
+--17b79d7f3fda69f8251d0ba1595d50bf begin system.getconf_libc kind=cmd tool=getconf limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end system.getconf_libc status=error rc=1
---a5b2e19c1682589c5ae53031491a088a note system.getconf_libc getconf: GNU_LIBC_VERSION: unknown variable
---a5b2e19c1682589c5ae53031491a088a begin system.musl_loader kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end system.getconf_libc status=error rc=1
+--17b79d7f3fda69f8251d0ba1595d50bf note system.getconf_libc getconf: GNU_LIBC_VERSION: unknown variable
+--17b79d7f3fda69f8251d0ba1595d50bf begin system.musl_loader kind=cmd tool=sh limit=4194304
 /lib/ld-musl-aarch64.so.1
 
---a5b2e19c1682589c5ae53031491a088a end system.musl_loader status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin hardware.cpuinfo kind=file path=/proc/cpuinfo limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end system.musl_loader status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin hardware.cpuinfo kind=file path=/proc/cpuinfo limit=4194304
 processor	: 0
 BogoMIPS	: 48.00
 Features	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti
@@ -223,16 +223,16 @@ CPU part	: 0x000
 CPU revision	: 0
 
 
---a5b2e19c1682589c5ae53031491a088a end hardware.cpuinfo status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin hardware.cpu_online kind=file path=/sys/devices/system/cpu/online limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end hardware.cpuinfo status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin hardware.cpu_online kind=file path=/sys/devices/system/cpu/online limit=4194304
 0-11
 
---a5b2e19c1682589c5ae53031491a088a end hardware.cpu_online status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin hardware.cpu_present kind=file path=/sys/devices/system/cpu/present limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end hardware.cpu_online status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin hardware.cpu_present kind=file path=/sys/devices/system/cpu/present limit=4194304
 0-11
 
---a5b2e19c1682589c5ae53031491a088a end hardware.cpu_present status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin hardware.cpu_topology kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end hardware.cpu_present status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin hardware.cpu_topology kind=cmd tool=sh limit=4194304
 cpu0 package=0 core=0 die= cluster=-1 threads=0 online=
 cpu1 package=0 core=1 die= cluster=-1 threads=1 online=
 cpu10 package=0 core=10 die= cluster=-1 threads=10 online=
@@ -246,12 +246,12 @@ cpu7 package=0 core=7 die= cluster=-1 threads=7 online=
 cpu8 package=0 core=8 die= cluster=-1 threads=8 online=
 cpu9 package=0 core=9 die= cluster=-1 threads=9 online=
 
---a5b2e19c1682589c5ae53031491a088a end hardware.cpu_topology status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin hardware.machine kind=cmd tool=uname limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end hardware.cpu_topology status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin hardware.machine kind=cmd tool=uname limit=4194304
 aarch64
 
---a5b2e19c1682589c5ae53031491a088a end hardware.machine status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin hardware.lscpu kind=cmd tool=lscpu limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end hardware.machine status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin hardware.lscpu kind=cmd tool=lscpu limit=4194304
 Architecture:                            aarch64
 CPU op-mode(s):                          64-bit
 Byte Order:                              Little Endian
@@ -287,51 +287,51 @@ Vulnerability Tsa:                       Not affected
 Vulnerability Tsx async abort:           Not affected
 Vulnerability Vmscape:                   Not affected
 
---a5b2e19c1682589c5ae53031491a088a end hardware.lscpu status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin hardware.meminfo kind=file path=/proc/meminfo limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end hardware.lscpu status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin hardware.meminfo kind=file path=/proc/meminfo limit=4194304
 MemTotal:        8124256 kB
-MemFree:         1007680 kB
-MemAvailable:    4481444 kB
-Buffers:          161636 kB
-Cached:          2863416 kB
-SwapCached:        15148 kB
-Active:          3161612 kB
-Inactive:        2687244 kB
-Active(anon):    2742316 kB
-Inactive(anon):   143696 kB
-Active(file):     419296 kB
-Inactive(file):  2543548 kB
+MemFree:         3384500 kB
+MemAvailable:    5572296 kB
+Buffers:          261840 kB
+Cached:          1418520 kB
+SwapCached:        32248 kB
+Active:          2148008 kB
+Inactive:        1265136 kB
+Active(anon):    1167784 kB
+Inactive(anon):   579444 kB
+Active(file):     980224 kB
+Inactive(file):   685692 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 SwapTotal:       1048572 kB
-SwapFree:          36100 kB
+SwapFree:         751904 kB
 Zswap:                 0 kB
 Zswapped:              0 kB
-Dirty:              1540 kB
+Dirty:              1140 kB
 Writeback:             0 kB
-AnonPages:       2510456 kB
-Mapped:           412472 kB
-Shmem:            218552 kB
-KReclaimable:     714288 kB
-Slab:             854096 kB
-SReclaimable:     714288 kB
-SUnreclaim:       139808 kB
-KernelStack:       10252 kB
-PageTables:        25904 kB
+AnonPages:       1452376 kB
+Mapped:           349788 kB
+Shmem:             34092 kB
+KReclaimable:     725248 kB
+Slab:             865952 kB
+SReclaimable:     725248 kB
+SUnreclaim:       140704 kB
+KernelStack:        8224 kB
+PageTables:        19916 kB
 SecPageTables:         0 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:     5110700 kB
-Committed_AS:    6348784 kB
+Committed_AS:    4607096 kB
 VmallocTotal:   135288315904 kB
-VmallocUsed:       19160 kB
+VmallocUsed:       17384 kB
 VmallocChunk:          0 kB
-Percpu:             7872 kB
-AnonHugePages:    550912 kB
+Percpu:             7440 kB
+AnonHugePages:    962560 kB
 ShmemHugePages:        0 kB
 ShmemPmdMapped:        0 kB
-FileHugePages:     14336 kB
+FileHugePages:      8192 kB
 FilePmdMapped:         0 kB
 Balloon:               0 kB
 HugePages_Total:       0
@@ -341,8 +341,8 @@ HugePages_Surp:        0
 Hugepagesize:       2048 kB
 Hugetlb:               0 kB
 
---a5b2e19c1682589c5ae53031491a088a end hardware.meminfo status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin hardware.usb kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end hardware.meminfo status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin hardware.usb kind=cmd tool=sh limit=4194304
 device usb1
 idVendor=1d6b
 idProduct=0002
@@ -364,12 +364,12 @@ manufacturer=Linux 7.0.14-linuxkit vhci_hcd
 product=USB/IP Virtual Host Controller
 
 
---a5b2e19c1682589c5ae53031491a088a end hardware.usb status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin packages.dpkg kind=cmd tool=awk limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end hardware.usb status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin packages.dpkg kind=cmd tool=awk limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end packages.dpkg status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note packages.dpkg no /var/lib/dpkg/status
---a5b2e19c1682589c5ae53031491a088a begin packages.apk kind=cmd tool=awk limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end packages.dpkg status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note packages.dpkg no /var/lib/dpkg/status
+--17b79d7f3fda69f8251d0ba1595d50bf begin packages.apk kind=cmd tool=awk limit=4194304
 P:agetty
 V:2.40.1-r1
 A:aarch64
@@ -675,16 +675,16 @@ V:1.5.6-r0
 A:aarch64
 
 
---a5b2e19c1682589c5ae53031491a088a end packages.apk status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin packages.pacman kind=cmd tool=awk limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end packages.apk status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin packages.pacman kind=cmd tool=awk limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end packages.pacman status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note packages.pacman no /var/lib/pacman/local
---a5b2e19c1682589c5ae53031491a088a begin packages.rpm kind=cmd tool=rpm limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end packages.pacman status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note packages.pacman no /var/lib/pacman/local
+--17b79d7f3fda69f8251d0ba1595d50bf begin packages.rpm kind=cmd tool=rpm limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end packages.rpm status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note packages.rpm no rpm database
---a5b2e19c1682589c5ae53031491a088a begin storage.partitions kind=file path=/proc/partitions limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end packages.rpm status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note packages.rpm no rpm database
+--17b79d7f3fda69f8251d0ba1595d50bf begin storage.partitions kind=file path=/proc/partitions limit=4194304
 major minor  #blocks  name
 
    1        0       4096 ram0
@@ -707,40 +707,40 @@ major minor  #blocks  name
  254        1 1948453888 vda1
  254       16     663792 vdb
 
---a5b2e19c1682589c5ae53031491a088a end storage.partitions status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin storage.mountinfo kind=file path=/proc/self/mountinfo limit=4194304
-559 471 0:133 / / rw,relatime - overlay overlay rw,lowerdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/33237/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/31306/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/29966/fs,upperdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/33238/fs,workdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/33238/work,nouserxattr
-561 559 0:163 / /proc rw,nosuid,nodev,noexec,relatime - proc proc rw
-562 559 0:164 / /dev rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
-563 562 0:165 / /dev/pts rw,nosuid,noexec,relatime - devpts devpts rw,gid=5,mode=620,ptmxmode=666
-564 559 0:166 / /sys ro,nosuid,nodev,noexec,relatime - sysfs sysfs ro
-565 564 0:41 / /sys/fs/cgroup ro,nosuid,nodev,noexec,relatime - cgroup2 cgroup rw
-566 562 0:161 / /dev/mqueue rw,nosuid,nodev,noexec,relatime - mqueue mqueue rw
-567 562 0:167 / /dev/shm rw,nosuid,nodev,noexec,relatime - tmpfs shm rw,size=65536k
-568 559 254:1 /docker/containers/c765cc6d72ecf251d0df14c36caec1732b66957ffbe6fb0c697d9d0e34c98bf1/hostname /etc/hostname rw,relatime - ext4 /dev/vda1 rw,discard
-569 559 254:1 /docker/containers/c765cc6d72ecf251d0df14c36caec1732b66957ffbe6fb0c697d9d0e34c98bf1/hosts /etc/hosts rw,relatime - ext4 /dev/vda1 rw,discard
-570 559 254:1 /docker/containers/c765cc6d72ecf251d0df14c36caec1732b66957ffbe6fb0c697d9d0e34c98bf1/resolv.conf /etc/resolv.conf rw,relatime - ext4 /dev/vda1 rw,discard
-571 559 254:1 /docker/volumes/aridi-corpus-bind/_data /srv/bind ro,relatime master:1 - ext4 /dev/vda1 rw,discard
-572 559 0:168 / /srv/scratch rw,nosuid,nodev,noexec,relatime - tmpfs tmpfs rw
-472 561 0:163 /bus /proc/bus ro,nosuid,nodev,noexec,relatime - proc proc rw
-473 561 0:163 /fs /proc/fs ro,nosuid,nodev,noexec,relatime - proc proc rw
-474 561 0:163 /irq /proc/irq ro,nosuid,nodev,noexec,relatime - proc proc rw
-475 561 0:163 /sys /proc/sys ro,nosuid,nodev,noexec,relatime - proc proc rw
-476 561 0:163 /sysrq-trigger /proc/sysrq-trigger ro,nosuid,nodev,noexec,relatime - proc proc rw
-477 561 0:164 /null /proc/interrupts rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
-478 561 0:164 /null /proc/kcore rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
-479 561 0:164 /null /proc/keys rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
-480 561 0:169 / /proc/scsi ro,relatime - tmpfs tmpfs ro,size=4k,nr_inodes=1
-481 561 0:164 /null /proc/timer_list rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
-482 564 0:169 / /sys/firmware ro,relatime - tmpfs tmpfs ro,size=4k,nr_inodes=1
+--17b79d7f3fda69f8251d0ba1595d50bf end storage.partitions status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin storage.mountinfo kind=file path=/proc/self/mountinfo limit=4194304
+310 177 0:63 / / rw,relatime - overlay overlay rw,lowerdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/33796/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/31306/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/29966/fs,upperdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/33797/fs,workdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/33797/work,nouserxattr
+314 310 0:87 / /proc rw,nosuid,nodev,noexec,relatime - proc proc rw
+315 310 0:88 / /dev rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
+316 315 0:91 / /dev/pts rw,nosuid,noexec,relatime - devpts devpts rw,gid=5,mode=620,ptmxmode=666
+317 310 0:93 / /sys ro,nosuid,nodev,noexec,relatime - sysfs sysfs ro
+318 317 0:41 / /sys/fs/cgroup ro,nosuid,nodev,noexec,relatime - cgroup2 cgroup rw
+319 315 0:78 / /dev/mqueue rw,nosuid,nodev,noexec,relatime - mqueue mqueue rw
+320 315 0:94 / /dev/shm rw,nosuid,nodev,noexec,relatime - tmpfs shm rw,size=65536k
+321 310 254:1 /docker/containers/a6666e6d7696458a7284dbbb4c49ad6d46600180e3cab0c29b855f2198efffbc/hostname /etc/hostname rw,relatime - ext4 /dev/vda1 rw,discard
+322 310 254:1 /docker/containers/a6666e6d7696458a7284dbbb4c49ad6d46600180e3cab0c29b855f2198efffbc/hosts /etc/hosts rw,relatime - ext4 /dev/vda1 rw,discard
+324 310 254:1 /docker/containers/a6666e6d7696458a7284dbbb4c49ad6d46600180e3cab0c29b855f2198efffbc/resolv.conf /etc/resolv.conf rw,relatime - ext4 /dev/vda1 rw,discard
+325 310 254:1 /docker/volumes/aridi-corpus-bind/_data /srv/bind ro,relatime master:1 - ext4 /dev/vda1 rw,discard
+326 310 0:95 / /srv/scratch rw,nosuid,nodev,noexec,relatime - tmpfs tmpfs rw
+179 314 0:87 /bus /proc/bus ro,nosuid,nodev,noexec,relatime - proc proc rw
+180 314 0:87 /fs /proc/fs ro,nosuid,nodev,noexec,relatime - proc proc rw
+182 314 0:87 /irq /proc/irq ro,nosuid,nodev,noexec,relatime - proc proc rw
+183 314 0:87 /sys /proc/sys ro,nosuid,nodev,noexec,relatime - proc proc rw
+191 314 0:87 /sysrq-trigger /proc/sysrq-trigger ro,nosuid,nodev,noexec,relatime - proc proc rw
+214 314 0:88 /null /proc/interrupts rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
+215 314 0:88 /null /proc/kcore rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
+216 314 0:88 /null /proc/keys rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
+217 314 0:96 / /proc/scsi ro,relatime - tmpfs tmpfs ro,size=4k,nr_inodes=1
+218 314 0:88 /null /proc/timer_list rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
+219 317 0:96 / /sys/firmware ro,relatime - tmpfs tmpfs ro,size=4k,nr_inodes=1
 
---a5b2e19c1682589c5ae53031491a088a end storage.mountinfo status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin storage.swaps kind=file path=/proc/swaps limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end storage.mountinfo status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin storage.swaps kind=file path=/proc/swaps limit=4194304
 Filename				Type		Size		Used		Priority
-/var/lib/swap                           file		1048572		1012468		-1
+/var/lib/swap                           file		1048572		296668		-1
 
---a5b2e19c1682589c5ae53031491a088a end storage.swaps status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin storage.block kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end storage.swaps status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin storage.block kind=cmd tool=sh limit=4194304
 loop0 kind=disk size=0 removable=0 ro=0 dev=7:0 dm= holders= slaves=
 loop1 kind=disk size=0 removable=0 ro=0 dev=7:1 dm= holders= slaves=
 loop2 kind=disk size=0 removable=0 ro=0 dev=7:2 dm= holders= slaves=
@@ -785,16 +785,16 @@ vda kind=disk size=3896909824 removable=0 ro=0 dev=254:0 dm= holders= slaves=
 vda1 kind=part size=3896907776 removable= ro=0 dev=254:1 dm= holders= slaves=
 vdb kind=disk size=1327584 removable=0 ro=1 dev=254:16 dm= holders= slaves=
 
---a5b2e19c1682589c5ae53031491a088a end storage.block status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin storage.df kind=cmd tool=df limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end storage.block status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin storage.df kind=cmd tool=df limit=4194304
 Filesystem           1024-blocks    Used Available Capacity Mounted on
-overlay              1916745208  85646640 1733659492   5% /
+overlay              1916745208  84966476 1734339656   5% /
 tmpfs                    65536         0     65536   0% /dev
 shm                      65536         0     65536   0% /dev/shm
-/dev/vda1            1916745208  85646640 1733659492   5% /etc/hostname
-/dev/vda1            1916745208  85646640 1733659492   5% /etc/hosts
-/dev/vda1            1916745208  85646640 1733659492   5% /etc/resolv.conf
-/dev/vda1            1916745208  85646640 1733659492   5% /srv/bind
+/dev/vda1            1916745208  84966476 1734339656   5% /etc/hostname
+/dev/vda1            1916745208  84966476 1734339656   5% /etc/hosts
+/dev/vda1            1916745208  84966476 1734339656   5% /etc/resolv.conf
+/dev/vda1            1916745208  84966476 1734339656   5% /srv/bind
 tmpfs                  4062128         0   4062128   0% /srv/scratch
 tmpfs                    65536         0     65536   0% /proc/interrupts
 tmpfs                    65536         0     65536   0% /proc/kcore
@@ -803,8 +803,8 @@ tmpfs                        4         0         4   0% /proc/scsi
 tmpfs                    65536         0     65536   0% /proc/timer_list
 tmpfs                        4         0         4   0% /sys/firmware
 
---a5b2e19c1682589c5ae53031491a088a end storage.df status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin storage.lsblk kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end storage.df status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin storage.lsblk kind=cmd tool=sh limit=4194304
 NAME="nbd0" KNAME="nbd0" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
 NAME="nbd1" KNAME="nbd1" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
 NAME="nbd2" KNAME="nbd2" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
@@ -825,8 +825,8 @@ NAME="nbd13" KNAME="nbd13" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="
 NAME="nbd14" KNAME="nbd14" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
 NAME="nbd15" KNAME="nbd15" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="" MOUNTPOINT=""
 
---a5b2e19c1682589c5ae53031491a088a end storage.lsblk status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin permissions.find kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end storage.lsblk status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin permissions.find kind=cmd tool=sh limit=4194304
 89ed 0 0 /usr/local/bin/aridi-suid-test
 85ed 0 5 /usr/bin/wall
 45ed 2002 2002 /home/bob
@@ -839,47 +839,47 @@ NAME="nbd15" KNAME="nbd15" PKNAME="" TYPE="disk" SIZE="0" RM="0" RO="0" FSTYPE="
 43ff 0 0 /var/tmp
 85ed 0 42 /sbin/unix_chkpwd
 
---a5b2e19c1682589c5ae53031491a088a end permissions.find status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin permissions.account_files kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end permissions.find status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin permissions.account_files kind=cmd tool=sh limit=4194304
 81a4 0 0 /etc/passwd
 81a4 0 0 /etc/group
 81a0 0 42 /etc/shadow
 
---a5b2e19c1682589c5ae53031491a088a end permissions.account_files status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin identity.hostname kind=cmd tool=hostname limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end permissions.account_files status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin identity.hostname kind=cmd tool=hostname limit=4194304
 corpus-alpine320
 
---a5b2e19c1682589c5ae53031491a088a end identity.hostname status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin identity.kernel_hostname kind=file path=/proc/sys/kernel/hostname limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end identity.hostname status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin identity.kernel_hostname kind=file path=/proc/sys/kernel/hostname limit=4194304
 corpus-alpine320
 
---a5b2e19c1682589c5ae53031491a088a end identity.kernel_hostname status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin identity.etc_hostname kind=file path=/etc/hostname limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end identity.kernel_hostname status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin identity.etc_hostname kind=file path=/etc/hostname limit=4194304
 corpus-alpine320
 
---a5b2e19c1682589c5ae53031491a088a end identity.etc_hostname status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin identity.nis_domainname kind=file path=/proc/sys/kernel/domainname limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end identity.etc_hostname status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin identity.nis_domainname kind=file path=/proc/sys/kernel/domainname limit=4194304
 (none)
 
---a5b2e19c1682589c5ae53031491a088a end identity.nis_domainname status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin identity.dnsdomainname kind=cmd tool=dnsdomainname limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end identity.nis_domainname status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin identity.dnsdomainname kind=cmd tool=dnsdomainname limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end identity.dnsdomainname status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin identity.hostid kind=cmd tool=hostid limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end identity.dnsdomainname status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin identity.hostid kind=cmd tool=hostid limit=4194304
 00000000
 
---a5b2e19c1682589c5ae53031491a088a end identity.hostid status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin identity.issue kind=file path=/etc/issue limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end identity.hostid status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin identity.issue kind=file path=/etc/issue limit=4194304
 Welcome to Alpine Linux 3.20
 Kernel \r on an \m (\l)
 
 
---a5b2e19c1682589c5ae53031491a088a end identity.issue status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin identity.issue_net kind=file path=/etc/issue.net limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end identity.issue status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin identity.issue_net kind=file path=/etc/issue.net limit=4194304
 Corpus banner [31mred[0m <script>alert(1)</script>
 
---a5b2e19c1682589c5ae53031491a088a end identity.issue_net status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin identity.motd kind=file path=/etc/motd limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end identity.issue_net status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin identity.motd kind=file path=/etc/motd limit=4194304
 Welcome to Alpine!
 
 The Alpine Wiki contains a large amount of how-to guides and general
@@ -891,12 +891,12 @@ You can setup the system with the command: setup-alpine
 You may change this message by editing /etc/motd.
 
 
---a5b2e19c1682589c5ae53031491a088a end identity.motd status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin identity.motd_d kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end identity.motd status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin identity.motd_d kind=cmd tool=sh limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end identity.motd_d status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note identity.motd_d no /etc/motd.d
---a5b2e19c1682589c5ae53031491a088a begin users.passwd kind=file path=/etc/passwd filter=prefix limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end identity.motd_d status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note identity.motd_d no /etc/motd.d
+--17b79d7f3fda69f8251d0ba1595d50bf begin users.passwd kind=file path=/etc/passwd filter=prefix limit=4194304
 root:x:0:0:root:/root:/bin/sh
 bin:x:1:1:bin:/bin:/sbin/nologin
 daemon:x:2:2:daemon:/sbin:/sbin/nologin
@@ -917,8 +917,8 @@ nobody:x:65534:65534:nobody:/:/sbin/nologin
 alice:x:2001:2001:Linux User,,,:/home/alice:/bin/sh
 bob:x:2002:2002:Linux User,,,:/home/bob:/bin/sh
 
---a5b2e19c1682589c5ae53031491a088a end users.passwd status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin users.group kind=file path=/etc/group filter=prefix limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end users.passwd status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin users.group kind=file path=/etc/group filter=prefix limit=4194304
 root:x:0:root
 bin:x:1:root,bin,daemon
 daemon:x:2:root,bin,daemon
@@ -958,8 +958,8 @@ alice:x:2001:
 bob:x:2002:
 ghostgrp:x:4300:ghostuser,alice
 
---a5b2e19c1682589c5ae53031491a088a end users.group status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin users.shadow kind=file path=/etc/shadow filter=prefix limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end users.group status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin users.shadow kind=file path=/etc/shadow filter=prefix limit=4194304
 root:*::0:::::
 bin:!::0:::::
 daemon:!::0:::::
@@ -977,47 +977,47 @@ games:!::0:::::
 ntp:!::0:::::
 guest:!::0:::::
 nobody:!::0:::::
-alice:$6$:20742:0:99999:7:::
-bob:!:20742:0:99999:7:::
+alice:$6$:20743:0:99999:7:::
+bob:!:20743:0:99999:7:::
 
---a5b2e19c1682589c5ae53031491a088a end users.shadow status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin users.gshadow kind=file path=/etc/gshadow filter=prefix limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end users.shadow status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin users.gshadow kind=file path=/etc/gshadow filter=prefix limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end users.gshadow status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note users.gshadow not found: /etc/gshadow
---a5b2e19c1682589c5ae53031491a088a begin services.init_comm kind=file path=/proc/1/comm limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end users.gshadow status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note users.gshadow not found: /etc/gshadow
+--17b79d7f3fda69f8251d0ba1595d50bf begin services.init_comm kind=file path=/proc/1/comm limit=4194304
 sh
 
---a5b2e19c1682589c5ae53031491a088a end services.init_comm status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin services.systemd_units kind=cmd tool=systemctl limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end services.init_comm status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin services.systemd_units kind=cmd tool=systemctl limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end services.systemd_units status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note services.systemd_units systemd is not running
---a5b2e19c1682589c5ae53031491a088a begin services.systemd_unit_files kind=cmd tool=systemctl limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end services.systemd_units status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note services.systemd_units systemd is not running
+--17b79d7f3fda69f8251d0ba1595d50bf begin services.systemd_unit_files kind=cmd tool=systemctl limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end services.systemd_unit_files status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note services.systemd_unit_files systemd is not running
---a5b2e19c1682589c5ae53031491a088a begin services.runlevel kind=cmd tool=runlevel limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end services.systemd_unit_files status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note services.systemd_unit_files systemd is not running
+--17b79d7f3fda69f8251d0ba1595d50bf begin services.runlevel kind=cmd tool=runlevel limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end services.runlevel status=missing rc=-
---a5b2e19c1682589c5ae53031491a088a note services.runlevel tool not found: runlevel
---a5b2e19c1682589c5ae53031491a088a begin services.chkconfig kind=cmd tool=chkconfig limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end services.runlevel status=missing rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note services.runlevel tool not found: runlevel
+--17b79d7f3fda69f8251d0ba1595d50bf begin services.chkconfig kind=cmd tool=chkconfig limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end services.chkconfig status=missing rc=-
---a5b2e19c1682589c5ae53031491a088a note services.chkconfig tool not found: chkconfig
---a5b2e19c1682589c5ae53031491a088a begin services.rc_d kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end services.chkconfig status=missing rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note services.chkconfig tool not found: chkconfig
+--17b79d7f3fda69f8251d0ba1595d50bf begin services.rc_d kind=cmd tool=sh limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end services.rc_d status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note services.rc_d no /etc/rc.d nor /etc/rcN.d
---a5b2e19c1682589c5ae53031491a088a begin services.openrc_runlevels kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end services.rc_d status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note services.rc_d no /etc/rc.d nor /etc/rcN.d
+--17b79d7f3fda69f8251d0ba1595d50bf begin services.openrc_runlevels kind=cmd tool=sh limit=4194304
 boot:
 default:
 nonetwork:
 shutdown:
 sysinit:
 
---a5b2e19c1682589c5ae53031491a088a end services.openrc_runlevels status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin services.openrc_status kind=cmd tool=rc-status limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end services.openrc_runlevels status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin services.openrc_status kind=cmd tool=rc-status limit=4194304
  * Caching service dependencies ... [ ok ]
 Runlevel: sysinit
 Runlevel: nonetwork
@@ -1028,42 +1028,42 @@ Dynamic Runlevel: hotplugged
 Dynamic Runlevel: needed/wanted
 Dynamic Runlevel: manual
 
---a5b2e19c1682589c5ae53031491a088a end services.openrc_status status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a note services.openrc_status Service `hwdrivers' needs non existent service `dev' Service `machine-id' needs non existent service `dev'
---a5b2e19c1682589c5ae53031491a088a begin services.runit kind=cmd tool=sv limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end services.openrc_status status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf note services.openrc_status Service `hwdrivers' needs non existent service `dev' Service `machine-id' needs non existent service `dev'
+--17b79d7f3fda69f8251d0ba1595d50bf begin services.runit kind=cmd tool=sv limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end services.runit status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note services.runit no runit services
---a5b2e19c1682589c5ae53031491a088a begin network.ip_link kind=cmd tool=ip limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end services.runit status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note services.runit no runit services
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.ip_link kind=cmd tool=ip limit=4194304
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000\    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
 2: tunl0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/ipip 0.0.0.0 brd 0.0.0.0
 3: gre0@NONE: <NOARP> mtu 1476 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/gre 0.0.0.0 brd 0.0.0.0
 4: gretap0@NONE: <BROADCAST,MULTICAST> mtu 1462 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/ether 00:00:00:00:00:00 brd ff:ff:ff:ff:ff:ff
 5: erspan0@NONE: <BROADCAST,MULTICAST> mtu 1450 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/ether 00:00:00:00:00:00 brd ff:ff:ff:ff:ff:ff
 6: ip_vti0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/ipip 0.0.0.0 brd 0.0.0.0
-7: ip6_vti0@NONE: <NOARP> mtu 1428 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/tunnel6 :: brd :: permaddr de38:ad9b:cea7::
+7: ip6_vti0@NONE: <NOARP> mtu 1428 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/tunnel6 :: brd :: permaddr cefe:20ef:d43b::
 8: sit0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/sit 0.0.0.0 brd 0.0.0.0
-9: ip6tnl0@NONE: <NOARP> mtu 1452 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/tunnel6 :: brd :: permaddr 6f4:bb9:e166::
-10: ip6gre0@NONE: <NOARP> mtu 1448 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/gre6 :: brd :: permaddr ab2:7bee:9b17::
-11: eth0@if1369: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default \    link/ether 56:db:d3:76:51:b6 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+9: ip6tnl0@NONE: <NOARP> mtu 1452 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/tunnel6 :: brd :: permaddr 5e60:4feb:7dbc::
+10: ip6gre0@NONE: <NOARP> mtu 1448 qdisc noop state DOWN mode DEFAULT group default qlen 1000\    link/gre6 :: brd :: permaddr 4ab0:da8a:32b5::
+11: eth0@if1610: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default \    link/ether 36:95:2b:89:19:95 brd ff:ff:ff:ff:ff:ff link-netnsid 0
 
---a5b2e19c1682589c5ae53031491a088a end network.ip_link status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin network.ip_addr kind=cmd tool=ip limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.ip_link status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.ip_addr kind=cmd tool=ip limit=4194304
 1: lo    inet 127.0.0.1/8 scope host lo\       valid_lft forever preferred_lft forever
 1: lo    inet6 ::1/128 scope host proto kernel_lo \       valid_lft forever preferred_lft forever
 11: eth0    inet 172.22.0.2/16 brd 172.22.255.255 scope global eth0\       valid_lft forever preferred_lft forever
 
---a5b2e19c1682589c5ae53031491a088a end network.ip_addr status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin network.ip_route kind=cmd tool=ip limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.ip_addr status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.ip_route kind=cmd tool=ip limit=4194304
 172.22.0.0/16 dev eth0 proto kernel scope link src 172.22.0.2 
 
---a5b2e19c1682589c5ae53031491a088a end network.ip_route status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin network.ip_route6 kind=cmd tool=ip limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.ip_route status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.ip_route6 kind=cmd tool=ip limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end network.ip_route6 status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin network.sys_class_net kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.ip_route6 status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.sys_class_net kind=cmd tool=sh limit=4194304
 erspan0 address=00:00:00:00:00:00 operstate=down mtu=1450 type=1 ifindex=5 iflink=0
-eth0 address=56:db:d3:76:51:b6 operstate=up mtu=1500 type=1 ifindex=11 iflink=1369
+eth0 address=36:95:2b:89:19:95 operstate=up mtu=1500 type=1 ifindex=11 iflink=1610
 gre0 address=00:00:00:00 operstate=down mtu=1476 type=778 ifindex=3 iflink=0
 gretap0 address=00:00:00:00:00:00 operstate=down mtu=1462 type=1 ifindex=4 iflink=0
 ip6_vti0 address=00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00 operstate=down mtu=1428 type=769 ifindex=7 iflink=0
@@ -1074,12 +1074,12 @@ lo address=00:00:00:00:00:00 operstate=unknown mtu=65536 type=772 ifindex=1 ifli
 sit0 address=00:00:00:00 operstate=down mtu=1480 type=776 ifindex=8 iflink=0
 tunl0 address=00:00:00:00 operstate=down mtu=1480 type=768 ifindex=2 iflink=0
 
---a5b2e19c1682589c5ae53031491a088a end network.sys_class_net status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin network.if_inet6 kind=file path=/proc/net/if_inet6 limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.sys_class_net status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.if_inet6 kind=file path=/proc/net/if_inet6 limit=4194304
 00000000000000000000000000000001 01 80 10 80       lo
 
---a5b2e19c1682589c5ae53031491a088a end network.if_inet6 status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin network.fib_trie kind=file path=/proc/net/fib_trie limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.if_inet6 status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.fib_trie kind=file path=/proc/net/fib_trie limit=4194304
 Main:
   +-- 0.0.0.0/0 2 0 2
      +-- 127.0.0.0/8 2 0 2
@@ -1117,19 +1117,19 @@ Local:
         |-- 172.22.255.255
            /32 link BROADCAST
 
---a5b2e19c1682589c5ae53031491a088a end network.fib_trie status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin network.proc_route kind=file path=/proc/net/route limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.fib_trie status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.proc_route kind=file path=/proc/net/route limit=4194304
 Iface	Destination	Gateway 	Flags	RefCnt	Use	Metric	Mask		MTU	Window	IRTT                                                       
 eth0	000016AC	00000000	0001	0	0	0	0000FFFF	0	0	0                                                                               
 
---a5b2e19c1682589c5ae53031491a088a end network.proc_route status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin network.proc_ipv6_route kind=file path=/proc/net/ipv6_route limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.proc_route status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.proc_ipv6_route kind=file path=/proc/net/ipv6_route limit=4194304
 00000000000000000000000000000000 00 00000000000000000000000000000000 00 00000000000000000000000000000000 ffffffff 00000001 00000000 00200200       lo
 00000000000000000000000000000001 80 00000000000000000000000000000000 00 00000000000000000000000000000000 00000000 00000004 00000000 80200001       lo
 00000000000000000000000000000000 00 00000000000000000000000000000000 00 00000000000000000000000000000000 ffffffff 00000001 00000000 00200200       lo
 
---a5b2e19c1682589c5ae53031491a088a end network.proc_ipv6_route status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin network.hosts kind=file path=/etc/hosts limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.proc_ipv6_route status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.hosts kind=file path=/etc/hosts limit=4194304
 127.0.0.1	localhost
 ::1	localhost ip6-localhost ip6-loopback
 fe00::	ip6-localnet
@@ -1140,8 +1140,8 @@ ff02::2	ip6-allrouters
 10.20.30.40 corpus-db.example.internal
 2001:db8::40 corpus-db6.example.internal
 
---a5b2e19c1682589c5ae53031491a088a end network.hosts status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin network.resolv_conf kind=file path=/etc/resolv.conf limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.hosts status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.resolv_conf kind=file path=/etc/resolv.conf limit=4194304
 # Generated by Docker Engine.
 # This file can be edited; Docker Engine will not make further changes once it
 # has been modified.
@@ -1155,218 +1155,218 @@ options ndots:0
 # Option ndots from: internal
 nameserver 2001:db8::53
 
---a5b2e19c1682589c5ae53031491a088a end network.resolv_conf status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin network.resolved_resolv_conf kind=file path=/run/systemd/resolve/resolv.conf limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.resolv_conf status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.resolved_resolv_conf kind=file path=/run/systemd/resolve/resolv.conf limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end network.resolved_resolv_conf status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note network.resolved_resolv_conf not found: /run/systemd/resolve/resolv.conf
---a5b2e19c1682589c5ae53031491a088a begin network.proc_tcp kind=file path=/proc/net/tcp limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.resolved_resolv_conf status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note network.resolved_resolv_conf not found: /run/systemd/resolve/resolv.conf
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.proc_tcp kind=file path=/proc/net/tcp limit=4194304
   sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode                                                     
-   0: 0B00007F:8BAF 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 19173091 1 00000000c6b81fe7 100 0 0 10 0                  
-   1: 0100007F:1F91 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 19175018 1 00000000844b162c 100 0 0 10 0                  
+   0: 0B00007F:9AEF 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 24154064 1 00000000cfa80e0f 100 0 0 10 0                  
+   1: 0100007F:1F91 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 24162707 1 0000000088d19a4d 100 0 0 10 0                  
 
---a5b2e19c1682589c5ae53031491a088a end network.proc_tcp status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin network.proc_tcp6 kind=file path=/proc/net/tcp6 limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.proc_tcp status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.proc_tcp6 kind=file path=/proc/net/tcp6 limit=4194304
   sl  local_address                         remote_address                        st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode
-   0: 00000000000000000000000000000000:1F90 00000000000000000000000000000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 19176994 1 00000000b509ce31 100 0 0 10 0
+   0: 00000000000000000000000000000000:1F90 00000000000000000000000000000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 24166503 1 0000000003f8dc3a 100 0 0 10 0
 
---a5b2e19c1682589c5ae53031491a088a end network.proc_tcp6 status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin network.proc_udp kind=file path=/proc/net/udp limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.proc_tcp6 status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.proc_udp kind=file path=/proc/net/udp limit=4194304
    sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode ref pointer drops            
- 1516: 0B00007F:E4F3 00000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 19173090 2 00000000e1441cbc 0      
- 1667: 00000000:158A 00000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 19177732 2 000000001699aa84 0      
+  794: 0B00007F:C371 00000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 24154063 2 000000007715a822 0      
+ 1331: 00000000:158A 00000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 24161905 2 00000000344c334d 0      
 
---a5b2e19c1682589c5ae53031491a088a end network.proc_udp status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin network.proc_udp6 kind=file path=/proc/net/udp6 limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.proc_udp status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.proc_udp6 kind=file path=/proc/net/udp6 limit=4194304
   sl  local_address                         remote_address                        st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode ref pointer drops
 
---a5b2e19c1682589c5ae53031491a088a end network.proc_udp6 status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin network.proc_raw kind=file path=/proc/net/raw limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.proc_udp6 status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.proc_raw kind=file path=/proc/net/raw limit=4194304
   sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode ref pointer drops
 
---a5b2e19c1682589c5ae53031491a088a end network.proc_raw status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin network.proc_raw6 kind=file path=/proc/net/raw6 limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.proc_raw status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.proc_raw6 kind=file path=/proc/net/raw6 limit=4194304
   sl  local_address                         remote_address                        st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode ref pointer drops
 
---a5b2e19c1682589c5ae53031491a088a end network.proc_raw6 status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin network.socket_pids kind=cmd tool=sh limit=4194304
-36 19176992
-36 19176993
-36 19176994
-42 19175016
-42 19175017
-42 19175018
-48 19177730
-48 19177731
-48 19177732
+--17b79d7f3fda69f8251d0ba1595d50bf end network.proc_raw6 status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.socket_pids kind=cmd tool=sh limit=4194304
+35 24166501
+35 24166502
+35 24166503
+41 24162705
+41 24162706
+41 24162707
+46 24161903
+46 24161904
+46 24161905
 
---a5b2e19c1682589c5ae53031491a088a end network.socket_pids status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin network.process_names kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.socket_pids status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin network.process_names kind=cmd tool=sh limit=4194304
 1 0 sh
+1820 0 sh
+1821 0 sh
 1822 0 sh
 1823 0 sh
-1824 0 sh
-1825 0 sh
-1826 0 awk
-1827 0 head
-1828 0 sh
-1829 0 sh
-1830 0 sleep
-36 0 socat
-42 0 socat
-48 0 socat
-54 4242 sleep
-78 0 sh
-8 0 sleep
+1824 0 awk
+1825 0 head
+1826 0 sh
+1827 0 sh
+1828 0 sleep
+35 0 socat
+41 0 socat
+46 0 socat
+52 4242 sleep
+7 0 sleep
+76 0 sh
 
---a5b2e19c1682589c5ae53031491a088a end network.process_names status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin firewall.nft_json kind=cmd tool=nft limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end network.process_names status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin firewall.nft_json kind=cmd tool=nft limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end firewall.nft_json status=denied rc=1
---a5b2e19c1682589c5ae53031491a088a note firewall.nft_json Operation not permitted (you must be root) netlink: Error: cache initialization failed: Operation not permitted
---a5b2e19c1682589c5ae53031491a088a begin firewall.nft kind=cmd tool=nft limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end firewall.nft_json status=denied rc=1
+--17b79d7f3fda69f8251d0ba1595d50bf note firewall.nft_json Operation not permitted (you must be root) netlink: Error: cache initialization failed: Operation not permitted
+--17b79d7f3fda69f8251d0ba1595d50bf begin firewall.nft kind=cmd tool=nft limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end firewall.nft status=denied rc=1
---a5b2e19c1682589c5ae53031491a088a note firewall.nft Operation not permitted (you must be root) netlink: Error: cache initialization failed: Operation not permitted
---a5b2e19c1682589c5ae53031491a088a begin firewall.iptables_legacy kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end firewall.nft status=denied rc=1
+--17b79d7f3fda69f8251d0ba1595d50bf note firewall.nft Operation not permitted (you must be root) netlink: Error: cache initialization failed: Operation not permitted
+--17b79d7f3fda69f8251d0ba1595d50bf begin firewall.iptables_legacy kind=cmd tool=sh limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end firewall.iptables_legacy status=denied rc=4
---a5b2e19c1682589c5ae53031491a088a note firewall.iptables_legacy iptables-save v1.8.10 (nf_tables): Could not fetch rule set generation id: Permission denied (you must be root)
---a5b2e19c1682589c5ae53031491a088a begin firewall.ip6tables_legacy kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end firewall.iptables_legacy status=denied rc=4
+--17b79d7f3fda69f8251d0ba1595d50bf note firewall.iptables_legacy iptables-save v1.8.10 (nf_tables): Could not fetch rule set generation id: Permission denied (you must be root)
+--17b79d7f3fda69f8251d0ba1595d50bf begin firewall.ip6tables_legacy kind=cmd tool=sh limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end firewall.ip6tables_legacy status=denied rc=4
---a5b2e19c1682589c5ae53031491a088a note firewall.ip6tables_legacy ip6tables-save v1.8.10 (nf_tables): Could not fetch rule set generation id: Permission denied (you must be root)
---a5b2e19c1682589c5ae53031491a088a begin firewall.firewalld kind=cmd tool=firewall-cmd limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end firewall.ip6tables_legacy status=denied rc=4
+--17b79d7f3fda69f8251d0ba1595d50bf note firewall.ip6tables_legacy ip6tables-save v1.8.10 (nf_tables): Could not fetch rule set generation id: Permission denied (you must be root)
+--17b79d7f3fda69f8251d0ba1595d50bf begin firewall.firewalld kind=cmd tool=firewall-cmd limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end firewall.firewalld status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note firewall.firewalld firewalld is not running
---a5b2e19c1682589c5ae53031491a088a begin firewall.ufw kind=cmd tool=ufw limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end firewall.firewalld status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note firewall.firewalld firewalld is not running
+--17b79d7f3fda69f8251d0ba1595d50bf begin firewall.ufw kind=cmd tool=ufw limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end firewall.ufw status=missing rc=-
---a5b2e19c1682589c5ae53031491a088a note firewall.ufw tool not found: ufw
---a5b2e19c1682589c5ae53031491a088a begin timesync.chrony_conf kind=file path=/etc/chrony.conf limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end firewall.ufw status=missing rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note firewall.ufw tool not found: ufw
+--17b79d7f3fda69f8251d0ba1595d50bf begin timesync.chrony_conf kind=file path=/etc/chrony.conf limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end timesync.chrony_conf status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note timesync.chrony_conf not found: /etc/chrony.conf
---a5b2e19c1682589c5ae53031491a088a begin timesync.chrony_conf_debian kind=file path=/etc/chrony/chrony.conf limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end timesync.chrony_conf status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note timesync.chrony_conf not found: /etc/chrony.conf
+--17b79d7f3fda69f8251d0ba1595d50bf begin timesync.chrony_conf_debian kind=file path=/etc/chrony/chrony.conf limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end timesync.chrony_conf_debian status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note timesync.chrony_conf_debian not found: /etc/chrony/chrony.conf
---a5b2e19c1682589c5ae53031491a088a begin timesync.chronyc kind=cmd tool=chronyc limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end timesync.chrony_conf_debian status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note timesync.chrony_conf_debian not found: /etc/chrony/chrony.conf
+--17b79d7f3fda69f8251d0ba1595d50bf begin timesync.chronyc kind=cmd tool=chronyc limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end timesync.chronyc status=missing rc=-
---a5b2e19c1682589c5ae53031491a088a note timesync.chronyc tool not found: chronyc
---a5b2e19c1682589c5ae53031491a088a begin timesync.ntp_conf kind=file path=/etc/ntp.conf limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end timesync.chronyc status=missing rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note timesync.chronyc tool not found: chronyc
+--17b79d7f3fda69f8251d0ba1595d50bf begin timesync.ntp_conf kind=file path=/etc/ntp.conf limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end timesync.ntp_conf status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note timesync.ntp_conf not found: /etc/ntp.conf
---a5b2e19c1682589c5ae53031491a088a begin timesync.ntpq kind=cmd tool=ntpq limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end timesync.ntp_conf status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note timesync.ntp_conf not found: /etc/ntp.conf
+--17b79d7f3fda69f8251d0ba1595d50bf begin timesync.ntpq kind=cmd tool=ntpq limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end timesync.ntpq status=missing rc=-
---a5b2e19c1682589c5ae53031491a088a note timesync.ntpq tool not found: ntpq
---a5b2e19c1682589c5ae53031491a088a begin timesync.timesyncd_conf kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end timesync.ntpq status=missing rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note timesync.ntpq tool not found: ntpq
+--17b79d7f3fda69f8251d0ba1595d50bf begin timesync.timesyncd_conf kind=cmd tool=sh limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end timesync.timesyncd_conf status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note timesync.timesyncd_conf no timesyncd configuration
---a5b2e19c1682589c5ae53031491a088a begin timesync.timedatectl kind=cmd tool=timedatectl limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end timesync.timesyncd_conf status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note timesync.timesyncd_conf no timesyncd configuration
+--17b79d7f3fda69f8251d0ba1595d50bf begin timesync.timedatectl kind=cmd tool=timedatectl limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end timesync.timedatectl status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note timesync.timedatectl systemd is not running
---a5b2e19c1682589c5ae53031491a088a begin processes.stat kind=cmd tool=sh limit=4194304
-1 (sh) S 0 1 1 0 -1 4194560 852 4324 0 0 0 0 1 0 20 0 1 0 27100929 1773568 235 18446744073709551615 187650946891776 187650947778604 281474148319616 0 0 0 0 4 65538 1 0 0 17 9 0 0 0 0 0 187650947860304 187650947874873 187651930910720 281474148323174 281474148323209 281474148323209 281474148323312 0
-1905 (sh) S 78 78 78 0 -1 4194368 41 0 0 0 0 0 0 0 20 0 1 0 27101223 1892352 240 18446744073709551615 187650312765440 187650313652268 281473928727984 0 0 0 0 0 65536 1 0 0 17 11 0 0 0 0 0 187650313733968 187650313748537 187651108524032 281473928728451 281473928728457 281473928728457 281473928728560 0
-1906 (sh) S 1905 78 78 0 -1 4194368 46 0 0 0 0 0 0 0 20 0 1 0 27101223 1892352 240 18446744073709551615 187650312765440 187650313652268 281473928727984 0 0 0 0 0 65536 1 0 0 17 6 0 0 0 0 0 187650313733968 187650313748537 187651108524032 281473928728451 281473928728457 281473928728457 281473928728560 0
-1907 (sh) S 1905 78 78 0 -1 4194368 42 0 0 0 0 0 0 0 20 0 1 0 27101223 1892352 249 18446744073709551615 187650312765440 187650313652268 281473928727984 0 0 0 0 0 65536 1 0 0 17 7 0 0 0 0 0 187650313733968 187650313748537 187651108524032 281473928728451 281473928728457 281473928728457 281473928728560 0
-1908 (sh) S 1906 78 78 0 -1 4194368 66 0 0 0 0 0 0 0 20 0 1 0 27101223 1892352 249 18446744073709551615 187650312765440 187650313652268 281473928727984 0 0 0 0 0 65536 1 0 0 17 5 0 0 0 0 0 187650313733968 187650313748537 187651108524032 281473928728451 281473928728457 281473928728457 281473928728560 0
-1909 (awk) S 1907 78 78 0 -1 4194304 81 0 0 0 0 0 0 0 20 0 1 0 27101223 1773568 235 18446744073709551615 187650007826432 187650008713260 281474177460704 0 0 0 0 0 0 1 0 0 17 8 0 0 0 0 0 187650008794960 187650008809529 187650788315136 281474177462018 281474177462125 281474177462125 281474177462251 0
-1910 (head) R 1906 78 78 0 -1 4194304 70 0 0 0 0 0 0 0 20 0 1 0 27101223 1757184 203 18446744073709551615 187650117795840 187650118682668 281473948217600 0 0 0 0 0 0 1 0 0 17 4 0 0 0 0 0 187650118764368 187650118778937 187651053473792 281473948221276 281473948221292 281473948221292 281473948221418 0
-1911 (sh) S 1908 78 78 0 -1 4194304 78 0 0 0 0 0 0 0 20 0 1 0 27101223 1773568 251 18446744073709551615 187650491023360 187650491910188 281474734468128 0 0 0 0 6 65536 1 0 0 17 2 0 0 0 0 0 187650491991888 187650492006457 187650597965824 281474734468930 281474734468978 281474734468978 281474734469104 0
-1912 (sh) S 1908 78 78 0 -1 4194368 48 0 0 0 0 0 0 0 20 0 1 0 27101223 1892352 233 18446744073709551615 187650312765440 187650313652268 281473928727984 0 0 0 0 6 81920 1 0 0 17 10 0 0 0 0 0 187650313733968 187650313748537 187651108524032 281473928728451 281473928728457 281473928728457 281473928728560 0
-1913 (sleep) S 1912 78 78 0 -1 4194304 67 0 0 0 0 0 0 0 20 0 1 0 27101223 1757184 203 18446744073709551615 187650594963456 187650595850284 281474225833488 0 0 0 0 6 0 1 0 0 17 5 0 0 0 0 0 187650595931984 187650595946553 187651133558784 281474225835878 281474225835887 281474225835887 281474225836013 0
-36 (socat) S 0 36 36 0 -1 4194560 1201 0 0 0 0 0 0 0 20 0 1 0 27100950 7708672 667 18446744073709551615 187650990604288 187650990971024 281473955895072 0 0 0 0 4096 83695 1 0 0 17 11 0 0 0 0 0 187650991009200 187650991064748 187651570229248 281473955897137 281473955897204 281473955897204 281473955897321 0
-42 (socat) S 0 42 42 0 -1 4194560 944 0 0 0 0 0 0 0 20 0 1 0 27100954 7708672 667 18446744073709551615 187650329608192 187650329974928 281474083631520 0 0 0 0 4096 83695 1 0 0 17 2 0 0 0 0 0 187650330013104 187650330068652 187650729529344 281474083634989 281474083635060 281474083635060 281474083635177 0
-48 (socat) S 0 48 48 0 -1 4194560 946 0 0 0 0 0 0 0 20 0 1 0 27100958 7733248 671 18446744073709551615 187650265382912 187650265749648 281474532776864 0 0 0 0 4096 18159 1 0 0 17 9 0 0 0 0 0 187650265787824 187650265843372 187650735607808 281474532777792 281474532777844 281474532777844 281474532777961 0
-54 (sleep) S 0 54 54 0 -1 4194560 995 0 0 0 0 0 0 0 20 0 1 0 27100961 1757184 219 18446744073709551615 1 1 0 0 0 0 0 0 0 0 0 0 17 10 0 0 0 0 0 0 0 0 0 0 0 0 0
-78 (sh) S 0 78 78 0 -1 4194560 4187 122651 0 3 1 1 38 16 20 0 1 0 27101178 1892352 299 18446744073709551615 187650312765440 187650313652268 281473928727984 0 0 0 0 4 65536 1 0 0 17 6 0 0 0 0 0 187650313733968 187650313748537 187651108524032 281473928728451 281473928728457 281473928728457 281473928728560 0
-8 (sleep) S 1 1 1 0 -1 4194304 58 0 0 0 0 0 0 0 20 0 1 0 27100933 1757184 203 18446744073709551615 187650572353536 187650573240364 281474566529424 0 0 0 0 0 0 1 0 0 17 2 0 0 0 0 0 187650573322064 187650573336633 187650724630528 281474566532973 281474566532984 281474566532984 281474566533101 0
+--17b79d7f3fda69f8251d0ba1595d50bf end timesync.timedatectl status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note timesync.timedatectl systemd is not running
+--17b79d7f3fda69f8251d0ba1595d50bf begin processes.stat kind=cmd tool=sh limit=4194304
+1 (sh) S 0 1 1 0 -1 4194560 777 4376 0 0 0 0 1 0 20 0 1 0 35516222 1773568 235 18446744073709551615 187650267086848 187650267973676 281474580161840 0 0 0 0 4 65538 1 0 0 17 8 0 0 0 0 0 187650268055376 187650268069945 187650957959168 281474580164454 281474580164489 281474580164489 281474580164592 0
+1903 (sh) S 76 76 76 0 -1 4194368 42 0 0 0 0 0 0 0 20 0 1 0 35516512 1892352 240 18446744073709551615 187650239823872 187650240710700 281474362491360 0 0 0 0 0 65536 1 0 0 17 9 0 0 0 0 0 187650240792400 187650240806969 187651014156288 281474362494851 281474362494857 281474362494857 281474362494960 0
+1904 (sh) S 1903 76 76 0 -1 4194368 46 0 0 0 0 0 0 0 20 0 1 0 35516512 1892352 240 18446744073709551615 187650239823872 187650240710700 281474362491360 0 0 0 0 0 65536 1 0 0 17 7 0 0 0 0 0 187650240792400 187650240806969 187651014156288 281474362494851 281474362494857 281474362494857 281474362494960 0
+1905 (sh) S 1903 76 76 0 -1 4194368 41 0 0 0 0 0 0 0 20 0 1 0 35516512 1892352 249 18446744073709551615 187650239823872 187650240710700 281474362491360 0 0 0 0 0 65536 1 0 0 17 11 0 0 0 0 0 187650240792400 187650240806969 187651014156288 281474362494851 281474362494857 281474362494857 281474362494960 0
+1906 (sh) S 1904 76 76 0 -1 4194368 67 0 0 0 0 0 0 0 20 0 1 0 35516512 1892352 249 18446744073709551615 187650239823872 187650240710700 281474362491360 0 0 0 0 0 65536 1 0 0 17 6 0 0 0 0 0 187650240792400 187650240806969 187651014156288 281474362494851 281474362494857 281474362494857 281474362494960 0
+1907 (head) S 1904 76 76 0 -1 4194304 69 0 0 0 0 0 0 0 20 0 1 0 35516512 1757184 203 18446744073709551615 187650699296768 187650700183596 281474704706384 0 0 0 0 0 0 1 0 0 17 0 0 0 0 0 0 187650700265296 187650700279865 187651221139456 281474704707420 281474704707436 281474704707436 281474704707562 0
+1908 (awk) S 1905 76 76 0 -1 4194304 81 0 0 0 0 0 0 0 20 0 1 0 35516512 1773568 235 18446744073709551615 187650327511040 187650328397868 281474154113632 0 0 0 0 0 0 1 0 0 17 2 0 0 0 0 0 187650328479568 187650328494137 187651055104000 281474154114818 281474154114925 281474154114925 281474154115051 0
+1909 (sh) S 1906 76 76 0 -1 4194304 80 0 0 0 0 0 0 0 20 0 1 0 35516512 1773568 235 18446744073709551615 187650383806464 187650384693292 281474202291824 0 0 0 0 6 65536 1 0 0 17 5 0 0 0 0 0 187650384774992 187650384789561 187651268677632 281474202296130 281474202296178 281474202296178 281474202296304 0
+1910 (sh) S 1906 76 76 0 -1 4194368 48 0 0 0 0 0 0 0 20 0 1 0 35516512 1892352 233 18446744073709551615 187650239823872 187650240710700 281474362491360 0 0 0 0 6 81920 1 0 0 17 4 0 0 0 0 0 187650240792400 187650240806969 187651014156288 281474362494851 281474362494857 281474362494857 281474362494960 0
+1911 (sleep) S 1910 76 76 0 -1 4194304 65 0 0 0 0 0 0 0 20 0 1 0 35516512 1757184 203 18446744073709551615 187650949906432 187650950793260 281474477186816 0 0 0 0 6 0 1 0 0 17 9 0 0 0 0 0 187650950874960 187650950889529 187651574444032 281474477191014 281474477191023 281474477191023 281474477191149 0
+35 (socat) S 0 35 35 0 -1 4194560 970 0 0 0 0 0 0 0 20 0 1 0 35516241 7708672 697 18446744073709551615 187650956853248 187650957219984 281474094784416 0 0 0 0 4096 83695 1 0 0 17 4 0 0 0 0 0 187650957258160 187650957313708 187651178627072 281474094788401 281474094788468 281474094788468 281474094788585 0
+41 (socat) S 0 41 41 0 -1 4194560 948 0 0 0 0 0 0 0 20 0 1 0 35516245 7708672 647 18446744073709551615 187650348875776 187650349242512 281474926047648 0 0 0 0 4096 83695 1 0 0 17 6 0 0 0 0 0 187650349280688 187650349336236 187650735984640 281474926051117 281474926051188 281474926051188 281474926051305 0
+46 (socat) S 0 46 46 0 -1 4194560 978 0 0 0 0 0 0 0 20 0 1 0 35516248 7733248 677 18446744073709551615 187650485518336 187650485885072 281474705159664 0 0 0 0 4096 18159 1 0 0 17 9 0 0 0 0 0 187650485923248 187650485978796 187651266035712 281474705162048 281474705162100 281474705162100 281474705162217 0
+52 (sleep) S 0 52 52 0 -1 4194560 827 0 0 0 0 0 0 0 20 0 1 0 35516252 1757184 219 18446744073709551615 1 1 0 0 0 0 0 0 0 0 0 0 17 7 0 0 0 0 0 0 0 0 0 0 0 0 0
+7 (sleep) S 1 1 1 0 -1 4194304 58 0 0 0 0 0 0 0 20 0 1 0 35516225 1757184 203 18446744073709551615 187650611085312 187650611972140 281474534392384 0 0 0 0 0 0 1 0 0 17 1 0 0 0 0 0 187650612053840 187650612068409 187651039698944 281474534395757 281474534395768 281474534395768 281474534395885 0
+76 (sh) S 0 76 76 0 -1 4194560 4231 122328 0 9 1 1 37 14 20 0 1 0 35516469 1892352 299 18446744073709551615 187650239823872 187650240710700 281474362491360 0 0 0 0 4 65536 1 0 0 17 11 0 0 0 0 0 187650240792400 187650240806969 187651014156288 281474362494851 281474362494857 281474362494857 281474362494960 0
 
---a5b2e19c1682589c5ae53031491a088a end processes.stat status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin processes.status kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end processes.stat status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin processes.status kind=cmd tool=sh limit=4194304
 1 0 1068 1
-1921 0 1008 1
-1922 0 1008 1
-1923 0 1044 1
-1924 0 1112 1
-1925 0 1072 1
-1926 0 856 1
-1927 0 1072 1
-1928 0 1048 1
-1929 0 860 1
-36 0 2836 1
-42 0 2836 1
-48 0 2856 1
-54 4242 924 1
-78 0 1332 1
-8 0 924 1
+1919 0 1012 1
+1920 0 1012 1
+1921 0 1048 1
+1922 0 1116 1
+1923 0 1072 1
+1924 0 924 1
+1925 0 1068 1
+1926 0 1052 1
+1927 0 912 1
+35 0 2852 1
+41 0 2756 1
+46 0 2844 1
+52 4242 920 1
+7 0 924 1
+76 0 1336 1
 
---a5b2e19c1682589c5ae53031491a088a end processes.status status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin processes.cmdline kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end processes.status status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin processes.cmdline kind=cmd tool=sh limit=4194304
 1 sh -c while :; do sleep 3600; done 
+1935 sh -s 
+1936 sh -s 
 1937 sh -s 
 1938 sh -s 
-1939 sh -s 
-1940 sh -s 
-1941 awk length(s) < 400 { s = s "   $0 } END { s = substr(s, 2, 400)         gsub(/[^ -~] , "? , s); print s } 
-1942 head -c 4194305 
-1943 sh -c          for p in /proc/[0-9]*; do             [ -r "$p/cmdline" ] || continue             printf "%s " "${p#/proc/}"             head -c 512 "$p/cmdline" 2>/dev/null | tr "\000\n" "  "             echo         done | awk "$1" sh  {     for (i = 2; i <= NF; i++) {         low = tolower($i)         if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)=/)             $i = substr($i, 1, index($i, "=")) "***"         else if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)$/ && i
-1944 sh -s 
-1945 sleep 60 
-1946 sh -c          for p in /proc/[0-9]*; do             [ -r "$p/cmdline" ] || continue             printf "%s " "${p#/proc/}"             head -c 512 "$p/cmdline" 2>/dev/null | tr "\000\n" "  "             echo         done | awk "$1" sh  {     for (i = 2; i <= NF; i++) {         low = tolower($i)         if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)=/)             $i = substr($i, 1, index($i, "=")) "***"         else if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)$/ && i
-1947 awk  {     for (i = 2; i <= NF; i++) {         low = tolower($i)         if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)= )             $i = substr($i, 1, index($i, "= )) "***          else if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)$  && i < NF)             $(++i) = "***      }     print } 
-36 socat -u TCP6-LISTEN:8080,reuseaddr,fork,ipv6only=0 OPEN:/dev/null 
-42 socat -u TCP4-LISTEN:8081,bind=127.0.0.1,reuseaddr,fork OPEN:/dev/null 
-48 socat -u UDP4-RECV:5514,bind=0.0.0.0 OPEN:/dev/null 
-54 sleep 3600 
-78 sh -s 
-8 sleep 3600 
+1939 awk length(s) < 400 { s = s "   $0 } END { s = substr(s, 2, 400)         gsub(/[^ -~] , "? , s); print s } 
+1940 head -c 4194305 
+1941 sh -c          for p in /proc/[0-9]*; do             [ -r "$p/cmdline" ] || continue             printf "%s " "${p#/proc/}"             head -c 512 "$p/cmdline" 2>/dev/null | tr "\000\n" "  "             echo         done | awk "$1" sh  {     for (i = 2; i <= NF; i++) {         low = tolower($i)         if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)=/)             $i = substr($i, 1, index($i, "=")) "***"         else if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)$/ && i
+1942 sh -s 
+1943 sleep 60 
+1944 sh -c          for p in /proc/[0-9]*; do             [ -r "$p/cmdline" ] || continue             printf "%s " "${p#/proc/}"             head -c 512 "$p/cmdline" 2>/dev/null | tr "\000\n" "  "             echo         done | awk "$1" sh  {     for (i = 2; i <= NF; i++) {         low = tolower($i)         if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)=/)             $i = substr($i, 1, index($i, "=")) "***"         else if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)$/ && i
+1945 awk  {     for (i = 2; i <= NF; i++) {         low = tolower($i)         if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)= )             $i = substr($i, 1, index($i, "= )) "***          else if (low ~ /^-*[a-z_-]*(pass(wo?rd)?|pwd|token|secret|api[-_]?key)$  && i < NF)             $(++i) = "***      }     print } 
+35 socat -u TCP6-LISTEN:8080,reuseaddr,fork,ipv6only=0 OPEN:/dev/null 
+41 socat -u TCP4-LISTEN:8081,bind=127.0.0.1,reuseaddr,fork OPEN:/dev/null 
+46 socat -u UDP4-RECV:5514,bind=0.0.0.0 OPEN:/dev/null 
+52 sleep 3600 
+7 sleep 3600 
+76 sh -s 
 
---a5b2e19c1682589c5ae53031491a088a end processes.cmdline status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin processes.uptime kind=file path=/proc/uptime limit=4194304
-271012.25 3184984.18
+--17b79d7f3fda69f8251d0ba1595d50bf end processes.cmdline status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin processes.uptime kind=file path=/proc/uptime limit=4194304
+355165.13 4169898.63
 
---a5b2e19c1682589c5ae53031491a088a end processes.uptime status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin processes.clk_tck kind=cmd tool=getconf limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end processes.uptime status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin processes.clk_tck kind=cmd tool=getconf limit=4194304
 100
 
---a5b2e19c1682589c5ae53031491a088a end processes.clk_tck status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin load.uptime_1 kind=file path=/proc/uptime limit=4194304
-271012.25 3184984.21
+--17b79d7f3fda69f8251d0ba1595d50bf end processes.clk_tck status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin load.uptime_1 kind=file path=/proc/uptime limit=4194304
+355165.14 4169898.68
 
---a5b2e19c1682589c5ae53031491a088a end load.uptime_1 status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin load.stat_1 kind=file path=/proc/stat limit=4194304
-cpu  3923681 0 1616632 318498423 67452 0 420858 0 0 0
-cpu0 1618967 0 432571 24668134 11248 0 155413 0 0 0
-cpu1 227194 0 106847 26686459 7609 0 107223 0 0 0
-cpu2 225745 0 110721 26689657 6037 0 43563 0 0 0
-cpu3 215816 0 108448 26703703 5619 0 24937 0 0 0
-cpu4 213141 0 108022 26707628 5717 0 18126 0 0 0
-cpu5 204131 0 106645 26718793 5070 0 14350 0 0 0
-cpu6 204630 0 106800 26719519 4565 0 12003 0 0 0
-cpu7 204290 0 108923 26717455 4570 0 10484 0 0 0
-cpu8 205143 0 107590 26718100 4624 0 9545 0 0 0
-cpu9 204088 0 106096 26720916 4274 0 9014 0 0 0
-cpu10 199133 0 106801 26725374 4121 0 8326 0 0 0
-cpu11 201396 0 107163 26722679 3992 0 7868 0 0 0
-intr 1123545012 0 6846215 438089142 0 0 0 2442 0 0 0 0 269520948 0 0 18363925 18215 4549683 5870 383673204 1 103763 1 1 21 2367158 4423 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-ctxt 2404187040
-btime 1791884564
-processes 6433554
-procs_running 11
+--17b79d7f3fda69f8251d0ba1595d50bf end load.uptime_1 status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin load.stat_1 kind=file path=/proc/stat limit=4194304
+cpu  5366106 0 2264048 416989870 108708 0 575618 0 0 0
+cpu0 2138109 0 588960 32295373 15479 0 208190 0 0 0
+cpu1 306911 0 149767 34949546 12220 0 146732 0 0 0
+cpu2 330745 0 154032 34929360 10050 0 59847 0 0 0
+cpu3 297835 0 154185 34965028 8875 0 35119 0 0 0
+cpu4 293473 0 153737 34970225 9230 0 25519 0 0 0
+cpu5 283460 0 153089 34982028 8512 0 20104 0 0 0
+cpu6 293457 0 156391 34970440 7674 0 16979 0 0 0
+cpu7 292476 0 151032 34976785 7642 0 14752 0 0 0
+cpu8 284486 0 149851 34986109 7728 0 13301 0 0 0
+cpu9 287347 0 148341 34984977 7292 0 12630 0 0 0
+cpu10 276732 0 155243 34989354 7029 0 11543 0 0 0
+cpu11 281070 0 149416 34990640 6971 0 10897 0 0 0
+intr 1519827392 0 8717671 622736619 0 0 0 2767 0 0 0 0 360228439 0 0 25592250 20643 6541615 9408 492500355 1 374793 1 1 21 3097015 5793 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ctxt 3244883601
+btime 1791892110
+processes 8143486
+procs_running 2
 procs_blocked 0
-softirq 178367214 0 17954667 17460 34743828 4444906 0 297 45414996 0 75791060
+softirq 238811351 0 23349122 21625 48921710 6401109 0 1038 61506800 0 98609947
 
---a5b2e19c1682589c5ae53031491a088a end load.stat_1 status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin load.diskstats_1 kind=file path=/proc/diskstats limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end load.stat_1 status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin load.diskstats_1 kind=file path=/proc/diskstats limit=4194304
    1       0 ram0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
    1       1 ram1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
    1       2 ram2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -1407,39 +1407,39 @@ softirq 178367214 0 17954667 17460 34743828 4444906 0 297 45414996 0 75791060
   43     416 nbd13 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
   43     448 nbd14 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
   43     480 nbd15 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- 254       0 vda 879705 325216 32423730 191349 2309933 4975748 215641304 4677122 0 392655 5126063 2293970 0 9128345744 137872 652593 119718
- 254       1 vda1 879634 325216 32421370 191339 2309933 4975748 215641304 4677122 0 454285 5006335 2293970 0 9128345744 137872 0 0
- 254      16 vdb 14841 84 1297488 43196 0 0 0 0 0 5504 43196 0 0 0 0 0 0
+ 254       0 vda 1318782 491144 48942690 240119 3146086 7518054 337481776 6937745 0 524645 7527995 3199396 0 12625314896 182388 927877 167741
+ 254       1 vda1 1318711 491144 48940330 240110 3146086 7518054 337481776 6937745 0 610341 7360243 3199396 0 12625314896 182388 0 0
+ 254      16 vdb 27766 135 1616328 71015 0 0 0 0 0 7515 71015 0 0 0 0 0 0
 
---a5b2e19c1682589c5ae53031491a088a end load.diskstats_1 status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin load.uptime_2 kind=file path=/proc/uptime limit=4194304
-271013.27 3184994.52
+--17b79d7f3fda69f8251d0ba1595d50bf end load.diskstats_1 status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin load.uptime_2 kind=file path=/proc/uptime limit=4194304
+355166.15 4169910.77
 
---a5b2e19c1682589c5ae53031491a088a end load.uptime_2 status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin load.stat_2 kind=file path=/proc/stat limit=4194304
-cpu  3923814 0 1616669 318499454 67452 0 420867 0 0 0
-cpu0 1619053 0 432575 24668145 11248 0 155415 0 0 0
-cpu1 227199 0 106851 26686551 7609 0 107225 0 0 0
-cpu2 225749 0 110724 26689750 6037 0 43565 0 0 0
-cpu3 215820 0 108451 26703796 5619 0 24938 0 0 0
-cpu4 213145 0 108025 26707721 5717 0 18127 0 0 0
-cpu5 204136 0 106649 26718884 5070 0 14350 0 0 0
-cpu6 204635 0 106803 26719611 4565 0 12003 0 0 0
-cpu7 204294 0 108925 26717549 4570 0 10484 0 0 0
-cpu8 205147 0 107594 26718192 4624 0 9545 0 0 0
-cpu9 204093 0 106099 26721009 4274 0 9014 0 0 0
-cpu10 199137 0 106803 26725468 4121 0 8326 0 0 0
-cpu11 201401 0 107165 26722772 3992 0 7869 0 0 0
-intr 1123569031 0 6846271 438108477 0 0 0 2442 0 0 0 0 269525301 0 0 18364037 18215 4549683 5870 383673367 1 103763 1 1 21 2367158 4423 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-ctxt 2404228961
-btime 1791884564
-processes 6433603
-procs_running 3
+--17b79d7f3fda69f8251d0ba1595d50bf end load.uptime_2 status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin load.stat_2 kind=file path=/proc/stat limit=4194304
+cpu  5366107 0 2264050 416991082 108708 0 575619 0 0 0
+cpu0 2138109 0 588960 32295473 15479 0 208191 0 0 0
+cpu1 306911 0 149767 34949647 12220 0 146732 0 0 0
+cpu2 330745 0 154032 34929461 10050 0 59847 0 0 0
+cpu3 297835 0 154185 34965129 8875 0 35119 0 0 0
+cpu4 293473 0 153737 34970326 9230 0 25519 0 0 0
+cpu5 283460 0 153089 34982129 8512 0 20104 0 0 0
+cpu6 293457 0 156391 34970541 7674 0 16979 0 0 0
+cpu7 292476 0 151032 34976886 7642 0 14752 0 0 0
+cpu8 284487 0 149851 34986210 7728 0 13301 0 0 0
+cpu9 287347 0 148341 34985078 7292 0 12630 0 0 0
+cpu10 276732 0 155243 34989455 7029 0 11543 0 0 0
+cpu11 281070 0 149416 34990741 6971 0 10897 0 0 0
+intr 1519828137 0 8717720 622736929 0 0 0 2767 0 0 0 0 360228801 0 0 25592274 20643 6541615 9408 492500355 1 374793 1 1 21 3097015 5793 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ctxt 3244884459
+btime 1791892110
+processes 8143532
+procs_running 2
 procs_blocked 0
-softirq 178369264 0 17954770 17460 34744058 4444906 0 297 45415809 0 75791964
+softirq 238811686 0 23349166 21625 48921758 6401109 0 1038 61506896 0 98610094
 
---a5b2e19c1682589c5ae53031491a088a end load.stat_2 status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin load.diskstats_2 kind=file path=/proc/diskstats limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end load.stat_2 status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin load.diskstats_2 kind=file path=/proc/diskstats limit=4194304
    1       0 ram0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
    1       1 ram1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
    1       2 ram2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -1480,55 +1480,55 @@ softirq 178369264 0 17954770 17460 34744058 4444906 0 297 45415809 0 75791964
   43     416 nbd13 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
   43     448 nbd14 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
   43     480 nbd15 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- 254       0 vda 879705 325216 32423730 191349 2309933 4975748 215641304 4677122 0 392655 5126063 2293970 0 9128345744 137872 652593 119718
- 254       1 vda1 879634 325216 32421370 191339 2309933 4975748 215641304 4677122 0 454285 5006335 2293970 0 9128345744 137872 0 0
- 254      16 vdb 14841 84 1297488 43196 0 0 0 0 0 5504 43196 0 0 0 0 0 0
+ 254       0 vda 1318782 491144 48942690 240119 3146086 7518054 337481776 6937745 0 524645 7527995 3199396 0 12625314896 182388 927877 167741
+ 254       1 vda1 1318711 491144 48940330 240110 3146086 7518054 337481776 6937745 0 610341 7360243 3199396 0 12625314896 182388 0 0
+ 254      16 vdb 27766 135 1616328 71015 0 0 0 0 0 7515 71015 0 0 0 0 0 0
 
---a5b2e19c1682589c5ae53031491a088a end load.diskstats_2 status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin load.meminfo kind=file path=/proc/meminfo limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end load.diskstats_2 status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin load.meminfo kind=file path=/proc/meminfo limit=4194304
 MemTotal:        8124256 kB
-MemFree:          994556 kB
-MemAvailable:    4478392 kB
-Buffers:          161692 kB
-Cached:          2873432 kB
-SwapCached:        15160 kB
-Active:          3163372 kB
-Inactive:        2696920 kB
-Active(anon):    2743680 kB
-Inactive(anon):   143696 kB
-Active(file):     419692 kB
-Inactive(file):  2553224 kB
+MemFree:         3360960 kB
+MemAvailable:    5548764 kB
+Buffers:          261840 kB
+Cached:          1418528 kB
+SwapCached:        32248 kB
+Active:          2148328 kB
+Inactive:        1265144 kB
+Active(anon):    1168104 kB
+Inactive(anon):   579444 kB
+Active(file):     980224 kB
+Inactive(file):   685700 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 SwapTotal:       1048572 kB
-SwapFree:          36104 kB
+SwapFree:         751904 kB
 Zswap:                 0 kB
 Zswapped:              0 kB
-Dirty:              3296 kB
+Dirty:              1148 kB
 Writeback:             0 kB
-AnonPages:       2512896 kB
-Mapped:           410796 kB
-Shmem:            218552 kB
-KReclaimable:     714288 kB
-Slab:             854144 kB
-SReclaimable:     714288 kB
-SUnreclaim:       139856 kB
-KernelStack:       10160 kB
-PageTables:        26208 kB
+AnonPages:       1452772 kB
+Mapped:           349788 kB
+Shmem:             34092 kB
+KReclaimable:     725248 kB
+Slab:             865952 kB
+SReclaimable:     725248 kB
+SUnreclaim:       140704 kB
+KernelStack:        8400 kB
+PageTables:        19896 kB
 SecPageTables:         0 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:     5110700 kB
-Committed_AS:    6348236 kB
+Committed_AS:    4607116 kB
 VmallocTotal:   135288315904 kB
-VmallocUsed:       19208 kB
+VmallocUsed:       17240 kB
 VmallocChunk:          0 kB
-Percpu:             7872 kB
-AnonHugePages:    548864 kB
+Percpu:             7440 kB
+AnonHugePages:    962560 kB
 ShmemHugePages:        0 kB
 ShmemPmdMapped:        0 kB
-FileHugePages:     14336 kB
+FileHugePages:      8192 kB
 FilePmdMapped:         0 kB
 Balloon:               0 kB
 HugePages_Total:       0
@@ -1538,67 +1538,67 @@ HugePages_Surp:        0
 Hugepagesize:       2048 kB
 Hugetlb:               0 kB
 
---a5b2e19c1682589c5ae53031491a088a end load.meminfo status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin load.loadavg kind=file path=/proc/loadavg limit=4194304
-3.22 2.70 2.71 3/632 2134
+--17b79d7f3fda69f8251d0ba1595d50bf end load.meminfo status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin load.loadavg kind=file path=/proc/loadavg limit=4194304
+0.67 1.12 0.70 3/516 2132
 
---a5b2e19c1682589c5ae53031491a088a end load.loadavg status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin load.file_nr kind=file path=/proc/sys/fs/file-nr limit=4194304
-1171	0	811705
+--17b79d7f3fda69f8251d0ba1595d50bf end load.loadavg status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin load.file_nr kind=file path=/proc/sys/fs/file-nr limit=4194304
+800	0	811705
 
---a5b2e19c1682589c5ae53031491a088a end load.file_nr status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin load.inode_nr kind=file path=/proc/sys/fs/inode-nr limit=4194304
-338602	24102
+--17b79d7f3fda69f8251d0ba1595d50bf end load.file_nr status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin load.inode_nr kind=file path=/proc/sys/fs/inode-nr limit=4194304
+266554	22249
 
---a5b2e19c1682589c5ae53031491a088a end load.inode_nr status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin sessions.who kind=cmd tool=who limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end load.inode_nr status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin sessions.who kind=cmd tool=who limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end sessions.who status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin sessions.utmpdump_utmp kind=cmd tool=utmpdump path=/run/utmp limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end sessions.who status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin sessions.utmpdump_utmp kind=cmd tool=utmpdump path=/run/utmp limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end sessions.utmpdump_utmp status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note sessions.utmpdump_utmp not found: /run/utmp
---a5b2e19c1682589c5ae53031491a088a begin sessions.utmpdump_wtmp kind=cmd tool=utmpdump path=/var/log/wtmp limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end sessions.utmpdump_utmp status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note sessions.utmpdump_utmp not found: /run/utmp
+--17b79d7f3fda69f8251d0ba1595d50bf begin sessions.utmpdump_wtmp kind=cmd tool=utmpdump path=/var/log/wtmp limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end sessions.utmpdump_wtmp status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note sessions.utmpdump_wtmp not found: /var/log/wtmp
---a5b2e19c1682589c5ae53031491a088a begin sessions.utmpdump_btmp kind=cmd tool=utmpdump path=/var/log/btmp limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end sessions.utmpdump_wtmp status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note sessions.utmpdump_wtmp not found: /var/log/wtmp
+--17b79d7f3fda69f8251d0ba1595d50bf begin sessions.utmpdump_btmp kind=cmd tool=utmpdump path=/var/log/btmp limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end sessions.utmpdump_btmp status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note sessions.utmpdump_btmp not found: /var/log/btmp
---a5b2e19c1682589c5ae53031491a088a begin sessions.wtmpdb kind=cmd tool=wtmpdb limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end sessions.utmpdump_btmp status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note sessions.utmpdump_btmp not found: /var/log/btmp
+--17b79d7f3fda69f8251d0ba1595d50bf begin sessions.wtmpdb kind=cmd tool=wtmpdb limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end sessions.wtmpdb status=missing rc=-
---a5b2e19c1682589c5ae53031491a088a note sessions.wtmpdb tool not found: wtmpdb
---a5b2e19c1682589c5ae53031491a088a begin sessions.lastlog2 kind=cmd tool=lastlog2 limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end sessions.wtmpdb status=missing rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note sessions.wtmpdb tool not found: wtmpdb
+--17b79d7f3fda69f8251d0ba1595d50bf begin sessions.lastlog2 kind=cmd tool=lastlog2 limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end sessions.lastlog2 status=error rc=1
---a5b2e19c1682589c5ae53031491a088a note sessions.lastlog2 lastlog2: Couldn't read entries for all users lastlog2: Cannot open database (/var/lib/lastlog/lastlog2.db): unable to open database file
---a5b2e19c1682589c5ae53031491a088a begin sessions.last kind=cmd tool=last limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end sessions.lastlog2 status=error rc=1
+--17b79d7f3fda69f8251d0ba1595d50bf note sessions.lastlog2 lastlog2: Couldn't read entries for all users lastlog2: Cannot open database (/var/lib/lastlog/lastlog2.db): unable to open database file
+--17b79d7f3fda69f8251d0ba1595d50bf begin sessions.last kind=cmd tool=last limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end sessions.last status=error rc=1
---a5b2e19c1682589c5ae53031491a088a note sessions.last BusyBox v1.36.1 (2025-11-23 14:32:18 UTC) multi-call binary.  Usage: last  Show listing of the last users that logged into the system
---a5b2e19c1682589c5ae53031491a088a begin sessions.lastb kind=cmd tool=lastb limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end sessions.last status=error rc=1
+--17b79d7f3fda69f8251d0ba1595d50bf note sessions.last BusyBox v1.36.1 (2025-11-23 14:32:18 UTC) multi-call binary.  Usage: last  Show listing of the last users that logged into the system
+--17b79d7f3fda69f8251d0ba1595d50bf begin sessions.lastb kind=cmd tool=lastb limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end sessions.lastb status=missing rc=-
---a5b2e19c1682589c5ae53031491a088a note sessions.lastb tool not found: lastb
---a5b2e19c1682589c5ae53031491a088a begin sessions.journal_sshd kind=cmd tool=journalctl limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end sessions.lastb status=missing rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note sessions.lastb tool not found: lastb
+--17b79d7f3fda69f8251d0ba1595d50bf begin sessions.journal_sshd kind=cmd tool=journalctl limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end sessions.journal_sshd status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note sessions.journal_sshd systemd is not running
---a5b2e19c1682589c5ae53031491a088a begin sessions.log_auth_log kind=cmd tool=tail path=/var/log/auth.log limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end sessions.journal_sshd status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note sessions.journal_sshd systemd is not running
+--17b79d7f3fda69f8251d0ba1595d50bf begin sessions.log_auth_log kind=cmd tool=tail path=/var/log/auth.log limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end sessions.log_auth_log status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note sessions.log_auth_log not found: /var/log/auth.log
---a5b2e19c1682589c5ae53031491a088a begin sessions.log_secure kind=cmd tool=tail path=/var/log/secure limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end sessions.log_auth_log status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note sessions.log_auth_log not found: /var/log/auth.log
+--17b79d7f3fda69f8251d0ba1595d50bf begin sessions.log_secure kind=cmd tool=tail path=/var/log/secure limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end sessions.log_secure status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note sessions.log_secure not found: /var/log/secure
---a5b2e19c1682589c5ae53031491a088a begin sessions.log_messages kind=cmd tool=tail path=/var/log/messages limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end sessions.log_secure status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note sessions.log_secure not found: /var/log/secure
+--17b79d7f3fda69f8251d0ba1595d50bf begin sessions.log_messages kind=cmd tool=tail path=/var/log/messages limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end sessions.log_messages status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note sessions.log_messages not found: /var/log/messages
---a5b2e19c1682589c5ae53031491a088a begin carving.etc_ips kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end sessions.log_messages status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note sessions.log_messages not found: /var/log/messages
+--17b79d7f3fda69f8251d0ba1595d50bf begin carving.etc_ips kind=cmd tool=sh limit=4194304
 /etc/inittab|8|1::||l|l|
 /etc/inittab|9|2::||l|l|
 /etc/inittab|10|3::||l|l|
@@ -1679,13 +1679,13 @@ Hugetlb:               0 kB
 /etc/nftables.nft|61|fe80::|10|w|s|
 /etc/nftables.nft|64|fe80::|10|w|s|
 
---a5b2e19c1682589c5ae53031491a088a end carving.etc_ips status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin carving.log_ips kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end carving.etc_ips status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin carving.log_ips kind=cmd tool=sh limit=4194304
 /var/log/aridi-corpus.log|1|203.0.113.50||w|w|
 /var/log/aridi-corpus.log|2|2001:db8::77||w|w|
 
---a5b2e19c1682589c5ae53031491a088a end carving.log_ips status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin carving.etc_names kind=cmd tool=sh limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end carving.log_ips status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin carving.etc_names kind=cmd tool=sh limit=4194304
 /etc/apk/repositories|dl-cdn.alpinelinux.org
 /etc/secfixes.d/alpine|secdb.alpinelinux.org
 /etc/hosts|corpus-db.example.internal
@@ -1714,16 +1714,16 @@ Hugetlb:               0 kB
 /etc/init.d/ip6tables|net.ipv4.ip
 /etc/init.d/ip6tables|net.ipv6.conf.all.forwarding
 
---a5b2e19c1682589c5ae53031491a088a end carving.etc_names status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin carving.journal_ips kind=cmd tool=journalctl limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end carving.etc_names status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin carving.journal_ips kind=cmd tool=journalctl limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end carving.journal_ips status=na rc=-
---a5b2e19c1682589c5ae53031491a088a note carving.journal_ips systemd is not running
---a5b2e19c1682589c5ae53031491a088a begin neighbours.proc_arp kind=file path=/proc/net/arp limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end carving.journal_ips status=na rc=-
+--17b79d7f3fda69f8251d0ba1595d50bf note carving.journal_ips systemd is not running
+--17b79d7f3fda69f8251d0ba1595d50bf begin neighbours.proc_arp kind=file path=/proc/net/arp limit=4194304
 IP address       HW type     Flags       HW address            Mask     Device
 
---a5b2e19c1682589c5ae53031491a088a end neighbours.proc_arp status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a begin neighbours.ip_neigh kind=cmd tool=ip limit=4194304
+--17b79d7f3fda69f8251d0ba1595d50bf end neighbours.proc_arp status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf begin neighbours.ip_neigh kind=cmd tool=ip limit=4194304
 
---a5b2e19c1682589c5ae53031491a088a end neighbours.ip_neigh status=ok rc=0
---a5b2e19c1682589c5ae53031491a088a close sections=134
+--17b79d7f3fda69f8251d0ba1595d50bf end neighbours.ip_neigh status=ok rc=0
+--17b79d7f3fda69f8251d0ba1595d50bf close sections=134

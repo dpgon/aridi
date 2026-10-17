@@ -13,7 +13,7 @@ ok process with uid 4242 without account (systemd unit aridi-uid4242, setpriv)
 ok failed service aridi-fails.service
 ok finished ssh sessions of alice from 127.0.0.1 and ::1
 ok open ssh session of alice (sleep 3600)
-ok failed ssh attempt for nosuchuser (journald)
+ok failed ssh attempt for nosuchuser (journald or /var/log/secure)
 ok nftables table inet aridi_corpus (input/output/forward)
 ok timesyncd servers ntp1.example.org 192.0.2.123
 skip btrfs subvolume (the Lima images use ext4/xfs)

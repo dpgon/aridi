@@ -10,8 +10,8 @@ x86_64
 12
 ### meminfo
 MemTotal:        8124256 kB
-MemFree:         1574388 kB
-MemAvailable:    5225472 kB
+MemFree:         3347848 kB
+MemAvailable:    5747012 kB
 ### packages
 MAKEDEV	(none):3.24-6.el6	x86_64
 audit-libs	(none):2.4.5-6.el6	x86_64
@@ -235,24 +235,24 @@ alice:$6$
 bob:!!
 ### listening
 Netid  State      Recv-Q Send-Q     Local Address:Port       Peer Address:Port 
-udp    UNCONN     0      0                      *:5514                  *:*      users:(("nc",81,12))
-udp    UNCONN     0      0             127.0.0.11:53898                 *:*     
+udp    UNCONN     0      0             127.0.0.11:39683                 *:*     
+udp    UNCONN     0      0                      *:5514                  *:*      users:(("nc",80,12))
+tcp    LISTEN     0      1              127.0.0.1:8081                  *:*      users:(("nc",71,12))
+tcp    LISTEN     0      4096          127.0.0.11:42945                 *:*     
 tcp    LISTEN     0      1                     :::8080                 :::*      users:(("nc",62,12))
-tcp    LISTEN     0      4096          127.0.0.11:43117                 *:*     
-tcp    LISTEN     0      1              127.0.0.1:8081                  *:*      users:(("nc",73,12))
 ### listening_netstat
 Active Internet connections (only servers)
 Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name   
-tcp        0      0 127.0.0.11:43117            0.0.0.0:*                   LISTEN      -                   
-tcp        0      0 127.0.0.1:8081              0.0.0.0:*                   LISTEN      73/nc               
+tcp        0      0 127.0.0.1:8081              0.0.0.0:*                   LISTEN      71/nc               
+tcp        0      0 127.0.0.11:42945            0.0.0.0:*                   LISTEN      -                   
 tcp        0      0 :::8080                     :::*                        LISTEN      62/nc               
-udp        0      0 0.0.0.0:5514                0.0.0.0:*                               81/nc               
-udp        0      0 127.0.0.11:53898            0.0.0.0:*                               -                   
+udp        0      0 127.0.0.11:39683            0.0.0.0:*                               -                   
+udp        0      0 0.0.0.0:5514                0.0.0.0:*                               80/nc               
 ### proc_net_tcp6_listen
 00000000000000000000000000000000:1F90
 ### proc_net_udp_unconnected
+0B00007F:9B03
 00000000:158A
-0B00007F:D28A
 ### links_ip
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1000\    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
 2: tunl0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN qlen 1000\    link/ipip 0.0.0.0 brd 0.0.0.0
@@ -264,7 +264,7 @@ udp        0      0 127.0.0.11:53898            0.0.0.0:*                       
 8: sit0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN qlen 1000\    link/sit 0.0.0.0 brd 0.0.0.0
 9: ip6tnl0@NONE: <NOARP> mtu 1452 qdisc noop state DOWN qlen 1000\    link/tunnel6 :: brd ::
 10: ip6gre0@NONE: <NOARP> mtu 1448 qdisc noop state DOWN qlen 1000\    link/[823] 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00 brd 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00
-11: eth0@if1387: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 1500 qdisc noqueue state UP \    link/ether 4e:d4:b7:34:b7:67 brd ff:ff:ff:ff:ff:ff
+11: eth0@if1618: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 1500 qdisc noqueue state UP \    link/ether 46:34:88:87:8e:ee brd ff:ff:ff:ff:ff:ff
 ### interfaces_ip
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1000\    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
 1: lo    inet 127.0.0.1/8 scope host lo\       valid_lft forever preferred_lft forever
@@ -278,12 +278,12 @@ udp        0      0 127.0.0.11:53898            0.0.0.0:*                       
 8: sit0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN qlen 1000\    link/sit 0.0.0.0 brd 0.0.0.0
 9: ip6tnl0@NONE: <NOARP> mtu 1452 qdisc noop state DOWN qlen 1000\    link/tunnel6 :: brd ::
 10: ip6gre0@NONE: <NOARP> mtu 1448 qdisc noop state DOWN qlen 1000\    link/[823] 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00 brd 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00
-11: eth0@if1387: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 1500 qdisc noqueue state UP \    link/ether 4e:d4:b7:34:b7:67 brd ff:ff:ff:ff:ff:ff
+11: eth0@if1618: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 1500 qdisc noqueue state UP \    link/ether 46:34:88:87:8e:ee brd ff:ff:ff:ff:ff:ff
 11: eth0    inet 172.22.0.2/16 brd 172.22.255.255 scope global eth0\       valid_lft forever preferred_lft forever
 ### interfaces_sys
 bonding_masters 
 erspan0 00:00:00:00:00:00
-eth0 4e:d4:b7:34:b7:67
+eth0 46:34:88:87:8e:ee
 gre0 00:00:00:00
 gretap0 00:00:00:00:00:00
 ip6_vti0 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00
@@ -294,19 +294,19 @@ lo 00:00:00:00:00:00
 sit0 00:00:00:00
 tunl0 00:00:00:00
 ### mountinfo
-311 177 0:63 / / rw,relatime - overlay overlay rw,lowerdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/33270/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30079/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/29965/fs,upperdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/33271/fs,workdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/33271/work,nouserxattr
-314 311 0:87 / /proc rw,nosuid,nodev,noexec,relatime - proc proc rw
-315 311 0:88 / /dev rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
+310 177 0:63 / / rw,relatime - overlay overlay rw,lowerdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/33822/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/30079/fs:/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/29965/fs,upperdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/33823/fs,workdir=/var/lib/desktop-containerd/daemon/io.containerd.snapshotter.v1.overlayfs/snapshots/33823/work,nouserxattr
+314 310 0:87 / /proc rw,nosuid,nodev,noexec,relatime - proc proc rw
+315 310 0:88 / /dev rw,nosuid - tmpfs tmpfs rw,size=65536k,mode=755
 316 315 0:91 / /dev/pts rw,nosuid,noexec,relatime - devpts devpts rw,gid=5,mode=620,ptmxmode=666
-317 311 0:93 / /sys ro,nosuid,nodev,noexec,relatime - sysfs sysfs ro
+317 310 0:93 / /sys ro,nosuid,nodev,noexec,relatime - sysfs sysfs ro
 318 317 0:41 / /sys/fs/cgroup ro,nosuid,nodev,noexec,relatime - cgroup2 cgroup rw
 319 315 0:78 / /dev/mqueue rw,nosuid,nodev,noexec,relatime - mqueue mqueue rw
 320 315 0:94 / /dev/shm rw,nosuid,nodev,noexec,relatime - tmpfs shm rw,size=65536k
-321 311 254:1 /docker/containers/7adf7c8b3f736e83e84291d930021f6453b53c65ab14e120e15c3e92b57739d5/hostname /etc/hostname rw,relatime - ext4 /dev/vda1 rw,discard
-322 311 254:1 /docker/containers/7adf7c8b3f736e83e84291d930021f6453b53c65ab14e120e15c3e92b57739d5/hosts /etc/hosts rw,relatime - ext4 /dev/vda1 rw,discard
-324 311 254:1 /docker/containers/7adf7c8b3f736e83e84291d930021f6453b53c65ab14e120e15c3e92b57739d5/resolv.conf /etc/resolv.conf rw,relatime - ext4 /dev/vda1 rw,discard
-325 311 254:1 /docker/volumes/aridi-corpus-bind/_data /srv/bind ro,relatime master:1 - ext4 /dev/vda1 rw,discard
-326 311 0:95 / /srv/scratch rw,nosuid,nodev,noexec,relatime - tmpfs tmpfs rw
+321 310 254:1 /docker/containers/953d061d8647214512160cbedf387b375dab094725c2a4a293ad644f17b81fad/hostname /etc/hostname rw,relatime - ext4 /dev/vda1 rw,discard
+322 310 254:1 /docker/containers/953d061d8647214512160cbedf387b375dab094725c2a4a293ad644f17b81fad/hosts /etc/hosts rw,relatime - ext4 /dev/vda1 rw,discard
+324 310 254:1 /docker/containers/953d061d8647214512160cbedf387b375dab094725c2a4a293ad644f17b81fad/resolv.conf /etc/resolv.conf rw,relatime - ext4 /dev/vda1 rw,discard
+325 310 254:1 /docker/volumes/aridi-corpus-bind/_data /srv/bind ro,relatime master:1 - ext4 /dev/vda1 rw,discard
+326 310 0:95 / /srv/scratch rw,nosuid,nodev,noexec,relatime - tmpfs tmpfs rw
 179 314 0:87 /bus /proc/bus ro,nosuid,nodev,noexec,relatime - proc proc rw
 180 314 0:87 /fs /proc/fs ro,nosuid,nodev,noexec,relatime - proc proc rw
 182 314 0:87 /irq /proc/irq ro,nosuid,nodev,noexec,relatime - proc proc rw
@@ -320,13 +320,13 @@ tunl0 00:00:00:00
 219 317 0:96 / /sys/firmware ro,relatime - tmpfs tmpfs ro,size=4k,nr_inodes=1
 ### df
 Filesystem     1024-blocks     Used  Available Capacity Mounted on
-overlay         1916745208 84772020 1734534112       5% /
+overlay         1916745208 84967976 1734338156       5% /
 tmpfs                65536        0      65536       0% /dev
 shm                  65536        0      65536       0% /dev/shm
-/dev/vda1       1916745208 84772020 1734534112       5% /etc/hostname
-/dev/vda1       1916745208 84772020 1734534112       5% /etc/hosts
-/dev/vda1       1916745208 84772020 1734534112       5% /etc/resolv.conf
-/dev/vda1       1916745208 84772020 1734534112       5% /srv/bind
+/dev/vda1       1916745208 84967976 1734338156       5% /etc/hostname
+/dev/vda1       1916745208 84967976 1734338156       5% /etc/hosts
+/dev/vda1       1916745208 84967976 1734338156       5% /etc/resolv.conf
+/dev/vda1       1916745208 84967976 1734338156       5% /srv/bind
 tmpfs              4062128        0    4062128       0% /srv/scratch
 tmpfs                65536        0      65536       0% /proc/interrupts
 tmpfs                65536        0      65536       0% /proc/kcore
@@ -359,10 +359,10 @@ tmpfs                    4        0          4       0% /sys/firmware
 ### world_writable_dirs_no_sticky
 /srv/world-writable
 ### account_file_modes
--rw-r--r-- 1 0 0 437 Oct 16 13:02 /etc/group
----------- 1 0 0 351 Oct 16 13:02 /etc/gshadow
--rw-r--r-- 1 0 0 744 Oct 16 13:02 /etc/passwd
----------- 1 0 0 672 Oct 16 13:02 /etc/shadow
+-rw-r--r-- 1 0 0 437 Oct 17 14:30 /etc/group
+---------- 1 0 0 351 Oct 17 14:30 /etc/gshadow
+-rw-r--r-- 1 0 0 744 Oct 17 14:30 /etc/passwd
+---------- 1 0 0 670 Oct 17 14:30 /etc/shadow
 ### processes
     PID   UID STAT COMMAND
       1     0 Ss   sh
@@ -370,12 +370,12 @@ tmpfs                    4        0          4       0% /sys/firmware
      48     0 Ss   sh
      56     0 Ss   sh
      62     0 S    nc
-     64     0 Ss   sh
-     73     0 S    nc
+     65     0 Ss   sh
+     71     0 S    nc
      74  4242 Ss   sleep
-     81     0 S    nc
-   2640     0 Ss   sh
-   2709     0 R    ps
+     80     0 S    nc
+   2639     0 Ss   sh
+   2708     0 R    ps
 ### process_count
 13
 ### hostname
