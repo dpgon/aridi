@@ -159,6 +159,27 @@ class SessionsTest(unittest.TestCase):
         self.assertEqual(records[2]["time"], datetime(2026, 10, 15, 16, 26, 3,
                                                       tzinfo=timezone.utc))
 
+    def test_resolved_host_name_uses_the_record_address(self):
+        """UseDNS: the host is a name, the relation comes from the record's address."""
+        wtmp = ("[7] [01234] [ts/0] [alice   ] [pts/0       ] [admin.example.org   ] "
+                "[192.0.2.31     ] [Thu Oct 15 16:26:03 2026 UTC]\n"
+                "[7] [01235] [ts/1] [bob     ] [pts/1       ] [::1                 ] "
+                "[0.0.0.0        ] [Thu Oct 15 16:27:03 2026 UTC]\n"
+                "[7] [01236] [ts/2] [carol   ] [pts/2       ] [nowhere.example.org ] "
+                "[0.0.0.0        ] [Thu Oct 15 16:28:03 2026 UTC]\n")
+        result = sessions.parse(sections(
+            ("meta.date_utc", b"2026-10-15T17:00:00Z\n"),
+            ("sessions.utmpdump_wtmp", wtmp.encode()),
+            ("sessions.utmpdump_utmp", wtmp.encode())))
+        # The snapshot keeps what the system recorded, without the internal address.
+        self.assertEqual([e["host"] for e in result.data["logins"]],
+                         ["admin.example.org", "::1", "nowhere.example.org"])
+        self.assertTrue(all("_addr" not in e for e in result.data["logins"] +
+                            result.data["active"]))
+        # Only the real peer address becomes a relation: not the loopback, not 0.0.0.0.
+        self.assertEqual({(str(r.ip), r.role, r.detail) for r in result.relations},
+                         {("192.0.2.31", Role.LOGIN_SOURCE, "alice")})
+
     def test_journal_syslog_relations_and_counts(self):
         journal = (
             "2026-10-15T16:00:00+0000 h sshd[1]: Accepted publickey for alice from "

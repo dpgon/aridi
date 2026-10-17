@@ -130,6 +130,14 @@ def _ip(host):
     return None if address.is_loopback or address.is_unspecified else address
 
 
+def _is_ip(host):
+    try:
+        ipaddress.ip_address((host or "").split("%")[0])
+    except ValueError:
+        return False
+    return True
+
+
 def _counts(events, now):
     if now is None:
         return None
@@ -150,8 +158,9 @@ def _order(event):
 
 
 def _public(event):
+    """EVENT for the snapshot: dates in ISO 8601, without the internal "_" keys."""
     return {key: (_iso(value) if isinstance(value, datetime) else value)
-            for key, value in event.items()}
+            for key, value in event.items() if not key.startswith("_")}
 
 
 @register("sessions", uses=("meta",))
@@ -163,7 +172,8 @@ def parse(sections):
     utmp = text(sections, "sessions.utmpdump_utmp")
     if utmp is not None:
         sources.append("utmp")
-        active = [{"user": r["user"], "line": r["line"], "host": r["host"], "since": r["time"]}
+        active = [{"user": r["user"], "line": r["line"], "host": r["host"], "since": r["time"],
+                   "_addr": r["addr"]}
                   for r in parse_utmpdump(utmp) if r["type"] == USER_PROCESS and r["user"]]
     elif text(sections, "sessions.who") is not None:
         sources.append("who")
@@ -173,7 +183,8 @@ def parse(sections):
     wtmp = text(sections, "sessions.utmpdump_wtmp")
     if wtmp is not None:
         sources.append("wtmp")
-        logins = [{"user": r["user"], "line": r["line"], "host": r["host"], "time": r["time"]}
+        logins = [{"user": r["user"], "line": r["line"], "host": r["host"], "time": r["time"],
+                   "_addr": r["addr"]}
                   for r in parse_utmpdump(wtmp) if r["type"] == USER_PROCESS and r["user"]]
     else:
         for name, label in (("sessions.wtmpdb", "wtmpdb"), ("sessions.last", "last")):
@@ -187,7 +198,8 @@ def parse(sections):
     btmp = text(sections, "sessions.utmpdump_btmp")
     if btmp is not None:
         sources.append("btmp")
-        failed += [{"user": r["user"], "host": r["host"], "time": r["time"], "method": "btmp"}
+        failed += [{"user": r["user"], "host": r["host"], "time": r["time"], "method": "btmp",
+                    "_addr": r["addr"]}
                    for r in parse_utmpdump(btmp) if r["user"] or r["host"]]
     ssh_accepted = []
     for name in ("sessions.journal_sshd", "sessions.log_auth_log", "sessions.log_secure",
@@ -210,7 +222,11 @@ def parse(sections):
     relations, seen = [], set()
     for event, role in ([(e, Role.LOGIN_SOURCE) for e in logins + ssh_accepted + (active or [])]
                         + [(e, Role.FAILED_LOGIN_SOURCE) for e in failed]):
+        # With "UseDNS yes" (CentOS 6 and 7) sshd records the resolved name as the host; the
+        # utmp/wtmp record still has the peer address, which is what the map needs.
         address = _ip(event.get("host"))
+        if address is None and not _is_ip(event.get("host")):
+            address = _ip(event.get("_addr"))
         if address is not None and (address, role) not in seen:
             seen.add((address, role))
             relations.append(Relation(address, role, "sessions", event.get("user") or ""))
